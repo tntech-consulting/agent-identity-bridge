@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-identity-bridge"
-version = "0.3.0"
+version = "1.5.0"
 description = "Portable identity for AI agents across MCP, A2A, ANP, and AG-UI protocols"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -32,6 +32,7 @@ dependencies = [
     "pydantic>=2.6.0",
     "cryptography>=42.0",
     "PyJWT>=2.8",
+    "jsonschema>=4.20",
 ]
 
 [project.optional-dependencies]
