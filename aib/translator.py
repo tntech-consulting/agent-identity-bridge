@@ -272,14 +272,21 @@ class CredentialTranslator:
 
         Args:
             source: The source document
-            from_format: "a2a_agent_card" | "mcp_server_card" | "did_document"
+            from_format: "a2a_agent_card" | "mcp_server_card" | "did_document" | "ag_ui_descriptor"
             to_format: Same options as from_format
             domain: Required for DID generation
             agent_slug: Required for DID generation
         """
+        # Import AG-UI translations
+        from .ag_ui_binding import (
+            ag_ui_to_a2a, a2a_to_ag_ui,
+            ag_ui_to_mcp, mcp_to_ag_ui,
+        )
+
         key = f"{from_format}->{to_format}"
 
         translations = {
+            # Original 5 paths
             "a2a_agent_card->mcp_server_card": lambda: self.a2a_to_mcp(source),
             "mcp_server_card->a2a_agent_card": lambda: self.mcp_to_a2a(source),
             "a2a_agent_card->did_document": lambda: self.to_did_document(
@@ -289,6 +296,20 @@ class CredentialTranslator:
                 source, "mcp", domain or "example.com", agent_slug or "agent"
             ),
             "did_document->a2a_agent_card": lambda: self.did_to_a2a(source),
+
+            # AG-UI ↔ A2A (2 paths)
+            "ag_ui_descriptor->a2a_agent_card": lambda: ag_ui_to_a2a(source),
+            "a2a_agent_card->ag_ui_descriptor": lambda: a2a_to_ag_ui(source),
+
+            # AG-UI ↔ MCP (2 paths)
+            "ag_ui_descriptor->mcp_server_card": lambda: ag_ui_to_mcp(source),
+            "mcp_server_card->ag_ui_descriptor": lambda: mcp_to_ag_ui(source),
+
+            # AG-UI ↔ DID (2 paths — via A2A intermediate)
+            "ag_ui_descriptor->did_document": lambda: self.to_did_document(
+                ag_ui_to_a2a(source), "a2a", domain or "example.com", agent_slug or "agent"
+            ),
+            "did_document->ag_ui_descriptor": lambda: a2a_to_ag_ui(self.did_to_a2a(source)),
         }
 
         if key not in translations:
