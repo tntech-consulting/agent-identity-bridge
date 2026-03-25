@@ -6,8 +6,21 @@ services:
     environment:
       - AIB_SECRET_KEY=${AIB_SECRET_KEY:-dev-secret-change-me}
       - AIB_STORAGE_PATH=/data/passports
+      - AIB_KEY_PATH=/data/keys
+      - AIB_LOG_LEVEL=${AIB_LOG_LEVEL:-INFO}
     volumes:
-      - aib-data:/data
+      - aib-passports:/data/passports
+      - aib-keys:/data/keys
+      - aib-receipts:/data/receipts
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8420/')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
 
 volumes:
-  aib-data:
+  aib-passports:
+  aib-keys:
+  aib-receipts:
