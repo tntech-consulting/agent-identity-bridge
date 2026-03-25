@@ -1,0 +1,25 @@
+{
+  "name": "agent-identity-bridge",
+  "version": "2.6.0",
+  "description": "TypeScript SDK for Agent Identity Bridge — portable identity for AI agents across MCP, A2A, ANP, AG-UI",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test tests/*.test.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["ai", "agent", "identity", "mcp", "a2a", "anp", "ag-ui", "passport", "protocol"],
+  "author": "Thomas Nirennold <thomas.nirennold@live.fr>",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tntech-consulting/agent-identity-bridge"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "typescript": "^5.4"
+  }
+}
