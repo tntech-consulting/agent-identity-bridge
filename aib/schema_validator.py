@@ -36,7 +36,7 @@ References: OPT-TRANS-01 in Security Audit document.
 """
 
 from typing import Optional
-from jsonschema import validate, ValidationError, Draft7Validator
+from jsonschema import validate as _jsonschema_validate, ValidationError, Draft7Validator
 
 
 # ═══════════════════════════════════════════════════════════════════

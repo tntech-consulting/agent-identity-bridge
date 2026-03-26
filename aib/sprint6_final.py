@@ -15,6 +15,7 @@ import json
 import os
 import secrets
 import time
+import base64
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -90,7 +91,6 @@ def verify_signed_document(signed_doc: dict, secret_key: str) -> tuple[bool, str
 # 2. OPT-OIDC-01 — PKCE SUPPORT
 # ═══════════════════════════════════════════════════════════════════
 
-import base64
 
 
 def generate_code_verifier(length: int = 64) -> str:

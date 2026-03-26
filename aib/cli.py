@@ -631,7 +631,7 @@ def main():
     p_clean.add_argument("--yes", "-y", action="store_true", help="Skip confirmation prompt")
 
     # -- uninstall --
-    p_uninstall = sub.add_parser("uninstall", help="Full uninstall: remove data + pip package")
+    sub.add_parser("uninstall", help="Full uninstall: remove data + pip package")
 
     args = parser.parse_args()
 
