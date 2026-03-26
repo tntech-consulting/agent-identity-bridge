@@ -219,7 +219,15 @@ Apache 2.0 licensed. Contributions welcome — especially:
 git clone https://github.com/tntech-consulting/agent-identity-bridge.git
 cd agent-identity-bridge
 pip install -e ".[dev]"
-pytest  # 732 tests
+pytest  # 1,039 tests
+```
+
+## Uninstall
+
+```bash
+aib clean          # Show what data AIB stored (passports, keys) — nothing deleted
+aib clean -y       # Delete all AIB data (asks no confirmation)
+aib uninstall      # Full uninstall: delete data + pip uninstall package
 ```
 
 ## Author

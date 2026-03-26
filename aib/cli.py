@@ -642,6 +642,10 @@ def main():
         print(f"  aib list")
         print(f"  aib translate --from a2a --to mcp --file agent-card.json")
         print(f"  aib serve")
+        print(f"\n{CYAN}Uninstall:{RESET}")
+        print(f"  aib clean       Show stored data (passports, keys)")
+        print(f"  aib clean -y    Delete all AIB data")
+        print(f"  aib uninstall   Full uninstall (data + pip package)")
         sys.exit(0)
 
     # Ensure storage dirs exist (except for clean/uninstall)

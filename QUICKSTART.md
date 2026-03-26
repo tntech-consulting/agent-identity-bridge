@@ -40,6 +40,24 @@ aib serve
 - [Error Codes](https://github.com/tntech-consulting/agent-identity-bridge/blob/main/ERROR_CODES.md) — All 33 error codes with fixes
 - [Full README](https://github.com/tntech-consulting/agent-identity-bridge/blob/main/README.md) — Architecture, API, deployment
 
+## Uninstall
+
+```bash
+# See what AIB data exists on your machine (nothing is deleted)
+aib clean
+
+# Remove all AIB data (passports, keys, receipts) — asks confirmation
+aib clean -y
+
+# Full uninstall (data + pip package)
+aib uninstall
+```
+
+**What gets removed:**
+- `~/.aib/passports/` — your passport JSON files
+- `~/.aib/keys/` — RSA signing keys (private + public)
+- The `agent-identity-bridge` pip package and `aib` CLI command
+
 ## Need help?
 
 - [Report a bug](https://github.com/tntech-consulting/agent-identity-bridge/issues/new?template=bug_report.md)
