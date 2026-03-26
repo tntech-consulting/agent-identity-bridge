@@ -338,9 +338,11 @@ def cmd_quickstart(args):
     try:
         svc = get_passport_service()
         from .passport import McpBinding, A2aBinding
+        import uuid as _uuid
+        _qs_slug = f"quickstart-{_uuid.uuid4().hex[:6]}"
         passport, token = svc.create_passport(
             org_slug="demo",
-            agent_slug="quickstart",
+            agent_slug=_qs_slug,
             display_name="Quickstart Demo Agent",
             capabilities=["booking", "support"],
             bindings={
