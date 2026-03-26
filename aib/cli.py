@@ -556,9 +556,9 @@ def main():
     parser = argparse.ArgumentParser(
         prog="aib",
         description="Agent Identity Bridge — Portable identity for AI agents",
-        epilog="Documentation: https://github.com/domup-nox/agent-identity-bridge",
+        epilog="Documentation: https://github.com/tntech-consulting/agent-identity-bridge",
     )
-    parser.add_argument("--version", action="version", version="aib 0.2.0")
+    parser.add_argument("--version", action="version", version="%(prog)s 2.13.4")
     sub = parser.add_subparsers(dest="command", help="Available commands")
 
     # ── create ──

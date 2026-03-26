@@ -33,7 +33,7 @@ class TestCLI:
     def test_version(self, aib_home):
         r = run_cli("--version", aib_home=aib_home)
         assert r.returncode == 0
-        assert "0.2.0" in r.stdout
+        assert "2.13.4" in r.stdout
 
     def test_create_and_list(self, aib_home):
         r = run_cli("create", "--org", "test", "--agent", "bot1",
