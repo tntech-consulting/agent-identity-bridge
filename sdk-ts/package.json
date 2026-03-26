@@ -1,6 +1,6 @@
 {
   "name": "agent-identity-bridge",
-  "version": "2.6.0",
+  "version": "2.13.4",
   "description": "TypeScript SDK for Agent Identity Bridge — portable identity for AI agents across MCP, A2A, ANP, AG-UI",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
