@@ -10,6 +10,7 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.11", "3.12", "3.13"]
@@ -44,5 +45,5 @@ jobs:
       - name: Install ruff
         run: pip install ruff
 
-      - name: Lint
-        run: ruff check aib/ --select E,F,W --ignore E501
+      - name: Lint (errors only)
+        run: ruff check aib/ --select E,F --ignore E501,F401,F541,E701

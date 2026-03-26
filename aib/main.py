@@ -17,6 +17,7 @@ Docs:
 
 import os
 import json
+import httpx
 from datetime import datetime, timezone
 from contextlib import asynccontextmanager
 
