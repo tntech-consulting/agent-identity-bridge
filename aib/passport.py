@@ -99,7 +99,17 @@ class PassportService:
     Signing: HMAC-SHA256 (MVP). Production: RS256 with key rotation.
     """
 
-    def __init__(self, secret_key: str, storage_path: str = "./passports"):
+    def __init__(self, secret_key: str, storage_path: str = ""):
+        """
+        Args:
+            secret_key: HMAC signing key
+            storage_path: Passport storage directory. Defaults to ~/.aib/passports
+                          (same as CLI). Override with AIB_HOME env var or explicit path.
+        """
+        if not storage_path:
+            import os
+            aib_home = Path(os.environ.get("AIB_HOME", Path.home() / ".aib"))
+            storage_path = str(aib_home / "passports")
         self._secret = secret_key.encode()
         self._storage = Path(storage_path)
         self._storage.mkdir(parents=True, exist_ok=True)

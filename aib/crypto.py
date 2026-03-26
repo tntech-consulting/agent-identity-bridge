@@ -198,23 +198,28 @@ class PassportSigner:
     def __init__(self, key_manager: KeyManager):
         self._km = key_manager
 
-    def sign(self, payload: dict) -> str:
+    def sign(self, payload: dict, ttl_seconds: int = 86400) -> str:
         """
         Sign a passport payload, returning a JWS token (RS256).
 
-        Adds standard JWT claims:
-        - iss: passport issuer
-        - iat: issued at
-        - exp: expiration
+        Auto-adds standard JWT claims if missing:
+        - iat: issued at (now)
+        - exp: expiration (now + ttl_seconds, default 24h)
         - jti: unique token ID (replay protection)
+        - nbf: not before (same as iat)
         - kid: key ID (in header, for key rotation)
         """
         key = self._km.active_key
+        now = int(time.time())
 
         # Ensure required claims
+        if "iat" not in payload:
+            payload["iat"] = now
+        if "exp" not in payload:
+            payload["exp"] = payload["iat"] + ttl_seconds
         if "jti" not in payload:
             payload["jti"] = str(uuid.uuid4())
-        if "nbf" not in payload and "iat" in payload:
+        if "nbf" not in payload:
             payload["nbf"] = payload["iat"]
 
         token = jwt.encode(
