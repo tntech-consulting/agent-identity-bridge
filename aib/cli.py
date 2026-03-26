@@ -455,6 +455,101 @@ def cmd_quickstart(args):
     print()
 
 
+def cmd_clean(args):
+    """Remove all AIB data: passports, keys, receipts, caches."""
+    import shutil
+
+    # Inventory what exists
+    dirs_to_check = [
+        (AIB_HOME, "AIB home (~/.aib)"),
+        (Path("./passports"), "Local passports (./passports)"),
+        (Path("./data"), "Local data (./data)"),
+    ]
+
+    found = []
+    total_files = 0
+    for d, label in dirs_to_check:
+        if d.exists():
+            count = sum(1 for _ in d.rglob("*") if _.is_file())
+            total_files += count
+            found.append((d, label, count))
+
+    if not found:
+        success("Nothing to clean — no AIB data found.")
+        return
+
+    print(f"\n{BOLD}AIB data found:{RESET}\n")
+    for d, label, count in found:
+        print(f"  {YELLOW}●{RESET} {label}")
+        # Show detail
+        for f in sorted(d.rglob("*")):
+            if f.is_file():
+                size = f.stat().st_size
+                if size > 1024:
+                    size_str = f"{size/1024:.1f} KB"
+                else:
+                    size_str = f"{size} B"
+                rel = f.relative_to(d)
+                is_key = "private" in f.name or "key" in f.name
+                flag = f" {RED}← private key{RESET}" if is_key else ""
+                print(f"    {DIM}{rel}{RESET} ({size_str}){flag}")
+
+    print(f"\n  {BOLD}{total_files} files{RESET} will be permanently deleted.\n")
+
+    if not args.yes:
+        confirm = input(f"  {YELLOW}Delete all AIB data? (y/N):{RESET} ").strip().lower()
+        if confirm not in ("y", "yes"):
+            print(f"  {DIM}Cancelled.{RESET}")
+            return
+
+    for d, label, _ in found:
+        shutil.rmtree(d, ignore_errors=True)
+        success(f"Deleted {label}")
+
+    print(f"\n  {GREEN}All AIB data removed.{RESET}")
+    print(f"  {DIM}The Python package is still installed. To fully uninstall:{RESET}")
+    print(f"  {CYAN}pip uninstall agent-identity-bridge{RESET}\n")
+
+
+def cmd_uninstall(args):
+    """Full uninstall: remove data + pip package."""
+    import shutil
+    import subprocess
+
+    print(f"\n{BOLD}{RED}Full AIB uninstall{RESET}\n")
+    print(f"  This will:")
+    print(f"  {YELLOW}1.{RESET} Delete all AIB data (~/.aib, ./passports, ./data)")
+    print(f"  {YELLOW}2.{RESET} Uninstall the Python package (pip uninstall)")
+    print(f"  {YELLOW}3.{RESET} Remove the 'aib' CLI command\n")
+
+    confirm = input(f"  {RED}Proceed with full uninstall? (y/N):{RESET} ").strip().lower()
+    if confirm not in ("y", "yes"):
+        print(f"  {DIM}Cancelled.{RESET}")
+        return
+
+    # Step 1: Remove data
+    dirs = [AIB_HOME, Path("./passports"), Path("./data")]
+    for d in dirs:
+        if d.exists():
+            shutil.rmtree(d, ignore_errors=True)
+            success(f"Deleted {d}")
+
+    # Step 2: pip uninstall
+    print(f"\n{BOLD}[2/2] Uninstalling Python package...{RESET}")
+    result = subprocess.run(
+        [sys.executable, "-m", "pip", "uninstall", "agent-identity-bridge", "-y"],
+        capture_output=True, text=True,
+    )
+    if result.returncode == 0:
+        success("Package uninstalled")
+    else:
+        warning(f"pip uninstall: {result.stderr.strip()}")
+
+    print(f"\n  {GREEN}AIB fully uninstalled.{RESET}")
+    print(f"  {DIM}If you installed from git, also delete the cloned repo:{RESET}")
+    print(f"  {CYAN}rm -rf agent-identity-bridge/{RESET}\n")
+
+
 # ── Main ──────────────────────────────────────────────────────────
 
 def main():
@@ -520,6 +615,13 @@ def main():
     p_keygen.add_argument("--rotate", action="store_true", help="Rotate to a new key")
     p_keygen.add_argument("--jwks", action="store_true", help="Print JWKS (public keys)")
 
+    # ── clean ──
+    p_clean = sub.add_parser("clean", help="Remove all AIB data (passports, keys, receipts)")
+    p_clean.add_argument("--yes", "-y", action="store_true", help="Skip confirmation prompt")
+
+    # ── uninstall ──
+    p_uninstall = sub.add_parser("uninstall", help="Full uninstall: remove data + pip package")
+
     args = parser.parse_args()
 
     if not args.command:
@@ -531,9 +633,10 @@ def main():
         print(f"  aib serve")
         sys.exit(0)
 
-    # Ensure storage dirs exist
-    PASSPORTS_DIR.mkdir(parents=True, exist_ok=True)
-    KEYS_DIR.mkdir(parents=True, exist_ok=True)
+    # Ensure storage dirs exist (except for clean/uninstall)
+    if args.command not in ("clean", "uninstall"):
+        PASSPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        KEYS_DIR.mkdir(parents=True, exist_ok=True)
 
     commands = {
         "quickstart": cmd_quickstart,
@@ -545,6 +648,8 @@ def main():
         "translate": cmd_translate,
         "serve": cmd_serve,
         "keygen": cmd_keygen,
+        "clean": cmd_clean,
+        "uninstall": cmd_uninstall,
     }
 
     commands[args.command](args)
