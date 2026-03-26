@@ -1,5 +1,5 @@
 """
-AIB CLI — Command line interface for Agent Identity Bridge.
+AIB CLI -- Command line interface for Agent Identity Bridge.
 
 Usage:
     aib create   --org mycompany --agent booking --protocols mcp,a2a
@@ -46,7 +46,7 @@ def get_translator():
     return CredentialTranslator()
 
 
-# ── Colors ────────────────────────────────────────────────────────
+# -- Colors --------------------------------------------------------
 
 GREEN = "\033[92m"
 RED = "\033[91m"
@@ -56,24 +56,35 @@ BOLD = "\033[1m"
 DIM = "\033[2m"
 RESET = "\033[0m"
 
+# Unicode symbols with ASCII fallback for Windows cp1252
+try:
+    "✓✗->".encode(sys.stdout.encoding or "utf-8")
+    SYM_OK, SYM_FAIL, SYM_ARROW = "✓", "✗", "->"
+except (UnicodeEncodeError, LookupError):
+    SYM_OK, SYM_FAIL, SYM_ARROW = "+", "x", ">"
+
 
 def success(msg):
-    print(f"{GREEN}✓{RESET} {msg}")
+    print(f"{GREEN}{SYM_OK}{RESET} {msg}")
 
 
 def error(msg):
-    print(f"{RED}✗{RESET} {msg}", file=sys.stderr)
+    print(f"{RED}{SYM_FAIL}{RESET} {msg}", file=sys.stderr)
+
+
+def warning(msg):
+    print(f"{YELLOW}!{RESET} {msg}")
 
 
 def info(msg):
-    print(f"{CYAN}→{RESET} {msg}")
+    print(f"{CYAN}{SYM_ARROW}{RESET} {msg}")
 
 
 def header(msg):
     print(f"\n{BOLD}{msg}{RESET}")
 
 
-# ── Commands ──────────────────────────────────────────────────────
+# -- Commands ------------------------------------------------------
 
 def cmd_create(args):
     """Create a new Agent Passport."""
@@ -159,7 +170,7 @@ def cmd_verify(args):
         info(f"Expires: {passport.expires_at}")
     else:
         header("Passport verification")
-        error(f"Status: INVALID — {reason}")
+        error(f"Status: INVALID -- {reason}")
         sys.exit(1)
 
 
@@ -187,12 +198,12 @@ def cmd_list(args):
 
     header(f"Agent Passports ({len(items)})")
     print(f"{'STATUS':<10} {'ID':<45} {'PROTOCOLS':<20} {'EXPIRES':<12}")
-    print("─" * 90)
+    print("-" * 90)
 
     for p in items:
         status = f"{RED}REVOKED{RESET}" if p["revoked"] else f"{GREEN}ACTIVE {RESET}"
         protocols = ", ".join(p["protocols"])
-        expires = p["expires_at"][:10] if p["expires_at"] else "—"
+        expires = p["expires_at"][:10] if p["expires_at"] else "--"
         print(f"{status}  {p['passport_id']:<45} {protocols:<20} {expires}")
 
 
@@ -220,7 +231,7 @@ def cmd_inspect(args):
     if valid:
         success(f"Signature: VALID")
     else:
-        error(f"Signature: INVALID — {reason}")
+        error(f"Signature: INVALID -- {reason}")
 
 
 def cmd_translate(args):
@@ -265,7 +276,7 @@ def cmd_translate(args):
         error(str(e))
         sys.exit(1)
 
-    header(f"Translation: {args.source_format} → {args.target_format}")
+    header(f"Translation: {args.source_format} -> {args.target_format}")
 
     if "tools" in result:
         success(f"{len(result.get('tools', []))} tools mapped")
@@ -326,9 +337,9 @@ def cmd_quickstart(args):
     """Run a complete demo in 30 seconds. Tests every core feature."""
     import time as _time
 
-    print(f"\n{BOLD}{CYAN}╔══════════════════════════════════════════════════╗{RESET}")
-    print(f"{BOLD}{CYAN}║   AIB — Agent Identity Bridge — Quick Start      ║{RESET}")
-    print(f"{BOLD}{CYAN}╚══════════════════════════════════════════════════╝{RESET}\n")
+    print(f"\n{BOLD}{CYAN}+==================================================+{RESET}")
+    print(f"{BOLD}{CYAN}|   AIB -- Agent Identity Bridge -- Quick Start     |{RESET}")
+    print(f"{BOLD}{CYAN}+==================================================+{RESET}\n")
 
     steps_ok = 0
     steps_total = 6
@@ -368,15 +379,15 @@ def cmd_quickstart(args):
     except Exception as e:
         error(f"Verify error: {e}")
 
-    # Step 3: Translate A2A → MCP → AG-UI
-    print(f"\n{BOLD}[3/6] Translating A2A → MCP → AG-UI...{RESET}")
+    # Step 3: Translate A2A -> MCP -> AG-UI
+    print(f"\n{BOLD}[3/6] Translating A2A -> MCP -> AG-UI...{RESET}")
     try:
         t = get_translator()
         a2a_card = {"name": "Demo Agent", "url": "https://demo.aib-tech.fr/agent",
                      "skills": [{"id": "booking", "name": "Booking"}, {"id": "support", "name": "Support"}]}
         mcp = t.translate(a2a_card, "a2a_agent_card", "mcp_server_card")
         agui = t.translate(mcp, "mcp_server_card", "ag_ui_descriptor")
-        success(f"A2A ({len(a2a_card['skills'])} skills) → MCP ({len(mcp['tools'])} tools) → AG-UI ({len(agui['capabilities'])} caps)")
+        success(f"A2A ({len(a2a_card['skills'])} skills) -> MCP ({len(mcp['tools'])} tools) -> AG-UI ({len(agui['capabilities'])} caps)")
         steps_ok += 1
     except Exception as e:
         error(f"Translation failed: {e}")
@@ -431,7 +442,7 @@ def cmd_quickstart(args):
         svc.revoke_passport(passport.passport_id)
         valid2, _, reason2 = svc.verify_passport(token)
         if not valid2:
-            success(f"Revoked → verify blocked: {reason2}")
+            success(f"Revoked -> verify blocked: {reason2}")
             steps_ok += 1
         else:
             error("Revocation did not block verification")
@@ -439,11 +450,11 @@ def cmd_quickstart(args):
         error(f"Revocation failed: {e}")
 
     # Summary
-    print(f"\n{'═' * 52}")
+    print(f"\n{'=' * 52}")
     if steps_ok == steps_total:
-        print(f"{GREEN}{BOLD}  ✅ ALL {steps_total} CHECKS PASSED — AIB is working!{RESET}")
+        print(f"{GREEN}{BOLD}  [OK] ALL {steps_total} CHECKS PASSED -- AIB is working!{RESET}")
     else:
-        print(f"{YELLOW}{BOLD}  ⚠️  {steps_ok}/{steps_total} checks passed{RESET}")
+        print(f"{YELLOW}{BOLD}  [!!]  {steps_ok}/{steps_total} checks passed{RESET}")
         if steps_ok < steps_total:
             print(f"  {DIM}Check errors above. Report issues:{RESET}")
             print(f"  {CYAN}https://github.com/tntech-consulting/agent-identity-bridge/issues{RESET}")
@@ -475,12 +486,12 @@ def cmd_clean(args):
             found.append((d, label, count))
 
     if not found:
-        success("Nothing to clean — no AIB data found.")
+        success("Nothing to clean -- no AIB data found.")
         return
 
     print(f"\n{BOLD}AIB data found:{RESET}\n")
     for d, label, count in found:
-        print(f"  {YELLOW}●{RESET} {label}")
+        print(f"  {YELLOW}*{RESET} {label}")
         # Show detail
         for f in sorted(d.rglob("*")):
             if f.is_file():
@@ -491,7 +502,7 @@ def cmd_clean(args):
                     size_str = f"{size} B"
                 rel = f.relative_to(d)
                 is_key = "private" in f.name or "key" in f.name
-                flag = f" {RED}← private key{RESET}" if is_key else ""
+                flag = f" {RED}<- private key{RESET}" if is_key else ""
                 print(f"    {DIM}{rel}{RESET} ({size_str}){flag}")
 
     print(f"\n  {BOLD}{total_files} files{RESET} will be permanently deleted.\n")
@@ -550,18 +561,18 @@ def cmd_uninstall(args):
     print(f"  {CYAN}rm -rf agent-identity-bridge/{RESET}\n")
 
 
-# ── Main ──────────────────────────────────────────────────────────
+# -- Main ----------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(
         prog="aib",
-        description="Agent Identity Bridge — Portable identity for AI agents",
+        description="Agent Identity Bridge -- Portable identity for AI agents",
         epilog="Documentation: https://github.com/tntech-consulting/agent-identity-bridge",
     )
     parser.add_argument("--version", action="version", version="%(prog)s 2.13.4")
     sub = parser.add_subparsers(dest="command", help="Available commands")
 
-    # ── create ──
+    # -- create --
     p_create = sub.add_parser("create", help="Create a new Agent Passport")
     p_create.add_argument("--org", required=True, help="Organization slug (e.g. mycompany)")
     p_create.add_argument("--agent", required=True, help="Agent slug (e.g. booking)")
@@ -576,26 +587,26 @@ def main():
     p_create.add_argument("--show-token", action="store_true", help="Print the signed token")
     p_create.add_argument("--output", "-o", help="Write passport JSON to file")
 
-    # ── quickstart ──
+    # -- quickstart --
     sub.add_parser("quickstart", help="Run a quick demo to verify everything works")
 
-    # ── verify ──
+    # -- verify --
     p_verify = sub.add_parser("verify", help="Verify a passport token")
     p_verify.add_argument("--token", help="Token string")
     p_verify.add_argument("--file", "-f", help="Read token from file")
 
-    # ── revoke ──
+    # -- revoke --
     p_revoke = sub.add_parser("revoke", help="Revoke a passport")
     p_revoke.add_argument("--id", required=True, help="Passport ID (urn:aib:agent:org:name)")
 
-    # ── list ──
+    # -- list --
     sub.add_parser("list", help="List all passports")
 
-    # ── inspect ──
+    # -- inspect --
     p_inspect = sub.add_parser("inspect", help="Show full passport details")
     p_inspect.add_argument("--id", required=True, help="Passport ID")
 
-    # ── translate ──
+    # -- translate --
     p_translate = sub.add_parser("translate", help="Translate between identity formats")
     p_translate.add_argument("--from", dest="source_format", required=True, help="Source format (a2a, mcp, did)")
     p_translate.add_argument("--to", dest="target_format", required=True, help="Target format (a2a, mcp, did)")
@@ -604,22 +615,22 @@ def main():
     p_translate.add_argument("--slug", help="Agent slug for DID generation")
     p_translate.add_argument("--output", "-o", help="Output file (or stdout)")
 
-    # ── serve ──
+    # -- serve --
     p_serve = sub.add_parser("serve", help="Start the AIB Gateway server")
     p_serve.add_argument("--port", type=int, default=8420, help="Port (default: 8420)")
     p_serve.add_argument("--host", default="0.0.0.0", help="Host (default: 0.0.0.0)")
     p_serve.add_argument("--reload", action="store_true", help="Auto-reload on code changes")
 
-    # ── keygen ──
+    # -- keygen --
     p_keygen = sub.add_parser("keygen", help="Manage RS256 signing keys")
     p_keygen.add_argument("--rotate", action="store_true", help="Rotate to a new key")
     p_keygen.add_argument("--jwks", action="store_true", help="Print JWKS (public keys)")
 
-    # ── clean ──
+    # -- clean --
     p_clean = sub.add_parser("clean", help="Remove all AIB data (passports, keys, receipts)")
     p_clean.add_argument("--yes", "-y", action="store_true", help="Skip confirmation prompt")
 
-    # ── uninstall ──
+    # -- uninstall --
     p_uninstall = sub.add_parser("uninstall", help="Full uninstall: remove data + pip package")
 
     args = parser.parse_args()
