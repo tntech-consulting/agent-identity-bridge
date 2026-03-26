@@ -322,6 +322,137 @@ def cmd_keygen(args):
         print(json.dumps(jwks, indent=2))
 
 
+def cmd_quickstart(args):
+    """Run a complete demo in 30 seconds. Tests every core feature."""
+    import time as _time
+
+    print(f"\n{BOLD}{CYAN}╔══════════════════════════════════════════════════╗{RESET}")
+    print(f"{BOLD}{CYAN}║   AIB — Agent Identity Bridge — Quick Start      ║{RESET}")
+    print(f"{BOLD}{CYAN}╚══════════════════════════════════════════════════╝{RESET}\n")
+
+    steps_ok = 0
+    steps_total = 6
+
+    # Step 1: Create passport
+    print(f"{BOLD}[1/6] Creating passport...{RESET}")
+    try:
+        svc = get_passport_service()
+        from .passport import McpBinding, A2aBinding
+        passport, token = svc.create_passport(
+            org_slug="demo",
+            agent_slug="quickstart",
+            display_name="Quickstart Demo Agent",
+            capabilities=["booking", "support"],
+            bindings={
+                "mcp": McpBinding(auth_method="oauth2", server_card_url="https://demo.aib-tech.fr/mcp"),
+                "a2a": A2aBinding(auth_method="bearer", agent_card_url="https://demo.aib-tech.fr/agent"),
+            },
+        )
+        success(f"Passport: {passport.passport_id}")
+        print(f"  {DIM}Token: {token[:50]}...{RESET}")
+        steps_ok += 1
+    except Exception as e:
+        error(f"Create failed: {e}")
+
+    # Step 2: Verify
+    print(f"\n{BOLD}[2/6] Verifying passport...{RESET}")
+    try:
+        valid, payload, reason = svc.verify_passport(token)
+        if valid:
+            success(f"Verification: {reason}")
+            steps_ok += 1
+        else:
+            error(f"Verification failed: {reason}")
+    except Exception as e:
+        error(f"Verify error: {e}")
+
+    # Step 3: Translate A2A → MCP → AG-UI
+    print(f"\n{BOLD}[3/6] Translating A2A → MCP → AG-UI...{RESET}")
+    try:
+        t = get_translator()
+        a2a_card = {"name": "Demo Agent", "url": "https://demo.aib-tech.fr/agent",
+                     "skills": [{"id": "booking", "name": "Booking"}, {"id": "support", "name": "Support"}]}
+        mcp = t.translate(a2a_card, "a2a_agent_card", "mcp_server_card")
+        agui = t.translate(mcp, "mcp_server_card", "ag_ui_descriptor")
+        success(f"A2A ({len(a2a_card['skills'])} skills) → MCP ({len(mcp['tools'])} tools) → AG-UI ({len(agui['capabilities'])} caps)")
+        steps_ok += 1
+    except Exception as e:
+        error(f"Translation failed: {e}")
+
+    # Step 4: Policy engine
+    print(f"\n{BOLD}[4/6] Testing policy engine...{RESET}")
+    try:
+        from .policy_engine import PolicyEngine, PolicyRule, PolicyContext, RuleType
+        engine = PolicyEngine()
+        engine.add_rule(PolicyRule(rule_id="cap-check", rule_type=RuleType.CAPABILITY_REQUIRED,
+                                   capability="payment", action="proxy"))
+        engine.add_rule(PolicyRule(rule_id="domain-block", rule_type=RuleType.DOMAIN_BLOCK,
+                                   blocked_domains=["evil.com"]))
+
+        # Should allow (no payment capability needed for translate)
+        ctx1 = PolicyContext(passport_id="demo", capabilities=["booking"],
+                             tier="permanent", issuer="org", action="translate")
+        d1 = engine.evaluate(ctx1)
+
+        # Should block (evil.com)
+        ctx2 = PolicyContext(passport_id="demo", capabilities=["booking"],
+                             tier="permanent", issuer="org", action="proxy",
+                             target_url="https://evil.com/api")
+        d2 = engine.evaluate(ctx2)
+
+        if d1.allowed and not d2.allowed:
+            success(f"Allow legitimate: {d1.evaluation_ms:.1f}ms | Block evil.com: {d2.reason}")
+            steps_ok += 1
+        else:
+            error("Policy engine logic error")
+    except Exception as e:
+        error(f"Policy engine failed: {e}")
+
+    # Step 5: Diagnostics
+    print(f"\n{BOLD}[5/6] Running diagnostics...{RESET}")
+    try:
+        from .diagnostics import DiagnosticRunner, diagnose_error
+        diag = DiagnosticRunner()
+        diag.register("passport", lambda: svc.list_passports() is not None, description="Passport store")
+        diag.register("translator", lambda: t.translate(
+            {"name": "x", "skills": [{"id": "s"}]}, "a2a_agent_card", "mcp_server_card") is not None,
+            description="Translator")
+        s = diag.summary()
+        success(f"Components: {s['ok']}/{s['total_components']} OK | Status: {s['status']}")
+        steps_ok += 1
+    except Exception as e:
+        error(f"Diagnostics failed: {e}")
+
+    # Step 6: Revoke and confirm
+    print(f"\n{BOLD}[6/6] Revoking passport...{RESET}")
+    try:
+        svc.revoke_passport(passport.passport_id)
+        valid2, _, reason2 = svc.verify_passport(token)
+        if not valid2:
+            success(f"Revoked → verify blocked: {reason2}")
+            steps_ok += 1
+        else:
+            error("Revocation did not block verification")
+    except Exception as e:
+        error(f"Revocation failed: {e}")
+
+    # Summary
+    print(f"\n{'═' * 52}")
+    if steps_ok == steps_total:
+        print(f"{GREEN}{BOLD}  ✅ ALL {steps_total} CHECKS PASSED — AIB is working!{RESET}")
+    else:
+        print(f"{YELLOW}{BOLD}  ⚠️  {steps_ok}/{steps_total} checks passed{RESET}")
+        if steps_ok < steps_total:
+            print(f"  {DIM}Check errors above. Report issues:{RESET}")
+            print(f"  {CYAN}https://github.com/tntech-consulting/agent-identity-bridge/issues{RESET}")
+
+    print(f"\n{DIM}  Next steps:{RESET}")
+    print(f"  {CYAN}aib create --org yourcompany --agent bot --protocols mcp,a2a{RESET}")
+    print(f"  {CYAN}aib serve{RESET}  (start gateway on port 8420)")
+    print(f"  {DIM}Docs: https://github.com/tntech-consulting/agent-identity-bridge{RESET}")
+    print()
+
+
 # ── Main ──────────────────────────────────────────────────────────
 
 def main():
@@ -347,6 +478,9 @@ def main():
     p_create.add_argument("--ttl", type=int, default=365, help="Passport TTL in days (default: 365)")
     p_create.add_argument("--show-token", action="store_true", help="Print the signed token")
     p_create.add_argument("--output", "-o", help="Write passport JSON to file")
+
+    # ── quickstart ──
+    sub.add_parser("quickstart", help="Run a quick demo to verify everything works")
 
     # ── verify ──
     p_verify = sub.add_parser("verify", help="Verify a passport token")
@@ -400,6 +534,7 @@ def main():
     KEYS_DIR.mkdir(parents=True, exist_ok=True)
 
     commands = {
+        "quickstart": cmd_quickstart,
         "create": cmd_create,
         "verify": cmd_verify,
         "revoke": cmd_revoke,
