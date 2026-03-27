@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB Blog — AI Agent Identity, Protocols & Security</title>
+<meta name="description" content="Technical articles about AI agent identity, MCP vs A2A protocols, policy engines, OIDC federation, and cross-protocol authentication. By TNTECH CONSULTING.">
+<meta name="keywords" content="AI agent identity, MCP protocol, A2A protocol, AG-UI, agent passport, LangChain identity, CrewAI authentication, policy engine, OIDC federation">
+<meta name="author" content="TNTECH CONSULTING SAS">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aib-tech.fr/blog.html">
+<meta name="geo.region" content="FR-75">
+<meta name="geo.placename" content="Paris">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AIB Blog — AI Agent Identity & Protocols">
+<meta property="og:description" content="Technical articles about AI agent identity across MCP, A2A, AG-UI protocols.">
+<meta property="og:url" content="https://aib-tech.fr/blog.html">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07080C;--bg2:#0D0F15;--fg:#E4E7F0;--fg2:#8B90A3;--fg3:#555A6E;--g:#00E5A0;--g2:#00C5FF;--bd:#1E2233;--m:'Space Mono',monospace;--s:'Outfit',sans-serif}
+body{font-family:var(--s);background:var(--bg);color:var(--fg);line-height:1.7}
+a{color:var(--g);text-decoration:none}a:hover{text-decoration:underline}
+.w{max-width:800px;margin:0 auto;padding:0 24px}
+nav{padding:14px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(7,8,12,.92);backdrop-filter:blur(16px);z-index:99}
+nav .w{display:flex;justify-content:space-between;align-items:center;max-width:1040px;flex-wrap:wrap;gap:8px}
+.logo{font-family:var(--m);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px}
+.logo span{color:var(--fg3);font-weight:400}
+.nav-r{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.nav-r a{color:var(--fg2);font-size:13px;font-weight:500}.nav-r a:hover{color:var(--g)}
+.lang-btn{font-family:var(--m);font-size:10px;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--fg3);background:transparent}.lang-btn:hover,.lang-btn.active{color:var(--g);border-color:rgba(0,229,160,.2)}
+
+.hero{padding:60px 0 40px;text-align:center}
+.hero h1{font-size:clamp(24px,4vw,36px);font-weight:700;color:#fff;margin-bottom:8px}
+.hero p{font-size:15px;color:var(--fg2);max-width:500px;margin:0 auto}
+
+#blog-list{margin:0 0 60px}
+.post-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:24px;margin-bottom:14px;transition:border-color .2s,transform .15s;cursor:pointer;display:block}
+.post-card:hover{border-color:rgba(0,229,160,.2);transform:translateY(-2px);text-decoration:none}
+.post-card h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.3}
+.post-card p{font-size:14px;color:var(--fg2);margin-bottom:10px;line-height:1.55}
+.post-meta{display:flex;gap:12px;font-size:11px;color:var(--fg3);font-family:var(--m);flex-wrap:wrap;align-items:center}
+.post-meta .tag{background:rgba(0,229,160,.07);color:var(--g);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:600;border:1px solid rgba(0,229,160,.12)}
+
+#article-view{display:none}
+#article-view .back{font-family:var(--m);font-size:12px;color:var(--fg3);margin-bottom:24px;display:inline-block;cursor:pointer}
+#article-view .back:hover{color:var(--g)}
+#article-view h1{font-size:clamp(22px,4vw,32px);font-weight:700;color:#fff;margin-bottom:12px;line-height:1.2}
+#article-view .article-meta{display:flex;gap:12px;font-size:12px;color:var(--fg3);font-family:var(--m);margin-bottom:32px;flex-wrap:wrap}
+#article-content{font-size:16px;line-height:1.8;color:var(--fg)}
+#article-content h2{font-size:20px;font-weight:700;color:#fff;margin:32px 0 12px}
+#article-content h3{font-size:17px;font-weight:600;color:#fff;margin:24px 0 8px}
+#article-content p{margin-bottom:16px}
+#article-content ul,#article-content ol{margin:0 0 16px 20px;color:var(--fg2)}
+#article-content li{margin-bottom:6px}
+#article-content pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px;overflow-x:auto;margin:16px 0;font-family:var(--m);font-size:13px;line-height:1.6;color:var(--g)}
+#article-content code{font-family:var(--m);font-size:13px;color:var(--g);background:rgba(0,229,160,.06);padding:2px 6px;border-radius:3px}
+#article-content pre code{background:none;padding:0}
+#article-content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+#article-content th{background:var(--bg2);color:var(--g);padding:8px 12px;text-align:left;font-family:var(--m);font-size:12px;border:1px solid var(--bd)}
+#article-content td{padding:8px 12px;border:1px solid var(--bd);color:var(--fg2)}
+#article-content a{color:var(--g)}
+#article-content strong{color:#fff}
+
+.loading{text-align:center;padding:40px;color:var(--fg3);font-family:var(--m);font-size:13px}
+
+footer{padding:24px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--fg3)}
+footer a{color:var(--fg2)}
+@media(max-width:600px){.post-card{padding:16px}.post-card h2{font-size:16px}}
+</style>
+</head>
+<body>
+
+<nav><div class="w" style="max-width:1040px">
+  <a href="/" class="logo">AIB <span>// blog</span></a>
+  <div class="nav-r">
+    <a href="index.html">Protocol</a>
+    <a href="pricing.html">Pricing</a>
+    <a href="https://aib-cloud.netlify.app">Cloud</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+  </div>
+</div></nav>
+
+<div class="w">
+  <section class="hero">
+    <h1 id="blog-title">AI Agent Identity & Protocols</h1>
+    <p id="blog-sub">Technical articles about portable identity for AI agents across MCP, A2A, ANP, and AG-UI.</p>
+  </section>
+
+  <div id="blog-list"><div class="loading">Loading articles...</div></div>
+
+  <div id="article-view">
+    <span class="back" onclick="showList()">&larr; Back to articles</span>
+    <h1 id="art-title"></h1>
+    <div class="article-meta" id="art-meta"></div>
+    <div id="article-content"></div>
+  </div>
+</div>
+
+<footer><div class="w" style="max-width:1040px">
+  <p><a href="https://tntech.fr" target="_blank">TNTECH CONSULTING SAS</a> &middot; <a href="index.html">Protocol</a> &middot; <a href="https://aib-cloud.netlify.app">Cloud</a> &middot; <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> &middot; SIREN 993811157</p>
+</div></footer>
+
+<script>
+var API = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api";
+var lang = "en";
+var articles = [];
+
+function setLang(l) {
+  lang = l;
+  document.getElementById("btn-en").classList.toggle("active", l==="en");
+  document.getElementById("btn-fr").classList.toggle("active", l==="fr");
+  document.getElementById("blog-title").textContent = l==="fr" ? "Identit\u00e9 & Protocoles pour Agents IA" : "AI Agent Identity & Protocols";
+  document.getElementById("blog-sub").textContent = l==="fr" ? "Articles techniques sur l'identit\u00e9 portable pour agents IA \u00e0 travers MCP, A2A, ANP et AG-UI." : "Technical articles about portable identity for AI agents across MCP, A2A, ANP, and AG-UI.";
+  if (document.getElementById("article-view").style.display === "block") {
+    var slug = location.hash.replace("#","");
+    if (slug) loadArticle(slug);
+  } else { renderList(); }
+}
+
+async function loadArticles() {
+  try {
+    var r = await fetch(API + "?lang=" + lang);
+    var d = await r.json();
+    articles = d.articles || [];
+    renderList();
+  } catch(e) { document.getElementById("blog-list").innerHTML = '<div class="loading">Failed to load articles</div>'; }
+}
+
+function renderList() {
+  var el = document.getElementById("blog-list");
+  if (articles.length === 0) { el.innerHTML = '<div class="loading">No articles yet</div>'; return; }
+  el.innerHTML = articles.map(function(a) {
+    var date = a.published_at ? new Date(a.published_at).toLocaleDateString(lang==="fr"?"fr-FR":"en-US",{year:"numeric",month:"long",day:"numeric"}) : "";
+    var tags = (a.tags||[]).map(function(t){return '<span class="tag">'+t+'</span>'}).join("");
+    return '<a class="post-card" href="#'+a.slug+'" onclick="loadArticle(\''+a.slug+'\')"><h2>'+a.title+'</h2><p>'+a.description+'</p><div class="post-meta"><span>'+date+'</span><span>'+a.read_time_min+' min read</span><span>'+a.views+' views</span>'+tags+'</div></a>';
+  }).join("");
+}
+
+async function loadArticle(slug) {
+  document.getElementById("blog-list").style.display = "none";
+  document.getElementById("article-view").style.display = "block";
+  document.querySelector(".hero").style.display = "none";
+  document.getElementById("article-content").innerHTML = '<div class="loading">Loading...</div>';
+  try {
+    var r = await fetch(API + "?slug=" + slug + "&lang=" + lang);
+    var a = await r.json();
+    if (a.error) { document.getElementById("article-content").innerHTML = '<div class="loading">Article not found</div>'; return; }
+    document.getElementById("art-title").textContent = a.title;
+    var date = a.published_at ? new Date(a.published_at).toLocaleDateString(lang==="fr"?"fr-FR":"en-US",{year:"numeric",month:"long",day:"numeric"}) : "";
+    document.getElementById("art-meta").innerHTML = '<span>'+a.author+'</span><span>'+date+'</span><span>'+a.read_time_min+' min</span><span>'+a.views+' views</span>';
+    document.getElementById("article-content").innerHTML = a.content;
+    document.title = a.title + " — AIB Blog";
+    window.scrollTo(0, 0);
+  } catch(e) { document.getElementById("article-content").innerHTML = '<div class="loading">Failed to load</div>'; }
+}
+
+function showList() {
+  document.getElementById("blog-list").style.display = "block";
+  document.getElementById("article-view").style.display = "none";
+  document.querySelector(".hero").style.display = "block";
+  document.title = "AIB Blog — AI Agent Identity, Protocols & Security";
+  location.hash = "";
+  renderList();
+}
+
+// Handle direct link to article
+window.addEventListener("load", function() {
+  loadArticles().then(function() {
+    if (location.hash) loadArticle(location.hash.replace("#",""));
+  });
+});
+window.addEventListener("hashchange", function() {
+  if (location.hash) loadArticle(location.hash.replace("#",""));
+  else showList();
+});
+</script>
+</body>
+</html>
