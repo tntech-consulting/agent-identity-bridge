@@ -5,6 +5,57 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.15.0] - 2026-03-27
+
+### Added
+- **AIB Cloud SDK** (`aib/cloud.py`) — Python client wrapping all 12 Edge Functions
+  - `AIBCloud` class: create_passport, list, revoke, translate, usage, policies, webhooks
+  - `AIBCloud.signup()` / `AIBCloud.login()` classmethods for onboarding
+  - `AIBCloudError` with code, status, violations for policy enforcement feedback
+  - Zero external dependencies (stdlib urllib only)
+  - 25 unit tests
+- **Webhooks system** — real-time event notifications
+  - `webhook-manage` Edge Function: CRUD webhooks (POST/GET/DELETE)
+  - `passport-create` v5: fires webhooks on `passport.created` + `policy.violation`
+  - HMAC-SHA256 signed payloads when secret is configured (X-AIB-Signature header)
+  - 4 event types: passport.created, passport.revoked, policy.violation, translate.completed
+  - Quota enforcement (max_webhooks per org)
+- **OIDC Federation** in `passport-create` v4→v5
+  - 3 auth methods: API key, Supabase Bearer, OIDC external JWT
+  - JWKS cache (1h TTL), RS256/384/512 signature verification
+  - `federation_trust` table seeded: Google (active), Entra (active), Okta, Auth0
+  - 10-point OIDC test suite (`oidc-test` Edge Function) — 10/10 passing
+- **Blog system** with auto-publish
+  - `blog_posts` table: slug, title/content EN+FR, tags, SEO keywords, scheduled_for
+  - `blog-api` Edge Function: serves articles, auto-publishes on schedule, view counting
+  - `blog-scheduler` Edge Function: auto-generates new articles from topic pool
+  - 5 articles published/scheduled + 8 articles in auto-schedule pool (13 total, ~3 months)
+  - `pg_cron`: daily publish at 03:00 UTC, weekly scheduler check Monday 03:05 UTC
+  - Full bilingual content EN/FR for SEO
+- **Dashboard improvements**
+  - Login auto-connects (no API key entry screen needed)
+  - Policy form auto-fills config JSON based on rule type
+  - Translate form validates same-format, auto-updates samples on format change
+  - Generate Key instantly updates the active keys list
+  - Chart.js CDN fixed (jsdelivr 4.4.4)
+- **policy_rules CHECK constraint** updated to accept all 12 rule types
+
+### Changed
+- `passport-create` v3→v5: OIDC federation + webhooks + improved policy enforcement
+- `blog-api` v1→v2: triggers blog-scheduler when no scheduled articles remain
+- Total tests: 1056 → 1081 (25 new, 0 regressions)
+
+## [2.14.0] - 2026-03-26
+
+### Added
+- **Framework integrations** — LangChain, CrewAI, OpenAI Agents SDK (native tools)
+- **Cloud SaaS backend** — 8 Supabase Edge Functions, 9 PostgreSQL tables
+- **Dashboard** — auth, 6 tabs (Overview, Analytics, Passports, Policies, Translate, API Keys)
+- **Landing pages** — aib-cloud.netlify.app (SaaS), aib-tech.fr (protocol), pricing, frameworks
+- **Ed25519 signed receipts** — cryptographic audit trail
+- **Policy engine** — 12 rule types with deliverable gates and separation of duties
+- GitHub push with cloud/ directory
+
 ## [2.13.4] - 2026-03-26
 
 ### Added

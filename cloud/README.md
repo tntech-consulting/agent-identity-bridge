@@ -12,15 +12,20 @@ cloud/
 │   ├── translate/       # A2A ↔ MCP ↔ AG-UI credential translation (<1ms)
 │   ├── usage-check/     # Real-time usage & quota dashboard
 │   ├── usage-history/   # Daily activity aggregation for analytics
-│   └── policy-manage/   # CRUD for policy rules (9 types)
+│   └── policy-manage/   # CRUD for policy rules (12 types)
+│   ├── webhook-manage/  # CRUD webhooks (4 event types, HMAC signing)
+│   ├── blog-api/        # Blog articles API (EN/FR, auto-publish)
+│   ├── blog-scheduler/  # Auto-generate new articles from topic pool
+│   └── oidc-test/       # 10-point OIDC federation test suite
 ├── landing/             # Static HTML pages (deployed on Netlify)
 │   ├── index.html       # SaaS landing (aib-cloud.netlify.app)
 │   ├── dashboard.html   # Dashboard with auth + 6 tabs
 │   ├── frameworks.html  # Framework integrations hub
 │   ├── aib-tech-index.html  # Protocol site (aib-tech.fr)
-│   └── pricing.html     # Pricing page
+│   ├── pricing.html     # Pricing page
+│   └── blog.html        # Blog section (EN/FR, SEO)
 └── schema/              # PostgreSQL schema
-    └── schema.sql       # 9 tables + RLS + triggers
+    └── schema.sql       # 10 tables + RLS + triggers + pg_cron
 ```
 
 ## Supabase Project
