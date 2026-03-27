@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB Integrations — LangChain, CrewAI, OpenAI Agents SDK, LangGraph | Agent Identity</title>
+<meta name="description" content="AIB integrates with LangChain, CrewAI, OpenAI Agents SDK, LangGraph, AutoGen, LlamaIndex, Pydantic AI, Google ADK. Add agent identity to any framework in 3 lines.">
+<meta name="keywords" content="LangChain identity, CrewAI authentication, OpenAI Agents SDK identity, LangGraph agent passport, AutoGen identity bridge, LlamaIndex agent auth, AI agent identity, MCP A2A protocol, agent passport, portable identity">
+<meta name="author" content="TNTECH CONSULTING SAS">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aib-cloud.netlify.app/frameworks.html">
+<meta name="geo.region" content="FR-75">
+<meta name="geo.placename" content="Paris">
+<meta name="geo.position" content="48.8566;2.3522">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AIB Integrations — Works with every AI agent framework">
+<meta property="og:description" content="Add portable identity to LangChain, CrewAI, OpenAI Agents SDK agents in 3 lines of Python. Free during beta.">
+<meta property="og:url" content="https://aib-cloud.netlify.app/frameworks.html">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AIB Agent Identity Bridge",
+  "applicationCategory": "DeveloperApplication",
+  "description": "Portable identity for AI agents. Integrates with LangChain, CrewAI, OpenAI Agents SDK, LangGraph, AutoGen, LlamaIndex.",
+  "url": "https://aib-cloud.netlify.app/frameworks.html",
+  "operatingSystem": "Cross-platform",
+  "softwareVersion": "2.13.4",
+  "author": {"@type": "Organization", "name": "TNTECH CONSULTING SAS", "url": "https://tntech.fr"}
+}
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#06060c;--bg2:#0c0c14;--g:#00ff88;--g3:rgba(0,255,136,.07);--g4:rgba(0,255,136,.12);--b:#00aaff;--fg:#e8e8ef;--fg2:#8888a0;--fg3:#4a4a60;--bd:rgba(255,255,255,.05);--mono:'Space Mono',monospace;--sans:'Outfit',sans-serif}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden}
+[data-lang]{display:none!important}[data-lang].show{display:revert!important}
+a{color:var(--g);text-decoration:none}
+.w{max-width:1040px;margin:0 auto;padding:0 24px}
+body::before{content:'';position:fixed;inset:0;background:linear-gradient(90deg,rgba(0,255,136,.015) 1px,transparent 1px),linear-gradient(180deg,rgba(0,255,136,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+nav{padding:14px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(6,6,12,.92);backdrop-filter:blur(16px);z-index:99}
+nav .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.logo{font-family:var(--mono);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px}
+.logo span{color:var(--fg3);font-weight:400}
+.nav-r{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav-r a{color:var(--fg2);font-size:13px;font-weight:500}.nav-r a:hover{color:var(--g)}
+.btn-g{background:var(--g);color:var(--bg)!important;padding:8px 20px;border-radius:6px;font-weight:700;font-size:12px;font-family:var(--mono);display:inline-block}.btn-g:hover{filter:brightness(1.1)}
+.lang-btn{font-family:var(--mono);font-size:10px;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--fg3);background:transparent}.lang-btn:hover,.lang-btn.active{color:var(--g);border-color:var(--g4)}
+
+.hero{padding:70px 0 40px;text-align:center;position:relative;z-index:1}
+.hero h1{font-size:clamp(28px,4.5vw,44px);font-weight:800;line-height:1.1;margin-bottom:14px;color:#fff}
+.hero h1 em{font-style:normal;color:var(--g)}
+.hero p{font-size:16px;color:var(--fg2);max-width:520px;margin:0 auto;font-weight:300}
+
+.tier{margin:48px 0 20px}
+.tier h2{font-size:13px;text-transform:uppercase;letter-spacing:.1em;color:var(--g);font-family:var(--mono);margin-bottom:16px;padding-left:4px}
+.fw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-bottom:16px}
+.fw{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:22px;transition:border-color .2s,transform .15s;position:relative;overflow:hidden}
+.fw:hover{border-color:var(--g4);transform:translateY(-2px)}
+.fw::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.12),transparent)}
+.fw .top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.fw h3{font-size:17px;font-weight:700;color:#fff}
+.fw .badge{font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:3px;font-weight:700;letter-spacing:.5px}
+.fw .badge.native{background:var(--g3);color:var(--g);border:1px solid var(--g4)}
+.fw .badge.compat{background:rgba(0,170,255,.07);color:var(--b);border:1px solid rgba(0,170,255,.1)}
+.fw .badge.planned{background:rgba(255,255,255,.03);color:var(--fg3);border:1px solid var(--bd)}
+.fw p{font-size:13px;color:var(--fg2);margin-bottom:10px;line-height:1.55}
+.fw .stats{font-family:var(--mono);font-size:10px;color:var(--fg3);display:flex;gap:12px}
+.fw pre{background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:11px;color:var(--g);overflow-x:auto;margin-top:10px;line-height:1.6}
+
+.cta{padding:50px 0;text-align:center;border-top:1px solid var(--bd);position:relative;z-index:1}
+.cta h2{font-size:24px;font-weight:700;color:#fff;margin-bottom:10px}
+.cta p{font-size:14px;color:var(--fg2);margin-bottom:20px}
+footer{padding:24px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--fg3);position:relative;z-index:1}
+footer a{color:var(--fg2)}
+@media(max-width:700px){.fw-grid{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+
+<nav><div class="w">
+  <a href="index.html" class="logo">AIB<span>cloud</span></a>
+  <div class="nav-r">
+    <a href="index.html" data-lang="en" class="show">Home</a><a href="index.html" data-lang="fr">Accueil</a>
+    <a href="https://aib-tech.fr">Protocol</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE</a>
+  </div>
+</div></nav>
+
+<section class="hero"><div class="w">
+  <h1 data-lang="en" class="show">Works with <em>every framework</em></h1>
+  <h1 data-lang="fr">Compatible avec <em>tous les frameworks</em></h1>
+  <p data-lang="en" class="show">AIB operates at the protocol level. Any framework that uses MCP, A2A, ANP, or AG-UI gets portable agent identity automatically. Native SDKs for the top 3.</p>
+  <p data-lang="fr">AIB op&egrave;re au niveau protocole. Tout framework utilisant MCP, A2A, ANP ou AG-UI obtient une identit&eacute; portable automatiquement. SDKs natifs pour le top 3.</p>
+</div></section>
+
+<div class="w">
+
+<!-- Tier 1: Native SDK -->
+<div class="tier">
+  <h2 data-lang="en" class="show">// native SDK integration</h2>
+  <h2 data-lang="fr">// int&eacute;gration SDK native</h2>
+</div>
+<div class="fw-grid">
+  <div class="fw">
+    <div class="top-row"><h3>LangChain / LangGraph</h3><span class="badge native">NATIVE SDK</span></div>
+    <p data-lang="en" class="show">6 tools as @tool decorated functions. Works with create_react_agent, OpenAI Functions, any LangChain agent type. Full passport lifecycle + translation + policy check.</p>
+    <p data-lang="fr">6 outils en fonctions d&eacute;cor&eacute;es @tool. Compatible avec create_react_agent, OpenAI Functions, tout type d'agent LangChain. Cycle complet passeport + traduction + policy.</p>
+    <div class="stats"><span>126K stars</span><span>47M downloads/mo</span><span>Python</span></div>
+    <pre>from aib.integrations import get_langchain_tools
+tools = get_langchain_tools(secret_key="your-key")
+agent = create_react_agent(llm, tools, prompt)</pre>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>CrewAI</h3><span class="badge native">NATIVE SDK</span></div>
+    <p data-lang="en" class="show">6 BaseTool subclasses with Pydantic input schemas. Plug into any CrewAI Agent. The agent manages its own identity, translates credentials, checks policies autonomously.</p>
+    <p data-lang="fr">6 classes BaseTool avec sch&eacute;mas Pydantic. S'int&egrave;gre dans tout Agent CrewAI. L'agent g&egrave;re sa propre identit&eacute;, traduit les credentials, v&eacute;rifie les policies de fa&ccedil;on autonome.</p>
+    <div class="stats"><span>44K stars</span><span>60% Fortune 500</span><span>Python</span></div>
+    <pre>from aib.integrations import get_crewai_tools
+agent = Agent(
+    role="Identity Manager",
+    tools=get_crewai_tools(secret_key="your-key")
+)</pre>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>OpenAI Agents SDK</h3><span class="badge native">NATIVE SDK</span></div>
+    <p data-lang="en" class="show">6 @function_tool decorated tools. Compatible with OpenAI's official agent framework. Create passports, translate, verify, revoke — all from within the agent loop.</p>
+    <p data-lang="fr">6 outils d&eacute;cor&eacute;s @function_tool. Compatible avec le framework officiel OpenAI. Cr&eacute;er des passeports, traduire, v&eacute;rifier, r&eacute;voquer — tout depuis la boucle agent.</p>
+    <div class="stats"><span>19K stars</span><span>Official OpenAI</span><span>Python</span></div>
+    <pre>from aib.integrations import get_openai_agents_tools
+agent = Agent(
+    name="Identity Manager",
+    tools=get_openai_agents_tools(secret_key="key")
+)</pre>
+  </div>
+</div>
+
+<!-- Tier 2: Protocol-level compatible -->
+<div class="tier">
+  <h2 data-lang="en" class="show">// protocol-level compatible</h2>
+  <h2 data-lang="fr">// compatible au niveau protocole</h2>
+</div>
+<div class="fw-grid">
+  <div class="fw">
+    <div class="top-row"><h3>AutoGen</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">Microsoft's multi-agent framework. Uses A2A for agent-to-agent communication. AIB translates AutoGen agent cards and manages identity across conversations.</p>
+    <p data-lang="fr">Framework multi-agent de Microsoft. Utilise A2A pour la communication inter-agents. AIB traduit les cartes d'agent AutoGen et g&egrave;re l'identit&eacute;.</p>
+    <div class="stats"><span>42K stars</span><span>Microsoft</span><span>Python</span></div>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>LlamaIndex</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">Data framework with agent capabilities. AIB provides identity when LlamaIndex agents interact with MCP tools or A2A peers. Use the Python SDK directly.</p>
+    <p data-lang="fr">Framework data avec capacit&eacute;s agent. AIB fournit l'identit&eacute; quand les agents LlamaIndex interagissent avec les outils MCP ou les pairs A2A.</p>
+    <div class="stats"><span>39K stars</span><span>RAG + Agents</span><span>Python/TS</span></div>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>Pydantic AI</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">Type-safe agent framework by Pydantic. Uses MCP for tool calling. AIB adds identity to MCP connections — inject passport, verify credentials, audit actions.</p>
+    <p data-lang="fr">Framework agent type-safe par Pydantic. Utilise MCP pour les appels d'outils. AIB ajoute l'identit&eacute; aux connexions MCP.</p>
+    <div class="stats"><span>8K stars</span><span>Pydantic team</span><span>Python</span></div>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>Google ADK</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">Google's Agent Development Kit. Supports A2A protocol natively. AIB bridges ADK agents to MCP tools and ANP peers with a single passport.</p>
+    <p data-lang="fr">Kit de d&eacute;veloppement d'agents Google. Supporte A2A nativement. AIB connecte les agents ADK aux outils MCP et pairs ANP avec un seul passeport.</p>
+    <div class="stats"><span>Google</span><span>A2A native</span><span>Python</span></div>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>CopilotKit / AG-UI</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">The Agent-to-Human protocol. AIB translates AG-UI descriptors to A2A agent cards and MCP server cards. 4 translation paths available.</p>
+    <p data-lang="fr">Le protocole Agent-Humain. AIB traduit les descripteurs AG-UI en cartes d'agent A2A et cartes serveur MCP. 4 chemins de traduction.</p>
+    <div class="stats"><span>AG-UI protocol</span><span>React</span><span>TS</span></div>
+  </div>
+  <div class="fw">
+    <div class="top-row"><h3>FastAPI / Express</h3><span class="badge compat">COMPATIBLE</span></div>
+    <p data-lang="en" class="show">Build custom agent servers. Use AIB's Python SDK or TypeScript SDK to add passport verification middleware. Works with any HTTP framework.</p>
+    <p data-lang="fr">Construisez des serveurs d'agent custom. Utilisez le SDK Python ou TypeScript d'AIB pour ajouter un middleware de v&eacute;rification de passeport.</p>
+    <div class="stats"><span>Any HTTP</span><span>Middleware</span><span>Python/TS</span></div>
+  </div>
+</div>
+
+<!-- Tier 3: Planned -->
+<div class="tier">
+  <h2 data-lang="en" class="show">// planned</h2>
+  <h2 data-lang="fr">// planifi&eacute;</h2>
+</div>
+<div class="fw-grid">
+  <div class="fw" style="opacity:.5">
+    <div class="top-row"><h3>Semantic Kernel</h3><span class="badge planned">PLANNED</span></div>
+    <p data-lang="en" class="show">Microsoft's enterprise AI framework. C# and Python. Native SDK planned for Q3 2026.</p>
+    <p data-lang="fr">Framework IA enterprise de Microsoft. C# et Python. SDK natif pr&eacute;vu Q3 2026.</p>
+  </div>
+  <div class="fw" style="opacity:.5">
+    <div class="top-row"><h3>Haystack</h3><span class="badge planned">PLANNED</span></div>
+    <p data-lang="en" class="show">deepset's NLP framework with agent pipelines. Protocol-level integration via MCP.</p>
+    <p data-lang="fr">Framework NLP de deepset avec pipelines d'agents. Int&eacute;gration au niveau protocole via MCP.</p>
+  </div>
+</div>
+
+</div>
+
+<section class="cta"><div class="w">
+  <h2 data-lang="en" class="show">Your framework not listed?</h2>
+  <h2 data-lang="fr">Votre framework n'est pas list&eacute; ?</h2>
+  <p data-lang="en" class="show">AIB works at the protocol level. If your framework uses MCP, A2A, ANP, or AG-UI, it works with AIB. Use the Python SDK or REST API directly.</p>
+  <p data-lang="fr">AIB fonctionne au niveau protocole. Si votre framework utilise MCP, A2A, ANP ou AG-UI, il fonctionne avec AIB. Utilisez le SDK Python ou l'API REST directement.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE BETA</a>
+    <a href="https://pypi.org/project/agent-identity-bridge/" style="border:1px solid var(--g4);color:var(--g)!important;padding:8px 20px;border-radius:6px;font-weight:600;font-size:12px;display:inline-block">PyPI v2.13.4</a>
+  </div>
+</div></section>
+
+<footer><div class="w">
+  <p><a href="https://tntech.fr" target="_blank">TNTECH CONSULTING SAS</a> &middot; <a href="index.html">AIB Cloud</a> &middot; <a href="https://aib-tech.fr">Protocol</a> &middot; <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> &middot; Apache 2.0</p>
+</div></footer>
+
+<script>
+function setLang(lang){
+  document.querySelectorAll('[data-lang]').forEach(function(el){
+    el.classList.toggle('show', el.getAttribute('data-lang')===lang);
+  });
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-fr').classList.toggle('active', lang==='fr');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB Cloud Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#06060c;--bg2:#0c0c14;--g:#00ff88;--gd:rgba(0,255,136,.07);--gb:rgba(0,255,136,.12);--b:#0af;--r:#f44;--y:#fbbf24;--o:#f97316;--fg:#e8e8ef;--fg2:#8888a0;--fg3:#4a4a60;--bd:rgba(255,255,255,.05);--m:'Space Mono',monospace;--s:'Outfit',sans-serif}
+body{font-family:var(--s);background:var(--bg);color:var(--fg);min-height:100vh;background-image:linear-gradient(90deg,rgba(0,255,136,.01) 1px,transparent 1px),linear-gradient(180deg,rgba(0,255,136,.01) 1px,transparent 1px);background-size:60px 60px}
+input,select,textarea,button{font-family:var(--m)}button{cursor:pointer}
+.h{display:none!important}
+.inp{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--fg);font-size:13px;outline:none;margin-bottom:10px}
+.lbl{font-size:9px;color:var(--fg3);font-family:var(--m);display:block;margin-bottom:3px}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px;margin-bottom:16px}
+.btn1{padding:8px 16px;background:var(--g);color:var(--bg);border:none;border-radius:6px;font-weight:700;font-size:12px;white-space:nowrap}
+.btn2{padding:8px 16px;background:transparent;border:1px solid var(--gb);color:var(--g);border-radius:6px;font-weight:600;font-size:12px}
+@media(max-width:600px){.dg2{grid-template-columns:1fr!important}.pg{grid-template-columns:1fr!important}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div id="V-auth" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
+<div style="background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:36px;max-width:400px;width:90%;position:relative;overflow:hidden">
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gb),transparent)"></div>
+  <div style="font-family:var(--m);font-size:20px;color:var(--g);font-weight:700;margin-bottom:4px;letter-spacing:2px">AIB<span style="color:var(--fg3);font-weight:400">cloud</span></div>
+  <div id="A-sub" style="font-size:14px;color:var(--fg2);margin-bottom:24px">Sign in to your account</div>
+  <div style="display:flex;margin-bottom:16px;border-radius:6px;overflow:hidden;border:1px solid var(--bd)">
+    <button id="A-tl" onclick="AM('login')" style="flex:1;padding:8px;border:none;background:var(--gd);color:var(--g);font-size:11px;font-weight:600">Login</button>
+    <button id="A-ts" onclick="AM('signup')" style="flex:1;padding:8px;border:none;background:var(--bg);color:var(--fg3);font-size:11px;font-weight:600">Sign up</button>
+  </div>
+  <div id="A-nf" class="h"><span class="lbl">FULL NAME</span><input id="A-name" placeholder="Your Name" class="inp"></div>
+  <span class="lbl">EMAIL</span><input id="A-email" type="email" placeholder="you@company.com" class="inp">
+  <span class="lbl">PASSWORD</span><input id="A-pass" type="password" placeholder="Min 8 characters" class="inp" onkeydown="if(event.key==='Enter')DA()">
+  <div id="A-err" style="color:var(--r);font-size:12px;margin-bottom:8px;font-family:var(--m)" class="h"></div>
+  <div id="A-key" class="h" style="margin-bottom:12px;padding:12px;background:rgba(0,255,136,.04);border:1px solid var(--gb);border-radius:6px">
+    <div style="font-size:11px;color:var(--g);font-family:var(--m);margin-bottom:4px">Your API key (save it now):</div>
+    <code id="A-kv" style="font-size:11px;color:var(--fg);font-family:var(--m);word-break:break-all;display:block;padding:6px;background:var(--bg);border-radius:4px;user-select:all"></code>
+  </div>
+  <button id="A-btn" onclick="DA()" class="btn1" style="width:100%;padding:12px;font-size:14px;letter-spacing:.5px">> sign in</button>
+  <div style="font-size:11px;color:var(--fg3);margin-top:14px;text-align:center">Free beta &middot; No credit card</div>
+</div>
+</div>
+
+<div id="V-key" class="h" style="min-height:100vh;display:flex;align-items:center;justify-content:center">
+<div style="background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:36px;max-width:420px;width:90%">
+  <div style="font-family:var(--m);font-size:16px;color:var(--g);font-weight:700;margin-bottom:4px">Welcome back</div>
+  <div id="K-em" style="font-size:13px;color:var(--fg2);margin-bottom:20px"></div>
+  <div id="K-list" style="margin-bottom:16px"></div>
+  <span class="lbl">API KEY</span>
+  <input id="K-inp" placeholder="aib_sk_live_..." type="password" class="inp" onkeydown="if(event.key==='Enter')CK()">
+  <button onclick="CK()" class="btn1" style="width:100%;padding:10px;font-size:13px">> connect</button>
+  <div style="text-align:center;margin-top:12px"><button onclick="LO()" style="background:none;border:none;color:var(--fg3);font-size:11px;cursor:pointer">logout</button></div>
+</div>
+</div>
+
+<div id="V-dash" class="h">
+  <div style="padding:12px 24px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;background:rgba(6,6,12,.92);backdrop-filter:blur(16px);position:sticky;top:0;z-index:10;flex-wrap:wrap;gap:8px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="font-family:var(--m);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px">AIB<span style="color:var(--fg3);font-weight:400">cloud</span></span>
+      <span id="D-plan" style="font-size:9px;padding:2px 7px;border-radius:3px;background:var(--gd);color:var(--g);border:1px solid var(--gb);font-family:var(--m);font-weight:600"></span>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span id="D-em" style="font-size:12px;color:var(--fg3);font-family:var(--m)"></span>
+      <button onclick="LO()" style="padding:3px 8px;background:transparent;border:1px solid var(--bd);border-radius:4px;color:var(--fg3);font-size:10px">logout</button>
+    </div>
+  </div>
+  <div style="max-width:1060px;margin:0 auto;padding:24px 20px">
+    <div id="D-tabs" style="display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--bd);overflow-x:auto"></div>
+    <div id="D-content"></div>
+  </div>
+</div>
+
+<script>
+const B="https://vempwtzknixfnvysmiwo.supabase.co/functions/v1";
+let S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};
+
+async function F(e,o={}){
+  const h={"Content-Type":"application/json"};
+  if(S.ak)h["x-api-key"]=S.ak;
+  else if(S.ss?.access_token)h["Authorization"]="Bearer "+S.ss.access_token;
+  if(o.token)h["Authorization"]="Bearer "+o.token;
+  const r=await fetch(B+"/"+e,{method:o.method||"GET",headers:h,body:o.body?JSON.stringify(o.body):undefined});
+  return r.json();
+}
+
+function AM(m){
+  S.m=m;
+  document.getElementById("A-tl").style.background=m==="login"?"var(--gd)":"var(--bg)";
+  document.getElementById("A-tl").style.color=m==="login"?"var(--g)":"var(--fg3)";
+  document.getElementById("A-ts").style.background=m==="signup"?"var(--gd)":"var(--bg)";
+  document.getElementById("A-ts").style.color=m==="signup"?"var(--g)":"var(--fg3)";
+  document.getElementById("A-nf").classList.toggle("h",m!=="signup");
+  document.getElementById("A-sub").textContent=m==="login"?"Sign in to your account":"Create your account";
+  document.getElementById("A-btn").textContent=m==="login"?"> sign in":"> create account";
+  document.getElementById("A-err").classList.add("h");
+  document.getElementById("A-key").classList.add("h");
+}
+
+async function DA(){
+  const e=document.getElementById("A-email").value,p=document.getElementById("A-pass").value,n=document.getElementById("A-name").value;
+  if(!e||!p)return;
+  document.getElementById("A-btn").textContent="...";
+  document.getElementById("A-err").classList.add("h");
+  document.getElementById("A-key").classList.add("h");
+  try{
+    const d=await F("auth",{method:"POST",body:{action:S.m,email:e,password:p,full_name:n}});
+    if(d.error){document.getElementById("A-err").textContent=d.error;document.getElementById("A-err").classList.remove("h");document.getElementById("A-btn").textContent=S.m==="login"?"> sign in":"> create account";return;}
+    if(d.api_key){document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");S.ak=d.api_key;}
+    S.ss=d;
+    // Always go to dashboard — access_token from login is enough for auth
+    SD();
+  }catch(err){document.getElementById("A-err").textContent=err.message;document.getElementById("A-err").classList.remove("h");document.getElementById("A-btn").textContent=S.m==="login"?"> sign in":"> create account";}
+}
+
+function SK(){
+  document.getElementById("V-auth").classList.add("h");document.getElementById("V-key").classList.remove("h");document.getElementById("V-dash").classList.add("h");
+  document.getElementById("K-em").textContent=S.ss?.user?.email||"";
+  const l=document.getElementById("K-list");l.innerHTML="";
+  if(S.ss?.api_keys?.length){l.innerHTML='<div style="font-size:10px;color:var(--fg3);font-family:var(--m);margin-bottom:6px">YOUR KEYS:</div>'+S.ss.api_keys.map(k=>'<div style="font-size:11px;color:var(--fg2);font-family:var(--m);padding:3px 0">'+k.key_preview+' ('+k.name+')</div>').join("");}
+}
+
+function CK(){S.ak=document.getElementById("K-inp").value;if(S.ak)SD();}
+
+async function SD(){
+  document.getElementById("V-auth").classList.add("h");document.getElementById("V-key").classList.add("h");document.getElementById("V-dash").classList.remove("h");
+  document.getElementById("D-em").textContent=S.ss?.user?.email||"";
+  await LD();RT();RC();
+}
+
+async function LD(){
+  const[u,p]=await Promise.all([F("usage-check"),F("passport-list")]);
+  if(!u.error)S.u=u;if(!p.error)S.pp=p.passports||[];
+  document.getElementById("D-plan").textContent=S.u?.org?.plan||"beta";
+}
+
+function RT(){
+  const ts=[{i:"overview",l:"Overview"},{i:"analytics",l:"Analytics"},{i:"passports",l:"Passports ("+S.pp.length+")"},{i:"policies",l:"Policies"},{i:"translate",l:"Translate"},{i:"keys",l:"API Keys"}];
+  document.getElementById("D-tabs").innerHTML=ts.map(t=>'<button onclick="ST(\''+t.i+'\')" style="padding:10px 16px;background:transparent;border:none;border-bottom:2px solid '+(S.t===t.i?"var(--g)":"transparent")+';color:'+(S.t===t.i?"var(--g)":"var(--fg3)")+';font-size:13px;font-weight:600;font-family:var(--s);white-space:nowrap">'+t.l+'</button>').join("")+'<button onclick="LD().then(()=>{RT();RC()})" style="margin-left:auto;padding:5px 12px;background:transparent;border:1px solid var(--bd);border-radius:4px;color:var(--fg3);font-size:10px">refresh</button>';
+}
+
+function ST(t){S.t=t;RT();RC();}
+
+function RC(){
+  const c=document.getElementById("D-content");
+  if(S.t==="overview")RO(c);
+  else if(S.t==="analytics")RA(c);
+  else if(S.t==="passports")RP(c);
+  else if(S.t==="policies")RPol(c);
+  else if(S.t==="translate")RR(c);
+  else if(S.t==="keys")RK(c);
+}
+
+function SC(i,l,v,lim,col){
+  const p=lim?Math.min(v/lim*100,100):null;
+  return '<div style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px 22px"><div style="font-size:11px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;letter-spacing:.05em">'+i+' '+l+'</div><div style="font-size:28px;font-weight:700;color:'+col+';font-family:var(--m);margin:6px 0">'+v.toLocaleString()+'</div>'+(p!=null?'<div style="height:4px;background:rgba(255,255,255,.04);border-radius:2px"><div style="height:4px;background:'+col+';border-radius:2px;width:'+p+'%"></div></div><div style="font-size:10px;color:var(--fg3);font-family:var(--m);margin-top:4px">'+v.toLocaleString()+' / '+lim.toLocaleString()+'</div>':"")+'</div>';
+}
+
+function IR(k,v){return '<div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.02)"><span style="color:var(--fg3)">'+k+'</span><span style="font-family:var(--m);color:var(--fg)">'+(v||"-")+'</span></div>';}
+
+function RO(c){
+  const u=S.u?.usage||{},o=S.u?.org||{},t=S.u?.totals||{};
+  c.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:24px">'+SC(">","Transactions",u.transactions?.used||0,u.transactions?.limit,"var(--g)")+SC("+","Passports",t.active_passports||0,u.passports_created?.limit,"var(--b)")+SC("~","Translations",u.translations?.used||0,null,"var(--y)")+SC("#","Receipts",t.total_receipts||0,null,"var(--o)")+'</div><div class="dg2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:14px">Organization</div>'+IR("Name",o.name)+IR("Slug",o.slug)+IR("Plan",o.plan)+IR("Month",S.u?.month)+IR("Retention",(t.audit_retention_days||90)+"d")+'</div><div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:14px">Endpoints</div>'+["passport-create","passport-list","passport-revoke","translate","usage-check","auth"].map(e=>'<div style="display:flex;justify-content:space-between;font-size:12px;font-family:var(--m);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.02)"><span style="color:var(--g)">'+e+'</span><span style="color:var(--fg3)">ACTIVE</span></div>').join("")+'</div></div>';
+}
+
+function PR(p){
+  const a=p.status==="active";
+  return '<div class="pg" style="display:grid;grid-template-columns:1fr 120px 70px 70px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:13px">'+p.display_name+'</div><div style="color:var(--fg3);font-size:10px;font-family:var(--m)">'+p.passport_id+'</div></div><div style="display:flex;gap:3px;flex-wrap:wrap">'+(p.protocols||[]).map(pr=>'<span style="font-size:9px;padding:2px 5px;border-radius:3px;font-family:var(--m);font-weight:600;background:var(--gd);color:var(--g);border:1px solid var(--gb)">'+pr+'</span>').join("")+'</div><div style="color:var(--fg2);font-size:11px;font-family:var(--m)">'+p.tier+'</div><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-weight:600;font-family:var(--m);background:'+(a?"var(--gd)":"rgba(255,68,68,.08)")+';color:'+(a?"var(--g)":"var(--r)")+';border:1px solid '+(a?"var(--gb)":"rgba(255,68,68,.15)")+';text-align:center">'+p.status+'</span><div>'+(a?'<button onclick="RV(&quot;'+p.passport_id.replace(/"/g,'&amp;quot;')+'&quot;)" style="background:transparent;border:1px solid rgba(255,68,68,.2);color:var(--r);padding:3px 6px;border-radius:4px;font-size:9px">revoke</button>':"")+'</div></div>';
+}
+
+function RP(c){
+  c.innerHTML='<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Create passport</div><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end"><div style="flex:1;min-width:120px"><span class="lbl">AGENT SLUG</span><input id="cp-s" placeholder="my-bot" class="inp" style="margin-bottom:0"></div><div style="flex:1;min-width:120px"><span class="lbl">PROTOCOLS</span><input id="cp-p" value="mcp,a2a" class="inp" style="margin-bottom:0"></div><div style="flex:1;min-width:120px"><span class="lbl">CAPABILITIES</span><input id="cp-c" placeholder="booking,support" class="inp" style="margin-bottom:0"></div><button onclick="CP()" class="btn1">> create</button></div><div id="cp-m" style="font-size:11px;margin-top:6px;font-family:var(--m)"></div></div><div style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden"><div class="pg" style="display:grid;grid-template-columns:1fr 120px 70px 70px 60px;gap:8px;padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--bd)"><span>Passport</span><span>Protocols</span><span>Tier</span><span>Status</span><span></span></div>'+(S.pp.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No passports yet</div>':S.pp.map(PR).join(""))+'</div>';
+}
+
+async function CP(){
+  const s=document.getElementById("cp-s").value;if(!s)return;
+  const p=document.getElementById("cp-p").value.split(",").map(x=>x.trim());
+  const ca=document.getElementById("cp-c").value;
+  const d=await F("passport-create",{method:"POST",body:{agent_slug:s,protocols:p,capabilities:ca?ca.split(",").map(x=>x.trim()):undefined}});
+  const m=document.getElementById("cp-m");
+  m.style.color=d.error?"var(--r)":"var(--g)";m.textContent=d.error||"+ "+d.passport_id;
+  if(!d.error){document.getElementById("cp-s").value="";setTimeout(async()=>{await LD();RT();RP(document.getElementById("D-content"));},1200);}
+}
+
+async function RV(pid){if(!confirm("Revoke "+pid+"?"))return;await F("passport-revoke",{method:"POST",body:{passport_id:pid}});await LD();RT();RP(document.getElementById("D-content"));}
+
+function RR(c){
+  c.innerHTML='<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Credential translator</div><div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-bottom:10px;align-items:center"><select id="tr-f" onchange="trFromChange()" style="padding:8px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--fg);font-size:12px"><option value="a2a_agent_card" selected>A2A Agent Card</option><option value="mcp_server_card">MCP Server Card</option><option value="ag_ui_descriptor">AG-UI Descriptor</option></select><span style="color:var(--g);font-size:14px">-></span><select id="tr-t" style="padding:8px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--fg);font-size:12px"><option value="mcp_server_card" selected>MCP Server Card</option><option value="a2a_agent_card">A2A Agent Card</option><option value="ag_ui_descriptor">AG-UI Descriptor</option></select></div><div id="tr-hint" style="font-size:10px;color:var(--fg3);font-family:var(--m);margin-bottom:8px">a2a_agent_card -> mcp_server_card</div><textarea id="tr-s" rows="5" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--g);font-size:11px;resize:vertical;outline:none">{"name":"My Agent","url":"https://example.com","skills":[{"id":"booking","name":"Booking"}]}</textarea><button onclick="DT()" style="margin-top:8px;padding:8px 18px;background:var(--b);color:var(--bg);border:none;border-radius:6px;font-weight:700;font-size:12px">> translate</button><pre id="tr-r" style="margin-top:10px;padding:12px;background:var(--bg);border-radius:6px;border:1px solid var(--bd);font-size:10px;font-family:var(--m);overflow:auto;max-height:250px;display:none"></pre></div>';
+}
+
+var TR_SAMPLES={a2a_agent_card:'{"name":"My Agent","url":"https://example.com","skills":[{"id":"booking","name":"Booking"}]}',mcp_server_card:'{"name":"My Server","server_url":"https://example.com","version":"1.0.0","tools":[{"name":"search","description":"Search tool","inputSchema":{"type":"object"}}]}',ag_ui_descriptor:'{"name":"My UI","url":"https://example.com","capabilities":["booking","support"]}'};
+var TR_TARGETS={a2a_agent_card:'mcp_server_card',mcp_server_card:'a2a_agent_card',ag_ui_descriptor:'a2a_agent_card'};
+
+function trFromChange(){
+  var f=document.getElementById('tr-f').value;
+  var t=document.getElementById('tr-t');
+  if(t.value===f)t.value=TR_TARGETS[f]||'mcp_server_card';
+  document.getElementById('tr-s').value=TR_SAMPLES[f]||'{}';
+  document.getElementById('tr-hint').textContent=f+' -> '+t.value;
+}
+
+async function DT(){
+  var f=document.getElementById('tr-f').value,t=document.getElementById('tr-t').value;
+  if(f===t){var r2=document.getElementById('tr-r');r2.style.display='block';r2.style.color='var(--r)';r2.textContent='Error: source and target formats must be different';return;}
+  document.getElementById('tr-hint').textContent=f+' -> '+t;
+  try{const d=await F("translate",{method:"POST",body:{source:JSON.parse(document.getElementById("tr-s").value),from_format:f,to_format:t}});const r=document.getElementById("tr-r");r.style.display="block";r.style.color=d.error?"var(--r)":"var(--g)";r.textContent=d.error||JSON.stringify(d.result||d,null,2);}catch(e){const r=document.getElementById("tr-r");r.style.display="block";r.style.color="var(--r)";r.textContent=e.message;}
+}
+
+function RK(c){
+  const ks=S.ss?.api_keys||[];
+  c.innerHTML='<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:12px">Generate new API key</div><div style="display:flex;gap:10px;align-items:end"><div style="flex:1"><span class="lbl">KEY NAME</span><input id="gk-n" placeholder="My integration" class="inp" style="margin-bottom:0"></div><button onclick="GK()" class="btn1">> generate</button></div><div id="gk-r" class="h" style="margin-top:12px;padding:12px;background:rgba(0,255,136,.04);border:1px solid var(--gb);border-radius:6px"><div style="font-size:11px;color:var(--g);font-family:var(--m);margin-bottom:4px">Save this key now:</div><code id="gk-v" style="font-size:11px;color:var(--fg);font-family:var(--m);word-break:break-all;display:block;padding:6px;background:var(--bg);border-radius:4px;user-select:all"></code></div></div><div id="gk-list" style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden"><div style="padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--bd)">Active API keys</div>'+(ks.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No keys found</div>':ks.map(k=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--bd);font-size:12px"><div><div style="color:var(--fg);font-weight:600">'+k.name+'</div><div style="color:var(--fg3);font-family:var(--m);font-size:10px">'+k.key_preview+'</div></div><div style="color:var(--fg3);font-size:10px">'+(k.last_used_at?new Date(k.last_used_at).toLocaleDateString():"Never used")+'</div></div>').join(""))+'</div>';
+}
+
+async function GK(){
+  const n=document.getElementById("gk-n").value||"API Key";
+  const body={action:"generate_key",key_name:n};
+  if(S.ak)body.api_key=S.ak;
+  if(S.ss?.access_token)body.access_token=S.ss.access_token;
+  try{
+    const d=await F("auth",{method:"POST",body:body});
+    if(d.error){document.getElementById("gk-r").classList.remove("h");document.getElementById("gk-v").textContent="Error: "+d.error;document.getElementById("gk-v").style.color="var(--r)";return;}
+    if(d.api_key){
+      document.getElementById("gk-v").textContent=d.api_key;
+      document.getElementById("gk-v").style.color="var(--fg)";
+      document.getElementById("gk-r").classList.remove("h");
+      // Add to session keys list so it appears immediately
+      if(!S.ss.api_keys)S.ss.api_keys=[];
+      S.ss.api_keys.push({id:'new-'+Date.now(),name:n,key_prefix:d.api_key.substring(0,18),key_preview:d.api_key.substring(0,18)+'...',status:'active',last_used_at:null,created_at:new Date().toISOString()});
+      // Re-render the keys list below the generate form
+      var listEl=document.getElementById('gk-list');
+      if(listEl)listEl.innerHTML=S.ss.api_keys.map(k=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--bd);font-size:12px"><div><div style="color:var(--fg);font-weight:600">'+k.name+'</div><div style="color:var(--fg3);font-family:var(--m);font-size:10px">'+k.key_preview+'</div></div><div style="color:var(--fg3);font-size:10px">'+(k.last_used_at?new Date(k.last_used_at).toLocaleDateString():"Never used")+'</div></div>').join("");
+    }
+  }catch(e){document.getElementById("gk-r").classList.remove("h");document.getElementById("gk-v").textContent="Error: "+e.message;document.getElementById("gk-v").style.color="var(--r)";}
+}
+
+// ── Policies Tab ──
+async function RPol(c) {
+  c.innerHTML = '<div class="card" style="text-align:center;color:var(--fg3)">Loading policies...</div>';
+  const data = await F("policy-manage");
+  const rules = data.rules || [];
+
+  const typeColors = {deliverable_gate:'var(--y)',separation_of_duties:'var(--r)',attestation_required:'var(--g)',capability_required:'var(--b)',domain_block:'var(--r)',protocol_restrict:'var(--o)',tier_restrict:'var(--fg2)',time_restrict:'var(--fg2)',rate_limit:'var(--o)'};
+
+  c.innerHTML = `
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px">Create policy rule</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:10px">
+      <div style="flex:1;min-width:160px">
+        <span class="lbl">RULE TYPE</span>
+        <select id="pol-type" onchange="polTypeChange()" style="width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--fg);font-size:12px">
+          <option value="deliverable_gate">deliverable_gate</option>
+          <option value="separation_of_duties">separation_of_duties</option>
+          <option value="attestation_required">attestation_required</option>
+          <option value="capability_required">capability_required</option>
+          <option value="domain_block">domain_block</option>
+          <option value="protocol_restrict">protocol_restrict</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:160px">
+        <span class="lbl">SEVERITY</span>
+        <select id="pol-sev" style="width:100%;padding:8px 10px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--fg);font-size:12px">
+          <option value="block">block</option>
+          <option value="warn">warn</option>
+          <option value="log">log</option>
+        </select>
+      </div>
+    </div>
+    <span class="lbl">DESCRIPTION</span>
+    <input id="pol-desc" placeholder="Require tests_passed capability" class="inp" style="margin-bottom:8px">
+    <span class="lbl">CONFIG (JSON)</span>
+    <textarea id="pol-cfg" rows="3" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--bd);border-radius:6px;color:var(--g);font-size:11px;font-family:var(--m);resize:vertical;outline:none">{"required_capabilities": ["tests_passed"], "action": "create"}</textarea>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button onclick="createPolicy()" class="btn1">> create rule</button>
+      <button onclick="testPolicy()" class="btn2" style="border-color:var(--y);color:var(--y)">> test policy</button>
+    </div>
+    <div id="pol-msg" style="font-size:11px;margin-top:8px;font-family:var(--m)"></div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:1fr 130px 60px 50px 60px;gap:8px;padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--bd)">
+      <span>Rule</span><span>Type</span><span>Severity</span><span>Hits</span><span></span>
+    </div>
+    ${rules.length === 0 ? '<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No policy rules yet</div>' :
+    rules.map(r => {
+      const col = typeColors[r.rule_type] || 'var(--fg2)';
+      return '<div style="display:grid;grid-template-columns:1fr 130px 60px 50px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:13px">' + (r.description || r.rule_id) + '</div><div style="color:var(--fg3);font-size:10px;font-family:var(--m)">' + r.rule_id + '</div></div><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-family:var(--m);font-weight:600;background:rgba(255,255,255,.03);color:' + col + ';text-align:center">' + r.rule_type + '</span><span style="font-size:10px;color:' + (r.severity === 'block' ? 'var(--r)' : 'var(--y)') + ';font-family:var(--m)">' + r.severity + '</span><span style="font-size:12px;color:var(--fg);font-family:var(--m);text-align:center">' + (r.hits || 0) + '</span><button onclick="delPolicy(\'' + r.rule_id + '\')" style="background:transparent;border:1px solid rgba(255,68,68,.2);color:var(--r);padding:3px 6px;border-radius:4px;font-size:9px">delete</button></div>';
+    }).join('')}
+  </div>
+  <div id="pol-test-result" style="margin-top:16px"></div>`;
+}
+
+const POL_TEMPLATES = {
+  deliverable_gate: {cfg:'{"required_capabilities": ["tests_passed"], "action": "create"}', desc:'Require tests_passed capability'},
+  separation_of_duties: {cfg:'{"blocked_self_actions": ["revoke"], "strict": true}', desc:'Block self-revoke'},
+  attestation_required: {cfg:'{"actions": ["create", "revoke"]}', desc:'Sign all create/revoke receipts'},
+  capability_required: {cfg:'{"required": ["deploy"]}', desc:'Require deploy capability'},
+  domain_block: {cfg:'{"blocked_domains": ["untrusted.com"]}', desc:'Block untrusted domain'},
+  protocol_restrict: {cfg:'{"blocked_protocols": ["anp"]}', desc:'Block ANP protocol'}
+};
+
+function polTypeChange(){
+  const t = document.getElementById('pol-type').value;
+  const tmpl = POL_TEMPLATES[t] || {cfg:'{}', desc:''};
+  document.getElementById('pol-cfg').value = tmpl.cfg;
+  document.getElementById('pol-desc').value = tmpl.desc;
+}
+
+async function createPolicy() {
+  const ruleType = document.getElementById('pol-type').value;
+  const severity = document.getElementById('pol-sev').value;
+  const desc = document.getElementById('pol-desc').value;
+  const cfgStr = document.getElementById('pol-cfg').value;
+  const msg = document.getElementById('pol-msg');
+  try {
+    const config = JSON.parse(cfgStr);
+    const d = await F('policy-manage', { method: 'POST', body: { rule_type: ruleType, config, description: desc, severity } });
+    msg.style.color = d.error ? 'var(--r)' : 'var(--g)';
+    msg.textContent = d.error || '+ ' + d.rule_id;
+    if (!d.error) setTimeout(() => RPol(document.getElementById('D-content')), 800);
+  } catch (e) { msg.style.color = 'var(--r)'; msg.textContent = 'Invalid JSON: ' + e.message; }
+}
+
+async function delPolicy(ruleId) {
+  if (!confirm('Delete rule ' + ruleId + '?')) return;
+  await F('policy-manage?rule_id=' + encodeURIComponent(ruleId), { method: 'DELETE' });
+  RPol(document.getElementById('D-content'));
+}
+
+async function testPolicy() {
+  const res = document.getElementById('pol-test-result');
+  res.innerHTML = '<div class="card" style="color:var(--fg3)">Testing policies...</div>';
+
+  // Test 1: Create passport WITHOUT required capabilities (should be blocked if deliverable_gate exists)
+  const t1 = await F('passport-create', { method: 'POST', body: { agent_slug: 'policy-test-' + Date.now(), protocols: ['mcp'], capabilities: ['basic'] } });
+
+  // Test 2: Create passport WITH required capabilities
+  const t2 = await F('passport-create', { method: 'POST', body: { agent_slug: 'policy-test-ok-' + Date.now(), protocols: ['mcp', 'a2a'], capabilities: ['tests_passed', 'deploy', 'basic'] } });
+
+  const pass = (label, ok, detail) => '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd)"><span style="font-size:14px">' + (ok ? '&#x2705;' : '&#x274C;') + '</span><div><div style="color:var(--fg);font-weight:600;font-size:13px">' + label + '</div><div style="color:var(--fg3);font-size:11px;font-family:var(--m)">' + detail + '</div></div></div>';
+
+  // Check results
+  const hasGate = t1.error && t1.code === 'AIB-601';
+  const noGate = !t1.error;
+  const t2ok = !t2.error && t2.passport_id;
+  const t2signed = t2.signature;
+
+  let html = '<div class="card"><div style="font-size:14px;font-weight:700;margin-bottom:14px">Policy test results</div>';
+
+  if (hasGate) {
+    html += pass('deliverable_gate', true, 'Blocked: ' + (t1.violations?.[0]?.message || t1.error));
+    html += pass('With capabilities', t2ok, t2ok ? 'Passed: ' + t2.passport_id : 'Error: ' + (t2.error || 'unknown'));
+  } else {
+    html += pass('deliverable_gate', false, 'No gate active — passport created freely. Create a deliverable_gate rule first.');
+  }
+
+  html += pass('Ed25519 signature', !!t2signed, t2signed ? 'Signed: ' + t2.signature : 'No signature returned');
+  html += pass('policies_checked flag', t2.policies_checked === true, t2.policies_checked ? 'All policies evaluated' : 'Flag missing');
+
+  // Cleanup test passports
+  if (t2.passport_id) await F('passport-revoke', { method: 'POST', body: { passport_id: t2.passport_id } });
+
+  html += '</div>';
+  res.innerHTML = html;
+
+  // Reload data
+  await LD(); RT();
+}
+
+let analyticsCharts = [];
+
+async function RA(c) {
+  c.innerHTML = '<div class="card" style="text-align:center;color:var(--fg3)">Loading analytics...</div>';
+  
+  const data = await F("usage-history");
+  if (data.error) { c.innerHTML = '<div class="card" style="color:var(--r)">Error: ' + data.error + '</div>'; return; }
+
+  // Destroy old charts
+  analyticsCharts.forEach(ch => ch.destroy());
+  analyticsCharts = [];
+
+  const daily = data.daily || [];
+  const labels = daily.map(d => d.date.slice(5));
+  const recent = data.recent_activity || [];
+  const breakdown = data.action_breakdown || {};
+
+  c.innerHTML = `
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:20px">
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--g);font-family:var(--m)">${data.total_events}</div>
+      <div style="font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;margin-top:2px">${data.period_days}d total</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--b);font-family:var(--m)">${breakdown.create || 0}</div>
+      <div style="font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;margin-top:2px">Creates</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--y);font-family:var(--m)">${breakdown.translate || 0}</div>
+      <div style="font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;margin-top:2px">Translations</div>
+    </div>
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:14px;text-align:center">
+      <div style="font-size:24px;font-weight:700;color:var(--r);font-family:var(--m)">${breakdown.revoke || 0}</div>
+      <div style="font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;margin-top:2px">Revocations</div>
+    </div>
+  </div>
+  <div class="dg2" style="display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:20px">
+    <div class="card" style="margin-bottom:0">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Daily activity</div>
+      <div style="position:relative;height:220px"><canvas id="ch-daily"></canvas></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">By action</div>
+      <div style="position:relative;height:220px"><canvas id="ch-pie"></canvas></div>
+    </div>
+  </div>
+  <div class="dg2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+    <div class="card" style="margin-bottom:0">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Avg latency (ms)</div>
+      <div style="position:relative;height:180px"><canvas id="ch-latency"></canvas></div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div style="font-size:14px;font-weight:700;margin-bottom:14px">Translations vs creates</div>
+      <div style="position:relative;height:180px"><canvas id="ch-compare"></canvas></div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:14px">Recent activity</div>
+    <div style="overflow-x:auto">
+    ${recent.length === 0 ? '<div style="color:var(--fg3);font-size:13px;text-align:center;padding:16px">No activity yet</div>' :
+    '<div style="display:grid;grid-template-columns:80px 1fr 70px 60px 140px;gap:8px;padding:8px 0;font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;border-bottom:1px solid var(--bd)"><span>Action</span><span>Passport</span><span>Status</span><span>Latency</span><span>Time</span></div>' +
+    recent.map(r => {
+      const sc = r.status === 'success' ? 'var(--g)' : 'var(--r)';
+      return '<div style="display:grid;grid-template-columns:80px 1fr 70px 60px 140px;gap:8px;padding:6px 0;font-size:11px;border-bottom:1px solid var(--bd);align-items:center"><span style="color:var(--b);font-family:var(--m)">' + r.action + '</span><span style="color:var(--fg2);font-family:var(--m);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.passport_id + '</span><span style="color:' + sc + ';font-family:var(--m);font-size:10px">' + r.status + '</span><span style="color:var(--fg3);font-size:10px">' + (r.latency_ms ? r.latency_ms.toFixed(1) + 'ms' : '--') + '</span><span style="color:var(--fg3);font-size:10px">' + new Date(r.created_at).toLocaleString() + '</span></div>';
+    }).join('')}
+    </div>
+  </div>`;
+
+  // Chart defaults
+  const chartOpts = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,.03)' }, ticks: { color: '#4a4a60', font: { size: 9, family: "'Space Mono'" } } },
+      y: { grid: { color: 'rgba(255,255,255,.03)' }, ticks: { color: '#4a4a60', font: { size: 9, family: "'Space Mono'" } }, beginAtZero: true }
+    }
+  };
+
+  // Daily activity (stacked bar)
+  analyticsCharts.push(new Chart(document.getElementById('ch-daily'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Create', data: daily.map(d => d.create), backgroundColor: '#0af', borderRadius: 3 },
+        { label: 'Translate', data: daily.map(d => d.translate), backgroundColor: '#fbbf24', borderRadius: 3 },
+        { label: 'Revoke', data: daily.map(d => d.revoke), backgroundColor: '#f44', borderRadius: 3 },
+      ]
+    },
+    options: { ...chartOpts, plugins: { legend: { display: true, labels: { color: '#8888a0', font: { size: 10, family: "'Space Mono'" }, boxWidth: 12 } } }, scales: { ...chartOpts.scales, x: { ...chartOpts.scales.x, stacked: true }, y: { ...chartOpts.scales.y, stacked: true } } }
+  }));
+
+  // Pie (action breakdown)
+  const pieLabels = Object.keys(breakdown);
+  const pieData = Object.values(breakdown);
+  const pieColors = pieLabels.map(l => l === 'create' ? '#0af' : l === 'translate' ? '#fbbf24' : l === 'revoke' ? '#f44' : '#8888a0');
+  analyticsCharts.push(new Chart(document.getElementById('ch-pie'), {
+    type: 'doughnut',
+    data: { labels: pieLabels, datasets: [{ data: pieData, backgroundColor: pieColors, borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: true, position: 'bottom', labels: { color: '#8888a0', font: { size: 10, family: "'Space Mono'" }, boxWidth: 10, padding: 8 } } }, cutout: '60%' }
+  }));
+
+  // Latency line
+  analyticsCharts.push(new Chart(document.getElementById('ch-latency'), {
+    type: 'line',
+    data: { labels, datasets: [{ data: daily.map(d => d.avg_latency_ms), borderColor: '#00ff88', backgroundColor: 'rgba(0,255,136,.06)', fill: true, tension: .3, pointRadius: 2, borderWidth: 1.5 }] },
+    options: chartOpts
+  }));
+
+  // Compare bar
+  analyticsCharts.push(new Chart(document.getElementById('ch-compare'), {
+    type: 'bar',
+    data: { labels, datasets: [
+      { label: 'Creates', data: daily.map(d => d.create), backgroundColor: 'rgba(0,170,255,.6)', borderRadius: 3 },
+      { label: 'Translations', data: daily.map(d => d.translate), backgroundColor: 'rgba(251,191,36,.6)', borderRadius: 3 }
+    ] },
+    options: { ...chartOpts, plugins: { legend: { display: true, labels: { color: '#8888a0', font: { size: 10, family: "'Space Mono'" }, boxWidth: 10 } } } }
+  }));
+}
+
+function LO(){
+  S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};
+  document.getElementById("V-auth").classList.remove("h");
+  document.getElementById("V-key").classList.add("h");
+  document.getElementById("V-dash").classList.add("h");
+  document.getElementById("A-email").value="";document.getElementById("A-pass").value="";
+  document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB Cloud — Managed Agent Identity Gateway | Paris, France</title>
+<meta name="description" content="AIB Cloud: managed gateway for AI agent identity across MCP, A2A, ANP, AG-UI protocols. Create passports, translate credentials, audit actions via API. Based in Paris. Free beta.">
+<meta name="keywords" content="AI agent identity, MCP, A2A, ANP, AG-UI, agent passport, credential translation, identity bridge, protocol gateway, AI security, agent authentication, Paris, France, SaaS, API, LangChain, CrewAI, OpenAI Agents">
+<meta name="author" content="TNTECH CONSULTING SAS">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://aib-cloud.netlify.app/">
+
+<!-- Geo SEO -->
+<meta name="geo.region" content="FR-75">
+<meta name="geo.placename" content="Paris">
+<meta name="geo.position" content="48.8566;2.3522">
+<meta name="ICBM" content="48.8566, 2.3522">
+<meta name="language" content="English">
+<meta name="coverage" content="Worldwide">
+<meta name="distribution" content="global">
+<meta name="rating" content="general">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="AIB Cloud — Managed Agent Identity Gateway">
+<meta property="og:description" content="One API call. Portable identity for AI agents across MCP, A2A, ANP, AG-UI. Create passports, translate credentials, audit everything. Free during beta.">
+<meta property="og:url" content="https://aib-cloud.netlify.app/">
+<meta property="og:site_name" content="AIB Cloud">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="fr_FR">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AIB Cloud — One API call. Every protocol.">
+<meta name="twitter:description" content="Managed gateway for AI agent identity. MCP, A2A, ANP, AG-UI. 1,056 tests. Free beta.">
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "AIB Cloud",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud",
+  "description": "Managed gateway for AI agent identity across MCP, A2A, ANP, AG-UI protocols. Create passports, translate credentials, audit actions via API.",
+  "url": "https://aib-cloud.netlify.app/",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR",
+    "description": "Free during beta — all Pro features included"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "TNTECH CONSULTING SAS",
+    "url": "https://tntech.fr",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Paris",
+      "addressRegion": "Ile-de-France",
+      "addressCountry": "FR",
+      "postalCode": "75017"
+    },
+    "sameAs": [
+      "https://github.com/tntech-consulting",
+      "https://pypi.org/project/agent-identity-bridge/"
+    ]
+  },
+  "featureList": [
+    "Agent Passport creation and verification",
+    "Credential translation across MCP, A2A, ANP, AG-UI",
+    "Policy engine with 8 rule types",
+    "90-day audit trail with SHA-256 hash chain",
+    "100,000 transactions per month",
+    "LangChain, CrewAI, OpenAI Agents SDK integration",
+    "Python and TypeScript SDKs",
+    "Cascade revocation"
+  ],
+  "softwareVersion": "2.13.4",
+  "license": "https://www.apache.org/licenses/LICENSE-2.0"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "TNTECH CONSULTING SAS",
+  "legalName": "TNTECH CONSULTING SAS",
+  "url": "https://tntech.fr",
+  "logo": "https://aib-tech.fr/logo.png",
+  "foundingDate": "2024",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Paris",
+    "addressRegion": "Ile-de-France",
+    "postalCode": "75017",
+    "addressCountry": "FR"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "thomas.nirennold@live.fr",
+    "contactType": "technical support"
+  },
+  "sameAs": [
+    "https://github.com/tntech-consulting/agent-identity-bridge"
+  ]
+}
+</script>
+
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#06060c;--bg2:#0c0c14;--bg3:#12121e;--g:#00ff88;--g2:#00cc6a;--g3:rgba(0,255,136,.07);--g4:rgba(0,255,136,.12);--b:#00aaff;--b2:rgba(0,170,255,.08);--fg:#e8e8ef;--fg2:#8888a0;--fg3:#4a4a60;--bd:rgba(255,255,255,.05);--mono:'Space Mono',monospace;--sans:'Outfit',sans-serif}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden}
+[data-lang]{display:none!important}[data-lang].show{display:revert!important}
+li[data-lang].show{display:flex!important}
+a{color:var(--g);text-decoration:none}
+.w{max-width:1040px;margin:0 auto;padding:0 24px}
+@media(max-width:700px){.hero h1{font-size:32px!important}.ep-grid,.f-grid{grid-template-columns:1fr!important}.stat-row{flex-wrap:wrap!important}.proto-viz{grid-template-columns:repeat(2,1fr)!important;gap:20px!important;max-width:320px!important}.proto-viz::before{display:none}.nav-r{gap:10px}.nav-r .btn-o{display:none}}
+body::before{content:'';position:fixed;inset:0;background:linear-gradient(90deg,rgba(0,255,136,.015) 1px,transparent 1px),linear-gradient(180deg,rgba(0,255,136,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 50% 20%,rgba(0,255,136,.04),transparent 70%);pointer-events:none;z-index:0}
+nav{padding:14px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(6,6,12,.92);backdrop-filter:blur(16px);z-index:99}
+nav .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.logo{font-family:var(--mono);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px}
+.logo span{color:var(--fg3);font-weight:400}
+.nav-r{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.nav-r a{color:var(--fg2);font-size:13px;font-weight:500;transition:color .15s}.nav-r a:hover{color:var(--g)}
+.btn-g{background:var(--g);color:var(--bg)!important;padding:8px 20px;border-radius:6px;font-weight:700;font-size:12px;font-family:var(--mono);display:inline-block;transition:all .15s;letter-spacing:.5px}
+.btn-g:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,255,136,.2)}
+.btn-o{border:1px solid var(--g4);color:var(--g)!important;padding:8px 20px;border-radius:6px;font-weight:600;font-size:12px;display:inline-block;transition:all .15s}
+.btn-o:hover{background:var(--g3);border-color:rgba(0,255,136,.25)}
+.lang-btn{font-family:var(--mono);font-size:10px;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--fg3);background:transparent;transition:all .15s}
+.lang-btn:hover,.lang-btn.active{color:var(--g);border-color:var(--g4)}
+.hero{padding:100px 0 60px;text-align:center;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:var(--g3);border:1px solid var(--g4);font-size:11px;color:var(--g);font-family:var(--mono);font-weight:700;letter-spacing:.5px;margin-bottom:20px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(36px,5.5vw,56px);font-weight:800;line-height:1.08;margin-bottom:18px;color:#fff;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:17px;color:var(--fg2);max-width:520px;margin:0 auto 32px;line-height:1.65;font-weight:300}
+.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
+.stat-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.stat{text-align:center;padding:16px 24px}
+.stat .n{font-size:28px;font-weight:700;color:#fff;font-family:var(--mono)}
+.stat .n span{color:var(--g)}
+.stat .l{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+.proto-viz{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 auto 80px;max-width:600px;position:relative}
+.proto-viz::before{content:'';position:absolute;top:26px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--g4),var(--g4),transparent);z-index:0}
+.pv{text-align:center;position:relative;z-index:1}
+.pv .ring{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--g4);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--g);background:var(--bg);transition:all .3s}
+.pv:hover .ring{border-color:var(--g);background:var(--g3);box-shadow:0 0 20px rgba(0,255,136,.1)}
+.pv .name{font-size:11px;color:var(--fg2);font-weight:500}
+.pv .sub{font-size:9px;color:var(--fg3);font-family:var(--mono);margin-top:2px}
+.pv-center{display:block;text-align:center;grid-column:1/-1;background:var(--g);color:var(--bg);font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 16px;border-radius:12px;width:fit-content;margin:4px auto 0;letter-spacing:.5px}
+.terminal{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;max-width:680px;margin:0 auto 80px;overflow:hidden;position:relative}
+.terminal::before{content:'';position:absolute;inset:-1px;border-radius:12px;background:linear-gradient(135deg,rgba(0,255,136,.08),transparent 50%);pointer-events:none;z-index:0}
+.terminal-bar{display:flex;align-items:center;gap:6px;padding:10px 16px;border-bottom:1px solid var(--bd);position:relative;z-index:1}
+.terminal-dot{width:8px;height:8px;border-radius:50%;background:var(--fg3)}.terminal-dot:first-child{background:#f44}.terminal-dot:nth-child(2){background:#fb0}.terminal-dot:nth-child(3){background:#0d0}
+.terminal-title{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3);letter-spacing:.5px}
+.terminal-body{padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.8;position:relative;z-index:1}
+.terminal-body .prompt{color:var(--g)}.terminal-body .cmd{color:var(--fg)}.terminal-body .out{color:var(--fg2)}.terminal-body .ok{color:var(--g)}.terminal-body .dim{color:var(--fg3)}
+.sh{text-align:center;margin-bottom:32px}
+.sh h2{font-size:26px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.sh p{font-size:15px;color:var(--fg2);max-width:480px;margin:0 auto;font-weight:300}
+.ep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:80px}
+.ep{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px;transition:border-color .2s,transform .15s;position:relative;overflow:hidden}
+.ep:hover{border-color:var(--g4);transform:translateY(-2px)}
+.ep::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.15),transparent)}
+.ep .badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;margin-bottom:8px;letter-spacing:.5px}
+.ep .badge.post{background:var(--b2);color:var(--b);border:1px solid rgba(0,170,255,.12)}
+.ep .badge.get{background:var(--g3);color:var(--g);border:1px solid var(--g4)}
+.ep h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.ep p{font-size:12px;color:var(--fg2);line-height:1.55}
+.f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:80px}
+.f{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;transition:border-color .2s}
+.f:hover{border-color:var(--g4)}
+.f .ic{font-family:var(--mono);font-size:16px;color:var(--g);margin-bottom:6px;display:block}
+.f h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
+.f p{font-size:12px;color:var(--fg2);line-height:1.5}
+.cta{padding:60px 0;text-align:center;border-top:1px solid var(--bd);position:relative;z-index:1}
+.cta h2{font-size:28px;font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.01em}
+.cta p{font-size:15px;color:var(--fg2);margin-bottom:28px;font-weight:300}
+footer{padding:24px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--fg3);position:relative;z-index:1}
+footer a{color:var(--fg2)}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav><div class="w">
+  <a href="/" class="logo">AIB<span>cloud</span></a>
+  <div class="nav-r">
+    <a href="https://aib-tech.fr" data-lang="en" class="show">Protocol</a>
+    <a href="https://aib-tech.fr" data-lang="fr">Protocole</a>
+    <a href="https://aib-tech.fr/pricing" data-lang="en" class="show">Pricing</a>
+    <a href="https://aib-tech.fr/pricing" data-lang="fr">Tarifs</a>
+    <a href="frameworks.html" data-lang="en" class="show">Frameworks</a>
+    <a href="frameworks.html" data-lang="fr">Frameworks</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE</a>
+  </div>
+</div></nav>
+
+<section class="hero"><div class="w">
+  <div class="hero-badge"><span class="dot"></span> BETA LIVE</div>
+  <h1 data-lang="en" class="show">One API call.<br><em>Every protocol.</em></h1>
+  <h1 data-lang="fr">Un appel API.<br><em>Tous les protocoles.</em></h1>
+  <p data-lang="en" class="show">Give your AI agents a portable identity across MCP, A2A, ANP and AG-UI. Create passports, translate credentials, audit everything. No infrastructure to manage.</p>
+  <p data-lang="fr">Donnez &agrave; vos agents IA une identit&eacute; portable &agrave; travers MCP, A2A, ANP et AG-UI. Cr&eacute;ez des passeports, traduisez les credentials, auditez tout. Aucune infrastructure &agrave; g&eacute;rer.</p>
+  <div class="hero-cta">
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g" data-lang="en" style="display:inline-block">> GET API KEY</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g" data-lang="fr">> CL&Eacute; API GRATUITE</a>
+    <a href="https://aib-tech.fr" class="btn-o" data-lang="en" style="display:inline-block">Read the spec</a>
+    <a href="https://aib-tech.fr" class="btn-o" data-lang="fr">Lire la spec</a>
+  </div>
+</div></section>
+
+<div class="w">
+<div class="stat-row reveal">
+  <div class="stat"><div class="n">1,056<span>+</span></div><div class="l">Tests passing</div></div>
+  <div class="stat"><div class="n">37</div><div class="l">Python modules</div></div>
+  <div class="stat"><div class="n">11</div><div class="l">Translation paths</div></div>
+  <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translation latency</div></div>
+  <div class="stat"><div class="n">100<span>K</span></div><div class="l">tx/month included</div></div>
+</div>
+
+<div class="proto-viz reveal">
+  <div class="pv"><div class="ring">MCP</div><div class="name">Agent-Tool</div><div class="sub">OAuth 2.1</div></div>
+  <div class="pv"><div class="ring">A2A</div><div class="name">Agent-Agent</div><div class="sub">Agent Card</div></div>
+  <div class="pv"><div class="ring">ANP</div><div class="name">Decentralized</div><div class="sub">W3C DID</div></div>
+  <div class="pv"><div class="ring">AG-UI</div><div class="name">Agent-Human</div><div class="sub">CopilotKit</div></div>
+  <div class="pv-center">AIB BRIDGE</div>
+</div>
+
+<div class="terminal reveal">
+  <div class="terminal-bar">
+    <div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div>
+    <div class="terminal-title">aib-cloud v2.13.4</div>
+  </div>
+  <div class="terminal-body" id="term"></div>
+</div>
+</div>
+
+<div class="w">
+  <div class="sh reveal">
+    <h2 data-lang="en" class="show">5 endpoints. Full identity lifecycle.</h2>
+    <h2 data-lang="fr">5 endpoints. Cycle de vie complet.</h2>
+    <p data-lang="en" class="show">Create, list, revoke, translate, track. Every call is authenticated, metered, and audited.</p>
+    <p data-lang="fr">Cr&eacute;er, lister, r&eacute;voquer, traduire, suivre. Chaque appel est authentifi&eacute;, comptabilis&eacute; et audit&eacute;.</p>
+  </div>
+  <div class="ep-grid">
+    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create an Agent Passport with protocol bindings, capabilities, and TTL. Auto-generates URN, stores in PostgreSQL, emits audit receipt.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>passport-list</h3><p>List all passports for your org. Filter by status (active/revoked/expired). Paginated. Sorted by creation date.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Permanently revoke a passport. Cascade-revokes all child passports in the delegation chain automatically.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>Translate credentials between A2A Agent Cards, MCP Server Cards, and AG-UI Descriptors. Sub-millisecond latency.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time usage: transactions, passports, translations, webhooks. Per-org quotas and limits.</p></div>
+  </div>
+</div>
+
+<div class="w">
+  <div class="sh reveal">
+    <h2 data-lang="en" class="show">Everything included in Pro</h2>
+    <h2 data-lang="fr">Tout est inclus dans le Pro</h2>
+    <p data-lang="en" class="show">Free during beta. No time limit. No credit card.</p>
+    <p data-lang="fr">Gratuit pendant la beta. Sans limite de temps. Sans carte bancaire.</p>
+  </div>
+  <div class="f-grid">
+    <div class="f reveal"><span class="ic">></span><h4>4 protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, all translated.</p></div>
+    <div class="f reveal"><span class="ic">#</span><h4>100K tx/month</h4><p>Real quota tracking per org per month.</p></div>
+    <div class="f reveal"><span class="ic">~</span><h4>90-day audit</h4><p>SHA-256 hash chain receipts. Tamper-proof.</p></div>
+    <div class="f reveal"><span class="ic">!</span><h4>Policy engine</h4><p>8 rule types. Domain block, cap limit, tier restrict.</p></div>
+    <div class="f reveal"><span class="ic">+</span><h4>Cascade revoke</h4><p>Revoke parent, children follow. Automatic.</p></div>
+    <div class="f reveal"><span class="ic">*</span><h4>API key auth</h4><p>SHA-256 hashed. Last-used tracking.</p></div>
+    <div class="f reveal"><span class="ic">@</span><h4>Auto-onboarding</h4><p>Sign up, get org + key + beta_pro instantly.</p></div>
+    <div class="f reveal"><span class="ic">{}</span><h4>Framework tools</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines.</p></div>
+    <div class="f reveal"><span class="ic">$</span><h4>Python + TS SDK</h4><p>pip install agent-identity-bridge. 1,056 tests.</p></div>
+  </div>
+</div>
+
+<section class="cta"><div class="w reveal">
+  <h2 data-lang="en" class="show">Start building in 30 seconds</h2>
+  <h2 data-lang="fr">Commencez en 30 secondes</h2>
+  <p data-lang="en" class="show">Free during beta. Early adopters keep their rate.</p>
+  <p data-lang="fr">Gratuit pendant la beta. Les early adopters gardent leur tarif.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:8px">
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE BETA</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-o">GitHub</a>
+    <a href="https://pypi.org/project/agent-identity-bridge/" class="btn-o">PyPI v2.13.4</a>
+  </div>
+</div></section>
+
+<footer><div class="w">
+  <p><a href="https://tntech.fr" target="_blank">TNTECH CONSULTING SAS</a> &middot; <a href="https://aib-tech.fr">Protocol</a> &middot; <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> &middot; Apache 2.0 &middot; SIREN 993811157</p>
+</div></footer>
+
+<script>
+// Language toggle
+function setLang(lang){
+  document.querySelectorAll('[data-lang]').forEach(function(el){
+    el.classList.toggle('show', el.getAttribute('data-lang')===lang);
+  });
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-fr').classList.toggle('active', lang==='fr');
+}
+
+// Reveal on scroll
+var obs = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+// Terminal typing effect
+var lines = [
+  {t:'prompt',c:'$ '},
+  {t:'cmd',c:'curl -X POST /functions/v1/passport-create \\'},
+  {t:'dim',c:'  -H "x-api-key: aib_sk_live_..." \\'},
+  {t:'dim',c:'  -d \'{"agent_slug": "booking-bot", "protocols": ["mcp","a2a"]}\''},
+  {t:'',c:''},
+  {t:'ok',c:'{'},
+  {t:'ok',c:'  "passport_id": "urn:aib:agent:myorg:booking-bot",'},
+  {t:'ok',c:'  "protocols": ["mcp", "a2a"],'},
+  {t:'ok',c:'  "tier": "permanent",'},
+  {t:'ok',c:'  "expires_at": "2027-03-26T14:33:41.030Z"'},
+  {t:'ok',c:'}'},
+  {t:'',c:''},
+  {t:'prompt',c:'$ '},
+  {t:'cmd',c:'curl /functions/v1/usage-check -H "x-api-key: ..."'},
+  {t:'out',c:'  transactions: 3/100,000 | passports: 1/500 | plan: beta_pro'},
+];
+var term = document.getElementById('term');
+var i = 0;
+function typeLine(){
+  if(i >= lines.length) return;
+  var l = lines[i]; i++;
+  var div = document.createElement('div');
+  if(l.t === 'prompt'){
+    var s1 = document.createElement('span'); s1.className = 'prompt'; s1.textContent = l.c;
+    div.appendChild(s1);
+    if(lines[i] && lines[i].t === 'cmd'){
+      var s2 = document.createElement('span'); s2.className = 'cmd'; s2.textContent = lines[i].c;
+      div.appendChild(s2); i++;
+    }
+  } else {
+    var s = document.createElement('span'); s.className = l.t; s.textContent = l.c;
+    div.appendChild(s);
+  }
+  term.appendChild(div);
+  setTimeout(typeLine, l.t === 'ok' ? 40 : l.t === 'prompt' ? 300 : 60);
+}
+setTimeout(typeLine, 800);
+</script>
+</body>
+</html>

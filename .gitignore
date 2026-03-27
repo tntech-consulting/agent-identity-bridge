@@ -19,3 +19,8 @@ passports/
 .coverage
 htmlcov/
 sdk-ts/node_modules/
+
+# Cloud
+cloud/landing/*.env
+cloud/schema/*.env
+*.zip
