@@ -137,7 +137,7 @@ async function LD(){
 }
 
 function RT(){
-  const ts=[{i:"overview",l:"Overview"},{i:"analytics",l:"Analytics"},{i:"passports",l:"Passports ("+S.pp.length+")"},{i:"policies",l:"Policies"},{i:"translate",l:"Translate"},{i:"keys",l:"API Keys"}];
+  const ts=[{i:"overview",l:"Overview"},{i:"analytics",l:"Analytics"},{i:"passports",l:"Passports ("+S.pp.length+")"},{i:"policies",l:"Policies"},{i:"translate",l:"Translate"},{i:"webhooks",l:"Webhooks"},{i:"keys",l:"API Keys"}];
   document.getElementById("D-tabs").innerHTML=ts.map(t=>'<button onclick="ST(\''+t.i+'\')" style="padding:10px 16px;background:transparent;border:none;border-bottom:2px solid '+(S.t===t.i?"var(--g)":"transparent")+';color:'+(S.t===t.i?"var(--g)":"var(--fg3)")+';font-size:13px;font-weight:600;font-family:var(--s);white-space:nowrap">'+t.l+'</button>').join("")+'<button onclick="LD().then(()=>{RT();RC()})" style="margin-left:auto;padding:5px 12px;background:transparent;border:1px solid var(--bd);border-radius:4px;color:var(--fg3);font-size:10px">refresh</button>';
 }
 
@@ -150,6 +150,7 @@ function RC(){
   else if(S.t==="passports")RP(c);
   else if(S.t==="policies")RPol(c);
   else if(S.t==="translate")RR(c);
+  else if(S.t==="webhooks")RWH(c);
   else if(S.t==="keys")RK(c);
 }
 
@@ -206,6 +207,66 @@ async function DT(){
   if(f===t){var r2=document.getElementById('tr-r');r2.style.display='block';r2.style.color='var(--r)';r2.textContent='Error: source and target formats must be different';return;}
   document.getElementById('tr-hint').textContent=f+' -> '+t;
   try{const d=await F("translate",{method:"POST",body:{source:JSON.parse(document.getElementById("tr-s").value),from_format:f,to_format:t}});const r=document.getElementById("tr-r");r.style.display="block";r.style.color=d.error?"var(--r)":"var(--g)";r.textContent=d.error||JSON.stringify(d.result||d,null,2);}catch(e){const r=document.getElementById("tr-r");r.style.display="block";r.style.color="var(--r)";r.textContent=e.message;}
+}
+
+// ── Webhooks Tab ──
+async function RWH(c) {
+  c.innerHTML = '<div class="card" style="text-align:center;color:var(--fg3)">Loading webhooks...</div>';
+  const data = await F("webhook-manage");
+  const hooks = data.webhooks || [];
+
+  const validEvents = ['passport.created','passport.revoked','policy.violation','translate.completed'];
+
+  c.innerHTML = `
+  <div class="card">
+    <div style="font-size:14px;font-weight:700;margin-bottom:12px">Create webhook</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:10px">
+      <div style="flex:2;min-width:200px">
+        <span class="lbl">URL</span>
+        <input id="wh-url" placeholder="https://your-app.com/webhooks" class="inp" style="margin-bottom:0">
+      </div>
+      <div style="flex:1;min-width:140px">
+        <span class="lbl">SECRET (optional)</span>
+        <input id="wh-secret" placeholder="hmac-secret" class="inp" style="margin-bottom:0">
+      </div>
+    </div>
+    <span class="lbl">EVENTS</span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      ${validEvents.map(e => '<label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--fg2);font-family:var(--m);cursor:pointer"><input type="checkbox" class="wh-ev" value="'+e+'" '+(e==='passport.created'||e==='passport.revoked'?'checked':'')+'>'+e+'</label>').join('')}
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="createWH()" class="btn1">> create webhook</button>
+    </div>
+    <div id="wh-msg" class="h" style="font-size:11px;margin-top:6px;font-family:var(--m)"></div>
+  </div>
+  <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden">
+    <div style="display:grid;grid-template-columns:1fr 130px 60px 60px 60px;gap:8px;padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--m);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--bd)">
+      <span>URL</span><span>Events</span><span>Success</span><span>Failed</span><span></span>
+    </div>
+    ${hooks.length === 0 ? '<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No webhooks configured</div>' :
+    hooks.map(h => '<div style="display:grid;grid-template-columns:1fr 130px 60px 60px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:12px;word-break:break-all">'+h.url+'</div><div style="color:var(--fg3);font-size:9px;font-family:var(--m)">'+(h.last_fired_at?'Last: '+new Date(h.last_fired_at).toLocaleString():'Never fired')+'</div></div><div style="display:flex;gap:2px;flex-wrap:wrap">'+h.events.map(e => '<span style="font-size:8px;padding:1px 4px;border-radius:2px;font-family:var(--m);background:var(--gd);color:var(--g);border:1px solid var(--gb)">'+e.replace('passport.','').replace('policy.','')+'</span>').join('')+'</div><span style="font-size:12px;color:var(--g);font-family:var(--m);text-align:center">'+h.success_count+'</span><span style="font-size:12px;color:var(--r);font-family:var(--m);text-align:center">'+h.failure_count+'</span><button onclick="delWH(\''+h.id+'\')" style="background:transparent;border:1px solid rgba(255,68,68,.2);color:var(--r);padding:3px 6px;border-radius:4px;font-size:9px">delete</button></div>').join('')}
+  </div>`;
+}
+
+async function createWH() {
+  const url = document.getElementById('wh-url').value;
+  if (!url) return;
+  const secret = document.getElementById('wh-secret').value;
+  const events = Array.from(document.querySelectorAll('.wh-ev:checked')).map(el => el.value);
+  if (events.length === 0) { const m = document.getElementById('wh-msg'); m.style.color = 'var(--r)'; m.textContent = 'Select at least one event'; m.classList.remove('h'); return; }
+  const body = { url, events };
+  if (secret) body.secret = secret;
+  const d = await F('webhook-manage', { method: 'POST', body });
+  const m = document.getElementById('wh-msg');
+  m.classList.remove('h');
+  if (d.error) { m.style.color = 'var(--r)'; m.textContent = d.error; }
+  else { m.style.color = 'var(--g)'; m.textContent = '+ Webhook created'; document.getElementById('wh-url').value = ''; setTimeout(() => RWH(document.getElementById('D-content')), 500); }
+}
+
+async function delWH(id) {
+  if (!confirm('Delete this webhook?')) return;
+  await F('webhook-manage?id=' + id, { method: 'DELETE' });
+  RWH(document.getElementById('D-content'));
 }
 
 function RK(c){

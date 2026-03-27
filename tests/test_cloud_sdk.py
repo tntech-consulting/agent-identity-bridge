@@ -220,6 +220,46 @@ class TestAuth(unittest.TestCase):
         c = AIBCloud(access_token="eyJtoken")
         assert c.access_token == "eyJtoken"
 
+    @patch("urllib.request.urlopen")
+    def test_signup(self, mock_open):
+        mock_open.return_value = _mock_response({
+            "user": {"id": "u-1", "email": "test@example.com"},
+            "api_key": "aib_sk_live_new123",
+            "access_token": "eyJtoken",
+        })
+        result = AIBCloud.signup("test@example.com", "Password123", "Test User")
+        assert result["api_key"] == "aib_sk_live_new123"
+        assert result["user"]["email"] == "test@example.com"
+        body = json.loads(mock_open.call_args[0][0].data)
+        assert body["action"] == "signup"
+        assert body["email"] == "test@example.com"
+        assert body["full_name"] == "Test User"
+
+    @patch("urllib.request.urlopen")
+    def test_login(self, mock_open):
+        mock_open.return_value = _mock_response({
+            "access_token": "eyJtoken",
+            "user": {"id": "u-1", "email": "test@example.com"},
+            "api_keys": [{"key_preview": "aib_sk_live_abc...", "name": "Default"}],
+        })
+        result = AIBCloud.login("test@example.com", "Password123")
+        assert result["access_token"] == "eyJtoken"
+        assert len(result["api_keys"]) == 1
+        body = json.loads(mock_open.call_args[0][0].data)
+        assert body["action"] == "login"
+
+    @patch("urllib.request.urlopen")
+    def test_generate_key(self, mock_open):
+        mock_open.return_value = _mock_response({
+            "api_key": "aib_sk_live_generated_456",
+        })
+        c = AIBCloud(api_key="existing_key")
+        new_key = c.generate_key("My Integration")
+        assert new_key == "aib_sk_live_generated_456"
+        body = json.loads(mock_open.call_args[0][0].data)
+        assert body["action"] == "generate_key"
+        assert body["key_name"] == "My Integration"
+
 
 class TestHTTPErrors(unittest.TestCase):
     """Test error handling."""
