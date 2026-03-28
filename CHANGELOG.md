@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.15.1] - 2026-03-28
+
+### Security
+- **Ed25519 persistent keys** — signing keys stored in `signing_keys` table (PKCS8 format), loaded from DB on cold start. All receipts now signed with the same stable key, making audit trail fully verifiable.
+- **OIDC audience verification** — `expected_audience` column on `federation_trust`. Tokens must match the expected `aud` claim when configured.
+- **CORS restrictive** — `passport-create` only allows whitelisted origins.
+- **SSRF protection** — webhook URLs validated against RFC 1918 private ranges.
+
+### Added
+- `SPEC.md` — formal protocol specification (10 sections, URN scheme, policy engine, OIDC flow)
+- `signing_keys` table + `ed25519-keygen` Edge Function for persistent key management
+- Dashboard: 7th tab "Webhooks" with create/list/delete UI
+- SDK: 3 new tests (`test_signup`, `test_login`, `test_generate_key`) — 28 total
+- CI/CD: GitHub Actions workflow (test → deploy staging → deploy prod)
+- Integration tests: 5 real API endpoint tests
+
+### Fixed
+- `translate` v3: fires `translate.completed` webhook (was missing)
+- `policy-manage` v2: added `domain_allow`, `capability_limit`, `action_block` to VALID_TYPES
+- OIDC auth added to all 12 Edge Functions (was only in `passport-create`)
+- `passport-create` v11: loads persistent PKCS8 key from DB (was ephemeral per cold start)
+- Policy engine: all 12 rule types now enforced server-side (10 were missing in v5)
+
 ## [2.15.0] - 2026-03-27
 
 ### Added

@@ -302,6 +302,10 @@ Keys are stored as SHA-256 hashes. The raw key is shown once at generation and n
 
 ## 10. API Endpoints
 
+Base URL: `https://{project}.supabase.co/functions/v1`
+
+All responses include the header `X-AIB-Version: 2.15.1`.
+
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
 | POST | `/auth` | None | Signup, login, generate API key. |
@@ -313,6 +317,10 @@ Keys are stored as SHA-256 hashes. The raw key is shown once at generation and n
 | GET | `/usage-history` | Required | Daily activity analytics. |
 | GET/POST/DELETE | `/policy-manage` | Required | CRUD policy rules. |
 | GET/POST/DELETE | `/webhook-manage` | Required | CRUD webhooks. |
+
+### 10.1 Versioning policy
+
+The API follows semantic versioning. The `X-AIB-Version` response header indicates the current version. Breaking changes will increment the major version and be announced with at least 30 days notice.
 
 ---
 
