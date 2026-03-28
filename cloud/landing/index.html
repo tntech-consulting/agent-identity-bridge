@@ -3,364 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB Cloud — Managed Agent Identity Gateway | Paris, France</title>
-<meta name="description" content="AIB Cloud: managed gateway for AI agent identity across MCP, A2A, ANP, AG-UI protocols. Create passports, translate credentials, audit actions via API. Based in Paris. Free beta.">
-<meta name="keywords" content="AI agent identity, MCP, A2A, ANP, AG-UI, agent passport, credential translation, identity bridge, protocol gateway, AI security, agent authentication, Paris, France, SaaS, API, LangChain, CrewAI, OpenAI Agents">
+<title>AIB — Agent Identity Bridge | One identity. Every protocol.</title>
+<meta name="description" content="AIB: portable identity for AI agents across MCP, A2A, ANP, AG-UI. Create passports, translate credentials, enforce policies, audit everything. Ed25519 signed. OIDC Federation. 1,054 tests.">
 <meta name="author" content="TNTECH CONSULTING SAS">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://aib-cloud.netlify.app/">
-
-<!-- Geo SEO -->
-<meta name="geo.region" content="FR-75">
-<meta name="geo.placename" content="Paris">
-<meta name="geo.position" content="48.8566;2.3522">
-<meta name="ICBM" content="48.8566, 2.3522">
-<meta name="language" content="English">
-<meta name="coverage" content="Worldwide">
-<meta name="distribution" content="global">
-<meta name="rating" content="general">
-
-<!-- Open Graph -->
+<link rel="canonical" href="https://aib-tech.fr/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AIB Cloud — Managed Agent Identity Gateway">
-<meta property="og:description" content="One API call. Portable identity for AI agents across MCP, A2A, ANP, AG-UI. Create passports, translate credentials, audit everything. Free during beta.">
-<meta property="og:url" content="https://aib-cloud.netlify.app/">
-<meta property="og:site_name" content="AIB Cloud">
-<meta property="og:locale" content="en_US">
-<meta property="og:locale:alternate" content="fr_FR">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AIB Cloud — One API call. Every protocol.">
-<meta name="twitter:description" content="Managed gateway for AI agent identity. MCP, A2A, ANP, AG-UI. 1,054 tests. OIDC Federation. Free beta.">
-
-<!-- Structured Data (JSON-LD) -->
+<meta property="og:title" content="AIB — One identity. Every protocol.">
+<meta property="og:description" content="Portable identity for AI agents. MCP, A2A, ANP, AG-UI. Ed25519 audit trail. OIDC Federation. Free beta.">
+<meta property="og:url" content="https://aib-tech.fr/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "AIB Cloud",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Cloud",
-  "description": "Managed gateway for AI agent identity across MCP, A2A, ANP, AG-UI protocols. Create passports, translate credentials, audit actions via API.",
-  "url": "https://aib-cloud.netlify.app/",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "EUR",
-    "description": "Free during beta — all Pro features included"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "TNTECH CONSULTING SAS",
-    "url": "https://tntech.fr",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Paris",
-      "addressRegion": "Ile-de-France",
-      "addressCountry": "FR",
-      "postalCode": "75017"
-    },
-    "sameAs": [
-      "https://github.com/tntech-consulting",
-      "https://pypi.org/project/agent-identity-bridge/"
-    ]
-  },
-  "featureList": [
-    "Agent Passport creation and verification",
-    "Credential translation across MCP, A2A, ANP, AG-UI",
-    "Policy engine with 12 rule types",
-    "Ed25519 signed audit trail with persistent keys",
-    "OIDC Federation (Google, Entra, Okta, Auth0)",
-    "Webhooks with HMAC-SHA256 signing",
-    "100,000 transactions per month",
-    "LangChain, CrewAI, OpenAI Agents SDK integration",
-    "Python SDK with 1,054 tests",
-    "CI/CD pipeline with automated deployment"
-  ],
-  "softwareVersion": "2.15.1",
-  "license": "https://www.apache.org/licenses/LICENSE-2.0"
-}
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Agent Identity Bridge","applicationCategory":"DeveloperApplication","softwareVersion":"2.15.1","license":"https://www.apache.org/licenses/LICENSE-2.0","featureList":["Agent Passport creation","Credential translation MCP/A2A/ANP/AG-UI","Policy engine 12 rule types","Ed25519 signed audit trail","OIDC Federation","Webhooks HMAC-SHA256","Python SDK 1054 tests","CI/CD pipeline"],"author":{"@type":"Organization","name":"TNTECH CONSULTING SAS","url":"https://tntech.fr"}}
 </script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "TNTECH CONSULTING SAS",
-  "legalName": "TNTECH CONSULTING SAS",
-  "url": "https://tntech.fr",
-  "logo": "https://aib-tech.fr/logo.png",
-  "foundingDate": "2024",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Paris",
-    "addressRegion": "Ile-de-France",
-    "postalCode": "75017",
-    "addressCountry": "FR"
-  },
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "thomas.nirennold@live.fr",
-    "contactType": "technical support"
-  },
-  "sameAs": [
-    "https://github.com/tntech-consulting/agent-identity-bridge"
-  ]
-}
-</script>
-
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#06060c;--bg2:#0c0c14;--bg3:#12121e;--g:#00ff88;--g2:#00cc6a;--g3:rgba(0,255,136,.07);--g4:rgba(0,255,136,.12);--b:#00aaff;--b2:rgba(0,170,255,.08);--fg:#e8e8ef;--fg2:#8888a0;--fg3:#4a4a60;--bd:rgba(255,255,255,.05);--mono:'Space Mono',monospace;--sans:'Outfit',sans-serif}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);overflow-x:hidden}
-[data-lang]{display:none!important}[data-lang].show{display:revert!important}
-li[data-lang].show{display:flex!important}
-a{color:var(--g);text-decoration:none}
-.w{max-width:1040px;margin:0 auto;padding:0 24px}
-@media(max-width:700px){.hero h1{font-size:32px!important}.ep-grid,.f-grid{grid-template-columns:1fr!important}.stat-row{flex-wrap:wrap!important}.proto-viz{grid-template-columns:repeat(2,1fr)!important;gap:20px!important;max-width:320px!important}.proto-viz::before{display:none}.nav-r{gap:10px}.nav-r .btn-o{display:none}}
-body::before{content:'';position:fixed;inset:0;background:linear-gradient(90deg,rgba(0,255,136,.015) 1px,transparent 1px),linear-gradient(180deg,rgba(0,255,136,.015) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 800px 600px at 50% 20%,rgba(0,255,136,.04),transparent 70%);pointer-events:none;z-index:0}
-nav{padding:14px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(6,6,12,.92);backdrop-filter:blur(16px);z-index:99}
-nav .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.logo{font-family:var(--mono);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px}
-.logo span{color:var(--fg3);font-weight:400}
-.nav-r{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.nav-r a{color:var(--fg2);font-size:13px;font-weight:500;transition:color .15s}.nav-r a:hover{color:var(--g)}
-.btn-g{background:var(--g);color:var(--bg)!important;padding:8px 20px;border-radius:6px;font-weight:700;font-size:12px;font-family:var(--mono);display:inline-block;transition:all .15s;letter-spacing:.5px}
-.btn-g:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,255,136,.2)}
-.btn-o{border:1px solid var(--g4);color:var(--g)!important;padding:8px 20px;border-radius:6px;font-weight:600;font-size:12px;display:inline-block;transition:all .15s}
-.btn-o:hover{background:var(--g3);border-color:rgba(0,255,136,.25)}
-.lang-btn{font-family:var(--mono);font-size:10px;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--fg3);background:transparent;transition:all .15s}
-.lang-btn:hover,.lang-btn.active{color:var(--g);border-color:var(--g4)}
-.hero{padding:100px 0 60px;text-align:center;position:relative;z-index:1}
-.hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;background:var(--g3);border:1px solid var(--g4);font-size:11px;color:var(--g);font-family:var(--mono);font-weight:700;letter-spacing:.5px;margin-bottom:20px}
-.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--g);animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-size:clamp(36px,5.5vw,56px);font-weight:800;line-height:1.08;margin-bottom:18px;color:#fff;letter-spacing:-.02em}
-.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--g),var(--b));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero p{font-size:17px;color:var(--fg2);max-width:520px;margin:0 auto 32px;line-height:1.65;font-weight:300}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:48px}
-.stat-row{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
-.stat{text-align:center;padding:16px 24px}
-.stat .n{font-size:28px;font-weight:700;color:#fff;font-family:var(--mono)}
-.stat .n span{color:var(--g)}
-.stat .l{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
-.proto-viz{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 auto 80px;max-width:600px;position:relative}
-.proto-viz::before{content:'';position:absolute;top:26px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,var(--g4),var(--g4),transparent);z-index:0}
-.pv{text-align:center;position:relative;z-index:1}
-.pv .ring{width:52px;height:52px;border-radius:50%;border:1.5px solid var(--g4);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--g);background:var(--bg);transition:all .3s}
-.pv:hover .ring{border-color:var(--g);background:var(--g3);box-shadow:0 0 20px rgba(0,255,136,.1)}
-.pv .name{font-size:11px;color:var(--fg2);font-weight:500}
-.pv .sub{font-size:9px;color:var(--fg3);font-family:var(--mono);margin-top:2px}
-.pv-center{display:block;text-align:center;grid-column:1/-1;background:var(--g);color:var(--bg);font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 16px;border-radius:12px;width:fit-content;margin:4px auto 0;letter-spacing:.5px}
-.terminal{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;max-width:680px;margin:0 auto 80px;overflow:hidden;position:relative}
-.terminal::before{content:'';position:absolute;inset:-1px;border-radius:12px;background:linear-gradient(135deg,rgba(0,255,136,.08),transparent 50%);pointer-events:none;z-index:0}
-.terminal-bar{display:flex;align-items:center;gap:6px;padding:10px 16px;border-bottom:1px solid var(--bd);position:relative;z-index:1}
-.terminal-dot{width:8px;height:8px;border-radius:50%;background:var(--fg3)}.terminal-dot:first-child{background:#f44}.terminal-dot:nth-child(2){background:#fb0}.terminal-dot:nth-child(3){background:#0d0}
-.terminal-title{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3);letter-spacing:.5px}
-.terminal-body{padding:16px 18px;font-family:var(--mono);font-size:12px;line-height:1.8;position:relative;z-index:1}
-.terminal-body .prompt{color:var(--g)}.terminal-body .cmd{color:var(--fg)}.terminal-body .out{color:var(--fg2)}.terminal-body .ok{color:var(--g)}.terminal-body .dim{color:var(--fg3)}
-.sh{text-align:center;margin-bottom:32px}
-.sh h2{font-size:26px;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
-.sh p{font-size:15px;color:var(--fg2);max-width:480px;margin:0 auto;font-weight:300}
-.ep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:80px}
-.ep{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px;transition:border-color .2s,transform .15s;position:relative;overflow:hidden}
-.ep:hover{border-color:var(--g4);transform:translateY(-2px)}
-.ep::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,.15),transparent)}
-.ep .badge{display:inline-block;font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;margin-bottom:8px;letter-spacing:.5px}
-.ep .badge.post{background:var(--b2);color:var(--b);border:1px solid rgba(0,170,255,.12)}
-.ep .badge.get{background:var(--g3);color:var(--g);border:1px solid var(--g4)}
-.ep h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
-.ep p{font-size:12px;color:var(--fg2);line-height:1.55}
-.f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:80px}
-.f{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px 18px;transition:border-color .2s}
-.f:hover{border-color:var(--g4)}
-.f .ic{font-family:var(--mono);font-size:16px;color:var(--g);margin-bottom:6px;display:block}
-.f h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
-.f p{font-size:12px;color:var(--fg2);line-height:1.5}
-.cta{padding:60px 0;text-align:center;border-top:1px solid var(--bd);position:relative;z-index:1}
-.cta h2{font-size:28px;font-weight:700;color:#fff;margin-bottom:10px;letter-spacing:-.01em}
-.cta p{font-size:15px;color:var(--fg2);margin-bottom:28px;font-weight:300}
-footer{padding:24px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--fg3);position:relative;z-index:1}
-footer a{color:var(--fg2)}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07080C;--bg2:#0D0F17;--bg3:#141826;--fg:#E4E7F0;--fg2:#9BA3B8;--fg3:#5C6478;--accent:#00E5A0;--accent2:#00C5FF;--purple:#7B61FF;--bd:#1E2233;--bd2:#2A2F44;--font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;transition:opacity .15s}a:hover{opacity:.8}
+.w{max-width:1100px;margin:0 auto;padding:0 24px}
+[data-lang]{display:none}.show{display:block!important}a.show,span.show,button.show{display:inline-block!important}
 
-/* Reveal animation */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s}
-.reveal.visible{opacity:1;transform:none}
+/* NAV */
+nav{padding:12px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(7,8,12,.94);backdrop-filter:blur(16px);z-index:100}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--fg);letter-spacing:-.5px}.logo span{color:var(--accent)}
+.nav-r{display:flex;gap:4px;align-items:center}
+.nav-item{position:relative}
+.nav-btn{background:none;border:none;color:var(--fg2);font-family:var(--font);font-size:13px;font-weight:500;padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:4px;border-radius:6px;transition:all .15s}
+.nav-btn:hover,.nav-btn.open{color:var(--fg);background:var(--bg3)}
+.nav-btn svg{width:12px;height:12px;transition:transform .2s}.nav-btn.open svg{transform:rotate(180deg)}
+.nav-link{color:var(--fg2);font-size:13px;font-weight:500;padding:8px 12px;border-radius:6px;transition:all .15s}.nav-link:hover{color:var(--fg);background:var(--bg3);opacity:1}
+.dropdown{position:absolute;top:calc(100% + 4px);left:0;background:var(--bg2);border:1px solid var(--bd2);border-radius:10px;padding:6px;min-width:220px;opacity:0;visibility:hidden;transform:translateY(-4px);transition:all .15s;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown a{display:block;padding:10px 14px;border-radius:6px;color:var(--fg);font-size:13px;font-weight:500;transition:background .1s}.dropdown a:hover{background:var(--bg3);opacity:1}
+.dropdown a small{display:block;color:var(--fg3);font-size:11px;font-weight:400;margin-top:2px}
+.dropdown .sep{height:1px;background:var(--bd);margin:4px 8px}
+.lang-btn{background:none;border:none;color:var(--fg3);font-size:11px;font-weight:700;cursor:pointer;padding:4px 6px;border-radius:4px;font-family:var(--mono);letter-spacing:1px;transition:all .1s}.lang-btn.active{color:var(--accent);background:rgba(0,229,160,.08)}
+.btn-cta{background:var(--accent);color:var(--bg);font-size:12px;font-weight:700;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-family:var(--mono);letter-spacing:.5px;transition:all .15s}.btn-cta:hover{opacity:.9;transform:translateY(-1px)}
+@media(max-width:768px){.nav-r{gap:2px}.nav-btn,.nav-link{font-size:12px;padding:6px 8px}.dropdown{min-width:180px}.btn-cta{display:none}}
+
+/* HERO */
+.hero{padding:80px 0 60px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(0,229,160,.08);border:1px solid rgba(0,229,160,.2);color:var(--accent);font-size:11px;font-weight:700;font-family:var(--mono);padding:6px 14px;border-radius:20px;margin-bottom:24px;letter-spacing:1px}
+.hero h1{font-size:52px;font-weight:700;line-height:1.1;margin-bottom:20px;letter-spacing:-1.5px}.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-sub{color:var(--fg2);font-size:17px;max-width:640px;margin:0 auto 32px;line-height:1.7}
+.stat-row{display:flex;justify-content:center;gap:40px;margin-bottom:40px;flex-wrap:wrap}
+.stat{text-align:center}.stat .n{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--accent)}.stat .n span{font-size:16px;color:var(--fg3)}.stat .l{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:40px}
+.btn-primary{background:var(--accent);color:var(--bg);padding:12px 24px;border-radius:8px;font-weight:700;font-size:14px;font-family:var(--mono)}
+.btn-outline{border:1px solid var(--bd2);color:var(--fg);padding:12px 24px;border-radius:8px;font-weight:500;font-size:14px;transition:all .15s}.btn-outline:hover{border-color:var(--accent);color:var(--accent);opacity:1}
+.terminal{max-width:680px;margin:0 auto;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;overflow:hidden;text-align:left;font-family:var(--mono);font-size:12px}
+.terminal-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:var(--bg3);border-bottom:1px solid var(--bd)}.terminal-dot{width:10px;height:10px;border-radius:50%;background:var(--bd2)}.terminal-title{margin-left:auto;color:var(--fg3);font-size:10px}
+.terminal-body{padding:16px;line-height:1.8}.terminal-body .prompt{color:var(--accent)}.terminal-body .cmd{color:var(--fg)}.terminal-body .success{color:var(--accent)}.terminal-body .info{color:var(--fg3)}.terminal-body .output{color:var(--fg2)}
+
+/* SECTIONS */
+section{padding:80px 0}section h2{font-size:28px;font-weight:700;margin-bottom:8px;letter-spacing:-.5px}section h2 span{color:var(--accent)}.section-sub{color:var(--fg2);font-size:15px;margin-bottom:40px;max-width:560px;line-height:1.7}
+.diagram-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:16px;margin-bottom:32px;overflow-x:auto}
+.diagram-label{font-family:var(--mono);font-size:11px;color:var(--fg3);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px}.diagram-card svg{width:100%;height:auto;display:block;min-width:520px}
+
+/* ENDPOINTS */
+.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.ep{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:18px;transition:border-color .15s}.ep:hover{border-color:var(--accent)}
+.badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px}.badge.post{background:rgba(0,229,160,.1);color:var(--accent)}.badge.get{background:rgba(0,197,255,.1);color:var(--accent2)}
+.ep h3{font-family:var(--mono);font-size:14px;margin:8px 0 4px;color:var(--fg)}.ep p{font-size:12px;color:var(--fg3);line-height:1.5}
+
+/* FEATURES */
+.f-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.f{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:border-color .15s}.f:hover{border-color:var(--accent)}
+.f .ic{font-family:var(--mono);font-size:18px;color:var(--accent);width:28px;flex-shrink:0;text-align:center}.f h4{font-size:14px;font-weight:700;color:var(--fg);margin-bottom:3px}.f p{font-size:12px;color:var(--fg3);line-height:1.5}
+
+/* CTA + FOOTER */
+.cta{padding:80px 0;text-align:center}.cta h2{font-size:28px;margin-bottom:8px}.cta p{color:var(--fg2);margin-bottom:24px}
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:12px;color:var(--fg3)}footer a{color:var(--fg2)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){.hero h1{font-size:32px!important}.hero-sub{font-size:14px}.stat-row{gap:20px}.stat .n{font-size:22px}.ep-grid{grid-template-columns:1fr!important}.f-grid{grid-template-columns:1fr!important}section{padding:50px 0}}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav><div class="w">
-  <a href="/" class="logo">AIB<span>cloud</span></a>
+  <a href="/" class="logo">AIB<span>.</span></a>
   <div class="nav-r">
-    <a href="https://aib-tech.fr" data-lang="en" class="show">Protocol</a>
-    <a href="https://aib-tech.fr" data-lang="fr">Protocole</a>
-    <a href="https://aib-tech.fr/pricing" data-lang="en" class="show">Pricing</a>
-    <a href="https://aib-tech.fr/pricing" data-lang="fr">Tarifs</a>
-    <a href="frameworks.html" data-lang="en" class="show">Frameworks</a>
-    <a href="frameworks.html" data-lang="fr">Frameworks</a>
-    <a href="blog.html" data-lang="en" class="show">Blog</a>
-    <a href="blog.html" data-lang="fr">Blog</a>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/SPEC.md">Spec</a>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE</a>
+    <div class="nav-item">
+      <button class="nav-btn" onclick="toggleDD(this)">Product<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dropdown">
+        <a href="/">Overview<small>Platform overview</small></a>
+        <a href="/dashboard">Dashboard<small>Manage passports & policies</small></a>
+        <a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dropdown">
+        <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a>
+        <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>Guides & API reference</small></a>
+        <div class="sep"></div>
+        <a href="/spec">OAP Specification<small>Open Agent Passport standard</small></a>
+        <a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source code & issues</small></a>
+        <a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-btn" onclick="toggleDD(this)">Resources<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dropdown">
+        <a href="/blog">Blog<small>Articles & updates</small></a>
+        <a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a>
+        <a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a>
+      </div>
+    </div>
+    <a href="/pricing" class="nav-link">Pricing</a>
+    <div style="display:flex;gap:2px;margin-left:8px">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+    </div>
+    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
   </div>
 </div></nav>
 
+<!-- HERO -->
 <section class="hero"><div class="w">
-  <div class="hero-badge"><span class="dot"></span> BETA LIVE</div>
-  <h1 data-lang="en" class="show">One API call.<br><em>Every protocol.</em></h1>
-  <h1 data-lang="fr">Un appel API.<br><em>Tous les protocoles.</em></h1>
-  <p data-lang="en" class="show">Give your AI agents a portable identity across MCP, A2A, ANP and AG-UI. Create passports, translate credentials, audit everything. No infrastructure to manage.</p>
-  <p data-lang="fr">Donnez &agrave; vos agents IA une identit&eacute; portable &agrave; travers MCP, A2A, ANP et AG-UI. Cr&eacute;ez des passeports, traduisez les credentials, auditez tout. Aucune infrastructure &agrave; g&eacute;rer.</p>
-  <div class="hero-cta">
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g" data-lang="en" style="display:inline-block">> GET API KEY</a>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g" data-lang="fr">> CL&Eacute; API GRATUITE</a>
-    <a href="https://aib-tech.fr" class="btn-o" data-lang="en" style="display:inline-block">Read the spec</a>
-    <a href="https://aib-tech.fr" class="btn-o" data-lang="fr">Lire la spec</a>
+  <div class="hero-badge">OPEN PROTOCOL — v2.15.1 — APACHE 2.0</div>
+  <h1 data-lang="en" class="show">One identity.<br><em>Every protocol.</em><br>Full audit trail.</h1>
+  <h1 data-lang="fr" class="show">Une identit&eacute;.<br><em>Tous les protocoles.</em><br>Tra&ccedil;abilit&eacute; totale.</h1>
+  <p class="hero-sub show" data-lang="en">AIB gives your AI agents a single portable identity across MCP, A2A, ANP & AG-UI. Create passports, translate credentials, enforce 12 policy types, and audit everything with Ed25519 signatures.</p>
+  <p class="hero-sub" data-lang="fr">AIB donne &agrave; vos agents IA une identit&eacute; portable unique &agrave; travers MCP, A2A, ANP et AG-UI. Cr&eacute;ez des passeports, traduisez les credentials, appliquez 12 types de r&egrave;gles, et auditez tout avec Ed25519.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests</div></div>
+    <div class="stat"><div class="n">9</div><div class="l">Endpoints</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">Policy rules</div></div>
+    <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translation</div></div>
+  </div>
+  <div class="hero-actions">
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-primary">> QUICKSTART</a>
+    <a href="/dashboard" class="btn-outline">Open Dashboard</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-outline">GitHub</a>
+  </div>
+  <div class="terminal">
+    <div class="terminal-bar"><div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-title">aib-cloud v2.15.1</div></div>
+    <div class="terminal-body">
+      <div><span class="prompt">$</span> <span class="cmd">curl -X POST /functions/v1/passport-create \</span></div>
+      <div><span class="info">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
+      <div><span class="info">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
+      <div><span class="success">&#x2713; passport_id: urn:aib:agent:myorg:booking</span></div>
+      <div class="output">&nbsp;&nbsp;protocols: mcp, a2a | tier: permanent | signature: a2e1...7652</div>
+      <div style="height:8px"></div>
+      <div><span class="prompt">$</span> <span class="cmd">curl -X POST /functions/v1/translate \</span></div>
+      <div><span class="info">&nbsp;&nbsp;-d '{"from_format":"a2a_agent_card","to_format":"mcp_server_card"}'</span></div>
+      <div><span class="success">&#x2713; Translated in 0.4ms | A2A skills &rarr; MCP tools</span></div>
+    </div>
   </div>
 </div></section>
 
-<div class="w">
-<div class="stat-row reveal">
-  <div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests passing</div></div>
-  <div class="stat"><div class="n">37</div><div class="l">Python modules</div></div>
-  <div class="stat"><div class="n">11</div><div class="l">Translation paths</div></div>
-  <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translation latency</div></div>
-  <div class="stat"><div class="n">100<span>K</span></div><div class="l">tx/month included</div></div>
-</div>
-
-<div class="proto-viz reveal">
-  <div class="pv"><div class="ring">MCP</div><div class="name">Agent-Tool</div><div class="sub">OAuth 2.1</div></div>
-  <div class="pv"><div class="ring">A2A</div><div class="name">Agent-Agent</div><div class="sub">Agent Card</div></div>
-  <div class="pv"><div class="ring">ANP</div><div class="name">Decentralized</div><div class="sub">W3C DID</div></div>
-  <div class="pv"><div class="ring">AG-UI</div><div class="name">Agent-Human</div><div class="sub">CopilotKit</div></div>
-  <div class="pv-center">AIB BRIDGE</div>
-</div>
-
-<div class="terminal reveal">
-  <div class="terminal-bar">
-    <div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div>
-    <div class="terminal-title">aib-cloud v2.15.1</div>
+<!-- PROTOCOL LANDSCAPE -->
+<section><div class="w">
+  <h2 data-lang="en" class="show">The protocol <span>landscape</span> in 2026</h2>
+  <h2 data-lang="fr" class="show">Le paysage des <span>protocoles</span> en 2026</h2>
+  <p class="section-sub show" data-lang="en">Four protocols, four identity systems, zero interoperability. AIB bridges them all.</p>
+  <p class="section-sub" data-lang="fr">Quatre protocoles, quatre syst&egrave;mes d'identit&eacute;, z&eacute;ro interop&eacute;rabilit&eacute;. AIB les relie tous.</p>
+  <div class="diagram-card reveal">
+    <div class="diagram-label show" data-lang="en">Protocol stack — fragmented identity → unified with AIB</div>
+    <div class="diagram-label" data-lang="fr">Pile protocolaire — identit&eacute; fragment&eacute;e → unifi&eacute;e avec AIB</div>
+    <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+      <rect x="30" y="10" width="300" height="55" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="30" y="75" width="300" height="55" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="30" y="140" width="300" height="55" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="30" y="205" width="300" height="55" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="45" y="22" width="80" height="30" rx="5" fill="rgba(0,229,160,.12)" stroke="rgba(0,229,160,.3)"/>
+      <text x="85" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00E5A0" font-weight="700">MCP</text>
+      <rect x="45" y="87" width="80" height="30" rx="5" fill="rgba(123,97,255,.12)" stroke="rgba(123,97,255,.3)"/>
+      <text x="85" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#7B61FF" font-weight="700">A2A</text>
+      <rect x="45" y="152" width="80" height="30" rx="5" fill="rgba(0,197,255,.12)" stroke="rgba(0,197,255,.3)"/>
+      <text x="85" y="172" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00C5FF" font-weight="700">ANP</text>
+      <rect x="45" y="217" width="80" height="30" rx="5" fill="rgba(255,170,0,.12)" stroke="rgba(255,170,0,.3)"/>
+      <text x="85" y="237" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#FFAA00" font-weight="700">AG-UI</text>
+      <text x="200" y="42" font-family="DM Sans" font-size="11" fill="#5C6478">OAuth2 / Server Cards</text>
+      <text x="200" y="107" font-family="DM Sans" font-size="11" fill="#5C6478">Bearer / Agent Cards</text>
+      <text x="200" y="172" font-family="DM Sans" font-size="11" fill="#5C6478">DID-Auth / DID Web</text>
+      <text x="200" y="237" font-family="DM Sans" font-size="11" fill="#5C6478">None / Descriptors</text>
+      <line x1="340" y1="140" x2="400" y2="140" stroke="#00E5A0" stroke-width="2" stroke-dasharray="6,3"/>
+      <polygon points="400,134 412,140 400,146" fill="#00E5A0"/>
+      <rect x="420" y="60" width="240" height="160" rx="12" fill="rgba(0,229,160,.06)" stroke="#00E5A0" stroke-width="1.5"/>
+      <text x="540" y="95" text-anchor="middle" font-family="JetBrains Mono" font-size="14" fill="#00E5A0" font-weight="700">AIB</text>
+      <text x="540" y="120" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#9BA3B8">1 Passport</text>
+      <text x="540" y="140" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#9BA3B8">4 Protocol Bindings</text>
+      <text x="540" y="160" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#9BA3B8">Ed25519 Audit Trail</text>
+      <text x="540" y="180" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#9BA3B8">12 Policy Rules</text>
+      <text x="540" y="200" text-anchor="middle" font-family="DM Sans" font-size="11" fill="#9BA3B8">OIDC Federation</text>
+    </svg>
   </div>
-  <div class="terminal-body" id="term"></div>
-</div>
-</div>
+</div></section>
 
-<div class="w">
-  <div class="sh reveal">
-    <h2 data-lang="en" class="show">9 endpoints. Full identity lifecycle.</h2>
-    <h2 data-lang="fr">9 endpoints. Cycle de vie complet.</h2>
-    <p data-lang="en" class="show">Create, list, revoke, translate, track. Every call is authenticated, metered, and audited.</p>
-    <p data-lang="fr">Cr&eacute;er, lister, r&eacute;voquer, traduire, suivre. Chaque appel est authentifi&eacute;, comptabilis&eacute; et audit&eacute;.</p>
-  </div>
+<!-- ENDPOINTS -->
+<section style="background:var(--bg2)"><div class="w">
+  <h2 data-lang="en" class="show">9 endpoints. <span>Full lifecycle.</span></h2>
+  <h2 data-lang="fr" class="show">9 endpoints. <span>Cycle complet.</span></h2>
+  <p class="section-sub show" data-lang="en">Create, translate, enforce, audit — everything your agents need.</p>
+  <p class="section-sub" data-lang="fr">Cr&eacute;er, traduire, appliquer, auditer — tout ce dont vos agents ont besoin.</p>
   <div class="ep-grid">
-    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create an Agent Passport with protocol bindings, capabilities, and TTL. Auto-generates URN, stores in PostgreSQL, emits audit receipt.</p></div>
-    <div class="ep reveal"><span class="badge get">GET</span><h3>passport-list</h3><p>List all passports for your org. Filter by status (active/revoked/expired). Paginated. Sorted by creation date.</p></div>
-    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Permanently revoke a passport. Cascade-revokes all child passports in the delegation chain automatically.</p></div>
-    <div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>Translate credentials between A2A Agent Cards, MCP Server Cards, and AG-UI Descriptors. Sub-millisecond latency.</p></div>
-    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time usage: transactions, passports, translations, webhooks. Per-org quotas and limits.</p></div>
-    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics for the last 90 days. Action breakdown, latency, error rates. Chart.js-ready format.</p></div>
-    <div class="ep reveal"><span class="badge post">POST</span><h3>policy-manage</h3><p>CRUD for 12 policy rule types. Deliverable gates, separation of duties, rate limits, time restrictions.</p></div>
-    <div class="ep reveal"><span class="badge post">POST</span><h3>webhook-manage</h3><p>Register webhook endpoints. HMAC-SHA256 signed. 4 event types: passport.created, revoked, policy.violation, translate.completed.</p></div>
-    <div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, generate API keys. Auto-provisions org, first key, and beta_pro plan.</p></div>
-  </div>
-</div>
-
-<div class="w">
-  <div class="sh reveal">
-    <h2 data-lang="en" class="show">Everything included in Pro</h2>
-    <h2 data-lang="fr">Tout est inclus dans le Pro</h2>
-    <p data-lang="en" class="show">Free during beta. No time limit. No credit card.</p>
-    <p data-lang="fr">Gratuit pendant la beta. Sans limite de temps. Sans carte bancaire.</p>
-  </div>
-  <div class="f-grid">
-    <div class="f reveal"><span class="ic">></span><h4>4 protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, all translated.</p></div>
-    <div class="f reveal"><span class="ic">#</span><h4>100K tx/month</h4><p>Real quota tracking per org per month.</p></div>
-    <div class="f reveal"><span class="ic">~</span><h4>Ed25519 audit</h4><p>Persistent signing keys. Every receipt cryptographically signed and verifiable.</p></div>
-    <div class="f reveal"><span class="ic">!</span><h4>Policy engine</h4><p>12 rule types. Domain block, rate limit, separation of duties, time restrict.</p></div>
-    <div class="f reveal"><span class="ic">+</span><h4>OIDC Federation</h4><p>Bring your own IdP. Google, Entra, Okta, Auth0. JWKS + audience verification.</p></div>
-    <div class="f reveal"><span class="ic">*</span><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed. Real-time notifications on every action.</p></div>
-    <div class="f reveal"><span class="ic">@</span><h4>Auto-onboarding</h4><p>Sign up, get org + key + beta_pro instantly.</p></div>
-    <div class="f reveal"><span class="ic">{}</span><h4>Framework tools</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines.</p></div>
-    <div class="f reveal"><span class="ic">$</span><h4>Python SDK</h4><p>pip install agent-identity-bridge. 1,054 tests. Zero deps.</p></div>
-    <div class="f reveal"><span class="ic">&gt;</span><h4>CI/CD pipeline</h4><p>GitHub Actions. Unit + integration tests. Auto-deploy on push.</p></div>
-  </div>
-</div>
-
-<section class="cta"><div class="w reveal">
-  <h2 data-lang="en" class="show">Start building in 30 seconds</h2>
-  <h2 data-lang="fr">Commencez en 30 secondes</h2>
-  <p data-lang="en" class="show">Free during beta. Early adopters keep their rate.</p>
-  <p data-lang="fr">Gratuit pendant la beta. Les early adopters gardent leur tarif.</p>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:8px">
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE BETA</a>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-o">GitHub</a>
-    <a href="https://pypi.org/project/agent-identity-bridge/" class="btn-o">PyPI v2.15.1</a>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with protocol bindings, capabilities, TTL. Ed25519 signed receipt.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>passport-list</h3><p>List passports. Filter by status, paginated, sorted by date.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Revoke + cascade children. Separation of duties enforced.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>A2A ↔ MCP ↔ AG-UI. 6 paths. Sub-millisecond. Webhook fired.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time quotas: transactions, passports, translations, webhooks.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics for 90 days. Chart.js-ready format.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>policy-manage</h3><p>CRUD 12 rule types. Deliverable gates, rate limits, time restrict.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>webhook-manage</h3><p>Register endpoints. HMAC-SHA256 signed. 4 event types.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, API key generation. Auto-provisions org + beta_pro.</p></div>
   </div>
 </div></section>
 
+<!-- FEATURES -->
+<section><div class="w">
+  <h2 data-lang="en" class="show">Built for <span>production</span></h2>
+  <h2 data-lang="fr" class="show">Con&ccedil;u pour la <span>production</span></h2>
+  <p class="section-sub show" data-lang="en">Not a prototype. 1,054 tests. CI/CD pipeline. Persistent Ed25519 keys.</p>
+  <p class="section-sub" data-lang="fr">Pas un prototype. 1 054 tests. Pipeline CI/CD. Cl&eacute;s Ed25519 persistantes.</p>
+  <div class="f-grid">
+    <div class="f reveal"><div class="ic">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, all translated, all audited.</p></div></div>
+    <div class="f reveal"><div class="ic">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent signing keys. Every receipt cryptographically signed and verifiable.</p></div></div>
+    <div class="f reveal"><div class="ic">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. Bring your own IdP. JWKS + audience verification.</p></div></div>
+    <div class="f reveal"><div class="ic">◈</div><div><h4>12 Policy Rules</h4><p>Deliverable gates, separation of duties, rate limits, time restrictions, domain control.</p></div></div>
+    <div class="f reveal"><div class="ic">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed. Real-time notifications on every action.</p></div></div>
+    <div class="f reveal"><div class="ic">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow. Automatic delegation chain cleanup.</p></div></div>
+    <div class="f reveal"><div class="ic">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines of code to integrate.</p></div></div>
+    <div class="f reveal"><div class="ic">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. 1,044 unit + 10 integration tests. Auto-deploy.</p></div></div>
+    <div class="f reveal"><div class="ic">⟐</div><div><h4>Python SDK</h4><p>pip install agent-identity-bridge. Zero external dependencies.</p></div></div>
+    <div class="f reveal"><div class="ic">☰</div><div><h4>W3C Spec</h4><p>ReSpec format. RFC 2119 conformance. Ready for community review.</p></div></div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="cta"><div class="w reveal">
+  <h2 data-lang="en" class="show">Start building in <span>30 seconds</span></h2>
+  <h2 data-lang="fr" class="show">Commencez en <span>30 secondes</span></h2>
+  <p data-lang="en" class="show">Free during beta. All Pro features included. No credit card.</p>
+  <p data-lang="fr">Gratuit pendant la beta. Toutes les fonctionnalit&eacute;s Pro incluses.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="/dashboard" class="btn-primary">> Open Dashboard</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-outline">Read Quickstart</a>
+    <a href="https://pypi.org/project/agent-identity-bridge/" class="btn-outline">PyPI v2.15.1</a>
+  </div>
+</div></section>
+
+<!-- FOOTER -->
 <footer><div class="w">
-  <p><a href="https://tntech.fr" target="_blank">TNTECH CONSULTING SAS</a> &middot; <a href="https://aib-tech.fr">Protocol</a> &middot; <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> &middot; Apache 2.0 &middot; SIREN 993811157</p>
+  <p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/blog">Blog</a> · Apache 2.0</p>
 </div></footer>
 
 <script>
-// Language toggle
-function setLang(lang){
-  document.querySelectorAll('[data-lang]').forEach(function(el){
-    el.classList.toggle('show', el.getAttribute('data-lang')===lang);
-  });
-  document.getElementById('btn-en').classList.toggle('active', lang==='en');
-  document.getElementById('btn-fr').classList.toggle('active', lang==='fr');
-}
-
-// Reveal on scroll
-var obs = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:0.12});
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(function(e){e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nav-btn').forEach(function(x){x.classList.remove('open')});document.querySelectorAll('.dropdown').forEach(function(x){x.classList.remove('open')});if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-item')){document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('open')});document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open')})}});
+var obs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
-
-// Terminal typing effect
-var lines = [
-  {t:'prompt',c:'$ '},
-  {t:'cmd',c:'curl -X POST /functions/v1/passport-create \\'},
-  {t:'dim',c:'  -H "x-api-key: aib_sk_live_..." \\'},
-  {t:'dim',c:'  -d \'{"agent_slug": "booking-bot", "protocols": ["mcp","a2a"]}\''},
-  {t:'',c:''},
-  {t:'ok',c:'{'},
-  {t:'ok',c:'  "passport_id": "urn:aib:agent:myorg:booking-bot",'},
-  {t:'ok',c:'  "protocols": ["mcp", "a2a"],'},
-  {t:'ok',c:'  "tier": "permanent",'},
-  {t:'ok',c:'  "expires_at": "2027-03-26T14:33:41.030Z"'},
-  {t:'ok',c:'}'},
-  {t:'',c:''},
-  {t:'prompt',c:'$ '},
-  {t:'cmd',c:'curl /functions/v1/usage-check -H "x-api-key: ..."'},
-  {t:'out',c:'  transactions: 3/100,000 | passports: 1/500 | plan: beta_pro'},
-];
-var term = document.getElementById('term');
-var i = 0;
-function typeLine(){
-  if(i >= lines.length) return;
-  var l = lines[i]; i++;
-  var div = document.createElement('div');
-  if(l.t === 'prompt'){
-    var s1 = document.createElement('span'); s1.className = 'prompt'; s1.textContent = l.c;
-    div.appendChild(s1);
-    if(lines[i] && lines[i].t === 'cmd'){
-      var s2 = document.createElement('span'); s2.className = 'cmd'; s2.textContent = lines[i].c;
-      div.appendChild(s2); i++;
-    }
-  } else {
-    var s = document.createElement('span'); s.className = l.t; s.textContent = l.c;
-    div.appendChild(s);
-  }
-  term.appendChild(div);
-  setTimeout(typeLine, l.t === 'ok' ? 40 : l.t === 'prompt' ? 300 : 60);
-}
-setTimeout(typeLine, 800);
 </script>
 </body>
 </html>
