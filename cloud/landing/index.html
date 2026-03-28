@@ -32,7 +32,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AIB Cloud — One API call. Every protocol.">
-<meta name="twitter:description" content="Managed gateway for AI agent identity. MCP, A2A, ANP, AG-UI. 1,056 tests. Free beta.">
+<meta name="twitter:description" content="Managed gateway for AI agent identity. MCP, A2A, ANP, AG-UI. 1,054 tests. OIDC Federation. Free beta.">
 
 <!-- Structured Data (JSON-LD) -->
 <script type="application/ld+json">
@@ -69,14 +69,16 @@
   "featureList": [
     "Agent Passport creation and verification",
     "Credential translation across MCP, A2A, ANP, AG-UI",
-    "Policy engine with 8 rule types",
-    "90-day audit trail with SHA-256 hash chain",
+    "Policy engine with 12 rule types",
+    "Ed25519 signed audit trail with persistent keys",
+    "OIDC Federation (Google, Entra, Okta, Auth0)",
+    "Webhooks with HMAC-SHA256 signing",
     "100,000 transactions per month",
     "LangChain, CrewAI, OpenAI Agents SDK integration",
-    "Python and TypeScript SDKs",
-    "Cascade revocation"
+    "Python SDK with 1,054 tests",
+    "CI/CD pipeline with automated deployment"
   ],
-  "softwareVersion": "2.13.4",
+  "softwareVersion": "2.15.1",
   "license": "https://www.apache.org/licenses/LICENSE-2.0"
 }
 </script>
@@ -199,6 +201,9 @@ footer a{color:var(--fg2)}
     <a href="https://aib-tech.fr/pricing" data-lang="fr">Tarifs</a>
     <a href="frameworks.html" data-lang="en" class="show">Frameworks</a>
     <a href="frameworks.html" data-lang="fr">Frameworks</a>
+    <a href="blog.html" data-lang="en" class="show">Blog</a>
+    <a href="blog.html" data-lang="fr">Blog</a>
+    <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/SPEC.md">Spec</a>
     <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
     <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
     <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
@@ -222,7 +227,7 @@ footer a{color:var(--fg2)}
 
 <div class="w">
 <div class="stat-row reveal">
-  <div class="stat"><div class="n">1,056<span>+</span></div><div class="l">Tests passing</div></div>
+  <div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests passing</div></div>
   <div class="stat"><div class="n">37</div><div class="l">Python modules</div></div>
   <div class="stat"><div class="n">11</div><div class="l">Translation paths</div></div>
   <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translation latency</div></div>
@@ -240,7 +245,7 @@ footer a{color:var(--fg2)}
 <div class="terminal reveal">
   <div class="terminal-bar">
     <div class="terminal-dot"></div><div class="terminal-dot"></div><div class="terminal-dot"></div>
-    <div class="terminal-title">aib-cloud v2.13.4</div>
+    <div class="terminal-title">aib-cloud v2.15.1</div>
   </div>
   <div class="terminal-body" id="term"></div>
 </div>
@@ -248,8 +253,8 @@ footer a{color:var(--fg2)}
 
 <div class="w">
   <div class="sh reveal">
-    <h2 data-lang="en" class="show">5 endpoints. Full identity lifecycle.</h2>
-    <h2 data-lang="fr">5 endpoints. Cycle de vie complet.</h2>
+    <h2 data-lang="en" class="show">9 endpoints. Full identity lifecycle.</h2>
+    <h2 data-lang="fr">9 endpoints. Cycle de vie complet.</h2>
     <p data-lang="en" class="show">Create, list, revoke, translate, track. Every call is authenticated, metered, and audited.</p>
     <p data-lang="fr">Cr&eacute;er, lister, r&eacute;voquer, traduire, suivre. Chaque appel est authentifi&eacute;, comptabilis&eacute; et audit&eacute;.</p>
   </div>
@@ -259,6 +264,10 @@ footer a{color:var(--fg2)}
     <div class="ep reveal"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Permanently revoke a passport. Cascade-revokes all child passports in the delegation chain automatically.</p></div>
     <div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>Translate credentials between A2A Agent Cards, MCP Server Cards, and AG-UI Descriptors. Sub-millisecond latency.</p></div>
     <div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time usage: transactions, passports, translations, webhooks. Per-org quotas and limits.</p></div>
+    <div class="ep reveal"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics for the last 90 days. Action breakdown, latency, error rates. Chart.js-ready format.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>policy-manage</h3><p>CRUD for 12 policy rule types. Deliverable gates, separation of duties, rate limits, time restrictions.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>webhook-manage</h3><p>Register webhook endpoints. HMAC-SHA256 signed. 4 event types: passport.created, revoked, policy.violation, translate.completed.</p></div>
+    <div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, generate API keys. Auto-provisions org, first key, and beta_pro plan.</p></div>
   </div>
 </div>
 
@@ -272,13 +281,14 @@ footer a{color:var(--fg2)}
   <div class="f-grid">
     <div class="f reveal"><span class="ic">></span><h4>4 protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, all translated.</p></div>
     <div class="f reveal"><span class="ic">#</span><h4>100K tx/month</h4><p>Real quota tracking per org per month.</p></div>
-    <div class="f reveal"><span class="ic">~</span><h4>90-day audit</h4><p>SHA-256 hash chain receipts. Tamper-proof.</p></div>
-    <div class="f reveal"><span class="ic">!</span><h4>Policy engine</h4><p>8 rule types. Domain block, cap limit, tier restrict.</p></div>
-    <div class="f reveal"><span class="ic">+</span><h4>Cascade revoke</h4><p>Revoke parent, children follow. Automatic.</p></div>
-    <div class="f reveal"><span class="ic">*</span><h4>API key auth</h4><p>SHA-256 hashed. Last-used tracking.</p></div>
+    <div class="f reveal"><span class="ic">~</span><h4>Ed25519 audit</h4><p>Persistent signing keys. Every receipt cryptographically signed and verifiable.</p></div>
+    <div class="f reveal"><span class="ic">!</span><h4>Policy engine</h4><p>12 rule types. Domain block, rate limit, separation of duties, time restrict.</p></div>
+    <div class="f reveal"><span class="ic">+</span><h4>OIDC Federation</h4><p>Bring your own IdP. Google, Entra, Okta, Auth0. JWKS + audience verification.</p></div>
+    <div class="f reveal"><span class="ic">*</span><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed. Real-time notifications on every action.</p></div>
     <div class="f reveal"><span class="ic">@</span><h4>Auto-onboarding</h4><p>Sign up, get org + key + beta_pro instantly.</p></div>
     <div class="f reveal"><span class="ic">{}</span><h4>Framework tools</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines.</p></div>
-    <div class="f reveal"><span class="ic">$</span><h4>Python + TS SDK</h4><p>pip install agent-identity-bridge. 1,056 tests.</p></div>
+    <div class="f reveal"><span class="ic">$</span><h4>Python SDK</h4><p>pip install agent-identity-bridge. 1,054 tests. Zero deps.</p></div>
+    <div class="f reveal"><span class="ic">&gt;</span><h4>CI/CD pipeline</h4><p>GitHub Actions. Unit + integration tests. Auto-deploy on push.</p></div>
   </div>
 </div>
 
@@ -290,7 +300,7 @@ footer a{color:var(--fg2)}
   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:8px">
     <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">> START FREE BETA</a>
     <a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-o">GitHub</a>
-    <a href="https://pypi.org/project/agent-identity-bridge/" class="btn-o">PyPI v2.13.4</a>
+    <a href="https://pypi.org/project/agent-identity-bridge/" class="btn-o">PyPI v2.15.1</a>
   </div>
 </div></section>
 
