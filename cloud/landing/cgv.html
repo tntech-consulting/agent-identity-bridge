@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB — Conditions Générales de Vente</title>
+<meta name="description" content="Conditions Générales de Vente et d'Utilisation de la plateforme Agent Identity Bridge (AIB) — TNTECH CONSULTING SAS">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--bd:rgba(255,255,255,.06);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.8}
+a{color:var(--cyan);text-decoration:none}
+.w{max-width:800px;margin:0 auto;padding:0 28px}
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-img{width:32px;height:32px;border-radius:6px;object-fit:contain}
+.logo-text{font-weight:700;font-size:16px;color:var(--fg)}
+.back{color:var(--fg2);font-size:13px;font-weight:500;padding:7px 14px;border-radius:7px;transition:.15s}.back:hover{color:var(--cyan);background:rgba(0,212,255,.06)}
+header{padding:80px 0 40px;text-align:center}
+header h1{font-size:32px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+header p{color:var(--fg2);font-size:14px}
+.content{padding:0 0 80px}
+.content h2{font-size:20px;font-weight:700;margin:48px 0 16px;padding-top:24px;border-top:1px solid var(--bd);color:var(--fg)}
+.content h2:first-of-type{border-top:none;margin-top:32px}
+.content h3{font-size:16px;font-weight:700;margin:24px 0 8px;color:var(--fg)}
+.content p{color:var(--fg2);margin-bottom:16px}
+.content ul{color:var(--fg2);margin:0 0 16px 24px}
+.content li{margin-bottom:6px}
+.content strong{color:var(--fg)}
+.content code{font-family:var(--mono);font-size:13px;background:rgba(0,212,255,.06);padding:2px 6px;border-radius:3px;color:var(--cyan)}
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}
+footer p{font-size:11px;color:var(--fg3)}
+</style>
+</head>
+<body>
+<nav><div class="w" style="max-width:800px">
+<a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">AIB</span></a>
+<a href="/" class="back">← Retour</a>
+</div></nav>
+
+<header><div class="w">
+<h1>Conditions Générales de Vente et d'Utilisation</h1>
+<p>Dernière mise à jour : 28 mars 2026</p>
+</div></header>
+
+<div class="content"><div class="w">
+
+<h2>Article 1 — Identification de l'éditeur</h2>
+<p>La plateforme <strong>Agent Identity Bridge</strong> (ci-après « AIB » ou « la Plateforme ») est éditée et exploitée par :</p>
+<p><strong>TNTECH CONSULTING SAS</strong><br>
+SIREN : 993 811 157<br>
+Siège social : Paris 17e, France<br>
+Représentée par Thomas Nirennold, Président<br>
+Contact : contact@tntech.fr</p>
+<p>La Plateforme est accessible à l'adresse <strong>aib-tech.fr</strong> et via l'API hébergée sur l'infrastructure Supabase.</p>
+
+<h2>Article 2 — Objet</h2>
+<p>Les présentes Conditions Générales de Vente et d'Utilisation (ci-après « CGV ») définissent les modalités d'accès et d'utilisation de la Plateforme AIB, qui fournit :</p>
+<ul>
+<li>Un service de création et gestion d'identités portables pour agents IA (« Agent Passports »)</li>
+<li>Un service de traduction de credentials entre les protocoles MCP, A2A, ANP et AG-UI</li>
+<li>Un moteur de règles de politique (12 types) pour le contrôle d'accès des agents</li>
+<li>Un système d'audit cryptographique basé sur Ed25519 (RFC 8032)</li>
+<li>Un système de fédération OIDC pour l'authentification via des fournisseurs d'identité tiers</li>
+<li>Un système de webhooks pour les notifications en temps réel</li>
+<li>Un SDK Python publié sur PyPI sous licence Apache 2.0</li>
+</ul>
+
+<h2>Article 3 — Acceptation des CGV</h2>
+<p>L'inscription à la Plateforme et/ou l'utilisation de l'API implique l'acceptation sans réserve des présentes CGV. En créant un compte ou en générant une clé API, l'Utilisateur reconnaît avoir pris connaissance des présentes CGV et les accepter intégralement.</p>
+
+<h2>Article 4 — Description des services</h2>
+
+<h3>4.1 Agent Passports</h3>
+<p>AIB permet la création de « passeports » numériques pour agents IA, identifiés par un URN unique au format <code>urn:aib:agent:{org}:{agent}</code>. Chaque passeport contient les bindings de protocole, les capacités déclarées, un TTL (durée de vie), et un tier (permanent, session, éphémère).</p>
+
+<h3>4.2 Traduction de credentials</h3>
+<p>La Plateforme traduit les credentials entre 6 chemins bidirectionnels : A2A Agent Cards, MCP Server Cards, et AG-UI Descriptors. La traduction est effectuée en moins de 1 milliseconde.</p>
+
+<h3>4.3 Moteur de politique</h3>
+<p>12 types de règles sont disponibles : deliverable_gate, capability_required, separation_of_duties, protocol_restrict, domain_block, domain_allow, tier_restrict, time_restrict, action_block, rate_limit, attestation_required, capability_limit. Chaque règle peut être configurée avec une sévérité : block, warn, ou log.</p>
+
+<h3>4.4 Audit trail</h3>
+<p>Chaque action génère un reçu signé avec Ed25519. Les clés de signature sont persistantes et stockées en base PostgreSQL. Les hash de reçus forment une chaîne SHA-256 inviolable.</p>
+
+<h3>4.5 API</h3>
+<p>L'API expose 9 endpoints REST accessibles via des Edge Functions Supabase (Deno). L'authentification se fait par clé API (hashée SHA-256), token JWT Supabase, ou token OIDC fédéré.</p>
+
+<h2>Article 5 — Plans et tarification</h2>
+
+<h3>5.1 Plan Community (gratuit)</h3>
+<p>Le plan Community offre un accès limité à la Plateforme avec : 1 000 transactions/mois, 10 passeports, 3 règles de politique. Ce plan est fourni sans garantie de disponibilité.</p>
+
+<h3>5.2 Plan Pro</h3>
+<p>Le plan Pro offre : 100 000 transactions/mois, 500 passeports, 12 types de règles, fédération OIDC, webhooks, et support par email. Le tarif est indiqué sur la page de tarification à l'adresse aib-tech.fr/pricing.</p>
+
+<h3>5.3 Plan Enterprise</h3>
+<p>Le plan Enterprise est proposé sur devis et inclut : transactions illimitées, passeports illimités, SLA garanti, support dédié, et déploiement on-premise possible.</p>
+
+<h3>5.4 Beta</h3>
+<p>Pendant la période de beta, toutes les fonctionnalités du plan Pro sont accessibles gratuitement. TNTECH CONSULTING SAS se réserve le droit de mettre fin à la période de beta avec un préavis de 30 jours.</p>
+
+<h2>Article 6 — Inscription et compte utilisateur</h2>
+<p>L'inscription se fait via l'endpoint <code>/auth</code> avec un email et un mot de passe. Un compte organisation est automatiquement créé avec une première clé API. L'Utilisateur est responsable de la confidentialité de ses clés API. Les clés sont stockées sous forme de hash SHA-256 — la clé en clair n'est affichée qu'une seule fois à la création.</p>
+
+<h2>Article 7 — Obligations de l'Utilisateur</h2>
+<p>L'Utilisateur s'engage à :</p>
+<ul>
+<li>Ne pas utiliser la Plateforme à des fins illicites ou contraires aux bonnes mœurs</li>
+<li>Ne pas tenter de contourner les mécanismes de sécurité, les quotas, ou les règles de politique</li>
+<li>Ne pas effectuer de reverse engineering sur les Edge Functions ou l'infrastructure</li>
+<li>Protéger ses clés API et ne pas les partager publiquement</li>
+<li>Respecter les quotas de son plan (transactions/mois, nombre de passeports)</li>
+<li>Ne pas utiliser la Plateforme pour créer des passeports frauduleux ou usurper l'identité d'agents tiers</li>
+<li>Se conformer au Règlement européen sur l'Intelligence Artificielle (AI Act) pour tout agent enregistré sur la Plateforme</li>
+</ul>
+
+<h2>Article 8 — Propriété intellectuelle</h2>
+
+<h3>8.1 Code open-source</h3>
+<p>Le SDK Python AIB et la spécification du protocole sont distribués sous licence <strong>Apache 2.0</strong>. Le code source est disponible sur GitHub à l'adresse github.com/tntech-consulting/agent-identity-bridge.</p>
+
+<h3>8.2 Plateforme SaaS</h3>
+<p>L'infrastructure SaaS (Edge Functions, base de données, dashboard, landing pages) reste la propriété exclusive de TNTECH CONSULTING SAS. L'Utilisateur ne bénéficie que d'un droit d'utilisation non exclusif et non cessible.</p>
+
+<h3>8.3 Données utilisateur</h3>
+<p>Les données créées par l'Utilisateur (passeports, règles de politique, webhooks) restent la propriété de l'Utilisateur. TNTECH CONSULTING SAS s'engage à ne pas exploiter commercialement ces données.</p>
+
+<h2>Article 9 — Protection des données personnelles</h2>
+<p>TNTECH CONSULTING SAS collecte et traite les données personnelles suivantes dans le cadre de l'utilisation de la Plateforme :</p>
+<ul>
+<li>Adresse email (inscription)</li>
+<li>Identifiants d'organisation et d'agent</li>
+<li>Logs d'utilisation de l'API (timestamps, actions, IP)</li>
+<li>Données de fédération OIDC (issuer, subject, audience)</li>
+</ul>
+<p>Ces données sont hébergées sur l'infrastructure Supabase (région eu-west-1, Irlande) conforme au RGPD. L'Utilisateur dispose d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition conformément au Règlement (UE) 2016/679 (RGPD). Pour exercer ces droits : contact@tntech.fr.</p>
+
+<h2>Article 10 — Disponibilité et maintenance</h2>
+<p>TNTECH CONSULTING SAS s'efforce d'assurer une disponibilité maximale de la Plateforme. Toutefois, aucune garantie de disponibilité n'est fournie pour les plans Community et Pro. Le plan Enterprise peut inclure un SLA contractuel. La Plateforme peut être temporairement indisponible pour des raisons de maintenance, mise à jour, ou force majeure.</p>
+
+<h2>Article 11 — Limitation de responsabilité</h2>
+<p>TNTECH CONSULTING SAS ne pourra être tenue responsable :</p>
+<ul>
+<li>Des dommages indirects, y compris perte de données, perte de chiffre d'affaires, ou préjudice d'image</li>
+<li>De l'utilisation faite par l'Utilisateur des passeports créés via la Plateforme</li>
+<li>Des décisions prises par les agents IA identifiés via AIB</li>
+<li>De l'indisponibilité de l'infrastructure Supabase ou Netlify</li>
+<li>De la compromission de clés API due à une négligence de l'Utilisateur</li>
+</ul>
+<p>La responsabilité totale de TNTECH CONSULTING SAS est limitée au montant des sommes effectivement perçues de l'Utilisateur au cours des 12 derniers mois.</p>
+
+<h2>Article 12 — Résiliation</h2>
+<p>L'Utilisateur peut résilier son compte à tout moment en contactant contact@tntech.fr. TNTECH CONSULTING SAS peut suspendre ou résilier un compte en cas de violation des présentes CGV, avec un préavis de 15 jours sauf en cas de violation grave (tentative de piratage, fraude, utilisation illicite).</p>
+<p>En cas de résiliation, les données de l'Utilisateur (passeports, reçus, règles) sont conservées pendant 90 jours puis supprimées définitivement.</p>
+
+<h2>Article 13 — Modifications des CGV</h2>
+<p>TNTECH CONSULTING SAS se réserve le droit de modifier les présentes CGV. Les modifications prennent effet 30 jours après notification par email ou publication sur la Plateforme. L'utilisation continue de la Plateforme après cette période vaut acceptation des nouvelles CGV.</p>
+
+<h2>Article 14 — Droit applicable et juridiction</h2>
+<p>Les présentes CGV sont soumises au droit français. En cas de litige, les parties s'engagent à rechercher une solution amiable. À défaut, les tribunaux compétents de Paris seront seuls compétents.</p>
+
+<h2>Article 15 — Contact</h2>
+<p>Pour toute question relative aux présentes CGV :</p>
+<p><strong>TNTECH CONSULTING SAS</strong><br>
+Email : contact@tntech.fr<br>
+Site : tntech.fr<br>
+GitHub : github.com/tntech-consulting</p>
+
+</div></div>
+
+<footer><div class="w" style="max-width:800px">
+<p>&copy; 2026 TNTECH CONSULTING SAS — Paris, France</p>
+</div></footer>
+</body>
+</html>
