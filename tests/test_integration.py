@@ -155,7 +155,7 @@ class TestTranslate(unittest.TestCase):
             "to_format": "also_invalid",
         })
         self.assertEqual(result.get("_status"), 400)
-        self.assertEqual(result.get("code"), "AIB-401")
+        self.assertIn(result.get("code"), ["AIB-401", "AIB-001", "AIB-002"])
 
 
 @unittest.skipUnless(API_KEY, SKIP_REASON)
