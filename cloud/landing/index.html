@@ -5,210 +5,315 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIB — Agent Identity Bridge | One identity. Every protocol.</title>
 <meta name="description" content="AIB: portable identity for AI agents across MCP, A2A, ANP, AG-UI. Create passports, translate credentials, enforce policies, audit everything with Ed25519.">
-<meta name="author" content="TNTECH CONSULTING SAS">
 <link rel="canonical" href="https://aib-tech.fr/">
 <meta property="og:title" content="AIB — One identity. Every protocol.">
-<meta property="og:description" content="Portable identity for AI agents. 1,054 tests. OIDC Federation. Ed25519 audit. Free beta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#050810;--bg2:#0a0f1e;--bg3:#111833;--fg:#dfe6f6;--fg2:#8b97b8;--fg3:#4d5a7a;--signal:#00ffaa;--signal-dim:rgba(0,255,170,.08);--signal-mid:rgba(0,255,170,.25);--blue:#3b8bff;--blue-dim:rgba(59,139,255,.1);--purple:#8b5cf6;--orange:#ff9f43;--red:#ff4757;--bd:rgba(255,255,255,.06);--serif:'Instrument Serif',Georgia,serif;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',system-ui,sans-serif}
-html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-a{color:var(--signal);text-decoration:none}.w{max-width:1140px;margin:0 auto;padding:0 28px}
+:root{
+  --bg:#041a0d;--bg2:#072211;--bg3:#0a2e17;
+  --fg:#d4e8db;--fg2:#7fa88d;--fg3:#4a7a57;
+  --pcb:#0d4d1a;--copper:#d4883a;--copper2:#b87333;--gold:#e8c547;--solder:#f0e68c;
+  --trace:#1aff6e;--trace-dim:rgba(26,255,110,.08);--trace-mid:rgba(26,255,110,.3);
+  --blue:#4ecdc4;--red:#ff6b6b;
+  --bd:rgba(26,255,110,.08);--bd2:rgba(26,255,110,.15);
+  --display:'Syne',system-ui,sans-serif;
+  --mono:'Fira Code',monospace;
+  --body:'Source Sans 3',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--trace);text-decoration:none;transition:color .15s}a:hover{color:var(--gold)}
+.w{max-width:1140px;margin:0 auto;padding:0 28px}
 [data-lang]{display:none}.show{display:revert!important}button{font-family:inherit}
-.bg-grid{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
-.bg-grid::before{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--bd) 1px,transparent 1px),linear-gradient(90deg,var(--bd) 1px,transparent 1px);background-size:60px 60px;animation:gs 30s linear infinite}
-.bg-grid::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 40%,rgba(0,255,170,.03),transparent 70%),radial-gradient(ellipse 40% 60% at 80% 20%,rgba(59,139,255,.03),transparent 60%)}
-@keyframes gs{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
-.scanline{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--signal-mid),transparent);z-index:1;animation:sc 8s linear infinite;pointer-events:none;opacity:.3}
-@keyframes sc{0%{top:-2px}100%{top:100vh}}
-.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ═══ PCB BACKGROUND ═══ */
+.pcb-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.pcb-bg::before{content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle 1px at 30px 30px, rgba(26,255,110,.06) 1px, transparent 1px),
+    radial-gradient(circle 1px at 90px 30px, rgba(26,255,110,.06) 1px, transparent 1px),
+    radial-gradient(circle 1px at 30px 90px, rgba(26,255,110,.06) 1px, transparent 1px),
+    radial-gradient(circle 1px at 90px 90px, rgba(26,255,110,.06) 1px, transparent 1px);
+  background-size:120px 120px;
+}
+/* Horizontal traces */
+.pcb-bg::after{content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(0deg, transparent 59px, rgba(26,255,110,.03) 59px, rgba(26,255,110,.03) 61px, transparent 61px),
+    linear-gradient(90deg, transparent 59px, rgba(26,255,110,.03) 59px, rgba(26,255,110,.03) 61px, transparent 61px);
+  background-size:120px 120px;
+}
+/* Animated data pulse along traces */
+@keyframes dataPulse{
+  0%{background-position:0 0}
+  100%{background-position:120px 120px}
+}
+.pcb-pulse{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    linear-gradient(90deg, transparent 40px, rgba(26,255,110,.06) 58px, var(--trace-mid) 60px, rgba(26,255,110,.06) 62px, transparent 80px);
+  background-size:120px 120px;
+  animation:dataPulse 4s linear infinite;
+  mix-blend-mode:screen;
+  opacity:.3;
+}
+
 main{position:relative;z-index:2}
-nav{padding:14px 0;position:sticky;top:0;z-index:100;background:rgba(5,8,16,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd)}
+
+/* ═══ NAV ═══ */
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(4,26,13,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd2)}
 nav .w{display:flex;justify-content:space-between;align-items:center}
-.logo{font-family:var(--mono);font-weight:700;font-size:20px;color:var(--fg);letter-spacing:-1px}.logo em{font-style:normal;color:var(--signal);font-family:var(--serif);font-size:22px}
-.nav-r{display:flex;gap:4px;align-items:center}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;color:var(--trace);letter-spacing:-1px;position:relative}
+.logo::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:2px;background:var(--copper);border-radius:1px}
+.nav-r{display:flex;gap:3px;align-items:center}
 .nav-item{position:relative}
-.nav-btn{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13px;font-weight:500;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:6px;transition:all .15s}
-.nav-btn:hover,.nav-btn.open{color:var(--fg);background:rgba(255,255,255,.04)}
+.nav-btn{background:none;border:none;color:var(--fg2);font-family:var(--body);font-size:13px;font-weight:500;padding:8px 13px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:6px;transition:all .15s}
+.nav-btn:hover,.nav-btn.open{color:var(--trace);background:var(--trace-dim)}
 .nav-btn svg{width:10px;height:10px;transition:transform .2s}.nav-btn.open svg{transform:rotate(180deg)}
-.dd{position:absolute;top:calc(100% + 6px);left:0;background:var(--bg2);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:8px;min-width:230px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.dd{position:absolute;top:calc(100% + 6px);left:0;background:var(--bg2);border:1px solid var(--bd2);border-radius:12px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-6px);transition:all .2s;box-shadow:0 16px 48px rgba(0,0,0,.5)}
 .dd.open{opacity:1;visibility:visible;transform:translateY(0)}
-.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13px;font-weight:500;transition:all .1s}.dd a:hover{background:rgba(255,255,255,.04)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13px;font-weight:500;transition:all .1s}.dd a:hover{background:var(--trace-dim);color:var(--trace)}
 .dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:2px}
 .dd .sep{height:1px;background:var(--bd);margin:4px 10px}
-.lang-btn{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px}.lang-btn.active{color:var(--signal)}
-.btn-cta{background:var(--signal);color:var(--bg);font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s;box-shadow:0 0 20px rgba(0,255,170,.15)}.btn-cta:hover{box-shadow:0 0 30px rgba(0,255,170,.3);transform:translateY(-1px)}
-@media(max-width:768px){.nav-r{gap:2px}.nav-btn{font-size:12px;padding:6px 8px}.btn-cta,.nav-link-d{display:none}}
-.hero{padding:100px 0 80px}.hero-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--signal-dim);border:1px solid var(--signal-mid);color:var(--signal);font-family:var(--mono);font-size:11px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:28px}
-.hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--signal);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-family:var(--serif);font-size:58px;font-weight:400;line-height:1.08;margin-bottom:24px;letter-spacing:-1px}.hero h1 em{color:var(--signal);font-style:italic}
-.hero-sub{color:var(--fg2);font-size:16px;line-height:1.75;margin-bottom:36px;max-width:480px}
+.lang-btn{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px}.lang-btn.active{color:var(--trace)}
+.btn-cta{background:var(--trace);color:var(--bg);font-size:12px;font-weight:700;padding:8px 18px;border-radius:6px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s;box-shadow:0 0 20px rgba(26,255,110,.15)}.btn-cta:hover{box-shadow:0 0 30px rgba(26,255,110,.3);transform:translateY(-1px)}
+@media(max-width:768px){.nav-r{gap:1px}.nav-btn{font-size:11px;padding:6px 7px}.btn-cta{display:none}.dd{min-width:190px}}
+
+/* ═══ HERO ═══ */
+.hero{padding:90px 0 70px;position:relative}
+.hero-content{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--copper);color:var(--copper);font-family:var(--mono);font-size:10px;font-weight:600;padding:5px 14px;border-radius:4px;margin-bottom:24px;letter-spacing:1.5px;text-transform:uppercase}
+.hero-tag .led{width:6px;height:6px;border-radius:50%;background:var(--trace);box-shadow:0 0 6px var(--trace);animation:ledBlink 2s infinite}
+@keyframes ledBlink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero h1{font-family:var(--display);font-size:52px;font-weight:800;line-height:1.06;margin-bottom:22px;letter-spacing:-2px}
+.hero h1 em{font-style:normal;color:var(--trace);text-shadow:0 0 40px rgba(26,255,110,.15)}
+.hero-sub{color:var(--fg2);font-size:16px;line-height:1.8;margin-bottom:32px;max-width:460px}
 .hero-actions{display:flex;gap:12px}
-.btn-hero{background:var(--signal);color:var(--bg);padding:14px 28px;border-radius:10px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .2s;box-shadow:0 0 30px rgba(0,255,170,.15)}.btn-hero:hover{box-shadow:0 0 50px rgba(0,255,170,.25);transform:translateY(-2px)}
-.btn-ghost{border:1px solid rgba(255,255,255,.12);color:var(--fg);padding:14px 28px;border-radius:10px;font-weight:500;font-size:14px;transition:all .15s}.btn-ghost:hover{border-color:var(--signal);color:var(--signal)}
-.hero-radar{position:relative;width:100%;aspect-ratio:1;max-width:440px;margin:0 auto}
-.radar-ring{position:absolute;border-radius:50%;border:1px solid var(--bd);top:50%;left:50%;transform:translate(-50%,-50%)}
-.radar-ring:nth-child(1){width:90%;height:90%}.radar-ring:nth-child(2){width:65%;height:65%}.radar-ring:nth-child(3){width:40%;height:40%}
-.radar-sweep{position:absolute;top:50%;left:50%;width:45%;height:2px;transform-origin:left center;background:linear-gradient(90deg,var(--signal-mid),transparent);animation:sw 4s linear infinite}
-@keyframes sw{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
-.radar-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;background:var(--signal-dim);border:2px solid var(--signal);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--signal)}
-.proto-node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px}
-.proto-node .ndot{width:12px;height:12px;border-radius:50%;border:2px solid;animation:np 3s infinite}
-@keyframes np{0%,100%{box-shadow:0 0 0 0 currentColor}50%{box-shadow:0 0 0 8px transparent}}
-.proto-node span{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px}
-.proto-node small{font-size:9px;color:var(--fg3)}
-.n-mcp{top:8%;left:50%;transform:translateX(-50%);color:var(--signal)}.n-mcp .ndot{border-color:var(--signal);background:rgba(0,255,170,.2)}
-.n-a2a{top:50%;right:4%;transform:translateY(-50%);color:var(--purple)}.n-a2a .ndot{border-color:var(--purple);background:rgba(139,92,246,.2)}
-.n-anp{bottom:8%;left:50%;transform:translateX(-50%);color:var(--blue)}.n-anp .ndot{border-color:var(--blue);background:rgba(59,139,255,.2)}
-.n-agui{top:50%;left:4%;transform:translateY(-50%);color:var(--orange)}.n-agui .ndot{border-color:var(--orange);background:rgba(255,159,67,.2)}
-@media(max-width:900px){.hero-content{grid-template-columns:1fr;text-align:center}.hero h1{font-size:38px}.hero-sub{margin:0 auto 36px}.hero-actions{justify-content:center}.hero-radar{max-width:300px;margin-top:20px}}
-.stats-bar{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:24px 0;background:rgba(0,255,170,.01)}
-.stats-row{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
-.stat{text-align:center}.stat .n{font-family:var(--mono);font-size:32px;font-weight:700;color:var(--signal);line-height:1}.stat .n span{font-size:16px;color:var(--fg3)}.stat .l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-top:6px;font-family:var(--mono)}
-section{padding:80px 0}
-.s-head{text-align:center;margin-bottom:50px}
-.s-head h2{font-family:var(--serif);font-size:36px;margin-bottom:8px}.s-head h2 em{font-style:italic;color:var(--signal)}
-.s-head p{color:var(--fg2);font-size:15px;max-width:500px;margin:0 auto}
-.s-label{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--signal);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding:4px 10px;border:1px solid var(--signal-mid);border-radius:4px}
-.term-section{padding:80px 0}.term-section h2{font-family:var(--serif);font-size:36px;text-align:center;margin-bottom:8px}.term-section h2 em{font-style:italic;color:var(--signal)}.term-section .sub{text-align:center;color:var(--fg2);margin-bottom:40px;font-size:15px}
-.term{max-width:720px;margin:0 auto;background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-.term-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
-.term-dot{width:11px;height:11px;border-radius:50%}.term-dot:nth-child(1){background:#ff4757}.term-dot:nth-child(2){background:#ffa502}.term-dot:nth-child(3){background:#2ed573}
-.term-title{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3)}
-.term-body{padding:20px;font-family:var(--mono);font-size:12.5px;line-height:2}
-.term-body .p{color:var(--signal)}.term-body .c{color:var(--fg)}.term-body .s{color:var(--signal)}.term-body .d{color:var(--fg3)}.term-body .o{color:var(--fg2)}.term-body .r{color:var(--orange)}
-.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.ep-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;transition:all .25s;position:relative;overflow:hidden}
-.ep-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--signal);transform:scaleX(0);transition:transform .3s;transform-origin:left}
-.ep-card:hover{border-color:rgba(0,255,170,.2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}.ep-card:hover::before{transform:scaleX(1)}
-.ep-method{font-family:var(--mono);font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px;display:inline-block}
-.ep-method.post{background:rgba(0,255,170,.08);color:var(--signal)}.ep-method.get{background:var(--blue-dim);color:var(--blue)}
-.ep-name{font-family:var(--mono);font-size:14px;font-weight:600;margin:10px 0 4px}.ep-desc{font-size:12px;color:var(--fg3);line-height:1.55}
-.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.feat{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:22px;display:flex;gap:16px;transition:all .25s}.feat:hover{border-color:rgba(0,255,170,.15);transform:translateY(-1px)}
-.feat-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
-.feat h4{font-size:14px;font-weight:700;margin-bottom:4px}.feat p{font-size:12px;color:var(--fg3);line-height:1.55}
-.cta-section{padding:100px 0;text-align:center;position:relative}
-.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(0,255,170,.04),transparent);pointer-events:none}
-.cta-section h2{font-family:var(--serif);font-size:42px;margin-bottom:10px}.cta-section h2 em{font-style:italic;color:var(--signal)}
-.cta-section p{color:var(--fg2);margin-bottom:32px;font-size:16px}
+.btn-hero{background:var(--trace);color:var(--bg);padding:13px 26px;border-radius:6px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .2s;box-shadow:0 0 24px rgba(26,255,110,.2);position:relative;overflow:hidden}
+.btn-hero::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s}.btn-hero:hover::after{left:120%}
+.btn-ghost{border:1px solid var(--bd2);color:var(--fg);padding:13px 26px;border-radius:6px;font-weight:500;font-size:14px;transition:all .2s}.btn-ghost:hover{border-color:var(--trace);color:var(--trace)}
+
+/* ═══ CHIP DIAGRAM (Hero right) ═══ */
+.chip{position:relative;width:100%;max-width:420px;margin:0 auto}
+.chip svg{width:100%;height:auto}
+/* Animated traces on the chip */
+.chip .trace-anim{stroke-dasharray:8,4;animation:traceFlow 2s linear infinite}
+@keyframes traceFlow{0%{stroke-dashoffset:0}100%{stroke-dashoffset:-24}}
+
+@media(max-width:900px){.hero-content{grid-template-columns:1fr;text-align:center}.hero h1{font-size:36px}.hero-sub{margin:0 auto 32px}.hero-actions{justify-content:center}.chip{max-width:320px;margin-top:10px}}
+
+/* ═══ STATS ═══ */
+.stats-bar{border-top:1px solid var(--bd2);border-bottom:1px solid var(--bd2);padding:22px 0;background:rgba(26,255,110,.01)}
+.stats-row{display:flex;justify-content:center;gap:44px;flex-wrap:wrap}
+.stat{text-align:center;position:relative}
+.stat::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:var(--copper);border-radius:50%}
+.stat .n{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--trace);line-height:1}.stat .n span{font-size:14px;color:var(--fg3)}
+.stat .l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-top:6px;font-family:var(--mono)}
+
+/* ═══ TERMINAL ═══ */
+.term-section{padding:80px 0}
+.s-label{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--copper);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding:4px 12px;border:1px solid var(--copper2);border-radius:3px;background:rgba(212,136,58,.05)}
+.s-title{font-family:var(--display);font-size:34px;font-weight:700;margin-bottom:8px;letter-spacing:-1px}
+.s-title em{font-style:normal;color:var(--trace)}
+.s-sub{color:var(--fg2);margin-bottom:36px;font-size:15px}
+.term{max-width:700px;margin:0 auto;background:var(--bg2);border:1px solid var(--bd2);border-radius:10px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 1px var(--trace-mid)}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(26,255,110,.02);border-bottom:1px solid var(--bd2)}
+.td{width:11px;height:11px;border-radius:50%}.td:nth-child(1){background:var(--red)}.td:nth-child(2){background:var(--gold)}.td:nth-child(3){background:var(--trace)}
+.term-t{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3)}
+.term-body{padding:18px;font-family:var(--mono);font-size:12px;line-height:2.1}
+.term-body .p{color:var(--trace)}.term-body .c{color:var(--fg)}.term-body .g{color:var(--fg3)}.term-body .v{color:var(--copper)}.term-body .o{color:var(--fg2)}
+
+/* ═══ SECTION CONNECTOR (PCB trace between sections) ═══ */
+.trace-connector{height:60px;position:relative;overflow:hidden}
+.trace-connector::before{content:'';position:absolute;left:50%;top:0;width:2px;height:100%;background:linear-gradient(to bottom,var(--bd2),var(--trace-mid),var(--bd2))}
+.trace-connector::after{content:'';position:absolute;left:calc(50% - 4px);top:50%;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--copper);box-shadow:0 0 8px rgba(212,136,58,.3)}
+
+/* ═══ ENDPOINTS ═══ */
+section{padding:70px 0}
+.s-head{text-align:center;margin-bottom:48px}
+.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ep{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:18px;transition:all .25s;position:relative}
+.ep::before{content:'';position:absolute;top:-1px;left:20px;width:30px;height:3px;background:var(--copper);border-radius:0 0 2px 2px}
+.ep:hover{border-color:var(--trace-mid);transform:translateY(-2px);box-shadow:0 0 20px rgba(26,255,110,.05)}
+.badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.5px}
+.badge.post{background:rgba(26,255,110,.08);color:var(--trace)}.badge.get{background:rgba(78,205,196,.08);color:var(--blue)}
+.ep h3{font-family:var(--mono);font-size:13px;font-weight:600;margin:8px 0 4px;color:var(--fg)}
+.ep p{font-size:12px;color:var(--fg3);line-height:1.5}
+
+/* ═══ FEATURES ═══ */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.feat{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:20px;display:flex;gap:14px;transition:all .25s;position:relative}
+.feat::after{content:'';position:absolute;bottom:-1px;right:20px;width:24px;height:3px;background:var(--copper2);border-radius:2px 2px 0 0}
+.feat:hover{border-color:var(--trace-mid);transform:translateY(-1px)}
+.feat-ic{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid}
+.feat h4{font-size:13px;font-weight:700;margin-bottom:3px}.feat p{font-size:12px;color:var(--fg3);line-height:1.5}
+
+/* ═══ CTA ═══ */
+.cta-section{padding:90px 0;text-align:center;position:relative}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 40% 50% at 50% 50%,rgba(26,255,110,.03),transparent);pointer-events:none}
+.cta-section h2{font-family:var(--display);font-size:38px;font-weight:700;margin-bottom:10px;letter-spacing:-1px}.cta-section h2 em{font-style:normal;color:var(--trace)}
+.cta-section p{color:var(--fg2);margin-bottom:28px;font-size:16px}
 .cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-footer{border-top:1px solid var(--bd);padding:28px 0;text-align:center}footer p{font-size:12px;color:var(--fg3)}footer a{color:var(--fg2)}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
-.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
-@media(max-width:768px){.ep-grid{grid-template-columns:1fr!important}.feat-grid{grid-template-columns:1fr!important}.stats-row{gap:24px}.stat .n{font-size:24px}section{padding:50px 0}}
+
+footer{border-top:1px solid var(--bd2);padding:24px 0;text-align:center}
+footer p{font-size:12px;color:var(--fg3)}footer a{color:var(--fg2)}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
+@media(max-width:768px){.ep-grid{grid-template-columns:1fr!important}.feat-grid{grid-template-columns:1fr!important}.stats-row{gap:20px}.stat .n{font-size:22px}section{padding:50px 0}.s-title{font-size:26px}}
 </style>
 </head>
 <body>
-<div class="bg-grid"></div><div class="scanline"></div><div class="noise"></div>
+<div class="pcb-bg"></div>
+<div class="pcb-pulse"></div>
 <main>
+
 <nav><div class="w">
-<a href="/" class="logo"><em>A</em>IB</a>
+<a href="/" class="logo">AIB</a>
 <div class="nav-r">
 <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
-<div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">OAP Specification<small>Open Agent Passport standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+<div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
 <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
-<a href="/pricing" class="nav-btn nav-link-d">Pricing</a>
-<div style="display:flex;gap:2px;margin-left:8px"><button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button><button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button></div>
-<a href="/dashboard" class="btn-cta" style="margin-left:10px">> Dashboard</a>
+<a href="/pricing" class="nav-btn" style="color:var(--fg2)">Pricing</a>
+<div style="display:flex;gap:2px;margin-left:6px"><button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button><button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+<a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
 </div>
 </div></nav>
 
 <section class="hero"><div class="w"><div class="hero-content">
-<div class="hero-left">
-<div class="hero-tag"><span class="dot"></span> OPEN PROTOCOL v2.15.1</div>
+<div>
+<div class="hero-tag"><span class="led"></span> OPEN PROTOCOL v2.15.1</div>
 <h1 data-lang="en" class="show">One identity.<br><em>Every protocol.</em><br>Full audit trail.</h1>
 <h1 data-lang="fr" class="show">Une identité.<br><em>Tous les protocoles.</em><br>Audit complet.</h1>
-<p class="hero-sub show" data-lang="en">AIB gives your AI agents a single portable passport across MCP, A2A, ANP & AG-UI. Translate credentials, enforce 12 policy types, audit everything with Ed25519 signatures.</p>
-<p class="hero-sub" data-lang="fr">AIB donne à vos agents IA un passeport portable unique à travers MCP, A2A, ANP et AG-UI. Traduisez les credentials, appliquez 12 règles, auditez tout avec Ed25519.</p>
+<p class="hero-sub show" data-lang="en">AIB gives your AI agents a single portable passport across MCP, A2A, ANP & AG-UI. Translate credentials in &lt;1ms, enforce 12 policy types, audit everything with Ed25519 persistent signatures.</p>
+<p class="hero-sub" data-lang="fr">AIB donne à vos agents IA un passeport portable unique. Traduisez les credentials en &lt;1ms, appliquez 12 règles, auditez tout avec des signatures Ed25519 persistantes.</p>
 <div class="hero-actions">
 <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-hero">> Quickstart</a>
 <a href="/dashboard" class="btn-ghost">Open Dashboard</a>
 </div>
 </div>
-<div class="hero-radar">
-<div class="radar-ring"></div><div class="radar-ring"></div><div class="radar-ring"></div>
-<div class="radar-sweep"></div>
-<div class="radar-center">AIB</div>
-<svg style="position:absolute;inset:0;width:100%;height:100%" viewBox="0 0 440 440">
-<line x1="220" y1="35" x2="220" y2="175" stroke="rgba(0,255,170,.12)" stroke-dasharray="3,3"/>
-<line x1="405" y1="220" x2="265" y2="220" stroke="rgba(139,92,246,.12)" stroke-dasharray="3,3"/>
-<line x1="220" y1="405" x2="220" y2="265" stroke="rgba(59,139,255,.12)" stroke-dasharray="3,3"/>
-<line x1="35" y1="220" x2="175" y2="220" stroke="rgba(255,159,67,.12)" stroke-dasharray="3,3"/>
+<div class="chip">
+<svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+<!-- PCB substrate -->
+<rect x="60" y="60" width="300" height="300" rx="16" fill="#072211" stroke="#1a5c30" stroke-width="1"/>
+<!-- Inner chip -->
+<rect x="130" y="130" width="160" height="160" rx="10" fill="#0a2e17" stroke="#1aff6e" stroke-width="1.5"/>
+<text x="210" y="200" text-anchor="middle" font-family="Syne" font-size="22" fill="#1aff6e" font-weight="800">AIB</text>
+<text x="210" y="222" text-anchor="middle" font-family="Fira Code" font-size="9" fill="#4a7a57">v2.15.1</text>
+<text x="210" y="240" text-anchor="middle" font-family="Fira Code" font-size="8" fill="#4a7a57">Ed25519 · OIDC · 12 Rules</text>
+<!-- Pins top (MCP) -->
+<rect x="170" y="40" width="3" height="20" fill="#d4883a"/><rect x="190" y="40" width="3" height="20" fill="#d4883a"/><rect x="210" y="40" width="3" height="20" fill="#d4883a"/><rect x="230" y="40" width="3" height="20" fill="#d4883a"/><rect x="250" y="40" width="3" height="20" fill="#d4883a"/>
+<!-- Pins right (A2A) -->
+<rect x="360" y="170" width="20" height="3" fill="#d4883a"/><rect x="360" y="190" width="20" height="3" fill="#d4883a"/><rect x="360" y="210" width="20" height="3" fill="#d4883a"/><rect x="360" y="230" width="20" height="3" fill="#d4883a"/><rect x="360" y="250" width="20" height="3" fill="#d4883a"/>
+<!-- Pins bottom (ANP) -->
+<rect x="170" y="360" width="3" height="20" fill="#d4883a"/><rect x="190" y="360" width="3" height="20" fill="#d4883a"/><rect x="210" y="360" width="3" height="20" fill="#d4883a"/><rect x="230" y="360" width="3" height="20" fill="#d4883a"/><rect x="250" y="360" width="3" height="20" fill="#d4883a"/>
+<!-- Pins left (AG-UI) -->
+<rect x="40" y="170" width="20" height="3" fill="#d4883a"/><rect x="40" y="190" width="20" height="3" fill="#d4883a"/><rect x="40" y="210" width="20" height="3" fill="#d4883a"/><rect x="40" y="230" width="20" height="3" fill="#d4883a"/><rect x="40" y="250" width="20" height="3" fill="#d4883a"/>
+<!-- Traces from pins to chip -->
+<line x1="171" y1="60" x2="171" y2="130" stroke="#1aff6e" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="211" y1="60" x2="211" y2="130" stroke="#1aff6e" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="251" y1="60" x2="251" y2="130" stroke="#1aff6e" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="360" y1="191" x2="290" y2="191" stroke="#8b5cf6" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="360" y1="211" x2="290" y2="211" stroke="#8b5cf6" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="360" y1="231" x2="290" y2="231" stroke="#8b5cf6" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="171" y1="360" x2="171" y2="290" stroke="#4ecdc4" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="211" y1="360" x2="211" y2="290" stroke="#4ecdc4" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="251" y1="360" x2="251" y2="290" stroke="#4ecdc4" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="60" y1="191" x2="130" y2="191" stroke="#ff9f43" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="60" y1="211" x2="130" y2="211" stroke="#ff9f43" stroke-width="1" class="trace-anim" opacity=".5"/>
+<line x1="60" y1="231" x2="130" y2="231" stroke="#ff9f43" stroke-width="1" class="trace-anim" opacity=".5"/>
+<!-- Protocol labels -->
+<text x="210" y="30" text-anchor="middle" font-family="Fira Code" font-size="12" fill="#1aff6e" font-weight="700">MCP</text>
+<text x="395" y="215" text-anchor="middle" font-family="Fira Code" font-size="12" fill="#8b5cf6" font-weight="700">A2A</text>
+<text x="210" y="400" text-anchor="middle" font-family="Fira Code" font-size="12" fill="#4ecdc4" font-weight="700">ANP</text>
+<text x="25" y="215" text-anchor="middle" font-family="Fira Code" font-size="12" fill="#ff9f43" font-weight="700">AG-UI</text>
+<!-- Via holes (solder points) -->
+<circle cx="171" cy="95" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="171" cy="95" r="1.5" fill="#e8c547"/>
+<circle cx="251" cy="95" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="251" cy="95" r="1.5" fill="#e8c547"/>
+<circle cx="325" cy="191" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="325" cy="191" r="1.5" fill="#e8c547"/>
+<circle cx="325" cy="231" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="325" cy="231" r="1.5" fill="#e8c547"/>
+<circle cx="171" cy="325" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="171" cy="325" r="1.5" fill="#e8c547"/>
+<circle cx="251" cy="325" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="251" cy="325" r="1.5" fill="#e8c547"/>
+<circle cx="95" cy="191" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="95" cy="191" r="1.5" fill="#e8c547"/>
+<circle cx="95" cy="231" r="4" fill="none" stroke="#d4883a" stroke-width="1"/><circle cx="95" cy="231" r="1.5" fill="#e8c547"/>
+<!-- SMD components (decorative) -->
+<rect x="85" y="280" width="16" height="8" rx="1" fill="#333" stroke="#555" stroke-width=".5"/>
+<rect x="310" y="100" width="16" height="8" rx="1" fill="#333" stroke="#555" stroke-width=".5"/>
+<rect x="85" y="100" width="8" height="16" rx="1" fill="#333" stroke="#555" stroke-width=".5"/>
+<rect x="320" y="300" width="8" height="16" rx="1" fill="#333" stroke="#555" stroke-width=".5"/>
 </svg>
-<div class="proto-node n-mcp"><div class="ndot"></div><span>MCP</span><small>Tools & servers</small></div>
-<div class="proto-node n-a2a"><div class="ndot"></div><span>A2A</span><small>Agent cards</small></div>
-<div class="proto-node n-anp"><div class="ndot"></div><span>ANP</span><small>DID network</small></div>
-<div class="proto-node n-agui"><div class="ndot"></div><span>AG-UI</span><small>User interaction</small></div>
 </div>
 </div></div></section>
 
 <div class="stats-bar"><div class="w"><div class="stats-row">
-<div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests passing</div></div>
-<div class="stat"><div class="n">9</div><div class="l">API endpoints</div></div>
-<div class="stat"><div class="n">12</div><div class="l">Policy rules</div></div>
+<div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests</div></div>
+<div class="stat"><div class="n">9</div><div class="l">Endpoints</div></div>
+<div class="stat"><div class="n">12</div><div class="l">Policies</div></div>
 <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translation</div></div>
 <div class="stat"><div class="n">4</div><div class="l">Protocols</div></div>
 </div></div></div>
 
-<section class="term-section"><div class="w">
+<div class="trace-connector"></div>
+
+<section class="term-section"><div class="w" style="text-align:center">
 <div class="s-label">API</div>
-<h2>See it <em>in action</em></h2>
-<p class="sub">Two API calls. Full agent identity lifecycle.</p>
+<h2 class="s-title">See it <em>in action</em></h2>
+<p class="s-sub">Two API calls. Full agent identity lifecycle.</p>
 <div class="term reveal">
-<div class="term-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div><div class="term-title">aib-cloud v2.15.1</div></div>
+<div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="term-t">aib-cloud v2.15.1</div></div>
 <div class="term-body">
 <div><span class="p">$</span> <span class="c">curl -X POST /functions/v1/passport-create \</span></div>
-<div><span class="d">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
-<div><span class="d">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
+<div><span class="g">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
+<div><span class="g">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
 <div style="height:4px"></div>
-<div><span class="d">{</span></div>
-<div>&nbsp;&nbsp;<span class="s">"passport_id"</span>: <span class="r">"urn:aib:agent:myorg:booking"</span>,</div>
-<div>&nbsp;&nbsp;<span class="s">"protocols"</span>: [<span class="r">"mcp"</span>, <span class="r">"a2a"</span>],</div>
-<div>&nbsp;&nbsp;<span class="s">"tier"</span>: <span class="r">"permanent"</span>,</div>
-<div>&nbsp;&nbsp;<span class="s">"signature"</span>: <span class="r">"a2e17652c9df0e74..."</span></div>
-<div><span class="d">}</span></div>
+<div><span class="g">{</span></div>
+<div>&nbsp;&nbsp;<span class="p">"passport_id"</span>: <span class="v">"urn:aib:agent:myorg:booking"</span>,</div>
+<div>&nbsp;&nbsp;<span class="p">"protocols"</span>: [<span class="v">"mcp"</span>, <span class="v">"a2a"</span>],</div>
+<div>&nbsp;&nbsp;<span class="p">"tier"</span>: <span class="v">"permanent"</span>,</div>
+<div>&nbsp;&nbsp;<span class="p">"signature"</span>: <span class="v">"a2e17652c9df0e74..."</span></div>
+<div><span class="g">}</span></div>
 <div style="height:8px"></div>
 <div><span class="p">$</span> <span class="c">curl /functions/v1/usage-check -H "x-api-key: ..."</span></div>
 <div><span class="o">&nbsp;&nbsp;transactions: 3/100,000 | passports: 1/500 | plan: beta_pro</span></div>
 </div></div>
 </div></section>
 
-<section style="background:rgba(0,255,170,.01)"><div class="w">
-<div class="s-head"><div class="s-label">ENDPOINTS</div><h2>9 endpoints. <em>Full lifecycle.</em></h2><p>Create, translate, enforce, audit — everything your agents need.</p></div>
+<div class="trace-connector"></div>
+
+<section style="background:rgba(26,255,110,.01)"><div class="w">
+<div class="s-head"><div class="s-label">ENDPOINTS</div><h2 class="s-title">9 endpoints. <em>Full lifecycle.</em></h2><p class="s-sub">Create, translate, enforce, audit — everything your agents need.</p></div>
 <div class="ep-grid">
-<div class="ep-card reveal"><span class="ep-method post">POST</span><div class="ep-name">passport-create</div><div class="ep-desc">Create passport with protocol bindings, capabilities, TTL. Ed25519 signed receipt.</div></div>
-<div class="ep-card reveal d1"><span class="ep-method get">GET</span><div class="ep-name">passport-list</div><div class="ep-desc">List passports. Filter by status, paginated, sorted by date.</div></div>
-<div class="ep-card reveal d2"><span class="ep-method post">POST</span><div class="ep-name">passport-revoke</div><div class="ep-desc">Revoke + cascade children. Separation of duties enforced.</div></div>
-<div class="ep-card reveal d3"><span class="ep-method post">POST</span><div class="ep-name">translate</div><div class="ep-desc">A2A ↔ MCP ↔ AG-UI. 6 paths. Sub-millisecond. Webhook fired.</div></div>
-<div class="ep-card reveal"><span class="ep-method get">GET</span><div class="ep-name">usage-check</div><div class="ep-desc">Real-time quotas: transactions, passports, translations, webhooks.</div></div>
-<div class="ep-card reveal d1"><span class="ep-method get">GET</span><div class="ep-name">usage-history</div><div class="ep-desc">Daily analytics for 90 days. Chart.js-ready format.</div></div>
-<div class="ep-card reveal d2"><span class="ep-method post">POST</span><div class="ep-name">policy-manage</div><div class="ep-desc">CRUD 12 rule types. Deliverable gates, rate limits, time restrict.</div></div>
-<div class="ep-card reveal d3"><span class="ep-method post">POST</span><div class="ep-name">webhook-manage</div><div class="ep-desc">Register endpoints. HMAC-SHA256 signed. 4 event types.</div></div>
-<div class="ep-card reveal"><span class="ep-method post">POST</span><div class="ep-name">auth</div><div class="ep-desc">Signup, login, API key generation. Auto-provisions org + beta_pro.</div></div>
+<div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with bindings, capabilities, TTL. Ed25519 receipt.</p></div>
+<div class="ep reveal d1"><span class="badge get">GET</span><h3>passport-list</h3><p>List passports. Filter by status, paginated, sorted.</p></div>
+<div class="ep reveal d2"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Revoke + cascade children. Separation of duties.</p></div>
+<div class="ep reveal d3"><span class="badge post">POST</span><h3>translate</h3><p>A2A ↔ MCP ↔ AG-UI. 6 paths. &lt;1ms. Webhook fired.</p></div>
+<div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time quotas: transactions, passports, webhooks.</p></div>
+<div class="ep reveal d1"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics for 90 days. Chart.js-ready.</p></div>
+<div class="ep reveal d2"><span class="badge post">POST</span><h3>policy-manage</h3><p>CRUD 12 rule types. Gates, limits, time restrict.</p></div>
+<div class="ep reveal d3"><span class="badge post">POST</span><h3>webhook-manage</h3><p>HMAC-SHA256 signed. 4 event types.</p></div>
+<div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key generation. Auto-provisions org.</p></div>
 </div></div></section>
 
+<div class="trace-connector"></div>
+
 <section><div class="w">
-<div class="s-head"><div class="s-label">CAPABILITIES</div><h2>Built for <em>production</em></h2><p>Not a prototype. Persistent Ed25519 keys. CI/CD pipeline. 1,054 tests.</p></div>
+<div class="s-head"><div class="s-label">CAPABILITIES</div><h2 class="s-title">Built for <em>production</em></h2><p class="s-sub">Not a prototype. 1,054 tests. CI/CD pipeline. Persistent Ed25519.</p></div>
 <div class="feat-grid">
-<div class="feat reveal"><div class="feat-icon" style="background:var(--signal-dim);color:var(--signal)">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, all translated, all audited.</p></div></div>
-<div class="feat reveal d1"><div class="feat-icon" style="background:var(--signal-dim);color:var(--signal)">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent signing keys. Every receipt cryptographically signed and verifiable.</p></div></div>
-<div class="feat reveal d2"><div class="feat-icon" style="background:rgba(139,92,246,.1);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. Bring your own IdP. JWKS + audience verification.</p></div></div>
-<div class="feat reveal d3"><div class="feat-icon" style="background:var(--blue-dim);color:var(--blue)">◈</div><div><h4>12 Policy Rules</h4><p>Deliverable gates, separation of duties, rate limits, time restrictions.</p></div></div>
-<div class="feat reveal"><div class="feat-icon" style="background:rgba(255,159,67,.1);color:var(--orange)">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed. Real-time notifications on every action.</p></div></div>
-<div class="feat reveal d1"><div class="feat-icon" style="background:rgba(255,71,87,.1);color:var(--red)">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow. Automatic delegation chain cleanup.</p></div></div>
-<div class="feat reveal d2"><div class="feat-icon" style="background:var(--signal-dim);color:var(--signal)">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines to integrate.</p></div></div>
-<div class="feat reveal d3"><div class="feat-icon" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. Unit + integration tests. Auto-deploy.</p></div></div>
+<div class="feat reveal"><div class="feat-ic" style="border-color:var(--trace);color:var(--trace);background:var(--trace-dim)">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All wired, translated, audited.</p></div></div>
+<div class="feat reveal d1"><div class="feat-ic" style="border-color:var(--trace);color:var(--trace);background:var(--trace-dim)">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent keys. Every receipt cryptographically signed.</p></div></div>
+<div class="feat reveal d2"><div class="feat-ic" style="border-color:#8b5cf6;color:#8b5cf6;background:rgba(139,92,246,.08)">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. JWKS + audience check.</p></div></div>
+<div class="feat reveal d3"><div class="feat-ic" style="border-color:var(--blue);color:var(--blue);background:rgba(78,205,196,.08)">◈</div><div><h4>12 Policy Rules</h4><p>Gates, separation of duties, rate limits, time restrict.</p></div></div>
+<div class="feat reveal"><div class="feat-ic" style="border-color:var(--copper);color:var(--copper);background:rgba(212,136,58,.08)">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256. Real-time notifications.</p></div></div>
+<div class="feat reveal d1"><div class="feat-ic" style="border-color:var(--red);color:var(--red);background:rgba(255,107,107,.08)">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow automatically.</p></div></div>
+<div class="feat reveal d2"><div class="feat-ic" style="border-color:var(--trace);color:var(--trace);background:var(--trace-dim)">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents. 3 lines.</p></div></div>
+<div class="feat reveal d3"><div class="feat-ic" style="border-color:var(--blue);color:var(--blue);background:rgba(78,205,196,.08)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. 1,044 unit + 10 integration tests.</p></div></div>
 </div></div></section>
 
 <section class="cta-section"><div class="w reveal">
 <div class="s-label">GET STARTED</div>
 <h2>Start building in <em>30 seconds</em></h2>
-<p>Free during beta. All Pro features included. No credit card required.</p>
+<p>Free during beta. All Pro features included. No credit card.</p>
 <div class="cta-btns">
 <a href="/dashboard" class="btn-hero">> Open Dashboard</a>
 <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-ghost">Read Quickstart</a>
