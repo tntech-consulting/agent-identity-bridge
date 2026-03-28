@@ -2,3 +2,55 @@
   for = "/*"
   [headers.values]
     Content-Type = "text/html; charset=UTF-8"
+
+[[headers]]
+  for = "/agents/*/did.json"
+  [headers.values]
+    Content-Type = "application/did+json"
+    Access-Control-Allow-Origin = "*"
+
+# W3C DID:web Resolution
+# did:web:aib-tech.fr:agents:booking -> https://aib-tech.fr/agents/booking/did.json
+[[redirects]]
+  from = "/agents/:agent/did.json"
+  to = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/did-resolve?agent=:agent"
+  status = 200
+  force = true
+
+# did:web:aib-tech.fr -> https://aib-tech.fr/.well-known/did.json
+[[redirects]]
+  from = "/.well-known/did.json"
+  to = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/did-resolve?agent=root"
+  status = 200
+  force = true
+
+# Clean URLs
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/pricing"
+  to = "/pricing.html"
+  status = 200
+
+[[redirects]]
+  from = "/viz"
+  to = "/viz.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/frameworks"
+  to = "/frameworks.html"
+  status = 200
+
+[[redirects]]
+  from = "/spec"
+  to = "/spec.html"
+  status = 200

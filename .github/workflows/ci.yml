@@ -90,14 +90,11 @@ jobs:
       - name: Prepare deploy files
         run: |
           cd cloud/landing
-          cat > netlify.toml << 'TOML'
-          [[headers]]
-            for = "/*"
-            [headers.values]
-              Content-Type = "text/html; charset=UTF-8"
-          TOML
+          echo "Using netlify.toml from repo:"
+          cat netlify.toml
+          echo ""
           echo "Files ready for deploy:"
-          ls -la *.html netlify.toml 2>/dev/null | head -10
+          ls -la *.html *.toml 2>/dev/null | head -15
 
       - name: Deploy to DEV (aib-dev.netlify.app)
         env:
@@ -137,12 +134,8 @@ jobs:
       - name: Prepare deploy files
         run: |
           cd cloud/landing
-          cat > netlify.toml << 'TOML'
-          [[headers]]
-            for = "/*"
-            [headers.values]
-              Content-Type = "text/html; charset=UTF-8"
-          TOML
+          echo "Using netlify.toml from repo (with DID:web redirects):"
+          head -5 netlify.toml
 
       - name: Deploy to PROD (aib-tech.fr)
         env:
