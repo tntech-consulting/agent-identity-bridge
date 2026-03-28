@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB — Conditions Générales de Vente</title>
-<meta name="description" content="Conditions Générales de Vente et d'Utilisation de la plateforme Agent Identity Bridge (AIB) — TNTECH CONSULTING SAS">
+<title>AIB — Terms of Service / Conditions Générales</title>
+<meta name="description" content="Terms of Service and Conditions Générales de Vente — Agent Identity Bridge (AIB) — TNTECH CONSULTING SAS">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -13,12 +13,15 @@
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:15px;line-height:1.8}
 a{color:var(--cyan);text-decoration:none}
 .w{max-width:800px;margin:0 auto;padding:0 28px}
+[data-lang]{display:none}.show{display:block!important}
 nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd)}
-nav .w{display:flex;justify-content:space-between;align-items:center}
+nav .w{display:flex;justify-content:space-between;align-items:center;max-width:800px}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-img{width:32px;height:32px;border-radius:6px;object-fit:contain}
 .logo-text{font-weight:700;font-size:16px;color:var(--fg)}
-.back{color:var(--fg2);font-size:13px;font-weight:500;padding:7px 14px;border-radius:7px;transition:.15s}.back:hover{color:var(--cyan);background:rgba(0,212,255,.06)}
+.nav-r{display:flex;align-items:center;gap:8px}
+.back{color:var(--fg2);font-size:13px;font-weight:500;padding:7px 14px;border-radius:7px;transition:.15s}.back:hover{color:var(--cyan)}
+.lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:.15s}.lb.active{color:var(--cyan)}
 header{padding:80px 0 40px;text-align:center}
 header h1{font-size:32px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
 header p{color:var(--fg2);font-size:14px}
@@ -27,26 +30,157 @@ header p{color:var(--fg2);font-size:14px}
 .content h2:first-of-type{border-top:none;margin-top:32px}
 .content h3{font-size:16px;font-weight:700;margin:24px 0 8px;color:var(--fg)}
 .content p{color:var(--fg2);margin-bottom:16px}
-.content ul{color:var(--fg2);margin:0 0 16px 24px}
-.content li{margin-bottom:6px}
+.content ul{color:var(--fg2);margin:0 0 16px 24px}.content li{margin-bottom:6px}
 .content strong{color:var(--fg)}
 .content code{font-family:var(--mono);font-size:13px;background:rgba(0,212,255,.06);padding:2px 6px;border-radius:3px;color:var(--cyan)}
-footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}
-footer p{font-size:11px;color:var(--fg3)}
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11px;color:var(--fg3)}
 </style>
 </head>
 <body>
-<nav><div class="w" style="max-width:800px">
+<nav><div class="w">
 <a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">AIB</span></a>
-<a href="/" class="back">← Retour</a>
+<div class="nav-r">
+<div style="display:flex;gap:2px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+<a href="/" class="back">← Back</a>
+</div>
 </div></nav>
 
 <header><div class="w">
-<h1>Conditions Générales de Vente et d'Utilisation</h1>
-<p>Dernière mise à jour : 28 mars 2026</p>
+<h1 data-lang="en" class="show">Terms of Service</h1>
+<h1 data-lang="fr">Conditions Générales de Vente et d'Utilisation</h1>
+<p>Last updated / Dernière mise à jour : March 28, 2026</p>
 </div></header>
 
 <div class="content"><div class="w">
+
+<!-- ═══ ENGLISH ═══ -->
+<div data-lang="en" class="show">
+
+<h2>1. Publisher</h2>
+<p>The <strong>Agent Identity Bridge</strong> platform (hereinafter "AIB" or "the Platform") is published and operated by:</p>
+<p><strong>TNTECH CONSULTING SAS</strong><br>
+SIREN: 993 811 157<br>
+Registered office: Paris 17e, France<br>
+Represented by Thomas Nirennold, President<br>
+Contact: contact@tntech.fr</p>
+<p>The Platform is accessible at <strong>aib-tech.fr</strong> and via the API hosted on Supabase infrastructure.</p>
+
+<h2>2. Purpose</h2>
+<p>These Terms of Service (hereinafter "Terms") define the conditions of access and use of the AIB Platform, which provides:</p>
+<ul>
+<li>A service for creating and managing portable identities for AI agents ("Agent Passports")</li>
+<li>A credential translation service between MCP, A2A, ANP, and AG-UI protocols</li>
+<li>A policy engine (12 rule types) for agent access control</li>
+<li>A cryptographic audit system based on Ed25519 (RFC 8032)</li>
+<li>OIDC federation for authentication via third-party identity providers</li>
+<li>A webhook notification system</li>
+<li>A Python SDK published on PyPI under the Apache 2.0 license</li>
+</ul>
+
+<h2>3. Acceptance</h2>
+<p>Registration on the Platform and/or use of the API implies unreserved acceptance of these Terms. By creating an account or generating an API key, the User acknowledges having read and fully accepts these Terms.</p>
+
+<h2>4. Description of Services</h2>
+
+<h3>4.1 Agent Passports</h3>
+<p>AIB enables the creation of digital "passports" for AI agents, identified by a unique URN in the format <code>urn:aib:agent:{org}:{agent}</code>. Each passport contains protocol bindings, declared capabilities, a TTL (time to live), and a tier (permanent, session, ephemeral).</p>
+
+<h3>4.2 Credential Translation</h3>
+<p>The Platform translates credentials across 6 bidirectional paths: A2A Agent Cards, MCP Server Cards, and AG-UI Descriptors. Translation completes in under 1 millisecond.</p>
+
+<h3>4.3 Policy Engine</h3>
+<p>12 rule types are available: deliverable_gate, capability_required, separation_of_duties, protocol_restrict, domain_block, domain_allow, tier_restrict, time_restrict, action_block, rate_limit, attestation_required, capability_limit. Each rule can be configured with a severity: block, warn, or log.</p>
+
+<h3>4.4 Audit Trail</h3>
+<p>Every action generates a receipt signed with Ed25519. Signing keys are persistent and stored in PostgreSQL. Receipt hashes form a tamper-evident SHA-256 chain.</p>
+
+<h3>4.5 API</h3>
+<p>The API exposes 9 REST endpoints running as Supabase Edge Functions (Deno). Authentication is via API key (SHA-256 hashed), Supabase JWT, or federated OIDC token.</p>
+
+<h2>5. Plans and Pricing</h2>
+
+<h3>5.1 Community Plan (free)</h3>
+<p>The Community plan provides limited access: 1,000 transactions/month, 10 passports, 3 policy rules. This plan is provided without any availability guarantee.</p>
+
+<h3>5.2 Pro Plan</h3>
+<p>The Pro plan includes: 100,000 transactions/month, 500 passports, all 12 rule types, OIDC federation, webhooks, and email support. Pricing is listed at aib-tech.fr/pricing.</p>
+
+<h3>5.3 Enterprise Plan</h3>
+<p>The Enterprise plan is available on request and includes: unlimited transactions and passports, guaranteed SLA, dedicated support, and possible on-premise deployment.</p>
+
+<h3>5.4 Beta Period</h3>
+<p>During the beta period, all Pro features are accessible at no cost. TNTECH CONSULTING SAS reserves the right to end the beta period with 30 days' notice.</p>
+
+<h2>6. Registration and User Account</h2>
+<p>Registration is done via the <code>/auth</code> endpoint with an email and password. An organization account is automatically created with a first API key. The User is responsible for the confidentiality of their API keys. Keys are stored as SHA-256 hashes — the raw key is displayed only once at creation.</p>
+
+<h2>7. User Obligations</h2>
+<p>The User agrees to:</p>
+<ul>
+<li>Not use the Platform for unlawful purposes</li>
+<li>Not attempt to bypass security mechanisms, quotas, or policy rules</li>
+<li>Not reverse-engineer the Edge Functions or infrastructure</li>
+<li>Protect their API keys and not share them publicly</li>
+<li>Respect their plan's quotas (transactions/month, passport count)</li>
+<li>Not use the Platform to create fraudulent passports or impersonate third-party agents</li>
+<li>Comply with the EU AI Act for any agent registered on the Platform</li>
+</ul>
+
+<h2>8. Intellectual Property</h2>
+
+<h3>8.1 Open-Source Code</h3>
+<p>The AIB Python SDK and protocol specification are distributed under the <strong>Apache 2.0</strong> license. Source code is available at github.com/tntech-consulting/agent-identity-bridge.</p>
+
+<h3>8.2 SaaS Platform</h3>
+<p>The SaaS infrastructure (Edge Functions, database, dashboard, landing pages) remains the exclusive property of TNTECH CONSULTING SAS. The User is granted a non-exclusive, non-transferable right of use.</p>
+
+<h3>8.3 User Data</h3>
+<p>Data created by the User (passports, policy rules, webhooks) remains the property of the User. TNTECH CONSULTING SAS commits to not commercially exploit this data.</p>
+
+<h2>9. Data Protection</h2>
+<p>TNTECH CONSULTING SAS collects and processes the following personal data:</p>
+<ul>
+<li>Email address (registration)</li>
+<li>Organization and agent identifiers</li>
+<li>API usage logs (timestamps, actions, IP)</li>
+<li>OIDC federation data (issuer, subject, audience)</li>
+</ul>
+<p>Data is hosted on Supabase infrastructure (eu-west-1, Ireland) compliant with GDPR. Users have the right to access, rectify, erase, port, and object to their data under Regulation (EU) 2016/679 (GDPR). Contact: contact@tntech.fr.</p>
+
+<h2>10. Availability and Maintenance</h2>
+<p>TNTECH CONSULTING SAS endeavors to maintain maximum Platform availability. However, no availability guarantee is provided for Community and Pro plans. The Enterprise plan may include a contractual SLA. The Platform may be temporarily unavailable for maintenance, updates, or force majeure.</p>
+
+<h2>11. Limitation of Liability</h2>
+<p>TNTECH CONSULTING SAS shall not be liable for:</p>
+<ul>
+<li>Indirect damages, including data loss, revenue loss, or reputational harm</li>
+<li>The User's use of passports created via the Platform</li>
+<li>Decisions made by AI agents identified via AIB</li>
+<li>Unavailability of Supabase or Netlify infrastructure</li>
+<li>API key compromise due to User negligence</li>
+</ul>
+<p>Total liability of TNTECH CONSULTING SAS is limited to amounts actually received from the User in the preceding 12 months.</p>
+
+<h2>12. Termination</h2>
+<p>The User may terminate their account at any time by contacting contact@tntech.fr. TNTECH CONSULTING SAS may suspend or terminate an account for Terms violation, with 15 days' notice except in cases of serious breach (hacking, fraud, illegal use).</p>
+<p>Upon termination, User data (passports, receipts, rules) is retained for 90 days then permanently deleted.</p>
+
+<h2>13. Modifications</h2>
+<p>TNTECH CONSULTING SAS reserves the right to modify these Terms. Modifications take effect 30 days after notification by email or publication on the Platform. Continued use after this period constitutes acceptance of the updated Terms.</p>
+
+<h2>14. Governing Law and Jurisdiction</h2>
+<p>These Terms are governed by French law. In case of dispute, the parties commit to seeking an amicable solution. Failing this, the courts of Paris shall have exclusive jurisdiction.</p>
+
+<h2>15. Contact</h2>
+<p><strong>TNTECH CONSULTING SAS</strong><br>
+Email: contact@tntech.fr<br>
+Website: tntech.fr<br>
+GitHub: github.com/tntech-consulting</p>
+
+</div>
+
+<!-- ═══ FRANÇAIS ═══ -->
+<div data-lang="fr">
 
 <h2>Article 1 — Identification de l'éditeur</h2>
 <p>La plateforme <strong>Agent Identity Bridge</strong> (ci-après « AIB » ou « la Plateforme ») est éditée et exploitée par :</p>
@@ -130,17 +264,17 @@ Contact : contact@tntech.fr</p>
 <p>Les données créées par l'Utilisateur (passeports, règles de politique, webhooks) restent la propriété de l'Utilisateur. TNTECH CONSULTING SAS s'engage à ne pas exploiter commercialement ces données.</p>
 
 <h2>Article 9 — Protection des données personnelles</h2>
-<p>TNTECH CONSULTING SAS collecte et traite les données personnelles suivantes dans le cadre de l'utilisation de la Plateforme :</p>
+<p>TNTECH CONSULTING SAS collecte et traite les données personnelles suivantes :</p>
 <ul>
 <li>Adresse email (inscription)</li>
 <li>Identifiants d'organisation et d'agent</li>
 <li>Logs d'utilisation de l'API (timestamps, actions, IP)</li>
 <li>Données de fédération OIDC (issuer, subject, audience)</li>
 </ul>
-<p>Ces données sont hébergées sur l'infrastructure Supabase (région eu-west-1, Irlande) conforme au RGPD. L'Utilisateur dispose d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition conformément au Règlement (UE) 2016/679 (RGPD). Pour exercer ces droits : contact@tntech.fr.</p>
+<p>Ces données sont hébergées sur l'infrastructure Supabase (région eu-west-1, Irlande) conforme au RGPD. L'Utilisateur dispose d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition conformément au Règlement (UE) 2016/679 (RGPD). Contact : contact@tntech.fr.</p>
 
 <h2>Article 10 — Disponibilité et maintenance</h2>
-<p>TNTECH CONSULTING SAS s'efforce d'assurer une disponibilité maximale de la Plateforme. Toutefois, aucune garantie de disponibilité n'est fournie pour les plans Community et Pro. Le plan Enterprise peut inclure un SLA contractuel. La Plateforme peut être temporairement indisponible pour des raisons de maintenance, mise à jour, ou force majeure.</p>
+<p>TNTECH CONSULTING SAS s'efforce d'assurer une disponibilité maximale de la Plateforme. Toutefois, aucune garantie de disponibilité n'est fournie pour les plans Community et Pro. Le plan Enterprise peut inclure un SLA contractuel. La Plateforme peut être temporairement indisponible pour maintenance, mise à jour, ou force majeure.</p>
 
 <h2>Article 11 — Limitation de responsabilité</h2>
 <p>TNTECH CONSULTING SAS ne pourra être tenue responsable :</p>
@@ -154,26 +288,30 @@ Contact : contact@tntech.fr</p>
 <p>La responsabilité totale de TNTECH CONSULTING SAS est limitée au montant des sommes effectivement perçues de l'Utilisateur au cours des 12 derniers mois.</p>
 
 <h2>Article 12 — Résiliation</h2>
-<p>L'Utilisateur peut résilier son compte à tout moment en contactant contact@tntech.fr. TNTECH CONSULTING SAS peut suspendre ou résilier un compte en cas de violation des présentes CGV, avec un préavis de 15 jours sauf en cas de violation grave (tentative de piratage, fraude, utilisation illicite).</p>
-<p>En cas de résiliation, les données de l'Utilisateur (passeports, reçus, règles) sont conservées pendant 90 jours puis supprimées définitivement.</p>
+<p>L'Utilisateur peut résilier son compte à tout moment en contactant contact@tntech.fr. TNTECH CONSULTING SAS peut suspendre ou résilier un compte en cas de violation des présentes CGV, avec un préavis de 15 jours sauf en cas de violation grave.</p>
+<p>En cas de résiliation, les données de l'Utilisateur sont conservées pendant 90 jours puis supprimées définitivement.</p>
 
 <h2>Article 13 — Modifications des CGV</h2>
-<p>TNTECH CONSULTING SAS se réserve le droit de modifier les présentes CGV. Les modifications prennent effet 30 jours après notification par email ou publication sur la Plateforme. L'utilisation continue de la Plateforme après cette période vaut acceptation des nouvelles CGV.</p>
+<p>TNTECH CONSULTING SAS se réserve le droit de modifier les présentes CGV. Les modifications prennent effet 30 jours après notification par email ou publication sur la Plateforme.</p>
 
 <h2>Article 14 — Droit applicable et juridiction</h2>
 <p>Les présentes CGV sont soumises au droit français. En cas de litige, les parties s'engagent à rechercher une solution amiable. À défaut, les tribunaux compétents de Paris seront seuls compétents.</p>
 
 <h2>Article 15 — Contact</h2>
-<p>Pour toute question relative aux présentes CGV :</p>
 <p><strong>TNTECH CONSULTING SAS</strong><br>
 Email : contact@tntech.fr<br>
 Site : tntech.fr<br>
 GitHub : github.com/tntech-consulting</p>
 
+</div>
 </div></div>
 
 <footer><div class="w" style="max-width:800px">
 <p>&copy; 2026 TNTECH CONSULTING SAS — Paris, France</p>
 </div></footer>
+<script>
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+</script>
 </body>
 </html>
