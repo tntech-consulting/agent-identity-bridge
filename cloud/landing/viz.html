@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB — Protocol Explorer | Interactive Diagrams</title>
+<meta name="description" content="Interactive diagrams explaining the Agent Identity Bridge protocol: passport lifecycle, credential translation, policy engine, OIDC federation, audit trail.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07080C;--bg2:#0D0F17;--bg3:#141826;--fg:#E4E7F0;--fg2:#9BA3B8;--fg3:#5C6478;--accent:#00E5A0;--accent2:#00C5FF;--purple:#7B61FF;--orange:#FFAA00;--red:#FF4444;--bd:#1E2233;--bd2:#2A2F44;--font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;transition:opacity .15s}a:hover{opacity:.8}
+.w{max-width:1100px;margin:0 auto;padding:0 24px}
+[data-lang]{display:none}.show{display:block!important}a.show,span.show,button.show{display:inline-block!important}
+
+/* NAV (same as index) */
+nav{padding:12px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(7,8,12,.94);backdrop-filter:blur(16px);z-index:100}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--mono);font-weight:700;font-size:18px;color:var(--fg);letter-spacing:-.5px}.logo span{color:var(--accent)}
+.nav-r{display:flex;gap:4px;align-items:center}
+.nav-item{position:relative}
+.nav-btn{background:none;border:none;color:var(--fg2);font-family:var(--font);font-size:13px;font-weight:500;padding:8px 12px;cursor:pointer;display:flex;align-items:center;gap:4px;border-radius:6px;transition:all .15s}.nav-btn:hover,.nav-btn.open{color:var(--fg);background:var(--bg3)}
+.nav-btn svg{width:12px;height:12px;transition:transform .2s}.nav-btn.open svg{transform:rotate(180deg)}
+.nav-link{color:var(--fg2);font-size:13px;font-weight:500;padding:8px 12px;border-radius:6px;transition:all .15s}.nav-link:hover{color:var(--fg);background:var(--bg3);opacity:1}
+.dropdown{position:absolute;top:calc(100% + 4px);left:0;background:var(--bg2);border:1px solid var(--bd2);border-radius:10px;padding:6px;min-width:220px;opacity:0;visibility:hidden;transform:translateY(-4px);transition:all .15s;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.dropdown.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dropdown a{display:block;padding:10px 14px;border-radius:6px;color:var(--fg);font-size:13px;font-weight:500;transition:background .1s}.dropdown a:hover{background:var(--bg3);opacity:1}
+.dropdown a small{display:block;color:var(--fg3);font-size:11px;font-weight:400;margin-top:2px}
+.dropdown .sep{height:1px;background:var(--bd);margin:4px 8px}
+.lang-btn{background:none;border:none;color:var(--fg3);font-size:11px;font-weight:700;cursor:pointer;padding:4px 6px;border-radius:4px;font-family:var(--mono);letter-spacing:1px;transition:all .1s}.lang-btn.active{color:var(--accent);background:rgba(0,229,160,.08)}
+.btn-cta{background:var(--accent);color:var(--bg);font-size:12px;font-weight:700;padding:8px 16px;border-radius:6px;border:none;cursor:pointer;font-family:var(--mono);letter-spacing:.5px;transition:all .15s}.btn-cta:hover{opacity:.9}
+@media(max-width:768px){.nav-r{gap:2px}.nav-btn,.nav-link{font-size:12px;padding:6px 8px}.btn-cta{display:none}}
+
+/* PAGE */
+.page-header{padding:60px 0 40px;text-align:center}
+.page-header h1{font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:8px}
+.page-header h1 em{font-style:normal;color:var(--accent)}
+.page-header p{color:var(--fg2);font-size:15px;max-width:500px;margin:0 auto}
+
+/* DIAGRAM SECTIONS */
+.viz-section{padding:40px 0 60px;border-top:1px solid var(--bd)}
+.viz-section h2{font-size:22px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.viz-section h2 .tag{font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:4px;font-weight:700;letter-spacing:.5px}
+.tag-core{background:rgba(0,229,160,.1);color:var(--accent)}
+.tag-security{background:rgba(123,97,255,.1);color:var(--purple)}
+.tag-infra{background:rgba(0,197,255,.1);color:var(--accent2)}
+.viz-desc{color:var(--fg2);font-size:14px;margin-bottom:24px;max-width:560px;line-height:1.7}
+.diagram-box{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;overflow-x:auto;margin-bottom:16px}
+.diagram-box svg{width:100%;height:auto;display:block}
+.diagram-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--fg3);font-family:var(--mono)}
+.legend-dot{width:10px;height:10px;border-radius:2px}
+
+/* INTERACTIVE TABS */
+.viz-tabs{display:flex;gap:4px;margin-bottom:16px;flex-wrap:wrap}
+.viz-tab{background:var(--bg3);border:1px solid var(--bd);color:var(--fg2);font-size:12px;font-family:var(--mono);padding:6px 14px;border-radius:6px;cursor:pointer;transition:all .15s}
+.viz-tab:hover{color:var(--fg);border-color:var(--bd2)}
+.viz-tab.active{background:rgba(0,229,160,.1);border-color:var(--accent);color:var(--accent)}
+.viz-panel{display:none}.viz-panel.active{display:block}
+
+/* STEP INDICATOR */
+.steps{display:flex;gap:2px;margin-bottom:20px}
+.step{flex:1;height:4px;border-radius:2px;background:var(--bd);transition:background .3s}
+.step.done{background:var(--accent)}
+.step.current{background:var(--accent);animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* CODE BLOCK */
+.code-block{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:14px;font-family:var(--mono);font-size:11px;line-height:1.7;overflow-x:auto;margin-top:12px}
+.code-block .k{color:var(--accent)}.code-block .s{color:var(--orange)}.code-block .c{color:var(--fg3)}.code-block .v{color:var(--accent2)}.code-block .r{color:var(--red)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:12px;color:var(--fg3)}footer a{color:var(--fg2)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s}.reveal.visible{opacity:1;transform:none}
+@media(max-width:768px){.page-header h1{font-size:26px}section{padding:30px 0}.viz-tabs{gap:2px}.viz-tab{font-size:11px;padding:5px 10px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav><div class="w">
+  <a href="/" class="logo">AIB<span>.</span></a>
+  <div class="nav-r">
+    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Product<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>Guides & API reference</small></a><div class="sep"></div><a href="/spec">OAP Specification<small>Open Agent Passport standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source code & issues</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Resources<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
+    <a href="/pricing" class="nav-link">Pricing</a>
+    <div style="display:flex;gap:2px;margin-left:8px"><button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button><button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+  </div>
+</div></nav>
+
+<!-- HEADER -->
+<div class="page-header"><div class="w">
+  <h1>Protocol <em>Explorer</em></h1>
+  <p>Interactive diagrams to understand how AIB works under the hood.</p>
+</div></div>
+
+<!-- ═══════ 1. PASSPORT LIFECYCLE ═══════ -->
+<section class="viz-section"><div class="w">
+  <h2><span class="tag tag-core">CORE</span> Passport Lifecycle</h2>
+  <p class="viz-desc">An Agent Passport goes through a defined lifecycle. Every state transition is recorded with an Ed25519 signed receipt.</p>
+
+  <div class="viz-tabs">
+    <button class="viz-tab active" onclick="showStep('lifecycle',0,this)">1. Create</button>
+    <button class="viz-tab" onclick="showStep('lifecycle',1,this)">2. Active</button>
+    <button class="viz-tab" onclick="showStep('lifecycle',2,this)">3. Translate</button>
+    <button class="viz-tab" onclick="showStep('lifecycle',3,this)">4. Revoke</button>
+  </div>
+  <div class="steps" id="lifecycle-steps"><div class="step done current"></div><div class="step"></div><div class="step"></div><div class="step"></div></div>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" id="lifecycle-svg">
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#00E5A0"/></marker>
+        <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#5C6478"/></marker>
+      </defs>
+      <!-- States -->
+      <rect x="20" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="#1E2233" id="lc-create"/>
+      <text x="90" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00E5A0" font-weight="700">CREATE</text>
+      <text x="90" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">POST passport-create</text>
+      <text x="90" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">+ Ed25519 receipt</text>
+
+      <line x1="160" y1="110" x2="220" y2="110" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="220" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="#00E5A0" stroke-width="1.5" id="lc-active"/>
+      <text x="290" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00E5A0" font-weight="700">ACTIVE</text>
+      <text x="290" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#9BA3B8">Ready for use</text>
+      <text x="290" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">MCP + A2A + ANP + AG-UI</text>
+
+      <line x1="360" y1="95" x2="420" y2="95" stroke="#00C5FF" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+      <text x="390" y="88" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">translate</text>
+
+      <rect x="420" y="55" width="160" height="50" rx="8" fill="rgba(0,197,255,.06)" stroke="rgba(0,197,255,.3)" id="lc-translate"/>
+      <text x="500" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00C5FF" font-weight="700">TRANSLATE</text>
+      <text x="500" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">A2A ↔ MCP ↔ AG-UI</text>
+
+      <line x1="360" y1="125" x2="420" y2="145" stroke="#FF4444" stroke-width="1.5" marker-end="url(#arrB)"/>
+      <text x="385" y="145" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FF4444">revoke</text>
+
+      <rect x="420" y="120" width="160" height="80" rx="10" fill="#0f1923" stroke="rgba(255,68,68,.3)" id="lc-revoke"/>
+      <text x="500" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#FF4444" font-weight="700">REVOKED</text>
+      <text x="500" y="168" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">+ cascade children</text>
+      <text x="500" y="184" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">+ Ed25519 receipt</text>
+
+      <!-- Receipt chain -->
+      <rect x="630" y="60" width="150" height="140" rx="10" fill="rgba(0,229,160,.04)" stroke="rgba(0,229,160,.15)"/>
+      <text x="705" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#00E5A0" font-weight="700">AUDIT TRAIL</text>
+      <text x="705" y="104" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">receipt_hash: a1b2...</text>
+      <text x="705" y="120" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">signature: ed25519</text>
+      <text x="705" y="136" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">signed_by: 314eff...</text>
+      <line x1="665" y1="148" x2="745" y2="148" stroke="var(--bd)" stroke-width="0.5"/>
+      <text x="705" y="164" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">receipt_hash: c3d4...</text>
+      <text x="705" y="180" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">⛓ hash chain linked</text>
+    </svg>
+  </div>
+
+  <div class="diagram-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#00E5A0"></div>Active flow</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00C5FF"></div>Translation</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FF4444"></div>Revocation</div>
+    <div class="legend-item"><div class="legend-dot" style="background:rgba(0,229,160,.2)"></div>Audit receipt</div>
+  </div>
+</div></section>
+
+<!-- ═══════ 2. CREDENTIAL TRANSLATION ═══════ -->
+<section class="viz-section"><div class="w">
+  <h2><span class="tag tag-core">CORE</span> Credential Translation</h2>
+  <p class="viz-desc">AIB translates credentials between protocol formats in under 1ms. Click a path to see the field mapping.</p>
+
+  <div class="viz-tabs">
+    <button class="viz-tab active" onclick="showTranslation('a2a-mcp',this)">A2A → MCP</button>
+    <button class="viz-tab" onclick="showTranslation('mcp-a2a',this)">MCP → A2A</button>
+    <button class="viz-tab" onclick="showTranslation('a2a-agui',this)">A2A → AG-UI</button>
+    <button class="viz-tab" onclick="showTranslation('agui-mcp',this)">AG-UI → MCP</button>
+  </div>
+
+  <div class="diagram-box">
+    <div style="display:grid;grid-template-columns:1fr 60px 1fr;gap:0;align-items:start" id="translation-view">
+      <div class="code-block" id="trans-from">
+<span class="c">// A2A Agent Card</span>
+{
+  <span class="k">"name"</span>: <span class="s">"Booking Agent"</span>,
+  <span class="k">"url"</span>: <span class="s">"https://api.example.com"</span>,
+  <span class="k">"skills"</span>: [
+    { <span class="k">"id"</span>: <span class="s">"booking"</span>, <span class="k">"name"</span>: <span class="s">"Booking"</span> },
+    { <span class="k">"id"</span>: <span class="s">"cancel"</span>, <span class="k">"name"</span>: <span class="s">"Cancel"</span> }
+  ]
+}
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px 0;color:var(--accent);font-family:var(--mono);font-size:20px">
+        →
+        <div style="font-size:9px;color:var(--fg3);margin-top:4px">&lt;1ms</div>
+      </div>
+      <div class="code-block" id="trans-to">
+<span class="c">// MCP Server Card</span>
+{
+  <span class="k">"name"</span>: <span class="s">"Booking Agent"</span>,
+  <span class="k">"server_url"</span>: <span class="s">"https://api.example.com"</span>,
+  <span class="k">"tools"</span>: [
+    { <span class="k">"name"</span>: <span class="s">"booking"</span>,
+      <span class="k">"inputSchema"</span>: { <span class="v">...</span> } },
+    { <span class="k">"name"</span>: <span class="s">"cancel"</span>,
+      <span class="k">"inputSchema"</span>: { <span class="v">...</span> } }
+  ],
+  <span class="k">"_aib_source"</span>: <span class="s">"a2a"</span>
+}
+      </div>
+    </div>
+  </div>
+
+  <div class="diagram-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#00E5A0"></div>skills → tools</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00C5FF"></div>url → server_url</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#FFAA00"></div>_aib_source added</div>
+  </div>
+</div></section>
+
+<!-- ═══════ 3. POLICY ENGINE ═══════ -->
+<section class="viz-section"><div class="w">
+  <h2><span class="tag tag-security">SECURITY</span> Policy Engine</h2>
+  <p class="viz-desc">12 rule types are evaluated before every action. A single "block" severity violation denies the request.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+      <!-- Request -->
+      <rect x="20" y="120" width="120" height="60" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <text x="80" y="147" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fg" font-weight="700">REQUEST</text>
+      <text x="80" y="165" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">passport-create</text>
+
+      <line x1="140" y1="150" x2="190" y2="150" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <!-- Policy Engine -->
+      <rect x="190" y="20" width="360" height="280" rx="12" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.2)"/>
+      <text x="370" y="48" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#7B61FF" font-weight="700">POLICY ENGINE — 12 RULES</text>
+
+      <!-- Rule cards -->
+      <rect x="210" y="62" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
+      <text x="285" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">deliverable_gate</text>
+
+      <rect x="380" y="62" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
+      <text x="455" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">capability_required</text>
+
+      <rect x="210" y="98" width="150" height="28" rx="5" fill="rgba(123,97,255,.06)" stroke="rgba(123,97,255,.15)"/>
+      <text x="285" y="116" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7B61FF">separation_of_duties</text>
+
+      <rect x="380" y="98" width="150" height="28" rx="5" fill="rgba(0,197,255,.06)" stroke="rgba(0,197,255,.15)"/>
+      <text x="455" y="116" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00C5FF">protocol_restrict</text>
+
+      <rect x="210" y="134" width="150" height="28" rx="5" fill="rgba(255,68,68,.06)" stroke="rgba(255,68,68,.15)"/>
+      <text x="285" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FF4444">domain_block</text>
+
+      <rect x="380" y="134" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
+      <text x="455" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">domain_allow</text>
+
+      <rect x="210" y="170" width="150" height="28" rx="5" fill="rgba(255,170,0,.06)" stroke="rgba(255,170,0,.15)"/>
+      <text x="285" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FFAA00">tier_restrict</text>
+
+      <rect x="380" y="170" width="150" height="28" rx="5" fill="rgba(255,170,0,.06)" stroke="rgba(255,170,0,.15)"/>
+      <text x="455" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FFAA00">time_restrict</text>
+
+      <rect x="210" y="206" width="150" height="28" rx="5" fill="rgba(255,68,68,.06)" stroke="rgba(255,68,68,.15)"/>
+      <text x="285" y="224" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FF4444">action_block</text>
+
+      <rect x="380" y="206" width="150" height="28" rx="5" fill="rgba(255,170,0,.06)" stroke="rgba(255,170,0,.15)"/>
+      <text x="455" y="224" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FFAA00">rate_limit</text>
+
+      <rect x="210" y="242" width="150" height="28" rx="5" fill="rgba(123,97,255,.06)" stroke="rgba(123,97,255,.15)"/>
+      <text x="285" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7B61FF">attestation_required</text>
+
+      <rect x="380" y="242" width="150" height="28" rx="5" fill="rgba(0,197,255,.06)" stroke="rgba(0,197,255,.15)"/>
+      <text x="455" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00C5FF">capability_limit</text>
+
+      <!-- Outputs -->
+      <line x1="550" y1="100" x2="610" y2="80" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+      <rect x="610" y="55" width="160" height="50" rx="8" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.3)"/>
+      <text x="690" y="76" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00E5A0" font-weight="700">✓ ALLOWED</text>
+      <text x="690" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Proceed + signed receipt</text>
+
+      <line x1="550" y1="200" x2="610" y2="200" stroke="#FF4444" stroke-width="1.5" marker-end="url(#arrB)"/>
+      <rect x="610" y="175" width="160" height="50" rx="8" fill="rgba(255,68,68,.08)" stroke="rgba(255,68,68,.3)"/>
+      <text x="690" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#FF4444" font-weight="700">✗ DENIED</text>
+      <text x="690" y="214" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">AIB-601 + denial receipt</text>
+
+      <!-- Severity labels -->
+      <text x="690" y="250" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">Severity levels:</text>
+      <rect x="635" y="258" width="45" height="18" rx="3" fill="rgba(255,68,68,.1)"/><text x="657" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FF4444">block</text>
+      <rect x="685" y="258" width="40" height="18" rx="3" fill="rgba(255,170,0,.1)"/><text x="705" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">warn</text>
+      <rect x="730" y="258" width="35" height="18" rx="3" fill="rgba(0,197,255,.1)"/><text x="747" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">log</text>
+    </svg>
+  </div>
+</div></section>
+
+<!-- ═══════ 4. OIDC FEDERATION ═══════ -->
+<section class="viz-section"><div class="w">
+  <h2><span class="tag tag-security">SECURITY</span> OIDC Federation</h2>
+  <p class="viz-desc">Bring your own identity provider. AIB accepts Google, Entra, Okta, Auth0 tokens with full JWKS verification and audience checking.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
+      <!-- Agent with OIDC -->
+      <rect x="20" y="80" width="120" height="80" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <text x="80" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fg" font-weight="700">AGENT</text>
+      <text x="80" y="126" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Bearer: eyJ...</text>
+      <text x="80" y="142" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#7B61FF">(Okta token)</text>
+
+      <line x1="140" y1="120" x2="200" y2="120" stroke="#7B61FF" stroke-width="1.5" marker-end="url(#arr)"/>
+      <text x="170" y="112" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7B61FF">Bearer</text>
+
+      <!-- AIB Auth -->
+      <rect x="200" y="40" width="200" height="160" rx="10" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.2)"/>
+      <text x="300" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#7B61FF" font-weight="700">AIB AUTHENTICATE</text>
+
+      <text x="220" y="90" font-family="DM Sans" font-size="10" fill="#9BA3B8">1. Decode JWT payload</text>
+      <text x="220" y="110" font-family="DM Sans" font-size="10" fill="#9BA3B8">2. Lookup iss → federation_trust</text>
+      <text x="220" y="130" font-family="DM Sans" font-size="10" fill="#9BA3B8">3. Verify exp (not expired)</text>
+      <text x="220" y="150" font-family="DM Sans" font-size="10" fill="#FFAA00">4. Verify aud (audience) ✦</text>
+      <text x="220" y="170" font-family="DM Sans" font-size="10" fill="#9BA3B8">5. Fetch JWKS from issuer</text>
+      <text x="220" y="190" font-family="DM Sans" font-size="10" fill="#00E5A0">6. Verify RS256 signature ✓</text>
+
+      <!-- JWKS fetch -->
+      <line x1="380" y1="170" x2="440" y2="50" stroke="#5C6478" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="440" y="20" width="140" height="50" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <text x="510" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fg3">OKTA JWKS</text>
+      <text x="510" y="58" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">/.well-known/jwks.json</text>
+
+      <!-- Output -->
+      <line x1="400" y1="120" x2="460" y2="120" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <rect x="460" y="90" width="160" height="60" rx="8" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.3)"/>
+      <text x="540" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00E5A0" font-weight="700">PASSPORT</text>
+      <text x="540" y="135" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">auth_method: oidc_federation</text>
+
+      <!-- Supported providers -->
+      <rect x="640" y="80" width="140" height="100" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <text x="710" y="102" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fg3" font-weight="700">PROVIDERS</text>
+      <text x="710" y="122" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00E5A0">● Google</text>
+      <text x="710" y="140" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00E5A0">● Microsoft Entra</text>
+      <text x="710" y="158" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">○ Okta</text>
+      <text x="710" y="174" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">○ Auth0</text>
+    </svg>
+  </div>
+</div></section>
+
+<!-- ═══════ 5. ARCHITECTURE ═══════ -->
+<section class="viz-section"><div class="w">
+  <h2><span class="tag tag-infra">INFRA</span> System Architecture</h2>
+  <p class="viz-desc">AIB runs on Supabase Edge Functions with PostgreSQL, Ed25519 signing, and Netlify for the frontend. CI/CD via GitHub Actions.</p>
+
+  <div class="diagram-box">
+    <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Client layer -->
+      <rect x="20" y="20" width="760" height="50" rx="8" fill="rgba(0,197,255,.04)" stroke="rgba(0,197,255,.15)"/>
+      <text x="400" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00C5FF" font-weight="700">CLIENT LAYER</text>
+      <text x="100" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">SDK Python</text>
+      <text x="250" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Dashboard</text>
+      <text x="400" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478" visibility="hidden">_</text>
+      <text x="550" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">cURL / HTTP</text>
+      <text x="700" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">OIDC Token</text>
+
+      <!-- Edge Functions layer -->
+      <rect x="20" y="90" width="760" height="80" rx="8" fill="rgba(0,229,160,.04)" stroke="rgba(0,229,160,.15)"/>
+      <text x="80" y="110" font-family="JetBrains Mono" font-size="10" fill="#00E5A0" font-weight="700">EDGE FUNCTIONS (Deno)</text>
+
+      <rect x="40" y="118" width="95" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
+      <text x="87" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-create</text>
+
+      <rect x="145" y="118" width="80" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
+      <text x="185" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-list</text>
+
+      <rect x="235" y="118" width="90" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
+      <text x="280" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-revoke</text>
+
+      <rect x="335" y="118" width="65" height="28" rx="5" fill="rgba(0,197,255,.08)" stroke="rgba(0,197,255,.2)"/>
+      <text x="367" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">translate</text>
+
+      <rect x="410" y="118" width="75" height="28" rx="5" fill="rgba(123,97,255,.08)" stroke="rgba(123,97,255,.2)"/>
+      <text x="447" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#7B61FF">policy-manage</text>
+
+      <rect x="495" y="118" width="90" height="28" rx="5" fill="rgba(255,170,0,.08)" stroke="rgba(255,170,0,.2)"/>
+      <text x="540" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">webhook-manage</text>
+
+      <rect x="595" y="118" width="45" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
+      <text x="617" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">auth</text>
+
+      <rect x="650" y="118" width="55" height="28" rx="5" fill="rgba(0,197,255,.08)" stroke="rgba(0,197,255,.2)"/>
+      <text x="677" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">usage</text>
+
+      <rect x="715" y="118" width="50" height="28" rx="5" fill="rgba(255,170,0,.08)" stroke="rgba(255,170,0,.2)"/>
+      <text x="740" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">blog</text>
+
+      <!-- Data layer -->
+      <rect x="20" y="190" width="370" height="90" rx="8" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.15)"/>
+      <text x="60" y="212" font-family="JetBrains Mono" font-size="10" fill="#7B61FF" font-weight="700">SUPABASE (PostgreSQL)</text>
+      <text x="40" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">passports · receipts · policy_rules · webhooks</text>
+      <text x="40" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">organizations · api_keys · usage · federation_trust</text>
+      <text x="40" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">signing_keys · blog_posts · pg_cron jobs</text>
+
+      <!-- Crypto layer -->
+      <rect x="410" y="190" width="180" height="90" rx="8" fill="rgba(255,170,0,.04)" stroke="rgba(255,170,0,.15)"/>
+      <text x="430" y="212" font-family="JetBrains Mono" font-size="10" fill="#FFAA00" font-weight="700">CRYPTO</text>
+      <text x="430" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">Ed25519 persistent keys</text>
+      <text x="430" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">SHA-256 hash chain</text>
+      <text x="430" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">HMAC-SHA256 webhooks</text>
+
+      <!-- CI/CD -->
+      <rect x="610" y="190" width="170" height="90" rx="8" fill="rgba(0,197,255,.04)" stroke="rgba(0,197,255,.15)"/>
+      <text x="630" y="212" font-family="JetBrains Mono" font-size="10" fill="#00C5FF" font-weight="700">CI/CD</text>
+      <text x="630" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">GitHub Actions</text>
+      <text x="630" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">1,044 unit + 10 integ tests</text>
+      <text x="630" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">Netlify auto-deploy</text>
+    </svg>
+  </div>
+</div></section>
+
+<!-- FOOTER -->
+<footer><div class="w">
+  <p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/blog">Blog</a> · Apache 2.0</p>
+</div></footer>
+
+<script>
+// Language
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(function(e){e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+
+// Dropdown
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nav-btn').forEach(function(x){x.classList.remove('open')});document.querySelectorAll('.dropdown').forEach(function(x){x.classList.remove('open')});if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-item')){document.querySelectorAll('.nav-btn').forEach(function(b){b.classList.remove('open')});document.querySelectorAll('.dropdown').forEach(function(d){d.classList.remove('open')})}});
+
+// Lifecycle steps
+function showStep(id, step, btn) {
+  var tabs = btn.parentElement.querySelectorAll('.viz-tab');
+  tabs.forEach(function(t){t.classList.remove('active')});
+  btn.classList.add('active');
+  var steps = document.getElementById(id + '-steps').children;
+  for (var i = 0; i < steps.length; i++) {
+    steps[i].className = 'step';
+    if (i < step) steps[i].className = 'step done';
+    if (i === step) steps[i].className = 'step done current';
+  }
+  // Highlight corresponding SVG elements
+  var els = ['lc-create','lc-active','lc-translate','lc-revoke'];
+  els.forEach(function(el, idx) {
+    var node = document.getElementById(el);
+    if (node) {
+      node.style.strokeWidth = idx === step ? '2' : '1';
+      node.style.stroke = idx === step ? '#00E5A0' : (idx === 3 && step === 3 ? '#FF4444' : '#1E2233');
+      if (idx === step) node.style.filter = 'drop-shadow(0 0 8px rgba(0,229,160,.3))';
+      else node.style.filter = 'none';
+    }
+  });
+}
+
+// Translation tabs
+var translations = {
+  'a2a-mcp': {
+    from: '<span class="c">// A2A Agent Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Booking Agent"</span>,\n  <span class="k">"url"</span>: <span class="s">"https://api.example.com"</span>,\n  <span class="k">"skills"</span>: [\n    { <span class="k">"id"</span>: <span class="s">"booking"</span>, <span class="k">"name"</span>: <span class="s">"Booking"</span> },\n    { <span class="k">"id"</span>: <span class="s">"cancel"</span>, <span class="k">"name"</span>: <span class="s">"Cancel"</span> }\n  ]\n}',
+    to: '<span class="c">// MCP Server Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Booking Agent"</span>,\n  <span class="k">"server_url"</span>: <span class="s">"https://api.example.com"</span>,\n  <span class="k">"tools"</span>: [\n    { <span class="k">"name"</span>: <span class="s">"booking"</span>,\n      <span class="k">"inputSchema"</span>: { <span class="v">auto-generated</span> } },\n    { <span class="k">"name"</span>: <span class="s">"cancel"</span>,\n      <span class="k">"inputSchema"</span>: { <span class="v">auto-generated</span> } }\n  ],\n  <span class="k">"_aib_source"</span>: <span class="s">"a2a"</span>\n}'
+  },
+  'mcp-a2a': {
+    from: '<span class="c">// MCP Server Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Support Bot"</span>,\n  <span class="k">"server_url"</span>: <span class="s">"https://mcp.example.com"</span>,\n  <span class="k">"tools"</span>: [\n    { <span class="k">"name"</span>: <span class="s">"search"</span>,\n      <span class="k">"description"</span>: <span class="s">"Search KB"</span> }\n  ]\n}',
+    to: '<span class="c">// A2A Agent Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Support Bot"</span>,\n  <span class="k">"url"</span>: <span class="s">"https://mcp.example.com"</span>,\n  <span class="k">"skills"</span>: [\n    { <span class="k">"id"</span>: <span class="s">"search"</span>,\n      <span class="k">"name"</span>: <span class="s">"Search KB"</span> }\n  ],\n  <span class="k">"_aib_source"</span>: <span class="s">"mcp"</span>\n}'
+  },
+  'a2a-agui': {
+    from: '<span class="c">// A2A Agent Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Travel Agent"</span>,\n  <span class="k">"url"</span>: <span class="s">"https://travel.ai"</span>,\n  <span class="k">"skills"</span>: [\n    { <span class="k">"id"</span>: <span class="s">"flight"</span>, <span class="k">"name"</span>: <span class="s">"Book Flight"</span> },\n    { <span class="k">"id"</span>: <span class="s">"hotel"</span>, <span class="k">"name"</span>: <span class="s">"Book Hotel"</span> }\n  ]\n}',
+    to: '<span class="c">// AG-UI Descriptor</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Travel Agent"</span>,\n  <span class="k">"url"</span>: <span class="s">"https://travel.ai"</span>,\n  <span class="k">"capabilities"</span>: [\n    <span class="s">"Book Flight"</span>,\n    <span class="s">"Book Hotel"</span>\n  ],\n  <span class="k">"render_mode"</span>: <span class="s">"inline"</span>,\n  <span class="k">"_aib_source"</span>: <span class="s">"a2a_agent_card"</span>\n}'
+  },
+  'agui-mcp': {
+    from: '<span class="c">// AG-UI Descriptor</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Dashboard Bot"</span>,\n  <span class="k">"url"</span>: <span class="s">"https://dash.ai"</span>,\n  <span class="k">"capabilities"</span>: [\n    <span class="s">"generate report"</span>,\n    <span class="s">"export csv"</span>\n  ]\n}',
+    to: '<span class="c">// MCP Server Card</span>\n{\n  <span class="k">"name"</span>: <span class="s">"Dashboard Bot"</span>,\n  <span class="k">"server_url"</span>: <span class="s">"https://dash.ai"</span>,\n  <span class="k">"tools"</span>: [\n    { <span class="k">"name"</span>: <span class="s">"generate_report"</span>,\n      <span class="k">"inputSchema"</span>: { <span class="v">auto</span> } },\n    { <span class="k">"name"</span>: <span class="s">"export_csv"</span>,\n      <span class="k">"inputSchema"</span>: { <span class="v">auto</span> } }\n  ],\n  <span class="k">"_aib_source"</span>: <span class="s">"ag_ui_descriptor"</span>\n}'
+  }
+};
+
+function showTranslation(key, btn) {
+  var tabs = btn.parentElement.querySelectorAll('.viz-tab');
+  tabs.forEach(function(t){t.classList.remove('active')});
+  btn.classList.add('active');
+  var t = translations[key];
+  document.getElementById('trans-from').innerHTML = t.from;
+  document.getElementById('trans-to').innerHTML = t.to;
+}
+
+// Scroll reveal
+var obs = new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+</script>
+</body>
+</html>
