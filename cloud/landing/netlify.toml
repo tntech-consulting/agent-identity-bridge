@@ -4,6 +4,21 @@
     Content-Type = "text/html; charset=UTF-8"
 
 [[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml"
+
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Content-Type = "image/svg+xml"
+
+[[headers]]
   for = "/agents/*/did.json"
   [headers.values]
     Content-Type = "application/did+json"

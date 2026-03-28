@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aib-tech.fr/sitemap.xml
+
+# AIB — Agent Identity Bridge
+# https://aib-tech.fr
+# TNTECH CONSULTING SAS — Paris, France
