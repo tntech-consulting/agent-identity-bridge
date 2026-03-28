@@ -317,10 +317,47 @@ All responses include the header `X-AIB-Version: 2.15.1`.
 | GET | `/usage-history` | Required | Daily activity analytics. |
 | GET/POST/DELETE | `/policy-manage` | Required | CRUD policy rules. |
 | GET/POST/DELETE | `/webhook-manage` | Required | CRUD webhooks. |
+| GET | `/did-resolve` | None | Resolve DID Document (W3C DID v1.1, did:web method). |
 
 ### 10.1 Versioning policy
 
 The API follows semantic versioning. The `X-AIB-Version` response header indicates the current version. Breaking changes will increment the major version and be announced with at least 30 days notice.
+
+### 10.2 DID Resolution
+
+AIB passports can be resolved as W3C DID Documents using the `did:web` method.
+
+#### DID format
+
+```
+did:web:aib-tech.fr:agents:{agent_slug}
+```
+
+#### Resolution endpoint
+
+| Method | Endpoint | Auth | Description |
+|--------|----------|------|-------------|
+| GET | `/did-resolve?agent={slug}` | None | Resolve DID Document by agent slug. |
+| GET | `/did-resolve?did={did}` | None | Resolve DID Document by full DID URI. |
+| GET | `/did-resolve?agent={slug}&format=resolution` | None | Full DID Resolution result (v0.3 format). |
+
+#### DID Document format
+
+The returned DID Document follows W3C DID v1.1 (Candidate Recommendation 2026-03-05):
+
+- `@context`: `["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/ed25519-2020/v1"]`
+- `verificationMethod`: `Ed25519VerificationKey2020` with `publicKeyMultibase` (z + base58btc encoded)
+- `authentication` and `assertionMethod`: reference the verification key
+- `service`: includes protocol-specific endpoints (MCPServer, A2AAgent)
+- Content-Type: `application/did+json`
+
+#### did:web resolution path
+
+```
+did:web:aib-tech.fr:agents:booking
+→ https://aib-tech.fr/agents/booking/did.json
+→ (proxied to) /functions/v1/did-resolve?agent=booking
+```
 
 ---
 

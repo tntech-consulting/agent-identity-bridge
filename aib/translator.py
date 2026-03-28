@@ -15,6 +15,25 @@ from datetime import datetime, timezone
 from typing import Optional
 
 
+# Base58btc alphabet (Bitcoin variant) for W3C DID publicKeyMultibase encoding
+_B58_ALPHABET = b'123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+
+def _base58btc_encode(data: bytes) -> str:
+    """Encode bytes to base58btc string (used for W3C DID publicKeyMultibase)."""
+    n = int.from_bytes(data, 'big')
+    result = []
+    while n > 0:
+        n, r = divmod(n, 58)
+        result.append(_B58_ALPHABET[r:r+1])
+    # Handle leading zero bytes
+    for byte in data:
+        if byte == 0:
+            result.append(b'1')
+        else:
+            break
+    return b''.join(reversed(result)).decode('ascii')
+
+
 class CredentialTranslator:
     """
     Translates identity/capability documents between AI protocols.
@@ -150,19 +169,24 @@ class CredentialTranslator:
         source_protocol: str,
         domain: str,
         agent_slug: str,
+        public_key_hex: str = "",
     ) -> dict:
         """
         Generate a W3C DID Document (did:web method) from any agent card.
+        Compliant with W3C DID v1.1 (Candidate Recommendation 2026-03-05)
+        and did:web method specification.
 
-        The did:web method resolves to:
-          https://{domain}/.well-known/did.json  (root)
-          https://{domain}/agents/{slug}/did.json (path-based)
+        Resolution paths:
+          did:web:{domain}              → https://{domain}/.well-known/did.json
+          did:web:{domain}:agents:{slug} → https://{domain}/agents/{slug}/did.json
 
         Args:
             card: Agent Card (A2A) or Server Card (MCP)
             source_protocol: "a2a" or "mcp"
-            domain: e.g. "domup-sap.fr"
+            domain: e.g. "aib-tech.fr"
             agent_slug: e.g. "booking"
+            public_key_hex: Ed25519 public key as hex string (64 chars / 32 bytes).
+                           If empty, verificationMethod is omitted.
         """
         did = f"did:web:{domain}:agents:{agent_slug}"
 
@@ -177,25 +201,12 @@ class CredentialTranslator:
         did_doc = {
             "@context": [
                 "https://www.w3.org/ns/did/v1",
-                "https://w3id.org/security/suites/jws-2020/v1",
+                "https://w3id.org/security/suites/ed25519-2020/v1",
             ],
             "id": did,
             "controller": did,
-            "verificationMethod": [
-                {
-                    "id": f"{did}#key-1",
-                    "type": "JsonWebKey2020",
-                    "controller": did,
-                    "publicKeyJwk": {
-                        "kty": "EC",
-                        "crv": "P-256",
-                        "x": "PLACEHOLDER_PUBLIC_KEY_X",
-                        "y": "PLACEHOLDER_PUBLIC_KEY_Y",
-                    }
-                }
-            ],
-            "authentication": [f"{did}#key-1"],
-            "assertionMethod": [f"{did}#key-1"],
+            "authentication": [],
+            "assertionMethod": [],
             "service": [
                 {
                     "id": f"{did}#agent-service",
@@ -207,6 +218,32 @@ class CredentialTranslator:
             "_aib_source": source_protocol,
             "_aib_translated_at": datetime.now(timezone.utc).isoformat(),
         }
+
+        # Add Ed25519 verification method if public key provided
+        if public_key_hex and len(public_key_hex) >= 64:
+            # Convert hex to multibase (z + base58btc of multicodec ed25519-pub + raw key)
+            # Multicodec prefix for Ed25519 public key: 0xed01
+            try:
+                raw_bytes = bytes.fromhex(public_key_hex[:64])
+                # multicodec ed25519-pub prefix
+                multicodec_bytes = b'\xed\x01' + raw_bytes
+                # base58btc encode
+                import base64
+                multibase_key = "z" + _base58btc_encode(multicodec_bytes)
+            except (ValueError, Exception):
+                multibase_key = ""
+
+            if multibase_key:
+                did_doc["verificationMethod"] = [
+                    {
+                        "id": f"{did}#key-1",
+                        "type": "Ed25519VerificationKey2020",
+                        "controller": did,
+                        "publicKeyMultibase": multibase_key,
+                    }
+                ]
+                did_doc["authentication"] = [f"{did}#key-1"]
+                did_doc["assertionMethod"] = [f"{did}#key-1"]
 
         # Add capabilities as metadata
         capabilities = []
@@ -266,6 +303,7 @@ class CredentialTranslator:
         to_format: str,
         domain: Optional[str] = None,
         agent_slug: Optional[str] = None,
+        public_key_hex: Optional[str] = None,
     ) -> dict:
         """
         Universal translation dispatcher.
@@ -276,6 +314,7 @@ class CredentialTranslator:
             to_format: Same options as from_format
             domain: Required for DID generation
             agent_slug: Required for DID generation
+            public_key_hex: Ed25519 public key (hex) for DID Document verificationMethod
         """
         # Import AG-UI translations
         from .ag_ui_binding import (
@@ -284,16 +323,17 @@ class CredentialTranslator:
         )
 
         key = f"{from_format}->{to_format}"
+        pk = public_key_hex or ""
 
         translations = {
             # Original 5 paths
             "a2a_agent_card->mcp_server_card": lambda: self.a2a_to_mcp(source),
             "mcp_server_card->a2a_agent_card": lambda: self.mcp_to_a2a(source),
             "a2a_agent_card->did_document": lambda: self.to_did_document(
-                source, "a2a", domain or "example.com", agent_slug or "agent"
+                source, "a2a", domain or "example.com", agent_slug or "agent", pk
             ),
             "mcp_server_card->did_document": lambda: self.to_did_document(
-                source, "mcp", domain or "example.com", agent_slug or "agent"
+                source, "mcp", domain or "example.com", agent_slug or "agent", pk
             ),
             "did_document->a2a_agent_card": lambda: self.did_to_a2a(source),
 
@@ -307,7 +347,7 @@ class CredentialTranslator:
 
             # AG-UI ↔ DID (2 paths — via A2A intermediate)
             "ag_ui_descriptor->did_document": lambda: self.to_did_document(
-                ag_ui_to_a2a(source), "a2a", domain or "example.com", agent_slug or "agent"
+                ag_ui_to_a2a(source), "a2a", domain or "example.com", agent_slug or "agent", pk
             ),
             "did_document->ag_ui_descriptor": lambda: a2a_to_ag_ui(self.did_to_a2a(source)),
         }
