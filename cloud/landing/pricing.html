@@ -76,55 +76,50 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <div class="plans">
 <div class="plan">
 <div class="plan-name">Community</div>
-<div class="plan-price show" data-lang="en">Free <span>forever</span></div>
-<div class="plan-price" data-lang="fr">Gratuit <span>pour toujours</span></div>
-<div class="plan-desc show" data-lang="en">For individual developers exploring agent identity.</div>
-<div class="plan-desc" data-lang="fr">Pour les développeurs individuels qui explorent l'identité des agents.</div>
+<div data-lang="en" class="show"><div class="plan-price">Free <span>forever</span></div><div class="plan-desc">For individual developers exploring agent identity.</div></div>
+<div data-lang="fr"><div class="plan-price">Gratuit <span>pour toujours</span></div><div class="plan-desc">Pour les développeurs individuels qui découvrent l'identité des agents IA.</div></div>
 <ul class="plan-features">
-<li>1,000 transactions/month</li>
+<li>1 000 transactions / <span data-lang="en" class="show">month</span><span data-lang="fr">mois</span></li>
 <li>10 passports</li>
-<li>3 policy rules</li>
+<li><span data-lang="en" class="show">3 policy rules</span><span data-lang="fr">3 règles de politique</span></li>
 <li>4 protocols (MCP, A2A, ANP, AG-UI)</li>
-<li>Ed25519 audit trail</li>
+<li><span data-lang="en" class="show">Ed25519 audit trail</span><span data-lang="fr">Audit Ed25519</span></li>
 <li>Python SDK</li>
 </ul>
-<a href="/dashboard" class="plan-btn secondary show" data-lang="en">Get Started</a>
-<a href="/dashboard" class="plan-btn secondary" data-lang="fr">Commencer</a>
+<div data-lang="en" class="show"><a href="/dashboard" class="plan-btn secondary">Get Started</a></div>
+<div data-lang="fr"><a href="/dashboard" class="plan-btn secondary">Commencer</a></div>
 </div>
 
 <div class="plan featured">
 <div class="plan-name">Pro <span style="background:var(--cyan);color:var(--bg);padding:2px 8px;border-radius:10px;font-size:10px;margin-left:6px;vertical-align:middle">FREE BETA</span></div>
-<div class="plan-price show" data-lang="en"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">$49/mo</span> Free</div>
-<div class="plan-price" data-lang="fr"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">49€/mois</span> Gratuit</div>
-<div class="plan-desc show" data-lang="en">All Pro features included during beta. No credit card.</div>
-<div class="plan-desc" data-lang="fr">Toutes les fonctionnalités Pro incluses pendant la beta. Sans CB.</div>
+<div data-lang="en" class="show"><div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">$49/mo</span> Free</div><div class="plan-desc">All Pro features included during beta. No credit card required.</div></div>
+<div data-lang="fr"><div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">49€/mois</span> Gratuit</div><div class="plan-desc">Toutes les fonctionnalités Pro incluses pendant la beta. Sans carte bancaire.</div></div>
 <ul class="plan-features">
-<li>100,000 transactions/month</li>
+<li>100 000 transactions / <span data-lang="en" class="show">month</span><span data-lang="fr">mois</span></li>
 <li>500 passports</li>
-<li>12 policy rule types</li>
-<li>OIDC Federation</li>
+<li><span data-lang="en" class="show">12 policy rule types</span><span data-lang="fr">12 types de règles</span></li>
+<li><span data-lang="en" class="show">OIDC Federation</span><span data-lang="fr">Fédération OIDC</span></li>
 <li>Webhooks (HMAC-SHA256)</li>
-<li>Priority support</li>
+<li><span data-lang="en" class="show">Priority email support</span><span data-lang="fr">Support email prioritaire</span></li>
 </ul>
-<a href="/dashboard" class="plan-btn primary show" data-lang="en">Start Free Beta →</a>
-<a href="/dashboard" class="plan-btn primary" data-lang="fr">Démarrer la Beta Gratuite →</a>
+<div data-lang="en" class="show"><a href="/dashboard" class="plan-btn primary">Start Free Beta →</a></div>
+<div data-lang="fr"><a href="/dashboard" class="plan-btn primary">Démarrer la Beta →</a></div>
 </div>
 
 <div class="plan">
 <div class="plan-name">Enterprise</div>
-<div class="plan-price show" data-lang="en">Custom</div>
-<div class="plan-price" data-lang="fr">Sur devis</div>
-<div class="plan-desc show" data-lang="en">For organizations with compliance and SLA requirements.</div>
-<div class="plan-desc" data-lang="fr">Pour les organisations avec des exigences de conformité et SLA.</div>
+<div data-lang="en" class="show"><div class="plan-price">Custom</div><div class="plan-desc">For organizations with compliance and SLA requirements.</div></div>
+<div data-lang="fr"><div class="plan-price">Sur devis</div><div class="plan-desc">Pour les organisations avec des exigences de conformité et SLA.</div></div>
 <ul class="plan-features">
-<li class="show" data-lang="en">Unlimited transactions</li><li data-lang="fr">Transactions illimitées</li>
-<li class="show" data-lang="en">Unlimited passports</li><li data-lang="fr">Passeports illimités</li>
-<li class="show" data-lang="en">Guaranteed SLA</li><li data-lang="fr">SLA garanti</li>
-<li class="show" data-lang="en">Dedicated support</li><li data-lang="fr">Support dédié</li>
-<li class="show" data-lang="en">On-premise option</li><li data-lang="fr">Option on-premise</li>
-<li class="show" data-lang="en">EU AI Act compliance</li><li data-lang="fr">Conformité AI Act UE</li>
+<li data-lang="en" class="show">Unlimited transactions</li><li data-lang="fr">Transactions illimitées</li>
+<li data-lang="en" class="show">Unlimited passports</li><li data-lang="fr">Passeports illimités</li>
+<li data-lang="en" class="show">Guaranteed SLA</li><li data-lang="fr">SLA garanti</li>
+<li data-lang="en" class="show">Dedicated support</li><li data-lang="fr">Support dédié</li>
+<li data-lang="en" class="show">On-premise deployment</li><li data-lang="fr">Déploiement on-premise</li>
+<li data-lang="en" class="show">EU AI Act compliance</li><li data-lang="fr">Conformité AI Act UE</li>
 </ul>
-<a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contact Sales</a>
+<div data-lang="en" class="show"><a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contact Sales</a></div>
+<div data-lang="fr"><a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contacter l'équipe</a></div>
 </div>
 </div>
 </div>
