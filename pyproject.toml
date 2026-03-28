@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-identity-bridge"
-version = "2.15.0"
+version = "2.15.1"
 description = "Portable identity for AI agents across MCP, A2A, ANP, and AG-UI protocols"
 readme = "README.md"
 license = {text = "Apache-2.0"}
