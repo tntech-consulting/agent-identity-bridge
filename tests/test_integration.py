@@ -38,7 +38,15 @@ def api_call(endpoint: str, method: str = "GET", body: dict | None = None) -> di
         with urllib.request.urlopen(req, timeout=15) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
-        return {"_status": e.code, **json.loads(e.read().decode())}
+        try:
+            body_text = e.read().decode()
+            parsed = json.loads(body_text)
+            parsed["_status"] = e.code
+            return parsed
+        except Exception:
+            return {"_status": e.code, "error": body_text if body_text else str(e)}
+    except Exception as e:
+        return {"_status": 0, "error": str(e)}
 
 
 @unittest.skipUnless(API_KEY, SKIP_REASON)
