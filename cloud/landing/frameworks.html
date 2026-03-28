@@ -51,7 +51,6 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
-<a href="/pricing" class="nb">Pricing</a>
 <div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
 <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
 </div></div></nav>
@@ -60,8 +59,8 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <div class="tag">FRAMEWORKS</div>
 <h1 data-lang="en" class="show">3 lines. <em>Any framework.</em></h1>
 <h1 data-lang="fr">3 lignes. <em>N'importe quel framework.</em></h1>
-<p data-lang="en" class="show">Integrate AIB with LangChain, CrewAI, or OpenAI Agents SDK in seconds.</p>
-<p data-lang="fr">Intégrez AIB avec LangChain, CrewAI ou OpenAI Agents SDK en quelques secondes.</p>
+<p data-lang="en" class="show">Integrate AIB with LangChain, CrewAI, OpenAI Agents, AutoGen, DSPy, and LlamaIndex.</p>
+<p data-lang="fr">Intégrez AIB avec LangChain, CrewAI, OpenAI Agents, AutoGen, DSPy et LlamaIndex.</p>
 </div></div>
 
 <div class="w">
@@ -69,37 +68,38 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <div class="fw" id="langchain">
 <div class="fw-name">🦜 LangChain</div>
 <div class="fw-desc" data-lang="en" class="show">Add AIB identity to any LangChain agent with the AIBTool wrapper.</div>
-<div class="fw-desc" data-lang="fr">Ajoutez l'identité AIB à n'importe quel agent LangChain avec le wrapper AIBTool.</div>
-<div class="fw-code">
-<span class="k">from</span> aib <span class="k">import</span> AIBTool<br>
-<span class="c"># Wrap your LangChain agent</span><br>
-tool = AIBTool(<span class="s">"booking"</span>)<br>
-agent.tools.append(tool)
+<div class="fw-desc" data-lang="fr">Ajoutez l'identité AIB à n'importe quel agent LangChain.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> AIBTool<br><span class="c"># Wrap your LangChain agent</span><br>tool = AIBTool(<span class="s">"booking"</span>)<br>agent.tools.append(tool)</div>
 </div>
-</div>
-
 <div class="fw" id="crewai">
 <div class="fw-name">🤖 CrewAI</div>
-<div class="fw-desc" data-lang="en" class="show">Give every CrewAI agent a portable passport with AIB identity.</div>
-<div class="fw-desc" data-lang="fr">Donnez à chaque agent CrewAI un passeport portable avec l'identité AIB.</div>
-<div class="fw-code">
-<span class="k">from</span> aib <span class="k">import</span> CrewAIBridge<br>
-<span class="c"># Assign passport to crew member</span><br>
-bridge = CrewAIBridge(<span class="s">"support"</span>)<br>
-crew.add_identity(bridge)
+<div class="fw-desc" data-lang="en" class="show">Give every CrewAI agent a portable passport.</div>
+<div class="fw-desc" data-lang="fr">Donnez à chaque agent CrewAI un passeport portable.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> CrewAIBridge<br><span class="c"># Assign passport to crew</span><br>bridge = CrewAIBridge(<span class="s">"support"</span>)<br>crew.add_identity(bridge)</div>
 </div>
-</div>
-
 <div class="fw" id="openai">
 <div class="fw-name">🧠 OpenAI Agents</div>
-<div class="fw-desc" data-lang="en" class="show">Connect OpenAI Agents SDK to AIB for cross-protocol identity.</div>
-<div class="fw-desc" data-lang="fr">Connectez le SDK OpenAI Agents à AIB pour une identité cross-protocole.</div>
-<div class="fw-code">
-<span class="k">from</span> aib <span class="k">import</span> OpenAIBridge<br>
-<span class="c"># Bridge OpenAI agent to MCP/A2A</span><br>
-bridge = OpenAIBridge(<span class="s">"analyst"</span>)<br>
-agent.register(bridge)
+<div class="fw-desc" data-lang="en" class="show">Connect OpenAI Agents SDK for cross-protocol identity.</div>
+<div class="fw-desc" data-lang="fr">Connectez le SDK OpenAI Agents pour l'identité cross-protocole.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> OpenAIBridge<br><span class="c"># Bridge to MCP/A2A</span><br>bridge = OpenAIBridge(<span class="s">"analyst"</span>)<br>agent.register(bridge)</div>
 </div>
+<div class="fw" id="autogen">
+<div class="fw-name">🔄 AutoGen</div>
+<div class="fw-desc" data-lang="en" class="show">Microsoft AutoGen agents with AIB portable passports.</div>
+<div class="fw-desc" data-lang="fr">Agents Microsoft AutoGen avec des passeports AIB portables.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> AutoGenBridge<br><span class="c"># Multi-agent conversations</span><br>bridge = AutoGenBridge(<span class="s">"coder"</span>)<br>agent.set_identity(bridge)</div>
+</div>
+<div class="fw" id="dspy">
+<div class="fw-name">📊 DSPy</div>
+<div class="fw-desc" data-lang="en" class="show">Add identity to DSPy pipelines for authenticated inference.</div>
+<div class="fw-desc" data-lang="fr">Ajoutez l'identité aux pipelines DSPy pour l'inférence authentifiée.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> DSPyBridge<br><span class="c"># Authenticated pipeline</span><br>bridge = DSPyBridge(<span class="s">"pipeline"</span>)<br>module.passport = bridge</div>
+</div>
+<div class="fw" id="llamaindex">
+<div class="fw-name">🦙 LlamaIndex</div>
+<div class="fw-desc" data-lang="en" class="show">LlamaIndex agents with cross-protocol identity and audit.</div>
+<div class="fw-desc" data-lang="fr">Agents LlamaIndex avec identité cross-protocole et audit.</div>
+<div class="fw-code"><span class="k">from</span> aib <span class="k">import</span> LlamaIndexBridge<br><span class="c"># RAG agent with passport</span><br>bridge = LlamaIndexBridge(<span class="s">"rag"</span>)<br>agent.identity = bridge</div>
 </div>
 </div>
 </div>
