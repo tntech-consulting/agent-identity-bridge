@@ -87,21 +87,44 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Prepare deploy files
+        run: |
+          cd cloud/landing
+          # Add netlify.toml for Content-Type headers
+          cat > netlify.toml << 'TOML'
+          [[headers]]
+            for = "/*"
+            [headers.values]
+              Content-Type = "text/html; charset=UTF-8"
+          TOML
+          echo "Files ready for deploy:"
+          ls -la *.html netlify.toml 2>/dev/null | head -10
+
       - name: Deploy protocol site (aib-tech.fr)
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_PROTOCOL_SITE_ID }}
         if: env.NETLIFY_AUTH_TOKEN != ''
         run: |
-          npm install -g netlify-cli
           cd cloud/landing
-          cat > netlify.toml << 'EOF'
-          [[headers]]
-            for = "/*"
-            [headers.values]
-              Content-Type = "text/html; charset=UTF-8"
-          EOF
-          netlify deploy --prod --dir=. --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+          # Create zip for API deploy
+          zip -r /tmp/deploy.zip . -x "*.git*"
+          # Deploy via Netlify API
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary @/tmp/deploy.zip \
+            "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            DEPLOY_URL=$(echo "$BODY" | python3 -c "import json,sys; print(json.load(sys.stdin).get('ssl_url',''))" 2>/dev/null)
+            echo "✅ Protocol site deployed: $DEPLOY_URL"
+          else
+            echo "❌ Deploy failed (HTTP $HTTP_CODE)"
+            echo "$BODY" | head -5
+            exit 1
+          fi
 
       - name: Deploy SaaS site (aib-cloud.netlify.app)
         env:
@@ -110,7 +133,22 @@ jobs:
         if: env.NETLIFY_AUTH_TOKEN != ''
         run: |
           cd cloud/landing
-          netlify deploy --prod --dir=. --site=$NETLIFY_SITE_ID --auth=$NETLIFY_AUTH_TOKEN
+          zip -r /tmp/deploy-saas.zip . -x "*.git*"
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary @/tmp/deploy-saas.zip \
+            "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | head -n -1)
+          if [ "$HTTP_CODE" -ge 200 ] && [ "$HTTP_CODE" -lt 300 ]; then
+            DEPLOY_URL=$(echo "$BODY" | python3 -c "import json,sys; print(json.load(sys.stdin).get('ssl_url',''))" 2>/dev/null)
+            echo "✅ SaaS site deployed: $DEPLOY_URL"
+          else
+            echo "❌ Deploy failed (HTTP $HTTP_CODE)"
+            echo "$BODY" | head -5
+            exit 1
+          fi
 
   # ─── Security Audit ────────────────────────────────
   security:
