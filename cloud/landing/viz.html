@@ -9,7 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#07080C;--bg2:#0D0F17;--bg3:#141826;--fg:#E4E7F0;--fg2:#9BA3B8;--fg3:#5C6478;--accent:#00E5A0;--accent2:#00C5FF;--purple:#7B61FF;--orange:#FFAA00;--red:#FF4444;--bd:#1E2233;--bd2:#2A2F44;--font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+:root{--bg:#0a0a1a;--bg2:#0f1029;--bg3:#171840;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--accent:#00d4ff;--accent2:#00C5FF;--purple:#7B61FF;--orange:#FFAA00;--red:#FF4444;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.08);--font:'DM Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
 html{scroll-behavior:smooth}
 body{font-family:var(--font);background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--accent);text-decoration:none;transition:opacity .15s}a:hover{opacity:.8}
@@ -82,13 +82,13 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 
 <!-- NAV -->
 <nav><div class="w">
-  <a href="/" class="logo">AIB<span>.</span></a>
+  <a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">Agent Identity Bridge</span></a>
   <div class="nav-r">
-    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Product<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
-    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>Guides & API reference</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source code & issues</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
-    <div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Resources<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dropdown"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>Guides & API reference</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source code & issues</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 12 12"><path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
     <a href="/pricing" class="nav-link">Pricing</a>
-    <div style="display:flex;gap:2px;margin-left:8px"><button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button><button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+    <div style="display:flex;gap:2px;margin-left:8px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
     <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
   </div>
 </div></nav>
@@ -115,51 +115,51 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
   <div class="diagram-box">
     <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" id="lifecycle-svg">
       <defs>
-        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#00E5A0"/></marker>
-        <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#5C6478"/></marker>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#00d4ff"/></marker>
+        <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#5e6388"/></marker>
       </defs>
       <!-- States -->
-      <rect x="20" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="#1E2233" id="lc-create"/>
-      <text x="90" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00E5A0" font-weight="700">CREATE</text>
-      <text x="90" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">POST passport-create</text>
-      <text x="90" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">+ Ed25519 receipt</text>
+      <rect x="20" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="rgba(255,255,255,.06)" id="lc-create"/>
+      <text x="90" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00d4ff" font-weight="700">CREATE</text>
+      <text x="90" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5e6388">POST passport-create</text>
+      <text x="90" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">+ Ed25519 receipt</text>
 
-      <line x1="160" y1="110" x2="220" y2="110" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="160" y1="110" x2="220" y2="110" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr)"/>
 
-      <rect x="220" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="#00E5A0" stroke-width="1.5" id="lc-active"/>
-      <text x="290" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00E5A0" font-weight="700">ACTIVE</text>
-      <text x="290" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#9BA3B8">Ready for use</text>
-      <text x="290" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">MCP + A2A + ANP + AG-UI</text>
+      <rect x="220" y="70" width="140" height="80" rx="10" fill="#0f1923" stroke="#00d4ff" stroke-width="1.5" id="lc-active"/>
+      <text x="290" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#00d4ff" font-weight="700">ACTIVE</text>
+      <text x="290" y="120" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#a0a5c8">Ready for use</text>
+      <text x="290" y="136" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">MCP + A2A + ANP + AG-UI</text>
 
       <line x1="360" y1="95" x2="420" y2="95" stroke="#00C5FF" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
       <text x="390" y="88" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">translate</text>
 
       <rect x="420" y="55" width="160" height="50" rx="8" fill="rgba(0,197,255,.06)" stroke="rgba(0,197,255,.3)" id="lc-translate"/>
       <text x="500" y="78" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00C5FF" font-weight="700">TRANSLATE</text>
-      <text x="500" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">A2A ↔ MCP ↔ AG-UI</text>
+      <text x="500" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">A2A ↔ MCP ↔ AG-UI</text>
 
       <line x1="360" y1="125" x2="420" y2="145" stroke="#FF4444" stroke-width="1.5" marker-end="url(#arrB)"/>
       <text x="385" y="145" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FF4444">revoke</text>
 
       <rect x="420" y="120" width="160" height="80" rx="10" fill="#0f1923" stroke="rgba(255,68,68,.3)" id="lc-revoke"/>
       <text x="500" y="150" text-anchor="middle" font-family="JetBrains Mono" font-size="12" fill="#FF4444" font-weight="700">REVOKED</text>
-      <text x="500" y="168" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">+ cascade children</text>
-      <text x="500" y="184" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">+ Ed25519 receipt</text>
+      <text x="500" y="168" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5e6388">+ cascade children</text>
+      <text x="500" y="184" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">+ Ed25519 receipt</text>
 
       <!-- Receipt chain -->
       <rect x="630" y="60" width="150" height="140" rx="10" fill="rgba(0,229,160,.04)" stroke="rgba(0,229,160,.15)"/>
-      <text x="705" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#00E5A0" font-weight="700">AUDIT TRAIL</text>
-      <text x="705" y="104" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">receipt_hash: a1b2...</text>
-      <text x="705" y="120" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">signature: ed25519</text>
-      <text x="705" y="136" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">signed_by: 314eff...</text>
+      <text x="705" y="82" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#00d4ff" font-weight="700">AUDIT TRAIL</text>
+      <text x="705" y="104" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5e6388">receipt_hash: a1b2...</text>
+      <text x="705" y="120" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5e6388">signature: ed25519</text>
+      <text x="705" y="136" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5e6388">signed_by: 314eff...</text>
       <line x1="665" y1="148" x2="745" y2="148" stroke="var(--bd)" stroke-width="0.5"/>
-      <text x="705" y="164" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">receipt_hash: c3d4...</text>
-      <text x="705" y="180" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5C6478">⛓ hash chain linked</text>
+      <text x="705" y="164" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5e6388">receipt_hash: c3d4...</text>
+      <text x="705" y="180" text-anchor="middle" font-family="var(--mono)" font-size="9" fill="#5e6388">⛓ hash chain linked</text>
     </svg>
   </div>
 
   <div class="diagram-legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#00E5A0"></div>Active flow</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div>Active flow</div>
     <div class="legend-item"><div class="legend-dot" style="background:#00C5FF"></div>Translation</div>
     <div class="legend-item"><div class="legend-dot" style="background:#FF4444"></div>Revocation</div>
     <div class="legend-item"><div class="legend-dot" style="background:rgba(0,229,160,.2)"></div>Audit receipt</div>
@@ -213,7 +213,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
   </div>
 
   <div class="diagram-legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#00E5A0"></div>skills → tools</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div>skills → tools</div>
     <div class="legend-item"><div class="legend-dot" style="background:#00C5FF"></div>url → server_url</div>
     <div class="legend-item"><div class="legend-dot" style="background:#FFAA00"></div>_aib_source added</div>
   </div>
@@ -227,11 +227,11 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
   <div class="diagram-box">
     <svg viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
       <!-- Request -->
-      <rect x="20" y="120" width="120" height="60" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="20" y="120" width="120" height="60" rx="8" fill="#0f1923" stroke="rgba(255,255,255,.06)"/>
       <text x="80" y="147" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fg" font-weight="700">REQUEST</text>
-      <text x="80" y="165" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">passport-create</text>
+      <text x="80" y="165" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">passport-create</text>
 
-      <line x1="140" y1="150" x2="190" y2="150" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="140" y1="150" x2="190" y2="150" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr)"/>
 
       <!-- Policy Engine -->
       <rect x="190" y="20" width="360" height="280" rx="12" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.2)"/>
@@ -239,10 +239,10 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 
       <!-- Rule cards -->
       <rect x="210" y="62" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
-      <text x="285" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">deliverable_gate</text>
+      <text x="285" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00d4ff">deliverable_gate</text>
 
       <rect x="380" y="62" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
-      <text x="455" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">capability_required</text>
+      <text x="455" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00d4ff">capability_required</text>
 
       <rect x="210" y="98" width="150" height="28" rx="5" fill="rgba(123,97,255,.06)" stroke="rgba(123,97,255,.15)"/>
       <text x="285" y="116" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7B61FF">separation_of_duties</text>
@@ -254,7 +254,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <text x="285" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FF4444">domain_block</text>
 
       <rect x="380" y="134" width="150" height="28" rx="5" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.15)"/>
-      <text x="455" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00E5A0">domain_allow</text>
+      <text x="455" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00d4ff">domain_allow</text>
 
       <rect x="210" y="170" width="150" height="28" rx="5" fill="rgba(255,170,0,.06)" stroke="rgba(255,170,0,.15)"/>
       <text x="285" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FFAA00">tier_restrict</text>
@@ -275,18 +275,18 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <text x="455" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00C5FF">capability_limit</text>
 
       <!-- Outputs -->
-      <line x1="550" y1="100" x2="610" y2="80" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="550" y1="100" x2="610" y2="80" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr)"/>
       <rect x="610" y="55" width="160" height="50" rx="8" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.3)"/>
-      <text x="690" y="76" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00E5A0" font-weight="700">✓ ALLOWED</text>
-      <text x="690" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Proceed + signed receipt</text>
+      <text x="690" y="76" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00d4ff" font-weight="700">✓ ALLOWED</text>
+      <text x="690" y="94" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">Proceed + signed receipt</text>
 
       <line x1="550" y1="200" x2="610" y2="200" stroke="#FF4444" stroke-width="1.5" marker-end="url(#arrB)"/>
       <rect x="610" y="175" width="160" height="50" rx="8" fill="rgba(255,68,68,.08)" stroke="rgba(255,68,68,.3)"/>
       <text x="690" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#FF4444" font-weight="700">✗ DENIED</text>
-      <text x="690" y="214" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">AIB-601 + denial receipt</text>
+      <text x="690" y="214" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">AIB-601 + denial receipt</text>
 
       <!-- Severity labels -->
-      <text x="690" y="250" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">Severity levels:</text>
+      <text x="690" y="250" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5e6388">Severity levels:</text>
       <rect x="635" y="258" width="45" height="18" rx="3" fill="rgba(255,68,68,.1)"/><text x="657" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FF4444">block</text>
       <rect x="685" y="258" width="40" height="18" rx="3" fill="rgba(255,170,0,.1)"/><text x="705" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">warn</text>
       <rect x="730" y="258" width="35" height="18" rx="3" fill="rgba(0,197,255,.1)"/><text x="747" y="271" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">log</text>
@@ -302,9 +302,9 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
   <div class="diagram-box">
     <svg viewBox="0 0 800 240" xmlns="http://www.w3.org/2000/svg">
       <!-- Agent with OIDC -->
-      <rect x="20" y="80" width="120" height="80" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="20" y="80" width="120" height="80" rx="8" fill="#0f1923" stroke="rgba(255,255,255,.06)"/>
       <text x="80" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#fg" font-weight="700">AGENT</text>
-      <text x="80" y="126" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Bearer: eyJ...</text>
+      <text x="80" y="126" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">Bearer: eyJ...</text>
       <text x="80" y="142" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#7B61FF">(Okta token)</text>
 
       <line x1="140" y1="120" x2="200" y2="120" stroke="#7B61FF" stroke-width="1.5" marker-end="url(#arr)"/>
@@ -314,33 +314,33 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <rect x="200" y="40" width="200" height="160" rx="10" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.2)"/>
       <text x="300" y="65" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#7B61FF" font-weight="700">AIB AUTHENTICATE</text>
 
-      <text x="220" y="90" font-family="DM Sans" font-size="10" fill="#9BA3B8">1. Decode JWT payload</text>
-      <text x="220" y="110" font-family="DM Sans" font-size="10" fill="#9BA3B8">2. Lookup iss → federation_trust</text>
-      <text x="220" y="130" font-family="DM Sans" font-size="10" fill="#9BA3B8">3. Verify exp (not expired)</text>
+      <text x="220" y="90" font-family="DM Sans" font-size="10" fill="#a0a5c8">1. Decode JWT payload</text>
+      <text x="220" y="110" font-family="DM Sans" font-size="10" fill="#a0a5c8">2. Lookup iss → federation_trust</text>
+      <text x="220" y="130" font-family="DM Sans" font-size="10" fill="#a0a5c8">3. Verify exp (not expired)</text>
       <text x="220" y="150" font-family="DM Sans" font-size="10" fill="#FFAA00">4. Verify aud (audience) ✦</text>
-      <text x="220" y="170" font-family="DM Sans" font-size="10" fill="#9BA3B8">5. Fetch JWKS from issuer</text>
-      <text x="220" y="190" font-family="DM Sans" font-size="10" fill="#00E5A0">6. Verify RS256 signature ✓</text>
+      <text x="220" y="170" font-family="DM Sans" font-size="10" fill="#a0a5c8">5. Fetch JWKS from issuer</text>
+      <text x="220" y="190" font-family="DM Sans" font-size="10" fill="#00d4ff">6. Verify RS256 signature ✓</text>
 
       <!-- JWKS fetch -->
-      <line x1="380" y1="170" x2="440" y2="50" stroke="#5C6478" stroke-width="1" stroke-dasharray="4,3"/>
-      <rect x="440" y="20" width="140" height="50" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <line x1="380" y1="170" x2="440" y2="50" stroke="#5e6388" stroke-width="1" stroke-dasharray="4,3"/>
+      <rect x="440" y="20" width="140" height="50" rx="8" fill="#0f1923" stroke="rgba(255,255,255,.06)"/>
       <text x="510" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fg3">OKTA JWKS</text>
-      <text x="510" y="58" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">/.well-known/jwks.json</text>
+      <text x="510" y="58" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">/.well-known/jwks.json</text>
 
       <!-- Output -->
-      <line x1="400" y1="120" x2="460" y2="120" stroke="#00E5A0" stroke-width="1.5" marker-end="url(#arr)"/>
+      <line x1="400" y1="120" x2="460" y2="120" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr)"/>
 
       <rect x="460" y="90" width="160" height="60" rx="8" fill="rgba(0,229,160,.06)" stroke="rgba(0,229,160,.3)"/>
-      <text x="540" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00E5A0" font-weight="700">PASSPORT</text>
-      <text x="540" y="135" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">auth_method: oidc_federation</text>
+      <text x="540" y="115" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00d4ff" font-weight="700">PASSPORT</text>
+      <text x="540" y="135" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">auth_method: oidc_federation</text>
 
       <!-- Supported providers -->
-      <rect x="640" y="80" width="140" height="100" rx="8" fill="#0f1923" stroke="#1E2233"/>
+      <rect x="640" y="80" width="140" height="100" rx="8" fill="#0f1923" stroke="rgba(255,255,255,.06)"/>
       <text x="710" y="102" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fg3" font-weight="700">PROVIDERS</text>
-      <text x="710" y="122" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00E5A0">● Google</text>
-      <text x="710" y="140" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00E5A0">● Microsoft Entra</text>
-      <text x="710" y="158" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">○ Okta</text>
-      <text x="710" y="174" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5C6478">○ Auth0</text>
+      <text x="710" y="122" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00d4ff">● Google</text>
+      <text x="710" y="140" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#00d4ff">● Microsoft Entra</text>
+      <text x="710" y="158" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5e6388">○ Okta</text>
+      <text x="710" y="174" text-anchor="middle" font-family="DM Sans" font-size="10" fill="#5e6388">○ Auth0</text>
     </svg>
   </div>
 </div></section>
@@ -355,24 +355,24 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <!-- Client layer -->
       <rect x="20" y="20" width="760" height="50" rx="8" fill="rgba(0,197,255,.04)" stroke="rgba(0,197,255,.15)"/>
       <text x="400" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#00C5FF" font-weight="700">CLIENT LAYER</text>
-      <text x="100" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">SDK Python</text>
-      <text x="250" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">Dashboard</text>
-      <text x="400" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478" visibility="hidden">_</text>
-      <text x="550" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">cURL / HTTP</text>
-      <text x="700" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5C6478">OIDC Token</text>
+      <text x="100" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">SDK Python</text>
+      <text x="250" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">Dashboard</text>
+      <text x="400" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388" visibility="hidden">_</text>
+      <text x="550" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">cURL / HTTP</text>
+      <text x="700" y="50" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#5e6388">OIDC Token</text>
 
       <!-- Edge Functions layer -->
       <rect x="20" y="90" width="760" height="80" rx="8" fill="rgba(0,229,160,.04)" stroke="rgba(0,229,160,.15)"/>
-      <text x="80" y="110" font-family="JetBrains Mono" font-size="10" fill="#00E5A0" font-weight="700">EDGE FUNCTIONS (Deno)</text>
+      <text x="80" y="110" font-family="JetBrains Mono" font-size="10" fill="#00d4ff" font-weight="700">EDGE FUNCTIONS (Deno)</text>
 
       <rect x="40" y="118" width="95" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
-      <text x="87" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-create</text>
+      <text x="87" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00d4ff">passport-create</text>
 
       <rect x="145" y="118" width="80" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
-      <text x="185" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-list</text>
+      <text x="185" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00d4ff">passport-list</text>
 
       <rect x="235" y="118" width="90" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
-      <text x="280" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">passport-revoke</text>
+      <text x="280" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00d4ff">passport-revoke</text>
 
       <rect x="335" y="118" width="65" height="28" rx="5" fill="rgba(0,197,255,.08)" stroke="rgba(0,197,255,.2)"/>
       <text x="367" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">translate</text>
@@ -384,7 +384,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <text x="540" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">webhook-manage</text>
 
       <rect x="595" y="118" width="45" height="28" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
-      <text x="617" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00E5A0">auth</text>
+      <text x="617" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00d4ff">auth</text>
 
       <rect x="650" y="118" width="55" height="28" rx="5" fill="rgba(0,197,255,.08)" stroke="rgba(0,197,255,.2)"/>
       <text x="677" y="136" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#00C5FF">usage</text>
@@ -395,23 +395,23 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
       <!-- Data layer -->
       <rect x="20" y="190" width="370" height="90" rx="8" fill="rgba(123,97,255,.04)" stroke="rgba(123,97,255,.15)"/>
       <text x="60" y="212" font-family="JetBrains Mono" font-size="10" fill="#7B61FF" font-weight="700">SUPABASE (PostgreSQL)</text>
-      <text x="40" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">passports · receipts · policy_rules · webhooks</text>
-      <text x="40" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">organizations · api_keys · usage · federation_trust</text>
-      <text x="40" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">signing_keys · blog_posts · pg_cron jobs</text>
+      <text x="40" y="235" font-family="DM Sans" font-size="9" fill="#5e6388">passports · receipts · policy_rules · webhooks</text>
+      <text x="40" y="252" font-family="DM Sans" font-size="9" fill="#5e6388">organizations · api_keys · usage · federation_trust</text>
+      <text x="40" y="269" font-family="DM Sans" font-size="9" fill="#5e6388">signing_keys · blog_posts · pg_cron jobs</text>
 
       <!-- Crypto layer -->
       <rect x="410" y="190" width="180" height="90" rx="8" fill="rgba(255,170,0,.04)" stroke="rgba(255,170,0,.15)"/>
       <text x="430" y="212" font-family="JetBrains Mono" font-size="10" fill="#FFAA00" font-weight="700">CRYPTO</text>
-      <text x="430" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">Ed25519 persistent keys</text>
-      <text x="430" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">SHA-256 hash chain</text>
-      <text x="430" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">HMAC-SHA256 webhooks</text>
+      <text x="430" y="235" font-family="DM Sans" font-size="9" fill="#5e6388">Ed25519 persistent keys</text>
+      <text x="430" y="252" font-family="DM Sans" font-size="9" fill="#5e6388">SHA-256 hash chain</text>
+      <text x="430" y="269" font-family="DM Sans" font-size="9" fill="#5e6388">HMAC-SHA256 webhooks</text>
 
       <!-- CI/CD -->
       <rect x="610" y="190" width="170" height="90" rx="8" fill="rgba(0,197,255,.04)" stroke="rgba(0,197,255,.15)"/>
       <text x="630" y="212" font-family="JetBrains Mono" font-size="10" fill="#00C5FF" font-weight="700">CI/CD</text>
-      <text x="630" y="235" font-family="DM Sans" font-size="9" fill="#5C6478">GitHub Actions</text>
-      <text x="630" y="252" font-family="DM Sans" font-size="9" fill="#5C6478">1,044 unit + 10 integ tests</text>
-      <text x="630" y="269" font-family="DM Sans" font-size="9" fill="#5C6478">Netlify auto-deploy</text>
+      <text x="630" y="235" font-family="DM Sans" font-size="9" fill="#5e6388">GitHub Actions</text>
+      <text x="630" y="252" font-family="DM Sans" font-size="9" fill="#5e6388">1,044 unit + 10 integ tests</text>
+      <text x="630" y="269" font-family="DM Sans" font-size="9" fill="#5e6388">Netlify auto-deploy</text>
     </svg>
   </div>
 </div></section>
@@ -447,7 +447,7 @@ function showStep(id, step, btn) {
     var node = document.getElementById(el);
     if (node) {
       node.style.strokeWidth = idx === step ? '2' : '1';
-      node.style.stroke = idx === step ? '#00E5A0' : (idx === 3 && step === 3 ? '#FF4444' : '#1E2233');
+      node.style.stroke = idx === step ? '#00d4ff' : (idx === 3 && step === 3 ? '#FF4444' : 'rgba(255,255,255,.06)');
       if (idx === step) node.style.filter = 'drop-shadow(0 0 8px rgba(0,229,160,.3))';
       else node.style.filter = 'none';
     }

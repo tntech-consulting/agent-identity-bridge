@@ -1,181 +1,88 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB Blog — AI Agent Identity, Protocols & Security</title>
-<meta name="description" content="Technical articles about AI agent identity, MCP vs A2A protocols, policy engines, OIDC federation, and cross-protocol authentication. By TNTECH CONSULTING.">
-<meta name="keywords" content="AI agent identity, MCP protocol, A2A protocol, AG-UI, agent passport, LangChain identity, CrewAI authentication, policy engine, OIDC federation">
-<meta name="author" content="TNTECH CONSULTING SAS">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://aib-tech.fr/blog.html">
-<meta name="geo.region" content="FR-75">
-<meta name="geo.placename" content="Paris">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AIB Blog — AI Agent Identity & Protocols">
-<meta property="og:description" content="Technical articles about AI agent identity across MCP, A2A, AG-UI protocols.">
-<meta property="og:url" content="https://aib-tech.fr/blog.html">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>AIB — Blog | Agent Identity Bridge</title>
+<meta name="description" content="Latest articles and updates about Agent Identity Bridge, AI agent identity, and cross-protocol interoperability.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#07080C;--bg2:#0D0F15;--fg:#E4E7F0;--fg2:#8B90A3;--fg3:#555A6E;--g:#00E5A0;--g2:#00C5FF;--bd:#1E2233;--m:'Space Mono',monospace;--s:'Outfit',sans-serif}
-body{font-family:var(--s);background:var(--bg);color:var(--fg);line-height:1.7}
-a{color:var(--g);text-decoration:none}a:hover{text-decoration:underline}
-.w{max-width:800px;margin:0 auto;padding:0 24px}
-nav{padding:14px 0;border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(7,8,12,.92);backdrop-filter:blur(16px);z-index:99}
-nav .w{display:flex;justify-content:space-between;align-items:center;max-width:1040px;flex-wrap:wrap;gap:8px}
-.logo{font-family:var(--m);font-size:15px;color:var(--g);font-weight:700;letter-spacing:2px}
-.logo span{color:var(--fg3);font-weight:400}
-.nav-r{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
-.nav-r a{color:var(--fg2);font-size:13px;font-weight:500}.nav-r a:hover{color:var(--g)}
-.lang-btn{font-family:var(--m);font-size:10px;cursor:pointer;padding:3px 8px;border-radius:3px;border:1px solid var(--bd);color:var(--fg3);background:transparent}.lang-btn:hover,.lang-btn.active{color:var(--g);border-color:rgba(0,229,160,.2)}
-
-.hero{padding:60px 0 40px;text-align:center}
-.hero h1{font-size:clamp(24px,4vw,36px);font-weight:700;color:#fff;margin-bottom:8px}
-.hero p{font-size:15px;color:var(--fg2);max-width:500px;margin:0 auto}
-
-#blog-list{margin:0 0 60px}
-.post-card{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:24px;margin-bottom:14px;transition:border-color .2s,transform .15s;cursor:pointer;display:block}
-.post-card:hover{border-color:rgba(0,229,160,.2);transform:translateY(-2px);text-decoration:none}
-.post-card h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:6px;line-height:1.3}
-.post-card p{font-size:14px;color:var(--fg2);margin-bottom:10px;line-height:1.55}
-.post-meta{display:flex;gap:12px;font-size:11px;color:var(--fg3);font-family:var(--m);flex-wrap:wrap;align-items:center}
-.post-meta .tag{background:rgba(0,229,160,.07);color:var(--g);padding:2px 7px;border-radius:3px;font-size:9px;font-weight:600;border:1px solid rgba(0,229,160,.12)}
-
-#article-view{display:none}
-#article-view .back{font-family:var(--m);font-size:12px;color:var(--fg3);margin-bottom:24px;display:inline-block;cursor:pointer}
-#article-view .back:hover{color:var(--g)}
-#article-view h1{font-size:clamp(22px,4vw,32px);font-weight:700;color:#fff;margin-bottom:12px;line-height:1.2}
-#article-view .article-meta{display:flex;gap:12px;font-size:12px;color:var(--fg3);font-family:var(--m);margin-bottom:32px;flex-wrap:wrap}
-#article-content{font-size:16px;line-height:1.8;color:var(--fg)}
-#article-content h2{font-size:20px;font-weight:700;color:#fff;margin:32px 0 12px}
-#article-content h3{font-size:17px;font-weight:600;color:#fff;margin:24px 0 8px}
-#article-content p{margin-bottom:16px}
-#article-content ul,#article-content ol{margin:0 0 16px 20px;color:var(--fg2)}
-#article-content li{margin-bottom:6px}
-#article-content pre{background:var(--bg2);border:1px solid var(--bd);border-radius:8px;padding:16px;overflow-x:auto;margin:16px 0;font-family:var(--m);font-size:13px;line-height:1.6;color:var(--g)}
-#article-content code{font-family:var(--m);font-size:13px;color:var(--g);background:rgba(0,229,160,.06);padding:2px 6px;border-radius:3px}
-#article-content pre code{background:none;padding:0}
-#article-content table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
-#article-content th{background:var(--bg2);color:var(--g);padding:8px 12px;text-align:left;font-family:var(--m);font-size:12px;border:1px solid var(--bd)}
-#article-content td{padding:8px 12px;border:1px solid var(--bd);color:var(--fg2)}
-#article-content a{color:var(--g)}
-#article-content strong{color:#fff}
-
-.loading{text-align:center;padding:40px;color:var(--fg3);font-family:var(--m);font-size:13px}
-
-footer{padding:24px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--fg3)}
-footer a{color:var(--fg2)}
-@media(max-width:600px){.post-card{padding:16px}.post-card h2{font-size:16px}}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
+a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+[data-lang]{display:none}.show{display:block!important}span.show,a.show,button.show{display:inline-block!important}button{font-family:inherit}
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}.logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,.3))}.logo-text{font-weight:700;font-size:17px;color:var(--fg)}
+.nav-r{display:flex;gap:3px;align-items:center}.nav-item{position:relative}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:.15s}.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
+.dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:.12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
+.lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px}.lb.active{color:var(--cyan)}
+.btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
+@media(max-width:768px){.nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}}
+.page-head{padding:100px 0 60px;text-align:center}
+.page-head h1{font-size:40px;font-weight:800;margin-bottom:10px;letter-spacing:-1.5px}
+.page-head h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-head p{color:var(--fg2);font-size:17px;max-width:500px;margin:0 auto}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border:1px solid var(--cyan-glow);border-radius:4px;background:var(--cyan-dim)}
+.blog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding-bottom:100px}
+.blog-card{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:28px 24px;backdrop-filter:blur(8px);transition:.3s}
+.blog-card:hover{border-color:rgba(0,212,255,.12);transform:translateY(-2px)}
+.blog-date{font-family:var(--mono);font-size:11px;color:var(--fg3);margin-bottom:8px}
+.blog-card h3{font-size:18px;font-weight:700;margin-bottom:8px;line-height:1.3}
+.blog-card p{color:var(--fg2);font-size:14px;line-height:1.6}
+.blog-tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);padding:2px 8px;border-radius:3px;margin-top:12px}
+.empty-state{text-align:center;padding:80px 0;color:var(--fg3);font-size:16px}
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;background:rgba(10,10,26,.5)}footer p{font-size:11px;color:var(--fg3)}footer a{color:var(--fg2)}footer a:hover{color:var(--cyan)!important}
+@media(max-width:768px){.blog-grid{grid-template-columns:1fr!important}}
 </style>
 </head>
 <body>
+<nav><div class="w">
+<a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">Agent Identity Bridge</span></a>
+<div class="nav-r">
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
+<a href="/pricing" class="nb">Pricing</a>
+<div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+<a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+</div></div></nav>
 
-<nav><div class="w" style="max-width:1040px">
-  <a href="/" class="logo">AIB <span>// blog</span></a>
-  <div class="nav-r">
-    <a href="index.html">Protocol</a>
-    <a href="pricing.html">Pricing</a>
-    <a href="https://aib-cloud.netlify.app">Cloud</a>
-    <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a>
-    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
-  </div>
-</div></nav>
+<div class="page-head"><div class="w">
+<div class="tag">BLOG</div>
+<h1 data-lang="en" class="show">Articles & <em>updates</em></h1>
+<h1 data-lang="fr">Articles & <em>actualités</em></h1>
+<p data-lang="en" class="show">Latest news about AI agent identity, protocol interoperability, and AIB releases.</p>
+<p data-lang="fr">Les dernières nouvelles sur l'identité des agents IA, l'interopérabilité des protocoles, et les versions d'AIB.</p>
+</div></div>
 
 <div class="w">
-  <section class="hero">
-    <h1 id="blog-title">AI Agent Identity & Protocols</h1>
-    <p id="blog-sub">Technical articles about portable identity for AI agents across MCP, A2A, ANP, and AG-UI.</p>
-  </section>
-
-  <div id="blog-list"><div class="loading">Loading articles...</div></div>
-
-  <div id="article-view">
-    <span class="back" onclick="showList()">&larr; Back to articles</span>
-    <h1 id="art-title"></h1>
-    <div class="article-meta" id="art-meta"></div>
-    <div id="article-content"></div>
-  </div>
+<div class="blog-grid" id="blog-posts">
+<div class="empty-state" id="blog-loading" data-lang="en" class="show">Loading articles...</div>
+<div class="empty-state" id="blog-loading-fr" data-lang="fr">Chargement des articles...</div>
+</div>
 </div>
 
-<footer><div class="w" style="max-width:1040px">
-  <p><a href="https://tntech.fr" target="_blank">TNTECH CONSULTING SAS</a> &middot; <a href="index.html">Protocol</a> &middot; <a href="https://aib-cloud.netlify.app">Cloud</a> &middot; <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> &middot; SIREN 993811157</p>
-</div></footer>
-
+<footer><div class="w"><p>&copy; 2026 TNTECH CONSULTING SAS — Paris — <a href="/">AIB</a> · <a href="/cgv">Terms</a> · Apache 2.0</p></div></footer>
 <script>
-var API = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api";
-var lang = "en";
-var articles = [];
-
-function setLang(l) {
-  lang = l;
-  document.getElementById("btn-en").classList.toggle("active", l==="en");
-  document.getElementById("btn-fr").classList.toggle("active", l==="fr");
-  document.getElementById("blog-title").textContent = l==="fr" ? "Identit\u00e9 & Protocoles pour Agents IA" : "AI Agent Identity & Protocols";
-  document.getElementById("blog-sub").textContent = l==="fr" ? "Articles techniques sur l'identit\u00e9 portable pour agents IA \u00e0 travers MCP, A2A, ANP et AG-UI." : "Technical articles about portable identity for AI agents across MCP, A2A, ANP, and AG-UI.";
-  if (document.getElementById("article-view").style.display === "block") {
-    var slug = location.hash.replace("#","");
-    if (slug) loadArticle(slug);
-  } else { renderList(); }
-}
-
-async function loadArticles() {
-  try {
-    var r = await fetch(API + "?lang=" + lang);
-    var d = await r.json();
-    articles = d.articles || [];
-    renderList();
-  } catch(e) { document.getElementById("blog-list").innerHTML = '<div class="loading">Failed to load articles</div>'; }
-}
-
-function renderList() {
-  var el = document.getElementById("blog-list");
-  if (articles.length === 0) { el.innerHTML = '<div class="loading">No articles yet</div>'; return; }
-  el.innerHTML = articles.map(function(a) {
-    var date = a.published_at ? new Date(a.published_at).toLocaleDateString(lang==="fr"?"fr-FR":"en-US",{year:"numeric",month:"long",day:"numeric"}) : "";
-    var tags = (a.tags||[]).map(function(t){return '<span class="tag">'+t+'</span>'}).join("");
-    return '<a class="post-card" href="#'+a.slug+'" onclick="loadArticle(\''+a.slug+'\')"><h2>'+a.title+'</h2><p>'+a.description+'</p><div class="post-meta"><span>'+date+'</span><span>'+a.read_time_min+' min read</span><span>'+a.views+' views</span>'+tags+'</div></a>';
-  }).join("");
-}
-
-async function loadArticle(slug) {
-  document.getElementById("blog-list").style.display = "none";
-  document.getElementById("article-view").style.display = "block";
-  document.querySelector(".hero").style.display = "none";
-  document.getElementById("article-content").innerHTML = '<div class="loading">Loading...</div>';
-  try {
-    var r = await fetch(API + "?slug=" + slug + "&lang=" + lang);
-    var a = await r.json();
-    if (a.error) { document.getElementById("article-content").innerHTML = '<div class="loading">Article not found</div>'; return; }
-    document.getElementById("art-title").textContent = a.title;
-    var date = a.published_at ? new Date(a.published_at).toLocaleDateString(lang==="fr"?"fr-FR":"en-US",{year:"numeric",month:"long",day:"numeric"}) : "";
-    document.getElementById("art-meta").innerHTML = '<span>'+a.author+'</span><span>'+date+'</span><span>'+a.read_time_min+' min</span><span>'+a.views+' views</span>';
-    document.getElementById("article-content").innerHTML = a.content;
-    document.title = a.title + " — AIB Blog";
-    window.scrollTo(0, 0);
-  } catch(e) { document.getElementById("article-content").innerHTML = '<div class="loading">Failed to load</div>'; }
-}
-
-function showList() {
-  document.getElementById("blog-list").style.display = "block";
-  document.getElementById("article-view").style.display = "none";
-  document.querySelector(".hero").style.display = "block";
-  document.title = "AIB Blog — AI Agent Identity, Protocols & Security";
-  location.hash = "";
-  renderList();
-}
-
-// Handle direct link to article
-window.addEventListener("load", function() {
-  loadArticles().then(function() {
-    if (location.hash) loadArticle(location.hash.replace("#",""));
-  });
-});
-window.addEventListener("hashchange", function() {
-  if (location.hash) loadArticle(location.hash.replace("#",""));
-  else showList();
-});
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
+// Fetch blog posts from Supabase
+fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api?action=list&lang='+((localStorage.getItem('aib-lang')||'en'))).then(r=>r.json()).then(d=>{
+  var g=document.getElementById('blog-posts');
+  if(!d.posts||!d.posts.length){g.innerHTML='<div class="empty-state">No articles yet. Check back soon.</div>';return}
+  g.innerHTML=d.posts.map(p=>'<div class="blog-card"><div class="blog-date">'+new Date(p.published_at).toLocaleDateString('en',{year:'numeric',month:'long',day:'numeric'})+'</div><h3>'+p.title+'</h3><p>'+(p.excerpt||p.content.substring(0,150)+'...')+'</p><div class="blog-tag">'+p.category+'</div></div>').join('');
+}).catch(()=>{document.getElementById('blog-posts').innerHTML='<div class="empty-state">Articles coming soon.</div>'});
 </script>
 </body>
 </html>
