@@ -4,10 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIB — Agent Identity Bridge | One identity. Every protocol.</title>
-<meta name="description" content="AIB: portable identity for AI agents across MCP, A2A, ANP, AG-UI. Ed25519 audit. OIDC Federation. 1,054 tests.">
+<meta name="description" content="Agent Identity Bridge (AIB) is an open-source protocol by TNTECH CONSULTING SAS that gives AI agents one portable identity across MCP, A2A, ANP, and AG-UI. 9 API endpoints, 12 policy rules, Ed25519 signed audit trail, OIDC Federation with Google, Entra, Okta, Auth0. 1,054 tests. Free during beta. Built in Paris, France.">
 <link rel="canonical" href="https://aib-tech.fr/">
 <meta property="og:title" content="AIB — One identity. Every protocol.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is Agent Identity Bridge (AIB)?","acceptedAnswer":{"@type":"Answer","text":"AIB is an open-source protocol that creates a single portable identity (Agent Passport) for AI agents operating across MCP, A2A, ANP, and AG-UI protocols. It solves identity fragmentation across AI communication protocols."}},
+{"@type":"Question","name":"Who is AIB for?","acceptedAnswer":{"@type":"Answer","text":"AIB is built for developers and platform engineers building multi-agent systems that need cross-protocol credential translation, policy enforcement, and cryptographic audit trails."}},
+{"@type":"Question","name":"How does credential translation work?","acceptedAnswer":{"@type":"Answer","text":"AIB translates between 6 credential paths (A2A Agent Cards, MCP Server Cards, AG-UI Descriptors) in under 1 millisecond. Skills become tools, capabilities become skills, with metadata tracking."}},
+{"@type":"Question","name":"Is AIB free?","acceptedAnswer":{"@type":"Answer","text":"Yes. AIB is open-source under Apache 2.0. The hosted API is free during beta with 100,000 transactions/month, 500 passports, 12 policy rule types, OIDC federation, and webhooks."}},
+{"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is created by Thomas Nirennold, founder of TNTECH CONSULTING SAS, Paris, France. Open-source on GitHub with 1,054 tests and a CI/CD pipeline."}}
+]}
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -168,9 +177,9 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <div class="hero-badge"><span class="dot"></span><span>v2.15.1 — All systems operational</span></div>
 <h1 data-lang="en" class="show">One identity.<br><em>Every protocol.</em><br>Full audit trail.</h1>
 <h1 data-lang="fr" class="show">Une identité.<br><em>Tous les protocoles.</em><br>Audit complet.</h1>
-<p class="hero-sub show" data-lang="en">AIB gives your AI agents a single portable passport across MCP, A2A, ANP & AG-UI. Translate credentials in &lt;1ms, enforce 12 policy types, audit everything with persistent Ed25519 signatures.</p>
-<p class="hero-sub" data-lang="fr">AIB donne à vos agents IA un passeport portable unique. Traduisez les credentials en &lt;1ms, appliquez 12 règles, auditez tout avec Ed25519 persistant.</p>
-<div class="hero-actions"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-h">> Quickstart</a><a href="/dashboard" class="btn-g">Open Dashboard</a></div>
+<p class="hero-sub show" data-lang="en">Agent Identity Bridge (AIB) is an open-source protocol that gives AI agents one portable identity across MCP, A2A, ANP, and AG-UI. Built for developers who need cross-protocol credential translation in under 1ms, policy enforcement with 12 rule types, and tamper-proof Ed25519 audit trails.</p>
+<p class="hero-sub" data-lang="fr">Agent Identity Bridge (AIB) est un protocole open-source qui donne aux agents IA une identité portable unique à travers MCP, A2A, ANP et AG-UI. Conçu pour les développeurs qui ont besoin de traduction de credentials cross-protocole en moins de 1ms, 12 types de règles de politique, et un audit Ed25519 infalsifiable.</p>
+<div class="hero-actions"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-h">> Quickstart</a><a href="/dashboard" class="btn-g">Open Dashboard</a><a href="https://pypi.org/project/agent-identity-bridge/" class="btn-g">pip install</a></div>
 </div></section>
 
 <div class="stats"><div class="w"><div class="stats-row">
@@ -183,8 +192,8 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 
 <section><div class="w" style="text-align:center">
 <div class="tag">API</div>
-<h2 style="font-size:30px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px">See it <em style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">in action</em></h2>
-<p style="color:var(--fg2);margin-bottom:36px;font-size:15px">Two API calls. Full agent identity lifecycle.</p>
+<h2 style="font-size:32px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px">See it <em style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">in action</em></h2>
+<p style="color:var(--fg2);margin-bottom:36px;font-size:16px">Create a passport and check usage with 2 curl commands. Base URL: ghiymzcqmzhjbljhyodz.supabase.co/functions/v1</p>
 <div class="term reveal">
 <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">aib-cloud v2.15.1</div></div>
 <div class="tb">
@@ -231,7 +240,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 </div></section>
 
 <section style="background:rgba(0,212,255,.006)"><div class="w">
-<div class="sh"><div class="tag">ENDPOINTS</div><h2>9 endpoints. <em>Full lifecycle.</em></h2><p>Create, translate, enforce, audit — everything your agents need.</p></div>
+<div class="sh"><div class="tag">ENDPOINTS</div><h2>9 REST endpoints. <em>Full lifecycle.</em></h2><p>All endpoints run as Supabase Edge Functions (Deno). Auth via API key (SHA-256 hashed), Supabase JWT, or OIDC federation token.</p></div>
 <div class="ep-grid">
 <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with bindings, capabilities, TTL. Ed25519 receipt.</p></div>
 <div class="ep reveal d1"><span class="badge get">GET</span><h3>passport-list</h3><p>List passports. Filter by status, paginated.</p></div>
@@ -245,22 +254,53 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 </div></div></section>
 
 <section><div class="w">
-<div class="sh"><div class="tag">CAPABILITIES</div><h2>Built for <em>production</em></h2><p>1,054 tests. CI/CD. Persistent Ed25519. Not a prototype.</p></div>
+<div class="sh"><div class="tag">CAPABILITIES</div><h2>Built for <em>production</em></h2><p>AIB v2.15.1 ships with 1,044 unit tests + 10 integration tests, a GitHub Actions CI/CD pipeline, and persistent Ed25519 signing keys stored in PostgreSQL.</p></div>
 <div class="fg">
-<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All translated and audited.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent keys. Every receipt signed and verifiable.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. JWKS + aud check.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rules</h4><p>Gates, separation of duties, rate limits, time restrict.</p></div></div>
-<div class="ft reveal"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. Unit + integration tests.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◆</div><div><h4>4 Protocols</h4><p>MCP (Anthropic), A2A (Google), ANP, AG-UI. Bidirectional translation between all formats.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">✦</div><div><h4>Ed25519 Audit Trail</h4><p>RFC 8032 compliant signatures. Persistent PKCS8 keys stored in PostgreSQL. SHA-256 hash chain receipts.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Accepts tokens from Google, Microsoft Entra, Okta, Auth0. JWKS verification + audience claim check.</p></div></div>
+<div class="ft reveal d3"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rule Types</h4><p>deliverable_gate, capability_required, separation_of_duties, rate_limit, time_restrict, domain_block, and 6 more.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 event types (passport.created, revoked, policy.violation, translate.completed). HMAC-SHA256 signed payloads.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revocation</h4><p>Revoking a parent passport automatically revokes all children in the delegation chain.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework Integration</h4><p>Works with LangChain, CrewAI, and OpenAI Agents SDK. 3 lines of Python to integrate.</p></div></div>
+<div class="ft reveal d3"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions: unit tests, security scan, integration tests, auto-deploy to Netlify.</p></div></div>
 </div></div></section>
+
+<!-- FAQ -->
+<section><div class="w">
+<div class="sh"><div class="tag">FAQ</div><h2>Frequently asked <em>questions</em></h2></div>
+<div style="max-width:700px;margin:0 auto">
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">What is Agent Identity Bridge (AIB)?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is an open-source protocol that creates a single portable identity (called an Agent Passport) for AI agents operating across MCP (Model Context Protocol by Anthropic), A2A (Agent-to-Agent by Google), ANP (Agent Network Protocol), and AG-UI (Agent-User Interaction). It solves the identity fragmentation problem where each protocol has its own credential format.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Who is AIB for?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is built for developers and platform engineers building multi-agent systems that need to operate across different AI communication protocols. If your agents need to authenticate via MCP and A2A simultaneously, or if you need to translate credentials between protocol formats, AIB handles that in under 1 millisecond.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">How does credential translation work?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB translates between 6 credential paths: A2A Agent Cards to MCP Server Cards (and back), A2A to AG-UI Descriptors (and back), and MCP to AG-UI (and back). Skills become tools, capabilities become skills. Each translated credential includes _aib_source and _aib_translated_at metadata fields. Translation takes under 1ms.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Is AIB free?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Yes. AIB is open-source under the Apache 2.0 license. The hosted API at aib-tech.fr is free during beta with all Pro features included: 100,000 transactions/month, 500 passports, 12 policy rule types, OIDC federation, and webhooks. No credit card required.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">What is the audit trail?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Every action (create, revoke, translate) generates a receipt signed with Ed25519 (RFC 8032). The signing keys are persistent and stored in PostgreSQL, so receipts can be verified independently. Receipt hashes form a SHA-256 chain, making the audit trail tamper-evident. Policy violations also generate signed denial receipts.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Who built AIB?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is created by Thomas Nirennold, founder and CEO of TNTECH CONSULTING SAS, based in Paris, France. The project is open-source on GitHub with 1,054 tests, 13 Edge Functions, and a full CI/CD pipeline via GitHub Actions. The Python SDK is published on PyPI.</p>
+</details>
+</div>
+</div></section>
 
 <section class="cta"><div class="w reveal">
 <div class="tag">GET STARTED</div>
 <h2>Start building in <em>30 seconds</em></h2>
-<p>Free during beta. All Pro features included. No credit card.</p>
+<p>Sign up, get an API key, and create your first Agent Passport. Free during beta — 100,000 transactions/month, all Pro features, no credit card.</p>
 <div class="cta-btns"><a href="/dashboard" class="btn-h">> Open Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">Read Quickstart</a><a href="https://pypi.org/project/agent-identity-bridge/" class="btn-g">PyPI v2.15.1</a></div>
 </div></section>
 
