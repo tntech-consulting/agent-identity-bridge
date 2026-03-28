@@ -4,212 +4,198 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIB — Agent Identity Bridge | One identity. Every protocol.</title>
-<meta name="description" content="AIB: portable identity for AI agents across MCP, A2A, ANP, AG-UI protocols. Ed25519 audit. OIDC Federation. 1,054 tests.">
+<meta name="description" content="AIB: portable identity for AI agents across MCP, A2A, ANP, AG-UI. Ed25519 audit. OIDC Federation. 1,054 tests.">
 <link rel="canonical" href="https://aib-tech.fr/">
 <meta property="og:title" content="AIB — One identity. Every protocol.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#08090e;--bg2:#0e1018;--bg3:#161a28;
-  --fg:#e8ecf4;--fg2:#8b95af;--fg3:#505a72;
-  --amber:#ffb020;--amber2:#ffc85c;--amber-glow:rgba(255,176,32,.08);
-  --green:#00e87b;--green-glow:rgba(0,232,123,.08);
-  --cyan:#40d4f0;--red:#ff4d4d;
-  --bd:rgba(255,255,255,.06);--bd2:rgba(255,176,32,.12);
+  --bg:#0a0a1a;--bg2:#0f1029;--bg3:#171840;
+  --fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);
+  --purple:#8b5cf6;--purple-dim:rgba(139,92,246,.06);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.06);
+  --red:#ef4444;
+  --bd:rgba(255,255,255,.06);
+  --glass:rgba(15,16,41,.6);
   --sans:'Plus Jakarta Sans',system-ui,sans-serif;
   --mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:15px;line-height:1.7}
-a{color:var(--amber);text-decoration:none;transition:color .2s}a:hover{color:var(--amber2)}
+a{color:var(--cyan);text-decoration:none;transition:all .2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 28px}
 [data-lang]{display:none}.show{display:revert!important}button{font-family:inherit}
 
-/* ═══ BACKGROUND EFFECTS ═══ */
-.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none}
-/* Subtle grid */
-.bg-fx::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);background-size:72px 72px}
-/* Radial glows */
-.bg-fx::after{content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse 50% 40% at 30% 20%,rgba(255,176,32,.04),transparent 60%),
-             radial-gradient(ellipse 40% 50% at 75% 70%,rgba(0,232,123,.03),transparent 50%),
-             radial-gradient(ellipse 30% 30% at 50% 50%,rgba(64,212,240,.02),transparent 40%)}
-/* Floating particles (CSS only) */
-.particle{position:fixed;width:2px;height:2px;background:var(--amber);border-radius:50%;opacity:0;z-index:1;pointer-events:none;animation:float-up linear infinite}
-.particle:nth-child(1){left:10%;animation-duration:12s;animation-delay:0s}
-.particle:nth-child(2){left:25%;animation-duration:16s;animation-delay:3s}
-.particle:nth-child(3){left:45%;animation-duration:14s;animation-delay:1s;background:var(--green)}
-.particle:nth-child(4){left:65%;animation-duration:18s;animation-delay:5s}
-.particle:nth-child(5){left:80%;animation-duration:13s;animation-delay:2s;background:var(--cyan)}
-.particle:nth-child(6){left:92%;animation-duration:15s;animation-delay:4s}
-@keyframes float-up{0%{bottom:-10px;opacity:0}10%{opacity:.4}90%{opacity:.4}100%{bottom:100vh;opacity:0}}
+/* ═══ BG ═══ */
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 20s ease-in-out infinite}
+.orb-1{width:500px;height:500px;background:rgba(0,212,255,.06);top:-10%;left:-5%;animation-delay:0s}
+.orb-2{width:400px;height:400px;background:rgba(139,92,246,.05);bottom:10%;right:-5%;animation-delay:-7s}
+.orb-3{width:350px;height:350px;background:rgba(59,130,246,.04);top:40%;left:50%;animation-delay:-13s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,10px) scale(1.02)}}
+/* particles */
+.ptc{position:fixed;width:2px;height:2px;border-radius:50%;opacity:0;z-index:1;pointer-events:none;animation:rise linear infinite}
+.ptc:nth-child(1){left:12%;background:var(--cyan);animation-duration:14s;animation-delay:0s}
+.ptc:nth-child(2){left:28%;background:var(--purple);animation-duration:18s;animation-delay:2s}
+.ptc:nth-child(3){left:48%;background:var(--cyan);animation-duration:12s;animation-delay:5s}
+.ptc:nth-child(4){left:68%;background:var(--blue);animation-duration:16s;animation-delay:1s}
+.ptc:nth-child(5){left:85%;background:var(--cyan);animation-duration:15s;animation-delay:3s}
+@keyframes rise{0%{bottom:-4px;opacity:0}8%{opacity:.5}92%{opacity:.5}100%{bottom:100vh;opacity:0}}
 main{position:relative;z-index:2}
 
 /* ═══ NAV ═══ */
-nav{padding:11px 0;position:sticky;top:0;z-index:100;background:rgba(8,9,14,.88);backdrop-filter:blur(24px) saturate(1.3);border-bottom:1px solid var(--bd)}
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
 nav .w{display:flex;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:30px;height:30px;border-radius:7px;border:1.5px solid var(--amber);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--amber);box-shadow:0 0 12px rgba(255,176,32,.1)}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}
 .logo-text{font-weight:700;font-size:16px;color:var(--fg);letter-spacing:-.3px}
-.logo-badge{font-family:var(--mono);font-size:9px;color:var(--green);background:var(--green-glow);padding:2px 8px;border-radius:10px;border:1px solid rgba(0,232,123,.15);letter-spacing:.3px}
 .nav-r{display:flex;gap:3px;align-items:center}
 .nav-item{position:relative}
-.nav-btn{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:all .15s}
-.nav-btn:hover,.nav-btn.open{color:var(--fg);background:rgba(255,255,255,.04)}
-.nav-btn svg{width:10px;height:10px;transition:transform .2s}.nav-btn.open svg{transform:rotate(180deg)}
-.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(14,16,24,.97);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 1px rgba(255,176,32,.1)}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:all .15s}
+.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
 .dd.open{opacity:1;visibility:visible;transform:translateY(0)}
-.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:all .12s}.dd a:hover{background:rgba(255,255,255,.04);color:var(--amber)}
-.dd a small{display:block;color:var(--fg3);font-size:11.5px;margin-top:1px;font-weight:400}
-.dd .sep{height:1px;background:rgba(255,255,255,.04);margin:4px 12px}
-.lang-btn{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:color .15s}.lang-btn.active{color:var(--amber)}
-.btn-cta{background:var(--amber);color:var(--bg);font-size:12px;font-weight:700;padding:7px 16px;border-radius:7px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s;box-shadow:0 0 16px rgba(255,176,32,.12)}.btn-cta:hover{box-shadow:0 0 28px rgba(255,176,32,.2);transform:translateY(-1px)}
-@media(max-width:768px){.nav-r{gap:1px}.nav-btn{font-size:12px;padding:5px 7px}.btn-cta,.logo-badge,.logo-text{display:none}.dd{min-width:200px}}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:all .12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px;font-weight:400}
+.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
+.lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:.15s}.lb.active{color:var(--cyan)}
+.btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
+@media(max-width:768px){.nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}}
 
 /* ═══ HERO ═══ */
-.hero{padding:90px 0 60px}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:24px}
-.hero-tag .led{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green),0 0 3px var(--green);animation:led 2s ease-in-out infinite}
-@keyframes led{0%,100%{opacity:1}50%{opacity:.25}}
-.hero-tag span{font-family:var(--mono);font-size:11.5px;color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;font-weight:600}
-.hero h1{font-size:48px;font-weight:800;line-height:1.08;margin-bottom:22px;letter-spacing:-1.5px}
-.hero h1 em{font-style:normal;color:var(--amber);text-shadow:0 0 60px rgba(255,176,32,.12)}
+.hero{padding:100px 0 70px}
+.hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);padding:5px 14px;border-radius:20px;margin-bottom:26px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-badge span{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:600;letter-spacing:1px}
+.hero h1{font-size:50px;font-weight:800;line-height:1.06;margin-bottom:22px;letter-spacing:-1.5px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-sub{color:var(--fg2);font-size:16.5px;line-height:1.8;margin-bottom:34px;max-width:490px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn-hero{background:var(--amber);color:var(--bg);padding:13px 28px;border-radius:8px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .25s;box-shadow:0 4px 20px rgba(255,176,32,.2)}.btn-hero:hover{box-shadow:0 6px 32px rgba(255,176,32,.3);transform:translateY(-2px);color:var(--bg)}
-.btn-ghost{border:1px solid rgba(255,255,255,.1);color:var(--fg);padding:13px 28px;border-radius:8px;font-weight:600;font-size:14px;transition:all .2s}.btn-ghost:hover{border-color:var(--amber);color:var(--amber)}
+.btn-h{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;padding:14px 30px;border-radius:10px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .25s;box-shadow:0 4px 24px rgba(0,212,255,.2)}.btn-h:hover{box-shadow:0 8px 40px rgba(0,212,255,.3);transform:translateY(-2px);color:#fff}
+.btn-g{border:1px solid rgba(255,255,255,.1);color:var(--fg);padding:14px 30px;border-radius:10px;font-weight:600;font-size:14px;transition:all .2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
 
-/* ═══ MISSION PANEL ═══ */
-.mp{background:rgba(14,16,24,.7);border:1px solid rgba(255,176,32,.1);border-radius:14px;overflow:hidden;backdrop-filter:blur(8px);box-shadow:0 0 40px rgba(255,176,32,.03),0 20px 50px rgba(0,0,0,.2)}
-.mp-head{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid var(--bd);background:rgba(255,176,32,.02)}
-.mp-title{font-family:var(--mono);font-size:11px;color:var(--amber);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
-.mp-live{font-family:var(--mono);font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px}
-.mp-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:led 1.5s infinite}
-.mp-body{padding:16px 18px}
-.sr{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12.5px;border-bottom:1px solid rgba(255,255,255,.02)}
-.sr:last-of-type{border:none}
-.sr-l{color:var(--fg3);font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.5px}
-.sr-v{font-family:var(--mono);font-weight:600;font-size:11.5px}
-.sr-v.g{color:var(--green)}.sr-v.a{color:var(--amber)}
-.proto-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
-.pg{background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:8px;padding:10px 6px;text-align:center}
-.pg-n{font-family:var(--mono);font-size:10px;font-weight:700;margin-bottom:3px;letter-spacing:.3px}
-.pg-s{font-family:var(--mono);font-size:9px;display:flex;align-items:center;justify-content:center;gap:3px}
-.pg-d{width:5px;height:5px;border-radius:50%;display:inline-block}
-.pg-mcp .pg-n{color:var(--green)}.pg-mcp .pg-d{background:var(--green);box-shadow:0 0 4px var(--green)}
-.pg-a2a .pg-n{color:var(--cyan)}.pg-a2a .pg-d{background:var(--cyan);box-shadow:0 0 4px var(--cyan)}
-.pg-anp .pg-n{color:var(--amber)}.pg-anp .pg-d{background:var(--amber)}
-.pg-agui .pg-n{color:var(--fg2)}.pg-agui .pg-d{background:var(--fg3)}
-.ml{margin-top:14px;font-family:var(--mono);font-size:10.5px;line-height:1.9;color:var(--fg3)}
-.ml .ok{color:var(--green)}.ml .w{color:var(--amber)}.ml .ts{opacity:.4}
+/* ═══ MISSION PANEL (glass card) ═══ */
+.mp{background:var(--glass);border:1px solid rgba(255,255,255,.07);border-radius:16px;overflow:hidden;backdrop-filter:blur(12px);box-shadow:0 24px 64px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.04)}
+.mp-head{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--bd);background:rgba(0,212,255,.02)}
+.mp-t{font-family:var(--mono);font-size:11px;color:var(--cyan);font-weight:600;letter-spacing:1.5px}
+.mp-live{font-family:var(--mono);font-size:10px;color:var(--green);display:flex;align-items:center;gap:5px}.mp-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 1.5s infinite}
+.mp-body{padding:16px 20px}
+.sr{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:13px;border-bottom:1px solid rgba(255,255,255,.03)}.sr:last-of-type{border:none}
+.sr-l{color:var(--fg3);font-family:var(--mono);font-size:11px;letter-spacing:.3px}.sr-v{font-family:var(--mono);font-weight:600;font-size:12px}
+.sr-v.g{color:var(--green)}.sr-v.c{color:var(--cyan)}.sr-v.p{color:var(--purple)}
+.pg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.pc{background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:8px;padding:10px 6px;text-align:center;transition:all .2s}.pc:hover{border-color:var(--cyan-glow);background:var(--cyan-dim)}
+.pc-n{font-family:var(--mono);font-size:10px;font-weight:700;margin-bottom:3px}
+.pc-s{font-family:var(--mono);font-size:9px;display:flex;align-items:center;justify-content:center;gap:3px}
+.pc-d{width:5px;height:5px;border-radius:50%;display:inline-block}
+.pc-mcp .pc-n{color:var(--cyan)}.pc-mcp .pc-d{background:var(--cyan);box-shadow:0 0 4px var(--cyan)}
+.pc-a2a .pc-n{color:var(--purple)}.pc-a2a .pc-d{background:var(--purple);box-shadow:0 0 4px var(--purple)}
+.pc-anp .pc-n{color:var(--blue)}.pc-anp .pc-d{background:var(--blue)}
+.pc-agui .pc-n{color:var(--fg2)}.pc-agui .pc-d{background:var(--fg3)}
+.ml{margin-top:14px;font-family:var(--mono);font-size:10.5px;line-height:1.9;color:var(--fg3)}.ml .ok{color:var(--green)}.ml .wa{color:var(--cyan)}.ml .ts{opacity:.4}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr;text-align:center}.hero h1{font-size:36px}.hero-sub{margin:0 auto 34px}.hero-actions{justify-content:center}}
 
 /* ═══ STATS ═══ */
-.stats{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:22px 0;background:rgba(255,176,32,.008)}
+.stats{border-top:1px solid var(--bd);border-bottom:1px solid var(--bd);padding:24px 0;background:rgba(0,212,255,.008)}
 .stats-row{display:flex;justify-content:center;gap:48px;flex-wrap:wrap}
-.stat{text-align:center}.stat .n{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--amber);line-height:1}.stat .n span{font-size:13px;color:var(--fg3)}.stat .l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-top:5px;font-family:var(--mono)}
+.stat{text-align:center}.stat .n{font-family:var(--mono);font-size:30px;font-weight:700;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}.stat .n span{font-size:13px;-webkit-text-fill-color:var(--fg3)}.stat .l{font-size:9.5px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-top:5px;font-family:var(--mono)}
 
 /* ═══ SECTIONS ═══ */
 section{padding:72px 0}
 .sh{text-align:center;margin-bottom:48px}
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border:1px solid rgba(255,176,32,.15);border-radius:4px;background:var(--amber-glow)}
-.sh h2{font-size:30px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}.sh h2 em{font-style:normal;color:var(--amber)}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border:1px solid var(--cyan-glow);border-radius:4px;background:var(--cyan-dim)}
+.sh h2{font-size:30px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}.sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .sh p{color:var(--fg2);font-size:15px;max-width:460px;margin:0 auto}
 
 /* Terminal */
-.term{max-width:700px;margin:0 auto;background:rgba(14,16,24,.8);border:1px solid var(--bd);border-radius:12px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.25);backdrop-filter:blur(4px)}
-.term-bar{display:flex;align-items:center;gap:7px;padding:10px 16px;border-bottom:1px solid var(--bd);background:rgba(255,255,255,.01)}
-.td{width:10px;height:10px;border-radius:50%}.td:nth-child(1){background:var(--red)}.td:nth-child(2){background:var(--amber)}.td:nth-child(3){background:var(--green)}
+.term{max-width:700px;margin:0 auto;background:var(--glass);border:1px solid var(--bd);border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,.25);backdrop-filter:blur(12px)}
+.term-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid var(--bd);background:rgba(255,255,255,.01)}
+.td{width:10px;height:10px;border-radius:50%}.td:nth-child(1){background:#ef4444}.td:nth-child(2){background:#f59e0b}.td:nth-child(3){background:#22c55e}
 .tt{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--fg3)}
-.tb{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:2.1}
-.tb .p{color:var(--green)}.tb .c{color:var(--fg)}.tb .g{color:var(--fg3)}.tb .v{color:var(--amber)}.tb .o{color:var(--fg2)}
+.tb{padding:20px;font-family:var(--mono);font-size:12.5px;line-height:2.1}
+.tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .g{color:var(--fg3)}.tb .v{color:var(--purple)}.tb .o{color:var(--fg2)}
 
 /* Endpoints */
-.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.ep{background:rgba(14,16,24,.6);border:1px solid var(--bd);border-radius:10px;padding:18px;transition:all .25s;position:relative;backdrop-filter:blur(4px)}
-.ep::after{content:'';position:absolute;top:10px;right:10px;width:4px;height:4px;border-radius:50%;background:var(--green);opacity:.3;transition:all .3s}
-.ep:hover{border-color:rgba(255,176,32,.15);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}.ep:hover::after{opacity:1;box-shadow:0 0 6px var(--green)}
-.badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:.5px}.badge.post{background:var(--green-glow);color:var(--green)}.badge.get{background:rgba(64,212,240,.06);color:var(--cyan)}
-.ep h3{font-family:var(--mono);font-size:12.5px;font-weight:600;margin:8px 0 4px}.ep p{font-size:12px;color:var(--fg3);line-height:1.5}
+.ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.ep{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;transition:all .3s;backdrop-filter:blur(8px);position:relative;overflow:hidden}
+.ep::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cyan),var(--blue));transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.ep:hover{border-color:rgba(0,212,255,.12);transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.15)}.ep:hover::before{transform:scaleX(1)}
+.badge{font-family:var(--mono);font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.5px}.badge.post{background:var(--cyan-dim);color:var(--cyan)}.badge.get{background:var(--purple-dim);color:var(--purple)}
+.ep h3{font-family:var(--mono);font-size:13px;font-weight:600;margin:9px 0 4px}.ep p{font-size:12.5px;color:var(--fg3);line-height:1.5}
 
 /* Features */
-.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.ft{background:rgba(14,16,24,.6);border:1px solid var(--bd);border-radius:10px;padding:18px;display:flex;gap:14px;transition:all .25s;backdrop-filter:blur(4px)}
-.ft:hover{border-color:rgba(255,176,32,.12);transform:translateY(-1px)}
-.fi{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;border:1px solid}
-.ft h4{font-size:13.5px;font-weight:700;margin-bottom:2px}.ft p{font-size:12px;color:var(--fg3);line-height:1.5}
+.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.ft{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;display:flex;gap:16px;transition:all .3s;backdrop-filter:blur(8px)}
+.ft:hover{border-color:rgba(0,212,255,.1);transform:translateY(-2px)}
+.fi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.ft h4{font-size:14px;font-weight:700;margin-bottom:3px}.ft p{font-size:12.5px;color:var(--fg3);line-height:1.55}
 
 /* CTA */
-.cta{padding:88px 0;text-align:center;position:relative}
-.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 45% 55% at 50% 50%,rgba(255,176,32,.03),transparent);pointer-events:none}
-.cta h2{font-size:34px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}.cta h2 em{font-style:normal;color:var(--amber)}
-.cta>p,.cta .w>p{color:var(--fg2);margin-bottom:28px;font-size:16px}
+.cta{padding:90px 0;text-align:center;position:relative}
+.cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 45% 55% at 50% 50%,rgba(0,212,255,.04),transparent);pointer-events:none}
+.cta h2{font-size:34px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}.cta h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta .w>p{color:var(--fg2);margin-bottom:30px;font-size:16px}
 .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-footer{border-top:1px solid var(--bd);padding:22px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2)}
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2);transition:.15s}footer a:hover{color:var(--cyan)}
 
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
-.d1{transition-delay:.07s}.d2{transition-delay:.14s}.d3{transition-delay:.21s}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 @media(max-width:768px){.ep-grid{grid-template-columns:1fr!important}.fg{grid-template-columns:1fr!important}.stats-row{gap:20px}.stat .n{font-size:22px}section{padding:50px 0}.sh h2{font-size:24px}}
 </style>
 </head>
 <body>
-<div class="bg-fx"></div>
-<div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div><div class="particle"></div>
+<div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="ptc"></div><div class="ptc"></div><div class="ptc"></div><div class="ptc"></div><div class="ptc"></div>
 <main>
-
-<!-- NAV -->
 <nav><div class="w">
-<a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span><span class="logo-badge">OPERATIONAL</span></a>
+<a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
 <div class="nav-r">
-<div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
-<div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
-<div class="nav-item"><button class="nav-btn" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
-<a href="/pricing" class="nav-btn">Pricing</a>
-<div style="display:flex;gap:2px;margin-left:6px"><button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button><button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a></div></div>
+<a href="/pricing" class="nb">Pricing</a>
+<div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
 <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
 </div></div></nav>
 
-<!-- HERO -->
 <section class="hero"><div class="w"><div class="hero-grid">
 <div>
-<div class="hero-tag"><span class="led"></span><span>Mission v2.15.1 — All systems nominal</span></div>
+<div class="hero-badge"><span class="dot"></span><span>v2.15.1 — All systems operational</span></div>
 <h1 data-lang="en" class="show">One identity.<br><em>Every protocol.</em><br>Full audit trail.</h1>
 <h1 data-lang="fr" class="show">Une identité.<br><em>Tous les protocoles.</em><br>Audit complet.</h1>
 <p class="hero-sub show" data-lang="en">AIB gives your AI agents a single portable passport across MCP, A2A, ANP & AG-UI. Translate credentials in &lt;1ms, enforce 12 policy types, audit everything with persistent Ed25519 signatures.</p>
 <p class="hero-sub" data-lang="fr">AIB donne à vos agents IA un passeport portable unique. Traduisez les credentials en &lt;1ms, appliquez 12 règles, auditez tout avec Ed25519 persistant.</p>
-<div class="hero-actions">
-<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-hero">> Quickstart</a>
-<a href="/dashboard" class="btn-ghost">Open Dashboard</a>
-</div>
+<div class="hero-actions"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-h">> Quickstart</a><a href="/dashboard" class="btn-g">Open Dashboard</a></div>
 </div>
 <div class="mp">
-<div class="mp-head"><span class="mp-title">Mission Control</span><span class="mp-live">LIVE</span></div>
+<div class="mp-head"><span class="mp-t">System Status</span><span class="mp-live">LIVE</span></div>
 <div class="mp-body">
 <div class="sr"><span class="sr-l">System</span><span class="sr-v g">NOMINAL</span></div>
-<div class="sr"><span class="sr-l">Edge Functions</span><span class="sr-v a">13 active</span></div>
+<div class="sr"><span class="sr-l">Edge Functions</span><span class="sr-v c">13 active</span></div>
 <div class="sr"><span class="sr-l">Signing Key</span><span class="sr-v g">314eff...aa9a</span></div>
 <div class="sr"><span class="sr-l">OIDC Issuers</span><span class="sr-v">2 trusted</span></div>
 <div class="sr"><span class="sr-l">Policy Engine</span><span class="sr-v g">12 rules loaded</span></div>
-<div class="proto-grid">
-<div class="pg pg-mcp"><div class="pg-n">MCP</div><div class="pg-s"><span class="pg-d"></span>ACTIVE</div></div>
-<div class="pg pg-a2a"><div class="pg-n">A2A</div><div class="pg-s"><span class="pg-d"></span>ACTIVE</div></div>
-<div class="pg pg-anp"><div class="pg-n">ANP</div><div class="pg-s"><span class="pg-d"></span>READY</div></div>
-<div class="pg pg-agui"><div class="pg-n">AG-UI</div><div class="pg-s"><span class="pg-d"></span>STANDBY</div></div>
+<div class="pg">
+<div class="pc pc-mcp"><div class="pc-n">MCP</div><div class="pc-s"><span class="pc-d"></span>ACTIVE</div></div>
+<div class="pc pc-a2a"><div class="pc-n">A2A</div><div class="pc-s"><span class="pc-d"></span>ACTIVE</div></div>
+<div class="pc pc-anp"><div class="pc-n">ANP</div><div class="pc-s"><span class="pc-d"></span>READY</div></div>
+<div class="pc pc-agui"><div class="pc-n">AG-UI</div><div class="pc-s"><span class="pc-d"></span>STANDBY</div></div>
 </div>
 <div class="ml">
 <div><span class="ts">T+00:03</span> <span class="ok">✓</span> passport-create: urn:aib:agent:myorg:booking</div>
 <div><span class="ts">T+00:02</span> <span class="ok">✓</span> translate: a2a → mcp — 0.4ms</div>
-<div><span class="ts">T+00:01</span> <span class="w">▲</span> policy: deliverable_gate — passed</div>
+<div><span class="ts">T+00:01</span> <span class="wa">▲</span> policy: deliverable_gate — passed</div>
 <div><span class="ts">T+00:00</span> <span class="ok">✓</span> auth: signup — org provisioned</div>
-</div>
-</div>
-</div>
+</div></div></div>
 </div></div></section>
 
-<!-- STATS -->
 <div class="stats"><div class="w"><div class="stats-row">
 <div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests</div></div>
 <div class="stat"><div class="n">9</div><div class="l">Endpoints</div></div>
@@ -218,10 +204,9 @@ footer{border-top:1px solid var(--bd);padding:22px 0;text-align:center}footer p{
 <div class="stat"><div class="n">4</div><div class="l">Protocols</div></div>
 </div></div></div>
 
-<!-- TERMINAL -->
 <section><div class="w" style="text-align:center">
 <div class="tag">API</div>
-<h2 class="sh" style="margin-bottom:6px"><span style="font-size:30px;font-weight:800;letter-spacing:-.5px">See it <em style="color:var(--amber)">in action</em></span></h2>
+<h2 style="font-size:30px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px">See it <em style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">in action</em></h2>
 <p style="color:var(--fg2);margin-bottom:36px;font-size:15px">Two API calls. Full agent identity lifecycle.</p>
 <div class="term reveal">
 <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">aib-cloud v2.15.1</div></div>
@@ -239,11 +224,9 @@ footer{border-top:1px solid var(--bd);padding:22px 0;text-align:center}footer p{
 <div style="height:6px"></div>
 <div><span class="p">$</span> <span class="c">curl /functions/v1/usage-check -H "x-api-key: ..."</span></div>
 <div><span class="o">&nbsp;&nbsp;transactions: 3/100,000 | passports: 1/500 | plan: beta_pro</span></div>
-</div></div>
-</div></section>
+</div></div></div></section>
 
-<!-- ENDPOINTS -->
-<section style="background:rgba(255,176,32,.008)"><div class="w">
+<section style="background:rgba(0,212,255,.006)"><div class="w">
 <div class="sh"><div class="tag">ENDPOINTS</div><h2>9 endpoints. <em>Full lifecycle.</em></h2><p>Create, translate, enforce, audit — everything your agents need.</p></div>
 <div class="ep-grid">
 <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with bindings, capabilities, TTL. Ed25519 receipt.</p></div>
@@ -254,41 +237,36 @@ footer{border-top:1px solid var(--bd);padding:22px 0;text-align:center}footer p{
 <div class="ep reveal d1"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics. Chart.js-ready.</p></div>
 <div class="ep reveal d2"><span class="badge post">POST</span><h3>policy-manage</h3><p>12 rule types. CRUD policies.</p></div>
 <div class="ep reveal d3"><span class="badge post">POST</span><h3>webhook-manage</h3><p>HMAC-SHA256. 4 event types.</p></div>
-<div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key gen.</p></div>
+<div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key gen. Auto-provisions org.</p></div>
 </div></div></section>
 
-<!-- FEATURES -->
 <section><div class="w">
 <div class="sh"><div class="tag">CAPABILITIES</div><h2>Built for <em>production</em></h2><p>1,054 tests. CI/CD. Persistent Ed25519. Not a prototype.</p></div>
 <div class="fg">
-<div class="ft reveal"><div class="fi" style="border-color:var(--green);color:var(--green);background:var(--green-glow)">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All translated and audited.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="border-color:var(--amber);color:var(--amber);background:var(--amber-glow)">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent keys. Every receipt signed and verifiable.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="border-color:var(--cyan);color:var(--cyan);background:rgba(64,212,240,.06)">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. JWKS + aud check.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="border-color:var(--amber);color:var(--amber);background:var(--amber-glow)">◈</div><div><h4>12 Policy Rules</h4><p>Gates, separation of duties, rate limits, time restrict.</p></div></div>
-<div class="ft reveal"><div class="fi" style="border-color:var(--green);color:var(--green);background:var(--green-glow)">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="border-color:var(--red);color:var(--red);background:rgba(255,77,77,.06)">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="border-color:var(--cyan);color:var(--cyan);background:rgba(64,212,240,.06)">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="border-color:var(--green);color:var(--green);background:var(--green-glow)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. Unit + integration tests.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◆</div><div><h4>4 Protocols</h4><p>MCP, A2A, ANP, AG-UI. All translated and audited.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">✦</div><div><h4>Ed25519 Audit</h4><p>Persistent keys. Every receipt signed and verifiable.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Google, Entra, Okta, Auth0. JWKS + aud check.</p></div></div>
+<div class="ft reveal d3"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rules</h4><p>Gates, separation of duties, rate limits, time restrict.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 events, HMAC-SHA256 signed.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revoke</h4><p>Revoke parent, children follow.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework SDKs</h4><p>LangChain, CrewAI, OpenAI Agents.</p></div></div>
+<div class="ft reveal d3"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions. Unit + integration tests.</p></div></div>
 </div></div></section>
 
-<!-- CTA -->
 <section class="cta"><div class="w reveal">
 <div class="tag">GET STARTED</div>
 <h2>Start building in <em>30 seconds</em></h2>
 <p>Free during beta. All Pro features included. No credit card.</p>
-<div class="cta-btns">
-<a href="/dashboard" class="btn-hero">> Open Dashboard</a>
-<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-ghost">Read Quickstart</a>
-<a href="https://pypi.org/project/agent-identity-bridge/" class="btn-ghost">PyPI v2.15.1</a>
-</div></div></section>
+<div class="cta-btns"><a href="/dashboard" class="btn-h">> Open Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" class="btn-g">Read Quickstart</a><a href="https://pypi.org/project/agent-identity-bridge/" class="btn-g">PyPI v2.15.1</a></div>
+</div></section>
 
 <footer><div class="w"><p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/viz">Explorer</a> · <a href="/blog">Blog</a> · Apache 2.0</p></div></footer>
 </main>
 <script>
 function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
 var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
-function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
-document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
