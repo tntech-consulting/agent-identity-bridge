@@ -13,7 +13,7 @@
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 28px}
-[data-lang]{display:none}.show{display:block!important}span.show,a.show,button.show{display:inline-block!important}button{font-family:inherit}
+[data-lang]{display:none}.show{display:block!important}span.show,button.show{display:inline-block!important}a.show{display:inline-block!important}a.plan-btn.show{display:block!important}button{font-family:inherit}
 nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
 nav .w{display:flex;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px}.logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,.3))}.logo-text{font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -70,15 +70,15 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 </div></div>
 
 <div class="w">
-<div class="beta-banner" data-lang="en" class="show">🎉 <strong>Beta is live!</strong> All Pro features are free during the beta period. No credit card required.</div>
+<div class="beta-banner show" data-lang="en">🎉 <strong>Beta is live!</strong> All Pro features are free during the beta period. No credit card required.</div>
 <div class="beta-banner" data-lang="fr">🎉 <strong>La beta est ouverte !</strong> Toutes les fonctionnalités Pro sont gratuites pendant la beta. Sans carte bancaire.</div>
 
 <div class="plans">
 <div class="plan">
 <div class="plan-name">Community</div>
-<div class="plan-price" data-lang="en" class="show">Free <span>forever</span></div>
+<div class="plan-price show" data-lang="en">Free <span>forever</span></div>
 <div class="plan-price" data-lang="fr">Gratuit <span>pour toujours</span></div>
-<div class="plan-desc" data-lang="en" class="show">For individual developers exploring agent identity.</div>
+<div class="plan-desc show" data-lang="en">For individual developers exploring agent identity.</div>
 <div class="plan-desc" data-lang="fr">Pour les développeurs individuels qui explorent l'identité des agents.</div>
 <ul class="plan-features">
 <li>1,000 transactions/month</li>
@@ -88,15 +88,15 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <li>Ed25519 audit trail</li>
 <li>Python SDK</li>
 </ul>
-<a href="/dashboard" class="plan-btn secondary" data-lang="en" class="show">Get Started</a>
+<a href="/dashboard" class="plan-btn secondary show" data-lang="en">Get Started</a>
 <a href="/dashboard" class="plan-btn secondary" data-lang="fr">Commencer</a>
 </div>
 
 <div class="plan featured">
 <div class="plan-name">Pro <span style="background:var(--cyan);color:var(--bg);padding:2px 8px;border-radius:10px;font-size:10px;margin-left:6px;vertical-align:middle">FREE BETA</span></div>
-<div class="plan-price" data-lang="en" class="show"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">$49/mo</span> Free</div>
+<div class="plan-price show" data-lang="en"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">$49/mo</span> Free</div>
 <div class="plan-price" data-lang="fr"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">49€/mois</span> Gratuit</div>
-<div class="plan-desc" data-lang="en" class="show">All Pro features included during beta. No credit card.</div>
+<div class="plan-desc show" data-lang="en">All Pro features included during beta. No credit card.</div>
 <div class="plan-desc" data-lang="fr">Toutes les fonctionnalités Pro incluses pendant la beta. Sans CB.</div>
 <ul class="plan-features">
 <li>100,000 transactions/month</li>
@@ -106,23 +106,23 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <li>Webhooks (HMAC-SHA256)</li>
 <li>Priority support</li>
 </ul>
-<a href="/dashboard" class="plan-btn primary" data-lang="en" class="show">Start Free Beta →</a>
+<a href="/dashboard" class="plan-btn primary show" data-lang="en">Start Free Beta →</a>
 <a href="/dashboard" class="plan-btn primary" data-lang="fr">Démarrer la Beta Gratuite →</a>
 </div>
 
 <div class="plan">
 <div class="plan-name">Enterprise</div>
-<div class="plan-price" data-lang="en" class="show">Custom</div>
+<div class="plan-price show" data-lang="en">Custom</div>
 <div class="plan-price" data-lang="fr">Sur devis</div>
-<div class="plan-desc" data-lang="en" class="show">For organizations with compliance and SLA requirements.</div>
+<div class="plan-desc show" data-lang="en">For organizations with compliance and SLA requirements.</div>
 <div class="plan-desc" data-lang="fr">Pour les organisations avec des exigences de conformité et SLA.</div>
 <ul class="plan-features">
-<li data-lang="en" class="show">Unlimited transactions</li><li data-lang="fr">Transactions illimitées</li>
-<li data-lang="en" class="show">Unlimited passports</li><li data-lang="fr">Passeports illimités</li>
-<li data-lang="en" class="show">Guaranteed SLA</li><li data-lang="fr">SLA garanti</li>
-<li data-lang="en" class="show">Dedicated support</li><li data-lang="fr">Support dédié</li>
-<li data-lang="en" class="show">On-premise option</li><li data-lang="fr">Option on-premise</li>
-<li data-lang="en" class="show">EU AI Act compliance</li><li data-lang="fr">Conformité AI Act UE</li>
+<li class="show" data-lang="en">Unlimited transactions</li><li data-lang="fr">Transactions illimitées</li>
+<li class="show" data-lang="en">Unlimited passports</li><li data-lang="fr">Passeports illimités</li>
+<li class="show" data-lang="en">Guaranteed SLA</li><li data-lang="fr">SLA garanti</li>
+<li class="show" data-lang="en">Dedicated support</li><li data-lang="fr">Support dédié</li>
+<li class="show" data-lang="en">On-premise option</li><li data-lang="fr">Option on-premise</li>
+<li class="show" data-lang="en">EU AI Act compliance</li><li data-lang="fr">Conformité AI Act UE</li>
 </ul>
 <a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contact Sales</a>
 </div>
