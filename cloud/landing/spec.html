@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Agent Identity Bridge (AIB) Protocol Specification</title>
+  <script src="https://www.w3.org/Tools/respec/respec-w3c" class="remove" defer></script>
+  <script class="remove">
+    var respecConfig = {
+      specStatus: "CG-DRAFT",
+      shortName: "aib-protocol",
+      editors: [
+        {
+          name: "Thomas Nirennold",
+          company: "TNTECH CONSULTING SAS",
+          companyURL: "https://tntech.fr",
+          url: "https://github.com/tntech-consulting",
+        },
+      ],
+      edDraftURI: "https://github.com/tntech-consulting/agent-identity-bridge/blob/main/w3c/spec.html",
+      github: {
+        repoURL: "https://github.com/tntech-consulting/agent-identity-bridge",
+        branch: "main",
+      },
+      latestVersion: "https://aib-tech.fr/spec",
+      noRecTrack: true,
+      xref: "web-platform",
+      localBiblio: {
+        "MCP": {
+          title: "Model Context Protocol",
+          href: "https://spec.modelcontextprotocol.io/",
+          publisher: "Anthropic",
+        },
+        "A2A": {
+          title: "Agent-to-Agent Protocol",
+          href: "https://google.github.io/A2A/",
+          publisher: "Google",
+        },
+        "RFC8032": {
+          title: "Edwards-Curve Digital Signature Algorithm (EdDSA)",
+          href: "https://www.rfc-editor.org/rfc/rfc8032",
+          publisher: "IRTF",
+        },
+        "RFC7519": {
+          title: "JSON Web Token (JWT)",
+          href: "https://www.rfc-editor.org/rfc/rfc7519",
+          publisher: "IETF",
+        },
+      },
+    };
+  </script>
+</head>
+<body>
+
+  <section id="abstract">
+    <p>
+      The Agent Identity Bridge (AIB) protocol defines a portable identity format for AI agents
+      operating across multiple communication protocols. It provides a single credential &mdash; the
+      <dfn>Agent Passport</dfn> &mdash; that is valid across [[MCP]], [[A2A]], ANP (Agent Network Protocol),
+      and AG-UI (Agent-User Interaction). This specification defines the passport format, credential
+      translation semantics, cryptographic audit trail, policy engine, OIDC federation, and webhook
+      notification system.
+    </p>
+  </section>
+
+  <section id="sotd">
+    <p>
+      This is a draft community specification. It has not been reviewed or endorsed by the W3C.
+      It is published to solicit feedback from the AI agent interoperability community.
+    </p>
+    <p>
+      A reference implementation is available at
+      <a href="https://github.com/tntech-consulting/agent-identity-bridge">github.com/tntech-consulting/agent-identity-bridge</a>
+      with 1,054 tests passing.
+    </p>
+  </section>
+
+  <section id="conformance">
+    <p>
+      As well as sections marked as non-normative, all authoring guidelines, diagrams,
+      examples, and notes in this specification are non-normative. Everything else in
+      this specification is normative.
+    </p>
+    <p>
+      The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+      "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+      interpreted as described in [[RFC2119]].
+    </p>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Introduction</h2>
+    <p>
+      AI agents increasingly operate across multiple communication protocols simultaneously.
+      An agent may receive tasks via [[MCP]], collaborate with peers via [[A2A]], register on
+      discovery networks via ANP, and interact with users via AG-UI. Each protocol has its own
+      identity and credential format, creating fragmentation.
+    </p>
+    <p>
+      AIB solves this by defining a single <a>Agent Passport</a> that encapsulates an agent's
+      identity, capabilities, and protocol bindings. Credentials can be translated between
+      formats in sub-millisecond time. Every action is recorded in a cryptographically signed
+      audit trail using Ed25519 ([[RFC8032]]).
+    </p>
+
+    <section>
+      <h3>Design Goals</h3>
+      <ol>
+        <li><strong>Portability</strong>: One identity credential valid across all supported protocols.</li>
+        <li><strong>Verifiability</strong>: Every action produces a cryptographically signed receipt.</li>
+        <li><strong>Policy enforcement</strong>: Declarative rules evaluated before every action.</li>
+        <li><strong>Federation</strong>: External identity providers (OIDC) accepted natively.</li>
+        <li><strong>Minimal footprint</strong>: Zero external dependencies in the SDK.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Terminology</h3>
+      <dl>
+        <dt><dfn>Agent Passport</dfn></dt>
+        <dd>A structured credential identifying an AI agent across protocols.</dd>
+        <dt><dfn>Receipt</dfn></dt>
+        <dd>A signed record of an action (create, revoke, translate, etc.).</dd>
+        <dt><dfn>Binding</dfn></dt>
+        <dd>Protocol-specific authentication configuration within a passport.</dd>
+        <dt><dfn>Capability</dfn></dt>
+        <dd>A declared ability of an agent (e.g., <code>booking</code>, <code>support</code>).</dd>
+        <dt><dfn>Policy Rule</dfn></dt>
+        <dd>A declarative constraint evaluated before an action is permitted.</dd>
+        <dt><dfn>Tier</dfn></dt>
+        <dd>The lifetime class of a passport: <code>permanent</code>, <code>session</code>, or <code>ephemeral</code>.</dd>
+      </dl>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Agent Passport Format</h2>
+
+    <section>
+      <h3>URN Scheme</h3>
+      <p>Agent passports MUST use the following hierarchical URN scheme:</p>
+      <pre class="nohighlight">urn:aib:agent:{org_slug}:{agent_slug}</pre>
+      <p>Where:</p>
+      <ul>
+        <li><code>org_slug</code>: Lowercase alphanumeric organization identifier (2-64 characters, hyphens allowed).</li>
+        <li><code>agent_slug</code>: Lowercase alphanumeric agent identifier (1-64 characters, hyphens and underscores allowed). MUST match the pattern <code>^[a-z0-9][a-z0-9-_]{0,62}[a-z0-9]$</code>.</li>
+      </ul>
+      <p>Organization issuers MUST follow:</p>
+      <pre class="nohighlight">urn:aib:org:{org_slug}</pre>
+    </section>
+
+    <section>
+      <h3>Passport Object</h3>
+      <p>A conforming <a>Agent Passport</a> is a JSON object with the following structure:</p>
+      <pre class="example" title="Agent Passport">
+{
+  "passport_id": "urn:aib:agent:myorg:booking-bot",
+  "display_name": "myorg/booking-bot",
+  "issuer": "urn:aib:org:myorg",
+  "capabilities": ["booking", "scheduling"],
+  "protocols": ["mcp", "a2a"],
+  "protocol_bindings": {
+    "mcp": { "auth_method": "oauth2" },
+    "a2a": { "auth_method": "bearer" }
+  },
+  "tier": "permanent",
+  "status": "active",
+  "version": 1,
+  "issued_at": "2026-03-28T10:00:00Z",
+  "expires_at": "2027-03-28T10:00:00Z",
+  "metadata": {}
+}
+      </pre>
+    </section>
+
+    <section>
+      <h3>Required Fields</h3>
+      <table class="data">
+        <thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td><code>passport_id</code></td><td>string (URN)</td><td>MUST be unique. Follows the URN scheme defined above.</td></tr>
+          <tr><td><code>display_name</code></td><td>string</td><td>Human-readable name for the agent.</td></tr>
+          <tr><td><code>issuer</code></td><td>string (URN)</td><td>MUST follow the organization URN scheme.</td></tr>
+          <tr><td><code>capabilities</code></td><td>string[]</td><td>Array of declared agent capabilities.</td></tr>
+          <tr><td><code>protocols</code></td><td>string[]</td><td>MUST contain at least one of: <code>mcp</code>, <code>a2a</code>, <code>anp</code>, <code>ag-ui</code>.</td></tr>
+          <tr><td><code>protocol_bindings</code></td><td>object</td><td>Per-protocol authentication configuration.</td></tr>
+          <tr><td><code>tier</code></td><td>string</td><td>MUST be <code>permanent</code>, <code>session</code>, or <code>ephemeral</code>.</td></tr>
+          <tr><td><code>status</code></td><td>string</td><td>MUST be <code>active</code>, <code>revoked</code>, or <code>expired</code>.</td></tr>
+          <tr><td><code>version</code></td><td>integer</td><td>Monotonically increasing version number.</td></tr>
+          <tr><td><code>issued_at</code></td><td>ISO 8601</td><td>Creation timestamp.</td></tr>
+          <tr><td><code>expires_at</code></td><td>ISO 8601</td><td>Expiration timestamp.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Protocol Bindings</h3>
+      <p>Each entry in <code>protocol_bindings</code> maps a protocol to its auth configuration:</p>
+      <table class="data">
+        <thead><tr><th>Protocol</th><th>Auth Method</th><th>Additional Fields</th></tr></thead>
+        <tbody>
+          <tr><td><code>mcp</code></td><td><code>oauth2</code></td><td>&mdash;</td></tr>
+          <tr><td><code>a2a</code></td><td><code>bearer</code></td><td>&mdash;</td></tr>
+          <tr><td><code>anp</code></td><td><code>did-auth</code></td><td><code>did</code> (DID Web URI)</td></tr>
+          <tr><td><code>ag-ui</code></td><td><code>none</code></td><td>&mdash;</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Tiers</h3>
+      <table class="data">
+        <thead><tr><th>Tier</th><th>Default TTL</th><th>Max TTL</th><th>Use Case</th></tr></thead>
+        <tbody>
+          <tr><td><code>permanent</code></td><td>365 days</td><td>3650 days</td><td>Long-lived service agents</td></tr>
+          <tr><td><code>session</code></td><td>1 hour</td><td>24 hours</td><td>Task-scoped agents</td></tr>
+          <tr><td><code>ephemeral</code></td><td>5 minutes</td><td>5 minutes</td><td>One-shot delegated actions</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Credential Translation</h2>
+    <p>
+      Conforming implementations MUST support bidirectional translation between all supported
+      protocol credential formats. Translation SHOULD complete in under 1 millisecond.
+    </p>
+
+    <section>
+      <h3>Supported Translation Paths</h3>
+      <table class="data">
+        <thead><tr><th>From</th><th>To</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>A2A Agent Card</td><td>MCP Server Card</td><td>REQUIRED</td></tr>
+          <tr><td>MCP Server Card</td><td>A2A Agent Card</td><td>REQUIRED</td></tr>
+          <tr><td>A2A Agent Card</td><td>AG-UI Descriptor</td><td>REQUIRED</td></tr>
+          <tr><td>MCP Server Card</td><td>AG-UI Descriptor</td><td>REQUIRED</td></tr>
+          <tr><td>AG-UI Descriptor</td><td>A2A Agent Card</td><td>REQUIRED</td></tr>
+          <tr><td>AG-UI Descriptor</td><td>MCP Server Card</td><td>REQUIRED</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Translation Semantics</h3>
+      <ul>
+        <li><code>skills</code> (A2A) &rarr; <code>tools</code> (MCP): Each skill becomes a tool with an auto-generated <code>inputSchema</code>.</li>
+        <li><code>tools</code> (MCP) &rarr; <code>skills</code> (A2A): Each tool becomes a skill with <code>id</code> = tool name.</li>
+        <li><code>capabilities</code> (AG-UI) &rarr; <code>skills</code>/<code>tools</code>: Each capability string becomes a skill or tool.</li>
+      </ul>
+      <p>Translated credentials MUST include the following metadata fields:</p>
+      <ul>
+        <li><code>_aib_source</code>: The original format identifier.</li>
+        <li><code>_aib_translated_at</code>: ISO 8601 timestamp of translation.</li>
+      </ul>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Audit Trail</h2>
+
+    <section>
+      <h3>Receipt Format</h3>
+      <p>Every action MUST produce a <a>Receipt</a>:</p>
+      <pre class="example" title="Audit Receipt">
+{
+  "passport_id": "urn:aib:agent:myorg:bot",
+  "action": "create",
+  "status": "success",
+  "receipt_hash": "a1b2c3d4e5f6...",
+  "signature": "ed25519hex...",
+  "signed_by": "publickeyhex...",
+  "created_at": "2026-03-28T10:00:00Z"
+}
+      </pre>
+    </section>
+
+    <section>
+      <h3>Hash Chain</h3>
+      <p>Each receipt's <code>receipt_hash</code> MUST be computed as:</p>
+      <pre class="nohighlight">SHA-256("{action}|{passport_id}|{timestamp}")</pre>
+      <p>This creates a tamper-evident chain &mdash; modifying any receipt invalidates subsequent hashes.</p>
+    </section>
+
+    <section>
+      <h3>Ed25519 Signatures</h3>
+      <p>
+        Receipts MUST be signed using Ed25519 ([[RFC8032]]). The signing key SHOULD be persistent
+        across server restarts. The public key MUST be stored in the <code>signed_by</code> field
+        of each receipt for independent verification.
+      </p>
+    </section>
+
+    <section>
+      <h3>Denied Actions</h3>
+      <p>
+        Policy violations MUST also generate signed receipts with <code>status: "denied"</code>,
+        the error code in <code>error_code</code>, and violation details in <code>metadata.violations</code>.
+      </p>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Policy Engine</h2>
+
+    <section>
+      <h3>Rule Types</h3>
+      <p>Conforming implementations MUST support the following 12 policy rule types:</p>
+      <table class="data">
+        <thead><tr><th>#</th><th>Type</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><code>deliverable_gate</code></td><td>Require specific capabilities before an action is permitted.</td></tr>
+          <tr><td>2</td><td><code>capability_required</code></td><td>Agent MUST possess specific capabilities.</td></tr>
+          <tr><td>3</td><td><code>separation_of_duties</code></td><td>Block self-actions on resources the requesting identity created.</td></tr>
+          <tr><td>4</td><td><code>protocol_restrict</code></td><td>Block passports using specific protocols.</td></tr>
+          <tr><td>5</td><td><code>domain_block</code></td><td>Block agents matching specific domain patterns.</td></tr>
+          <tr><td>6</td><td><code>domain_allow</code></td><td>Allow only agents matching specific domain patterns.</td></tr>
+          <tr><td>7</td><td><code>tier_restrict</code></td><td>Restrict actions to specific passport tiers.</td></tr>
+          <tr><td>8</td><td><code>time_restrict</code></td><td>Restrict actions to specific time windows (UTC).</td></tr>
+          <tr><td>9</td><td><code>action_block</code></td><td>Block specific actions entirely.</td></tr>
+          <tr><td>10</td><td><code>rate_limit</code></td><td>Limit the number of actions per time period.</td></tr>
+          <tr><td>11</td><td><code>attestation_required</code></td><td>Require cryptographic attestation for specific actions.</td></tr>
+          <tr><td>12</td><td><code>capability_limit</code></td><td>Limit the number of capabilities per passport.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Severity Levels</h3>
+      <p>Each policy rule MUST have a severity level:</p>
+      <dl>
+        <dt><code>block</code></dt><dd>Action is denied. A signed denial receipt is emitted.</dd>
+        <dt><code>warn</code></dt><dd>Action proceeds. Violation is recorded in receipt metadata.</dd>
+        <dt><code>log</code></dt><dd>Action proceeds. Violation is counted in rule hit statistics.</dd>
+      </dl>
+    </section>
+
+    <section>
+      <h3>Evaluation Order</h3>
+      <p>
+        All active rules MUST be evaluated for every action. If any rule with
+        <code>block</code> severity produces a violation, the action MUST be denied.
+        Violations from <code>warn</code> and <code>log</code> rules SHOULD be
+        included in the response metadata.
+      </p>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>OIDC Federation</h2>
+    <p>
+      AIB SHOULD accept external OIDC tokens ([[RFC7519]]) as authentication. This enables
+      agents authenticated via enterprise identity providers to obtain passports without
+      creating AIB-specific accounts.
+    </p>
+
+    <section>
+      <h3>Verification Flow</h3>
+      <p>Conforming implementations MUST perform the following steps when processing an OIDC token:</p>
+      <ol>
+        <li>Extract the JWT payload from the Bearer token.</li>
+        <li>Look up the <code>iss</code> (issuer) claim in the federation trust registry.</li>
+        <li>Verify <code>exp</code> (expiration) is in the future.</li>
+        <li>If an expected audience is configured, verify the <code>aud</code> claim matches.</li>
+        <li>Fetch the JWKS from the issuer's <code>jwks_uri</code>.</li>
+        <li>Verify the JWT signature using the appropriate algorithm (RS256, RS384, or RS512).</li>
+        <li>If valid, create or authenticate the identity linked to the OIDC subject.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>Supported Algorithms</h3>
+      <p>Conforming implementations MUST support RS256 and SHOULD support RS384 and RS512 (RSASSA-PKCS1-v1_5).</p>
+    </section>
+
+    <section>
+      <h3>JWKS Caching</h3>
+      <p>JWKS responses SHOULD be cached for at least 1 hour per issuer URI to minimize network overhead.</p>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Webhooks</h2>
+
+    <section>
+      <h3>Event Types</h3>
+      <p>Conforming implementations SHOULD support the following webhook events:</p>
+      <table class="data">
+        <thead><tr><th>Event</th><th>Triggered By</th></tr></thead>
+        <tbody>
+          <tr><td><code>passport.created</code></td><td>Successful passport creation.</td></tr>
+          <tr><td><code>passport.revoked</code></td><td>Successful passport revocation.</td></tr>
+          <tr><td><code>policy.violation</code></td><td>A policy rule blocks an action.</td></tr>
+          <tr><td><code>translate.completed</code></td><td>Successful credential translation.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h3>Payload Format</h3>
+      <pre class="example" title="Webhook Payload">
+{
+  "event": "passport.created",
+  "timestamp": "2026-03-28T10:00:00Z",
+  "data": {
+    "passport_id": "urn:aib:agent:myorg:bot",
+    "protocols": ["mcp", "a2a"],
+    "capabilities": ["booking"]
+  }
+}
+      </pre>
+    </section>
+
+    <section>
+      <h3>Signature</h3>
+      <p>
+        When a webhook has a <code>secret</code> configured, the payload body MUST be signed
+        with HMAC-SHA256. The hex-encoded signature MUST be sent in the
+        <code>X-AIB-Signature</code> HTTP header.
+      </p>
+    </section>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section>
+    <h2>Error Codes</h2>
+    <table class="data">
+      <thead><tr><th>Code</th><th>HTTP Status</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>AIB-001</td><td>400</td><td>Invalid or missing request body.</td></tr>
+        <tr><td>AIB-002</td><td>400</td><td>Invalid agent_slug format.</td></tr>
+        <tr><td>AIB-003</td><td>400</td><td>No valid protocols specified.</td></tr>
+        <tr><td>AIB-101</td><td>401</td><td>Unauthorized &mdash; invalid or missing credentials.</td></tr>
+        <tr><td>AIB-201</td><td>404</td><td>Passport not found.</td></tr>
+        <tr><td>AIB-301</td><td>409</td><td>Passport already exists (duplicate).</td></tr>
+        <tr><td>AIB-302</td><td>409</td><td>Passport already revoked.</td></tr>
+        <tr><td>AIB-401</td><td>400</td><td>Unsupported translation path.</td></tr>
+        <tr><td>AIB-501</td><td>500</td><td>Internal server error.</td></tr>
+        <tr><td>AIB-601</td><td>403</td><td>Policy violation (blocked).</td></tr>
+        <tr><td>AIB-602</td><td>403</td><td>Separation of duties violation.</td></tr>
+        <tr><td>AIB-701</td><td>429</td><td>Webhook quota exceeded.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="informative">
+    <h2>Security Considerations</h2>
+    <ul>
+      <li>Ed25519 signing keys SHOULD be persistent across server restarts to ensure receipt verifiability.</li>
+      <li>API keys MUST be stored as salted hashes (SHA-256 minimum). Raw keys MUST NOT be stored.</li>
+      <li>OIDC audience (<code>aud</code>) claims SHOULD be verified when an expected audience is configured.</li>
+      <li>Webhook URLs MUST be validated against SSRF patterns (RFC 1918 private ranges, loopback).</li>
+      <li>Rate limiting SHOULD be applied at both the application layer (policy engine) and infrastructure layer.</li>
+    </ul>
+  </section>
+
+  <!-- ════════════════════════════════════════════════════════ -->
+  <section class="informative">
+    <h2>Privacy Considerations</h2>
+    <ul>
+      <li>Passport data (agent identities, capabilities) MUST be scoped to the issuing organization.</li>
+      <li>OIDC subject identifiers SHOULD NOT be exposed in public API responses.</li>
+      <li>Audit receipts MAY contain metadata about the action context but MUST NOT include authentication credentials.</li>
+      <li>Webhook payloads MUST NOT include API keys, tokens, or other secret material.</li>
+    </ul>
+  </section>
+
+</body>
+</html>
