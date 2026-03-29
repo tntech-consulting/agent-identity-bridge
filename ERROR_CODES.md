@@ -36,6 +36,10 @@ All error codes returned by the AIB gateway, SDK, and CLI. Each code maps to an 
 | AIB-501 | 403 | Issuer not trusted |
 | AIB-502 | 502 | Federation fetch error |
 | AIB-503 | 502 | JWKS unavailable |
+| AIB-601 | 403 | Policy violation |
+| AIB-701 | 429 | Webhook limit reached |
+| AIB-702 | 400 | Invalid webhook URL (SSRF) |
+| AIB-429 | 429 | HTTP rate limit exceeded (30/min per IP) |
 | AIB-901 | 500 | Internal error |
 | AIB-902 | 500 | Key rotation failed |
 | AIB-903 | 500 | Storage error |

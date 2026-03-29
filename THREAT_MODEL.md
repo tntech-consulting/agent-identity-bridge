@@ -214,21 +214,36 @@ Each of these surfaces is analyzed below.
 
 ## 4. Prioritized remediation plan
 
-| Priority | Threat | Mitigation | Effort |
+| Priority | Threat | Mitigation | Status |
 |----------|--------|------------|--------|
-| 🔴 P0 | T1 Passport forgery | Migrate to RS256 | 2-4h |
-| 🔴 P0 | T4 SSRF | URL validation + IP blocking | 2-3h |
-| 🟠 P1 | T3 Card injection | Input sanitization + schema validation | 3-4h |
-| 🟠 P1 | T5 Replay | Add jti + nbf claims | 1-2h |
-| 🟡 P2 | T2 Vault breach | Encrypted credential store | 4-6h |
-| 🟡 P2 | T6 Audit tampering | Append-only + hash chaining | 2-3h |
-| 🟢 P3 | T7 Supply chain | CI pipeline + pin deps | 1-2h |
+| 🟢 Done | T1 Passport forgery | Ed25519 persistent keys (AES-256 encrypted) | ✅ Implemented |
+| 🟢 Done | T4 SSRF | HTTPS only + RFC 1918 blocking in webhook-manage | ✅ Implemented |
+| 🟢 Done | T3 Card injection | Input validation (regex, allowlists, truncation) | ✅ Implemented |
+| 🟢 Done | T2 Vault breach | AES-256 encrypted private keys, plaintext removed | ✅ Implemented |
+| 🟢 Done | T6 Audit tampering | SHA-256 hash chain + Ed25519 signed receipts | ✅ Implemented |
+| 🟢 Done | T5 Replay | Rate limiting 30/min per IP + policy engine | ✅ Implemented |
+| 🟢 Done | T7 Supply chain | CI pipeline + GitHub Actions | ✅ Implemented |
+
+### Additional mitigations (added March 2026)
+
+| Mitigation | Description |
+|------------|-------------|
+| HTTP Rate limiting | `check_rate_limit()` PostgreSQL function, 30 req/min per IP, 429 response |
+| Auth failure logging | `auth_failures` table: IP, endpoint, method, error code, timestamp |
+| RLS complete | 17/17 tables with Row Level Security, 21 policies |
+| ed25519-keygen locked | Returns 401 without X-Admin-Key header |
+| Delegation scope check | `check_delegation_scope()` prevents child from exceeding parent capabilities |
+| Key rotation | `key_id` on receipts, `rotate_signing_key()` function |
+| OIDC validation | Audience check, expiration check, JWKS cache with 1h TTL |
+| Intent fields | EU AI Act Article 12: intent, risk_level, human_oversight signed in receipts |
 
 ---
 
 ## 5. Security contact
 
-Report vulnerabilities responsibly to: **security@tntech.fr**
+Report vulnerabilities responsibly to: **thomas.nirennold@live.fr**
+
+Subject: `[AIB SECURITY] <brief description>`
 
 Please include:
 - Description of the vulnerability
@@ -236,7 +251,7 @@ Please include:
 - Potential impact assessment
 - Suggested fix (if any)
 
-We aim to acknowledge reports within 48 hours and provide a fix within 7 days for critical issues.
+We aim to acknowledge reports within 48 hours and provide a fix within 14 days for critical issues.
 
 ---
 
@@ -244,4 +259,5 @@ We aim to acknowledge reports within 48 hours and provide a fix within 7 days fo
 
 | Date | Version | Changes |
 |------|---------|---------|
+| 2026-03-29 | 0.2.0 | All 7 threats mitigated. Added rate limiting, auth logging, RLS audit, delegation scope, EU AI Act fields |
 | 2026-03-24 | 0.1.0 | Initial threat model — 7 threats identified |

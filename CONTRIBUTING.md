@@ -56,17 +56,19 @@ python -m pytest tests/ --cov=aib --cov-report=term-missing
 ## Project structure
 
 ```
-aib/               # Main package
+aib/               # Main package (v2.15.1)
   passport.py      # Passport creation, signing, verification
-  translator.py    # Cross-protocol format conversion
-  lifecycle.py     # Delegation chains, tiers
-  policy_engine.py # Identity-based guardrails
-  gateway.py       # Protocol-aware reverse proxy
+  translator.py    # Cross-protocol format conversion (6 paths)
+  policy_engine.py # 12 rule types, deliverable gates
+  lifecycle.py     # Delegation chains, tiers, ephemeral
+  did.py           # W3C DID v1.1 (did:web + did:key)
+  integrations.py  # LangChain, CrewAI, OpenAI Agents SDK
+  cloud.py         # AIB Cloud SDK (managed SaaS client)
   cli.py           # Command line interface
   ...
-tests/             # All tests
-sdk-ts/            # TypeScript SDK
-docs/              # Documentation
+tests/             # 1,054 tests
+cloud/landing/     # Site (12 pages, EN/FR)
+examples/          # quickstart.py (8 steps)
 ```
 
 ## Reporting bugs

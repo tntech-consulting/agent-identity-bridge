@@ -2,7 +2,7 @@
 
 > Auto-generated from source code. This is the truth — not the README.
 
-> **Version**: 2.13 · **Modules**: 26 · **Generated**: March 2026
+> **Version**: 2.15.1 · **Modules**: 37 · **Edge Functions**: 19 · **Endpoints**: 13 · **Generated**: March 2026
 
 ---
 

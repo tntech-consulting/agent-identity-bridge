@@ -5,28 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.15.1] - 2026-03-28
+## [2.15.1] - 2026-03-29
 
 ### Security
-- **Ed25519 persistent keys** — signing keys stored in `signing_keys` table (PKCS8 format), loaded from DB on cold start. All receipts now signed with the same stable key, making audit trail fully verifiable.
-- **OIDC audience verification** — `expected_audience` column on `federation_trust`. Tokens must match the expected `aud` claim when configured.
-- **CORS restrictive** — `passport-create` only allows whitelisted origins.
-- **SSRF protection** — webhook URLs validated against RFC 1918 private ranges.
+- **AES-256 encryption** — private signing keys encrypted at rest via pgcrypto. Plaintext columns removed.
+- **Rate limiting** — 30 req/min per IP via `check_rate_limit()` PostgreSQL function. Returns 429 with `retry_after_seconds`.
+- **Auth failure logging** — `auth_failures` table records IP, method, error code, timestamp for every failed auth attempt.
+- **SSRF protection** — webhook URLs validated: HTTPS only, RFC 1918 + loopback + link-local blocked.
+- **RLS complete** — 17/17 tables with Row Level Security enabled, 21 policies total.
+- **ed25519-keygen locked** — returns 401 without X-Admin-Key header. Cannot generate or read keys via public API.
+- **4/5 old GitHub tokens revoked**.
 
-### Added
-- `SPEC.md` — formal protocol specification (10 sections, URN scheme, policy engine, OIDC flow)
-- `signing_keys` table + `ed25519-keygen` Edge Function for persistent key management
-- Dashboard: 7th tab "Webhooks" with create/list/delete UI
-- SDK: 3 new tests (`test_signup`, `test_login`, `test_generate_key`) — 28 total
-- CI/CD: GitHub Actions workflow (test → deploy staging → deploy prod)
-- Integration tests: 5 real API endpoint tests
+### Added — Sprints 5-10
+- **Sprint 5: did:key** — `public_key_to_did_key()`, `did_key_to_public_key_hex()`, `did_key_to_did_document()`. Edge Function `did-resolve` v3 handles both did:web and did:key resolution.
+- **Sprint 6: Intent fields + EU AI Act** — 7 new columns on receipts (`intent`, `invocation_chain`, `data_accessed`, `risk_level`, `human_oversight`, `decision_rationale`, `affected_persons`). `passport-create` v14 accepts intent fields. New `audit-trail` endpoint with `?format=compliance` for Article 12 report.
+- **Sprint 7: Intent Inference API** — `intent-analyze` endpoint. Dual mode: LLM (Claude Haiku) or rule-based fallback. Infers intent, assesses risk, detects anomalies, checks EU AI Act compliance.
+- **Sprint 8: Verifiable Credentials** — `verifiable_credentials` + `vc_status_list` tables. `vc-issue` endpoint: POST issues W3C VC (Ed25519Signature2020 proof), GET verifies VC status (public).
+- **Sprint 9: Ephemeral credentials** — `task_context`, `task_context_hash`, `single_use`, `used_at` columns on passports for context-bound credentials.
+- **Sprint 10: Delegation chains** — `delegation_credentials` table. `parent_passport_id`, `delegation_depth`, `delegated_capabilities` on passports. `check_delegation_scope()` prevents privilege escalation.
 
-### Fixed
-- `translate` v3: fires `translate.completed` webhook (was missing)
-- `policy-manage` v2: added `domain_allow`, `capability_limit`, `action_block` to VALID_TYPES
-- OIDC auth added to all 12 Edge Functions (was only in `passport-create`)
-- `passport-create` v11: loads persistent PKCS8 key from DB (was ephemeral per cold start)
-- Policy engine: all 12 rule types now enforced server-side (10 were missing in v5)
+### Added — Site
+- **Why AIB page** (`/why`) — positioning, 3 pillars, is/isn't cards, comparison table, EU AI Act deep dive, partnerships. EN/FR.
+- **EU AI Act Compliance Kit** (`/compliance`) — commercial landing page with countdown to August 2 2026, pricing (490€/990€/custom), terminal demos. EN/FR.
+- **Roadmap page** (`/roadmap`) — 5 phases, all features marked DONE.
+- **Quickstart** — executable `examples/quickstart.py`, 8 steps, 15 seconds, zero config.
+
+### Changed
+- `passport-create` v12 → v14: intent fields, rate limiting, auth failure logging, IP extraction
+- `did-resolve` v1 → v3: did:key support, did:web `alsoKnownAs` field
+- Edge Functions: 12 → 19 active
+- API endpoints: 9 → 13
+- SDK version: 2.13.4 → 2.15.1
+- Real framework imports: `get_langchain_tools()`, `get_crewai_tools()`, `get_openai_agents_tools()`
 
 ## [2.15.0] - 2026-03-27
 
