@@ -7,63 +7,121 @@
 <title>Legal & GovTech Agent Compliance Kit — AIB</title>
 <meta name="description" content="Algorithmic transparency for AI agents in legal and public sector. GDPR Article 22, administrative decision traceability, citizen-facing agent compliance.">
 <link rel="canonical" href="https://aib-tech.fr/compliance-legal">
+<meta property="og:title" content="Legal & GovTech Agent Compliance Kit — Algorithmic Transparency for Public AI">
+<meta property="og:description" content="Your AI agents process citizen requests, draft legal documents, and make administrative decisions. Can you prove algorithmic transparency?">
+<meta property="og:url" content="https://aib-tech.fr/compliance-legal">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);--purple:#8b5cf6;--purple-dim:rgba(139,92,246,.06);--green:#22c55e;--green-dim:rgba(34,197,94,.06);--amber:#f59e0b;--red:#ef4444;--slate:#64748b;--slate-dim:rgba(100,116,139,.08);--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
-html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
-a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}.w{max-width:1120px;margin:0 auto;padding:0 28px}
-[data-lang]:not(.show){display:none!important}.show{display:block!important}span.show,a.show,button.show{display:inline-block!important}button{font-family:inherit}
-.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 20s ease-in-out infinite}.orb-1{width:600px;height:600px;background:rgba(100,116,139,.07);top:-15%;left:-8%}.orb-2{width:500px;height:500px;background:rgba(59,130,246,.05);bottom:5%;right:-8%;animation-delay:-7s}.orb-3{width:450px;height:450px;background:rgba(139,92,246,.04);top:35%;left:45%;animation-delay:-13s}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,10px) scale(1.02)}}main{position:relative;z-index:2}
-nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}nav .w{display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:10px}.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}.logo-text{font-weight:700;font-size:16px;color:var(--fg);letter-spacing:-.3px}
-.nav-r{display:flex;gap:3px;align-items:center}.nav-item{position:relative}
-.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:.15s}.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
-.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}.dd.open{opacity:1;visibility:visible;transform:translateY(0)}.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:.12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}
+:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);--purple:#8b5cf6;--purple-dim:rgba(139,92,246,.06);--green:#22c55e;--green-dim:rgba(34,197,94,.06);--amber:#f59e0b;--amber-dim:rgba(245,158,11,.06);--red:#ef4444;--red-dim:rgba(239,68,68,.06);--slate:#64748b;--slate-dim:rgba(100,116,139,.08);--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
+a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+[data-lang]:not(.show){display:none!important}.show{display:block!important}span.show,a.show,button.show{display:inline-block!important}
+button{font-family:inherit}
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 20s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:rgba(100,116,139,.07);top:-15%;left:-8%}
+.orb-2{width:500px;height:500px;background:rgba(139,92,246,.05);bottom:5%;right:-8%;animation-delay:-7s}
+.orb-3{width:450px;height:450px;background:rgba(59,130,246,.04);top:35%;left:45%;animation-delay:-13s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,10px) scale(1.02)}}
+main{position:relative;z-index:2}
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}
+.logo-text{font-weight:700;font-size:16px;color:var(--fg);letter-spacing:-.3px}
+.nav-r{display:flex;gap:3px;align-items:center}
+.nav-item{position:relative}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:.15s}
+.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
+.dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:.12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
 .lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:.15s}.lb.active{color:var(--cyan)}
 .btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
 .tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border-radius:4px}
-.tag-s{color:var(--slate);border:1px solid rgba(100,116,139,.3);background:var(--slate-dim)}.tag-c{color:var(--cyan);border:1px solid var(--cyan-glow);background:var(--cyan-dim)}.tag-p{color:var(--purple);border:1px solid rgba(139,92,246,.25);background:var(--purple-dim)}.tag-g{color:var(--green);border:1px solid rgba(34,197,94,.25);background:var(--green-dim)}
-.tag-soon{color:var(--slate);border:1px solid rgba(100,116,139,.3);background:var(--slate-dim);font-size:11px;padding:5px 14px;border-radius:6px;letter-spacing:1.5px}
-section{padding:70px 0}.sh{text-align:center;margin-bottom:40px}.sh h2{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}.sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--blue),var(--slate));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.sh p{color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto;line-height:1.8}
-.c-hero{padding:90px 0 50px;text-align:center}.c-hero h1{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;line-height:1.15}.c-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--blue),var(--slate));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.c-hero p{color:var(--fg2);font-size:17px;max-width:640px;margin:0 auto 24px;line-height:1.8}
+.tag-s{color:var(--slate);border:1px solid rgba(244,63,94,.25);background:var(--slate-dim)}
+.tag-c{color:var(--cyan);border:1px solid var(--cyan-glow);background:var(--cyan-dim)}
+.tag-p{color:var(--purple);border:1px solid rgba(139,92,246,.25);background:var(--purple-dim)}
+.tag-g{color:var(--green);border:1px solid rgba(34,197,94,.25);background:var(--green-dim)}
+.tag-soon{color:var(--slate);border:1px solid rgba(244,63,94,.3);background:var(--slate-dim);font-size:11px;padding:5px 14px;border-radius:6px;letter-spacing:1.5px}
+section{padding:70px 0}
+.sh{text-align:center;margin-bottom:40px}
+.sh h2{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+.sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--slate),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sh p{color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto;line-height:1.8}
+.c-hero{padding:90px 0 50px;text-align:center}
+.c-hero h1{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;line-height:1.15}
+.c-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--slate),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.c-hero p{color:var(--fg2);font-size:17px;max-width:640px;margin:0 auto 24px;line-height:1.8}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-h{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--slate));color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 24px;border-radius:8px;transition:.2s;box-shadow:0 0 20px rgba(59,130,246,.15)}.btn-h:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(59,130,246,.25);color:#fff}
+.btn-h{display:inline-block;background:linear-gradient(135deg,var(--slate),var(--purple));color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 24px;border-radius:8px;transition:.2s;box-shadow:0 0 20px rgba(244,63,94,.15)}.btn-h:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(244,63,94,.25);color:#fff}
 .btn-g{display:inline-block;background:rgba(255,255,255,.04);color:var(--fg);font-family:var(--mono);font-size:13px;font-weight:600;padding:12px 24px;border-radius:8px;border:1px solid var(--bd);transition:.2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.sc{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:24px 20px;backdrop-filter:blur(8px);transition:.3s}.sc:hover{border-color:rgba(0,212,255,.1)}.sc h4{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}.sc p{color:var(--fg2);font-size:13.5px;line-height:1.7}.si{font-size:16px}
-.term{background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;overflow:hidden;max-width:700px;margin:0 auto}.term-bar{display:flex;align-items:center;padding:10px 14px;gap:6px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}.td{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.08)}.tt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3)}
-.tb{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:2;overflow-x:auto;min-height:310px}.tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .v{color:var(--green)}.tb .g{color:var(--fg3)}.tb .a{color:var(--blue)}
-.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:700px;margin:0 auto 40px}.stat-item{text-align:center;padding:20px;background:var(--glass);border:1px solid var(--bd);border-radius:12px}.stat-item .num{font-size:28px;font-weight:800;font-family:var(--mono)}.stat-item .lab{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;margin-top:4px;letter-spacing:.5px}
-.waitlist{background:var(--glass);border:1px solid var(--bd);border-radius:16px;padding:40px;max-width:560px;margin:0 auto;text-align:center;backdrop-filter:blur(16px)}.waitlist h3{font-size:22px;font-weight:800;margin-bottom:8px}.waitlist p{color:var(--fg2);font-size:14px;margin-bottom:20px}.waitlist-form{display:flex;gap:10px}.waitlist-form input{flex:1;padding:12px 16px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;color:var(--fg);font-size:13px;font-family:var(--mono);outline:none}.waitlist-form input:focus{border-color:var(--blue)}.waitlist-form button{padding:12px 24px;background:linear-gradient(135deg,var(--blue),var(--slate));color:#fff;border:none;border-radius:8px;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}.waitlist-form button:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(59,130,246,.2)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.sc{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:24px 20px;backdrop-filter:blur(8px);transition:.3s}
+.sc:hover{border-color:rgba(0,212,255,.1)}
+.sc h4{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sc p{color:var(--fg2);font-size:13.5px;line-height:1.7}
+.si{font-size:16px}
+.term{background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;overflow:hidden;max-width:700px;margin:0 auto}
+.term-bar{display:flex;align-items:center;padding:10px 14px;gap:6px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
+.td{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.08)}
+.tt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3)}
+.tb{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:2;overflow-x:auto}
+.tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .v{color:var(--green)}.tb .g{color:var(--fg3)}.tb .a{color:var(--slate)}.tb .r{color:var(--red)}
+.waitlist{background:var(--glass);border:1px solid var(--bd);border-radius:16px;padding:40px;max-width:560px;margin:0 auto;text-align:center;backdrop-filter:blur(16px)}
+.waitlist h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.waitlist p{color:var(--fg2);font-size:14px;margin-bottom:20px}
+.waitlist-form{display:flex;gap:10px}
+.waitlist-form input{flex:1;padding:12px 16px;background:var(--bg);border:1px solid var(--bd);border-radius:8px;color:var(--fg);font-size:13px;font-family:var(--mono);outline:none}
+.waitlist-form input:focus{border-color:var(--slate)}
+.waitlist-form button{padding:12px 24px;background:linear-gradient(135deg,var(--slate),var(--purple));color:#fff;border:none;border-radius:8px;font-family:var(--mono);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap}
+.waitlist-form button:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(244,63,94,.2)}
+.stat-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:700px;margin:0 auto 40px}
+.stat-item{text-align:center;padding:20px;background:var(--glass);border:1px solid var(--bd);border-radius:12px}
+.stat-item .num{font-size:28px;font-weight:800;font-family:var(--mono)}
+.stat-item .lab{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;margin-top:4px;letter-spacing:.5px}
 footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2);transition:.15s}footer a:hover{color:var(--cyan)}
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
-@media(max-width:768px){.nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}.c-hero h1{font-size:26px}.c-hero p{font-size:15px}.g3,.g2,.stat-bar{grid-template-columns:1fr 1fr}.sh h2{font-size:24px}section{padding:50px 0}.waitlist-form{flex-direction:column}}
+@media(max-width:768px){
+  .nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}
+  .c-hero h1{font-size:26px}.c-hero p{font-size:15px}
+  .g3,.g2,.stat-bar{grid-template-columns:1fr 1fr}
+  .sh h2{font-size:24px}section{padding:50px 0}
+  .waitlist-form{flex-direction:column}
+}
 @media(max-width:500px){.stat-bar{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 <main>
+
 <nav><div class="w">
 <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
 <div class="nav-r">
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a></div></div>
-<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/compliance">EU AI Act Kit<small>EU AI Act compliance</small></a><a href="/compliance-finance">Finance Kit<small>PSD2, MiCA, MiFID II</small></a><a href="/compliance-health">Health Kit<small>MDR, HL7/FHIR</small></a><a href="/compliance-legal" style="color:var(--blue)">Legal & GovTech<small>GDPR Art.22, transparency</small></a><a href="/kits">All Kits<small>Browse all compliance kits</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/compliance">Compliance Kit<small>EU AI Act compliance</small></a><a href="/compliance-finance">Finance Kit<small>PSD2, MiCA, MiFID II</small></a><a href="/compliance-health">Health Kit<small>MDR, HL7/FHIR</small></a><a href="/compliance-legal" style="color:var(--blue)">Legal & GovTech<small>GDPR Art.22, transparency</small></a><a href="/kits">All Kits<small>Browse all kits</small></a></div></div>
 <div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
 <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
 </div></div></nav>
 
+<!-- ═══ HERO ═══ -->
 <div class="c-hero"><div class="w">
-<div class="tag tag-s show" data-lang="en">LEGAL & GOVTECH</div>
-<div class="tag tag-s" data-lang="fr">JURIDIQUE & GOVTECH</div>
+<div class="tag tag-s show" data-lang="en">LEGAL & GOVTECH COMPLIANCE</div>
+<div class="tag tag-s" data-lang="fr">CONFORMITÉ JURIDIQUE & GOVTECH</div>
 <h1 data-lang="en" class="show">Your AI agents make decisions<br>that <em>affect citizens.</em></h1>
 <h1 data-lang="fr">Vos agents IA prennent des décisions<br>qui <em>affectent les citoyens.</em></h1>
 <p data-lang="en" class="show">GDPR Article 22 gives citizens the right to contest automated decisions. The EU AI Act classifies public administration AI as high-risk. Algorithmic transparency laws are spreading across Europe. When your AI agent processes a benefits claim, drafts a legal opinion, or scores a permit — regulators will ask for proof.</p>
-<p data-lang="fr">L'Article 22 du RGPD donne aux citoyens le droit de contester les décisions automatisées. L'EU AI Act classe l'IA d'administration publique comme haut risque. Les lois de transparence algorithmique se multiplient en Europe. Quand votre agent IA traite une demande d'allocation, rédige un avis juridique ou évalue un permis — les régulateurs demanderont des preuves.</p>
+<p data-lang="fr">L'Article 22 du RGPD donne aux citoyens le droit de contester les décisions automatisées. L'EU AI Act classe l'IA d'administration publique comme haut risque. Les lois de transparence algorithmique se multiplient en Europe. Quand votre agent IA traite une allocation, rédige un avis juridique ou évalue un permis — les régulateurs demanderont des preuves.</p>
 <div style="margin-bottom:28px"><span class="tag-soon show" data-lang="en">COMING — 2027</span><span class="tag-soon" data-lang="fr">BIENTÔT — 2027</span></div>
 <div class="hero-btns">
 <a href="#waitlist" class="btn-h show" data-lang="en">> Join the waitlist</a>
@@ -73,6 +131,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 </div>
 </div></div>
 
+<!-- ═══ STATS ═══ -->
 <section style="padding-top:0;padding-bottom:40px" class="reveal"><div class="w">
 <div class="stat-bar">
 <div class="stat-item"><div class="num" style="color:var(--blue)">Art. 22</div><div class="lab">GDPR automated</div></div>
@@ -82,43 +141,102 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 </div>
 </div></section>
 
+<!-- ═══ THE PROBLEM ═══ -->
 <section class="reveal"><div class="w">
-<div class="sh"><div class="tag tag-c show" data-lang="en">THE PROBLEM</div><div class="tag tag-c" data-lang="fr">LE PROBLÈME</div>
+<div class="sh">
+<div class="tag tag-c show" data-lang="en">THE PROBLEM</div>
+<div class="tag tag-c" data-lang="fr">LE PROBLÈME</div>
 <h2 data-lang="en" class="show">Citizens have the right to <em>understand AI decisions</em></h2>
-<h2 data-lang="fr">Les citoyens ont le droit de <em>comprendre les décisions IA</em></h2></div>
+<h2 data-lang="fr">Les citoyens ont le droit de <em>comprendre les décisions IA</em></h2>
+</div>
 <div class="g3">
-<div class="sc"><h4><span class="si">⚖️</span> <span data-lang="en" class="show">GDPR Article 22</span><span data-lang="fr">RGPD Article 22</span></h4><p data-lang="en" class="show">Citizens have the right not to be subject to decisions based solely on automated processing. When an AI agent denies a benefits claim or scores a visa application, the affected person can demand an explanation and contest the decision.</p><p data-lang="fr">Les citoyens ont le droit de ne pas être soumis à des décisions fondées exclusivement sur un traitement automatisé. Quand un agent IA refuse une allocation ou évalue une demande de visa, la personne peut exiger une explication et contester.</p></div>
-<div class="sc"><h4><span class="si">🏛️</span> <span data-lang="en" class="show">EU AI Act — Public services</span><span data-lang="fr">EU AI Act — Services publics</span></h4><p data-lang="en" class="show">AI systems used by public authorities for evaluating eligibility for benefits, scoring creditworthiness, or processing asylum applications are classified as high-risk under Annex III. Full conformity assessment, risk management, and human oversight are mandatory.</p><p data-lang="fr">Les systèmes d'IA utilisés par les autorités publiques pour évaluer l'éligibilité aux prestations, scorer la solvabilité ou traiter des demandes d'asile sont classés haut risque. Évaluation de conformité, gestion des risques et supervision humaine obligatoires.</p></div>
-<div class="sc"><h4><span class="si">📜</span> <span data-lang="en" class="show">Algorithmic transparency</span><span data-lang="fr">Transparence algorithmique</span></h4><p data-lang="en" class="show">France, the Netherlands, and Germany have introduced algorithmic transparency obligations for public sector AI. Municipalities must publish registers of automated decision systems and provide citizens access to the logic behind decisions affecting them.</p><p data-lang="fr">La France, les Pays-Bas et l'Allemagne ont introduit des obligations de transparence algorithmique pour l'IA publique. Les municipalités doivent publier des registres et fournir aux citoyens l'accès à la logique des décisions les concernant.</p></div>
-</div></div></section>
+<div class="sc">
+  <h4><span class="si">⚖️</span> <span data-lang="en" class="show">GDPR Article 22</span><span data-lang="fr">RGPD Article 22</span></h4>
+  <p data-lang="en" class="show">Citizens have the right not to be subject to decisions based solely on automated processing. When an AI agent denies a benefits claim or scores a visa application, the affected person can demand an explanation and contest the decision.</p>
+  <p data-lang="fr">Les citoyens ont le droit de ne pas être soumis à des décisions fondées exclusivement sur un traitement automatisé. Quand un agent IA refuse une allocation ou évalue un visa, la personne peut exiger une explication et contester la décision.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">🏛️</span> <span data-lang="en" class="show">EU AI Act — Public services</span><span data-lang="fr">EU AI Act — Services publics</span></h4>
+  <p data-lang="en" class="show">AI systems used by public authorities for evaluating eligibility for benefits, scoring creditworthiness, or processing asylum applications are classified as high-risk under Annex III. Full conformity assessment, risk management, and human oversight are mandatory.</p>
+  <p data-lang="fr">Les systèmes d'IA utilisés par les autorités publiques pour évaluer l'éligibilité aux prestations, scorer la solvabilité ou traiter des demandes d'asile sont classés haut risque (Annexe III). Évaluation de conformité, gestion des risques et supervision humaine obligatoires.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">📜</span> <span data-lang="en" class="show">Algorithmic transparency</span><span data-lang="fr">Transparence algorithmique</span></h4>
+  <p data-lang="en" class="show">France, the Netherlands, and Germany have introduced algorithmic transparency obligations for public sector AI. Municipalities must publish registers of automated decision systems and provide citizens access to the logic behind decisions affecting them.</p>
+  <p data-lang="fr">La France, les Pays-Bas et l'Allemagne ont introduit des obligations de transparence algorithmique pour l'IA publique. Les municipalités doivent publier des registres et fournir aux citoyens l'accès à la logique des décisions les concernant.</p>
+</div>
+</div>
+</div></section>
 
+<!-- ═══ THE SOLUTION ═══ -->
 <section class="reveal"><div class="w">
-<div class="sh"><div class="tag tag-p show" data-lang="en">THE SOLUTION</div><div class="tag tag-p" data-lang="fr">LA SOLUTION</div>
+<div class="sh">
+<div class="tag tag-p show" data-lang="en">THE SOLUTION</div>
+<div class="tag tag-p" data-lang="fr">LA SOLUTION</div>
 <h2 data-lang="en" class="show">Three layers of <em>public sector compliance</em></h2>
 <h2 data-lang="fr">Trois couches de <em>conformité secteur public</em></h2>
 <p data-lang="en" class="show">Built on the AIB protocol. Each layer adds legal and public sector capabilities to your agent identity infrastructure.</p>
-<p data-lang="fr">Construit sur le protocole AIB. Chaque couche ajoute des capacités juridiques et secteur public.</p></div>
+<p data-lang="fr">Construit sur le protocole AIB. Chaque couche ajoute des capacités juridiques et secteur public à votre infrastructure d'identité agent.</p>
+</div>
 <div class="g3">
-<div class="sc" style="border-left:3px solid var(--blue)"><h4><span class="si">🪪</span> <span data-lang="en" class="show">KYD — Know Your Decision Agent</span><span data-lang="fr">KYD — Connaître Votre Agent Décisionnel</span></h4><p data-lang="en" class="show">The public sector identity layer. Each agent passport specifies administrative domain (benefits, immigration, taxation), decision authority level (recommend, decide, deny), affected population scope, applicable legal framework, and mandatory human review threshold.</p><p data-lang="fr">La couche d'identité secteur public. Chaque passeport spécifie le domaine administratif, le niveau d'autorité décisionnelle, la population concernée, le cadre juridique et le seuil de revue humaine obligatoire.</p></div>
-<div class="sc" style="border-left:3px solid var(--purple)"><h4><span class="si">📋</span> <span data-lang="en" class="show">Transparency Audit Trail</span><span data-lang="fr">Audit Trail de Transparence</span></h4><p data-lang="en" class="show">Every administrative decision generates an Ed25519-signed receipt with citizen_reference (pseudonymized), data_sources_consulted, decision_criteria, legal_basis, appeal_path, and reviewing_officer. Exportable as algorithmic transparency reports for FOIA requests.</p><p data-lang="fr">Chaque décision administrative génère un reçu signé Ed25519 avec référence citoyen pseudonymisée, sources consultées, critères de décision, base légale, voie de recours et agent réviseur. Exportable comme rapport de transparence pour les demandes CADA.</p></div>
-<div class="sc" style="border-left:3px solid var(--cyan)"><h4><span class="si">🛡️</span> <span data-lang="en" class="show">GovTech Policy Engine</span><span data-lang="fr">Moteur de Règles GovTech</span></h4><p data-lang="en" class="show">Pre-built templates: "Deny-decisions require human_oversight: true." "No agent can process immigration files without legal_basis." "Benefits agents must log all data_sources_consulted." "All decisions must include appeal_path."</p><p data-lang="fr">Templates pré-configurés : « Les refus exigent human_oversight: true. » « Aucun agent ne peut traiter de dossiers immigration sans base_légale. » « Les agents allocations doivent tracer toutes les sources. » « Toute décision doit inclure une voie de recours. »</p></div>
-</div></div></section>
+<div class="sc" style="border-left:3px solid var(--blue)">
+  <h4><span class="si">🪪</span> <span data-lang="en" class="show">KYD — Know Your Decision Agent</span><span data-lang="fr">KYD — Connaître Votre Agent Décisionnel</span></h4>
+  <p data-lang="en" class="show">The public sector identity layer. Each agent passport specifies administrative domain (benefits, immigration, taxation), decision authority level (recommend, decide, deny), affected population scope, applicable legal framework, and mandatory human review threshold.</p>
+  <p data-lang="fr">La couche d'identité secteur public. Chaque passeport agent spécifie le domaine administratif (allocations, immigration, fiscalité), le niveau d'autorité décisionnelle (recommandation, décision, refus), la population concernée, le cadre juridique applicable et le seuil de revue humaine obligatoire.</p>
+</div>
+<div class="sc" style="border-left:3px solid var(--purple)">
+  <h4><span class="si">📋</span> <span data-lang="en" class="show">Transparency Audit Trail</span><span data-lang="fr">Audit Trail de Transparence</span></h4>
+  <p data-lang="en" class="show">Every administrative decision generates an Ed25519-signed receipt with citizen_reference (pseudonymized), data_sources_consulted, decision_criteria, legal_basis, appeal_path, and reviewing_officer. Exportable as algorithmic transparency reports for FOIA requests.</p>
+  <p data-lang="fr">Chaque décision administrative génère un reçu signé Ed25519 avec référence citoyen (pseudonymisée), sources de données consultées, critères de décision, base légale, voie de recours et agent réviseur. Exportable comme rapport de transparence algorithmique pour les demandes CADA.</p>
+</div>
+<div class="sc" style="border-left:3px solid var(--cyan)">
+  <h4><span class="si">🛡️</span> <span data-lang="en" class="show">GovTech Policy Engine</span><span data-lang="fr">Moteur de Règles GovTech</span></h4>
+  <p data-lang="en" class="show">Pre-built policy templates for public sector: "Deny-decisions require human_oversight: true." "No agent can process immigration files without legal_basis: explicit." "Benefits agents must log all data_sources_consulted." "All decisions must include appeal_path."</p>
+  <p data-lang="fr">Templates de règles pré-configurés secteur public : « Les refus exigent human_oversight: true. » « Aucun agent ne peut traiter de dossiers immigration sans base_légale: explicite. » « Les agents allocations doivent tracer toutes les sources consultées. » « Toute décision doit inclure une voie de recours. »</p>
+</div>
+</div>
+</div></section>
 
+<!-- ═══ USE CASES ═══ -->
 <section class="reveal"><div class="w">
-<div class="sh"><div class="tag tag-g show" data-lang="en">USE CASES</div><div class="tag tag-g" data-lang="fr">CAS D'USAGE</div>
+<div class="sh">
+<div class="tag tag-g show" data-lang="en">USE CASES</div>
+<div class="tag tag-g" data-lang="fr">CAS D'USAGE</div>
 <h2 data-lang="en" class="show">Built for <em>real public sector workflows</em></h2>
-<h2 data-lang="fr">Conçu pour les <em>flux du secteur public</em></h2></div>
+<h2 data-lang="fr">Conçu pour les <em>flux du secteur public</em></h2>
+</div>
 <div class="g2">
-<div class="sc"><h4><span class="si">📨</span> <span data-lang="en" class="show">Benefits processing</span><span data-lang="fr">Traitement des allocations</span></h4><p data-lang="en" class="show">An AI agent evaluates eligibility for housing benefits. The KYD passport defines its authority (recommend_only), data scope (income, household_size), and legal basis. Every recommendation is logged with the reviewing social worker and appeal information.</p><p data-lang="fr">Un agent IA évalue l'éligibilité aux aides au logement. Le passeport KYD définit son autorité, périmètre de données et base légale. Chaque recommandation est tracée avec l'assistant social réviseur et les informations de recours.</p></div>
-<div class="sc"><h4><span class="si">📝</span> <span data-lang="en" class="show">Legal document drafting</span><span data-lang="fr">Rédaction juridique</span></h4><p data-lang="en" class="show">An AI agent drafts contract clauses for a law firm. The audit trail captures precedents consulted, applicable jurisdiction, confidence level, and the reviewing partner. GDPR Article 22 compliance is automatic — no fully automated legal decisions without human review.</p><p data-lang="fr">Un agent IA rédige des clauses contractuelles. L'audit trail capture les précédents consultés, la juridiction, le niveau de confiance et l'associé réviseur. La conformité RGPD Article 22 est automatique — aucune décision juridique sans revue humaine.</p></div>
-<div class="sc"><h4><span class="si">🏢</span> <span data-lang="en" class="show">Permit evaluation</span><span data-lang="fr">Évaluation de permis</span></h4><p data-lang="en" class="show">A municipal AI agent scores building permit applications. The transparency report shows criteria evaluated, the scoring model version, and the urban planner who validated the recommendation before notification.</p><p data-lang="fr">Un agent IA municipal évalue les demandes de permis de construire. Le rapport montre les critères évalués, la version du modèle et l'urbaniste qui a validé avant notification au citoyen.</p></div>
-<div class="sc"><h4><span class="si">🗳️</span> <span data-lang="en" class="show">Algorithmic register</span><span data-lang="fr">Registre algorithmique</span></h4><p data-lang="en" class="show">A municipality publishes its AI agent register for transparency. Each entry is auto-generated from AIB passports: agent purpose, data accessed, decision scope, human oversight level. Citizens can query which agents were involved in decisions affecting them.</p><p data-lang="fr">Une municipalité publie son registre d'agents IA. Chaque entrée est générée automatiquement depuis les passeports AIB. Les citoyens peuvent interroger quels agents ont été impliqués dans les décisions les concernant.</p></div>
-</div></div></section>
+<div class="sc">
+  <h4><span class="si">📨</span> <span data-lang="en" class="show">Benefits processing</span><span data-lang="fr">Traitement des allocations</span></h4>
+  <p data-lang="en" class="show">An AI agent evaluates eligibility for housing benefits. The KYD passport defines its authority (recommend_only), data scope (income, household_size), and legal basis. Every recommendation is logged with the reviewing social worker and appeal information.</p>
+  <p data-lang="fr">Un agent IA évalue l'éligibilité aux aides au logement. Le passeport KYD définit son autorité (recommendation_only), périmètre de données (revenus, composition du foyer) et base légale. Chaque recommandation est tracée avec l'assistant social réviseur et les informations de recours.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">📝</span> <span data-lang="en" class="show">Legal document drafting</span><span data-lang="fr">Rédaction juridique</span></h4>
+  <p data-lang="en" class="show">An AI agent drafts contract clauses for a law firm. The audit trail captures precedents consulted, applicable jurisdiction, confidence level, and the reviewing partner. GDPR Article 22 compliance is automatic — no fully automated legal decisions without human review.</p>
+  <p data-lang="fr">Un agent IA rédige des clauses contractuelles pour un cabinet d'avocats. L'audit trail capture les précédents consultés, la juridiction applicable, le niveau de confiance et l'associé réviseur. La conformité RGPD Article 22 est automatique — aucune décision juridique sans revue humaine.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">🏢</span> <span data-lang="en" class="show">Permit evaluation</span><span data-lang="fr">Évaluation de permis</span></h4>
+  <p data-lang="en" class="show">A municipal AI agent scores building permit applications. The transparency report shows criteria evaluated (zoning, environmental impact, structural safety), the scoring model version, and the urban planner who validated the recommendation before notification.</p>
+  <p data-lang="fr">Un agent IA municipal évalue les demandes de permis de construire. Le rapport de transparence montre les critères évalués (zonage, impact environnemental, sécurité structurelle), la version du modèle et l'urbaniste qui a validé la recommandation avant notification au citoyen.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">🗳️</span> <span data-lang="en" class="show">Algorithmic register</span><span data-lang="fr">Registre algorithmique</span></h4>
+  <p data-lang="en" class="show">A municipality publishes its AI agent register for public transparency. Each entry is generated automatically from AIB passports: agent purpose, data accessed, decision scope, human oversight level, and performance metrics. Citizens can query which agents were involved in decisions affecting them.</p>
+  <p data-lang="fr">Une municipalité publie son registre d'agents IA pour la transparence publique. Chaque entrée est générée automatiquement depuis les passeports AIB : finalité de l'agent, données accédées, périmètre décisionnel, niveau de supervision humaine et métriques de performance.</p>
+</div>
+</div>
+</div></section>
 
+<!-- ═══ TERMINAL DEMO ═══ -->
 <section class="reveal"><div class="w">
-<div class="sh"><div class="tag tag-c show" data-lang="en">PREVIEW</div><div class="tag tag-c" data-lang="fr">APERÇU</div>
+<div class="sh">
+<div class="tag tag-c show" data-lang="en">PREVIEW</div>
+<div class="tag tag-c" data-lang="fr">APERÇU</div>
 <h2 data-lang="en" class="show">What the API <em>will look like</em></h2>
-<h2 data-lang="fr">À quoi l'API <em>ressemblera</em></h2></div>
+<h2 data-lang="fr">À quoi l'API <em>ressemblera</em></h2>
+</div>
 <div class="term">
 <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><span class="tt">passport-create — govtech agent</span></div>
 <div class="tb">
@@ -136,24 +254,44 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <span class="c">&nbsp;&nbsp;&nbsp;&nbsp;"regulatory_scope": </span><span class="v">["eu_ai_act", "gdpr_art22"]</span><br>
 <span class="c">&nbsp;&nbsp;}'</span>
 </div>
-</div></div></section>
+</div>
+</div></section>
 
+<!-- ═══ COMPETITIVE ═══ -->
 <section class="reveal"><div class="w">
-<div class="sh"><div class="tag tag-c show" data-lang="en">WHY AIB</div><div class="tag tag-c" data-lang="fr">POURQUOI AIB</div>
+<div class="sh">
+<div class="tag tag-c show" data-lang="en">WHY AIB</div>
+<div class="tag tag-c" data-lang="fr">POURQUOI AIB</div>
 <h2 data-lang="en" class="show">The missing link between <em>AI and public trust</em></h2>
-<h2 data-lang="fr">Le lien manquant entre <em>l'IA et la confiance publique</em></h2></div>
+<h2 data-lang="fr">Le lien manquant entre <em>l'IA et la confiance publique</em></h2>
+</div>
 <div class="g3">
-<div class="sc"><h4><span class="si">👥</span> <span data-lang="en" class="show">Citizen-first design</span><span data-lang="fr">Conçu pour le citoyen</span></h4><p data-lang="en" class="show">AIB receipts are designed to be explainable to citizens, not just auditors. The decision_rationale, data_sources, and appeal_path fields produce reports that a non-technical citizen can understand when contesting a decision.</p><p data-lang="fr">Les reçus AIB sont conçus pour être explicables aux citoyens, pas seulement aux auditeurs. Les champs logique_de_décision, sources et voie_de_recours produisent des rapports compréhensibles par un citoyen non-technique.</p></div>
-<div class="sc"><h4><span class="si">🇪🇺</span> <span data-lang="en" class="show">European regulation native</span><span data-lang="fr">Nativement européen</span></h4><p data-lang="en" class="show">Built for GDPR, EU AI Act, and national algorithmic transparency frameworks (France's loi pour une République numérique, Netherlands' Algorithm Register). No US-centric competitor understands this regulatory landscape.</p><p data-lang="fr">Construit pour le RGPD, l'EU AI Act et les cadres nationaux de transparence algorithmique. Aucun concurrent US ne comprend ce paysage réglementaire.</p></div>
-<div class="sc"><h4><span class="si">🔓</span> <span data-lang="en" class="show">Open standard</span><span data-lang="fr">Standard ouvert</span></h4><p data-lang="en" class="show">Public sector procurement requires open standards. AIB is Apache 2.0 with W3C DID compatibility. Municipalities can implement the spec directly without vendor lock-in, or use the hosted SaaS for faster deployment.</p><p data-lang="fr">Les marchés publics exigent des standards ouverts. AIB est Apache 2.0 avec compatibilité W3C DID. Les municipalités peuvent implémenter le spec directement ou utiliser le SaaS hébergé.</p></div>
-</div></div></section>
+<div class="sc">
+  <h4><span class="si">👥</span> <span data-lang="en" class="show">Citizen-first design</span><span data-lang="fr">Conçu pour le citoyen</span></h4>
+  <p data-lang="en" class="show">AIB receipts are designed to be explainable to citizens, not just auditors. The decision_rationale, data_sources, and appeal_path fields produce reports that a non-technical citizen can understand when contesting a decision.</p>
+  <p data-lang="fr">Les reçus AIB sont conçus pour être explicables aux citoyens, pas seulement aux auditeurs. Les champs logique_de_décision, sources et voie_de_recours produisent des rapports compréhensibles par un citoyen non-technique qui conteste une décision.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">🇪🇺</span> <span data-lang="en" class="show">European regulation native</span><span data-lang="fr">Nativement européen</span></h4>
+  <p data-lang="en" class="show">Built for GDPR, EU AI Act, and national algorithmic transparency frameworks (France's loi pour une République numérique, Netherlands' Algorithm Register). No US-centric competitor understands this regulatory landscape.</p>
+  <p data-lang="fr">Construit pour le RGPD, l'EU AI Act et les cadres nationaux de transparence algorithmique (loi pour une République numérique, registre néerlandais des algorithmes). Aucun concurrent US ne comprend ce paysage réglementaire.</p>
+</div>
+<div class="sc">
+  <h4><span class="si">🔓</span> <span data-lang="en" class="show">Open standard</span><span data-lang="fr">Standard ouvert</span></h4>
+  <p data-lang="en" class="show">Public sector procurement requires open standards. AIB is Apache 2.0 with W3C DID compatibility. Municipalities can implement the spec directly without vendor lock-in, or use the hosted SaaS for faster deployment.</p>
+  <p data-lang="fr">Les marchés publics exigent des standards ouverts. AIB est Apache 2.0 avec compatibilité W3C DID. Les municipalités peuvent implémenter le spec directement sans dépendance fournisseur, ou utiliser le SaaS hébergé pour un déploiement plus rapide.</p>
+</div>
+</div>
+</div></section>
 
+<!-- ═══ WAITLIST ═══ -->
 <section id="waitlist" class="reveal"><div class="w">
 <div class="waitlist">
   <div class="tag tag-s" style="margin-bottom:16px">COMING 2027</div>
-  <h3 data-lang="en" class="show">Get early access</h3><h3 data-lang="fr">Obtenez un accès anticipé</h3>
+  <h3 data-lang="en" class="show">Get early access</h3>
+  <h3 data-lang="fr">Obtenez un accès anticipé</h3>
   <p data-lang="en" class="show">Join the waitlist for the Legal & GovTech Kit. We're looking for pilot municipalities and law firms to shape the product.</p>
-  <p data-lang="fr">Rejoignez la liste d'attente du Kit Juridique & GovTech. Nous recherchons des municipalités et cabinets pilotes.</p>
+  <p data-lang="fr">Rejoignez la liste d'attente du Kit Juridique & GovTech. Nous recherchons des municipalités et cabinets pilotes pour façonner le produit.</p>
   <div class="waitlist-form">
     <input type="email" id="wl-email" placeholder="you@municipality.eu">
     <button onclick="joinWaitlist()" data-lang="en" class="show">> Join waitlist</button>
@@ -163,14 +301,17 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 </div>
 </div></section>
 
-<footer><div class="w"><p><a href="/">AIB</a> · <a href="/kits">All Kits</a> · <a href="/compliance">EU AI Act</a> · <a href="/compliance-finance">Finance</a> · <a href="/compliance-health">Healthcare</a> · <a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub</a> · Built by <a href="https://founder.tntech.fr" target="_blank">TNTECH</a></p></div></footer>
+<footer><div class="w">
+<p><a href="/">AIB</a> · <a href="/kits">All Kits</a> · <a href="/compliance">EU AI Act</a> · <a href="/compliance-finance">Finance</a> · <a href="/compliance-health">Healthcare</a> · <a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub</a> · Built by <a href="https://founder.tntech.fr" target="_blank">TNTECH</a></p>
+</div></footer>
+
 </main>
 <script>
-function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
-document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
-function setLang(l){document.querySelectorAll('[data-lang]').forEach(el=>{el.classList.toggle('show',el.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr')}
-var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')})},{threshold:.15});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-async function joinWaitlist(){var email=document.getElementById('wl-email').value,msg=document.getElementById('wl-msg');if(!email||!email.includes('@')){msg.style.color='var(--red)';msg.textContent='Please enter a valid email';return;}msg.style.color='var(--blue)';msg.textContent='Registering...';try{await fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'waitlist',email:email,product:'legal_govtech_kit'})})}catch(e){}msg.style.color='var(--green)';msg.textContent='✓ You\'re on the list. We\'ll notify you at launch.'}
+function toggleDD(btn){const dd=btn.nextElementSibling;const wasOpen=dd.classList.contains('open');document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));if(!wasOpen){dd.classList.add('open');btn.classList.add('open');}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'));document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));}});
+let lang='en';function setLang(l){lang=l;document.querySelectorAll('[data-lang]').forEach(el=>{el.classList.toggle('show',el.getAttribute('data-lang')===l);});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');}
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:.15});document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+async function joinWaitlist(){const email=document.getElementById('wl-email').value;const msg=document.getElementById('wl-msg');if(!email||!email.includes('@')){msg.style.color='var(--red)';msg.textContent='Please enter a valid email';return;}msg.style.color='var(--slate)';msg.textContent='Registering...';try{await fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'waitlist',email,product:'legal_govtech_kit'})});}catch(e){}msg.style.color='var(--green)';msg.textContent='✓ You\'re on the list. We\'ll notify you at launch.';}
 </script>
 </body>
 </html>
