@@ -5,7 +5,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AIB — Agent Identity Bridge | One identity. Every protocol.</title>
-<meta name="description" content="Agent Identity Bridge (AIB) is an open-source protocol by TNTECH CONSULTING SAS that gives AI agents one portable identity across MCP, A2A, ANP, and AG-UI. 13 API endpoints, 12 policy rules, Ed25519 signed audit trail, OIDC Federation with Google, Entra, Okta, Auth0. 1,054 tests. Free during beta. Built in Paris, France.">
+<meta name="description" content="Agent Identity Bridge (AIB) is an open-source protocol by TNTECH CONSULTING SAS that gives AI agents one portable identity across MCP, A2A, ANP, and AG-UI. 12 API endpoints, 12 policy rules, Ed25519 signed audit trail, OIDC Federation with Google, Entra, Okta, Auth0. 1,054 tests. Free during beta. Built in Paris, France.">
 <link rel="canonical" href="https://aib-tech.fr/">
 <meta property="og:title" content="AIB — One identity. Every protocol.">
 <meta property="og:description" content="Agent Identity Bridge (AIB) is an open-source protocol that gives AI agents one portable identity across MCP, A2A, ANP, and AG-UI. 1,054 tests. Free beta.">
@@ -24,7 +24,7 @@
 {"@type":"Question","name":"Who is AIB for?","acceptedAnswer":{"@type":"Answer","text":"AIB is built for developers and platform engineers building multi-agent systems that need cross-protocol credential translation, policy enforcement, and cryptographic audit trails."}},
 {"@type":"Question","name":"How does credential translation work?","acceptedAnswer":{"@type":"Answer","text":"AIB translates between 6 credential paths (A2A Agent Cards, MCP Server Cards, AG-UI Descriptors) in under 1 millisecond. Skills become tools, capabilities become skills, with metadata tracking."}},
 {"@type":"Question","name":"Is AIB free?","acceptedAnswer":{"@type":"Answer","text":"Yes. AIB is open-source under Apache 2.0. The hosted API is free during beta with 100,000 transactions/month, 500 passports, 12 policy rule types, OIDC federation, and webhooks."}},
-{"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is created by Thomas Nirennold, founder of TNTECH CONSULTING SAS, Paris, France. Open-source on GitHub with 1,054 tests, 19 Edge Functions, 13 API endpoints, and a CI/CD pipeline."}}
+{"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is created by Thomas Nirennold, founder of TNTECH CONSULTING SAS, Paris, France. Open-source on GitHub with 1,054 tests, 19 Edge Functions, 12 API endpoints, and a CI/CD pipeline."}}
 ]}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -168,7 +168,7 @@ section{padding:96px 0}
 .ep h3{font-family:var(--mono);font-size:14px;font-weight:600;margin:9px 0 5px}.ep p{font-size:13.5px;color:var(--fg3);line-height:1.55}
 
 /* Features */
-.fg{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .ft{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;display:flex;gap:16px;transition:all .3s;backdrop-filter:blur(8px)}
 .ft:hover{border-color:rgba(0,212,255,.1);transform:translateY(-2px)}
 .fi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
@@ -236,7 +236,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <!-- STATS -->
 <div class="stats"><div class="w"><div class="stats-row">
 <div class="stat"><div class="n">1,054<span>+</span></div><div class="l">Tests</div></div>
-<div class="stat"><div class="n">13</div><div class="l">Endpoints</div></div>
+<div class="stat"><div class="n">12</div><div class="l">Endpoints</div></div>
 <div class="stat"><div class="n">12</div><div class="l">Policies</div></div>
 <div class="stat"><div class="n">&lt;1<span>ms</span></div><div class="l">Translate</div></div>
 <div class="stat"><div class="n">4</div><div class="l">Protocols</div></div>
@@ -270,21 +270,20 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </div></section>
 
 <section style="background:rgba(0,212,255,.006)"><div class="w">
-<div class="sh"><div class="tag">ENDPOINTS</div><h2>13 REST endpoints. <em>Full lifecycle.</em></h2><p>All endpoints run as Supabase Edge Functions (Deno). Auth via API key (SHA-256 hashed), Supabase JWT, or OIDC federation token.</p></div>
+<div class="sh"><div class="tag">ENDPOINTS</div><h2>12 REST endpoints. <em>Full lifecycle.</em></h2><p>All endpoints run as Supabase Edge Functions (Deno). Auth via API key (SHA-256 hashed), Supabase JWT, or OIDC federation token.</p></div>
 <div class="ep-grid">
 <div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with bindings, capabilities, TTL. Ed25519 receipt.</p></div>
 <div class="ep reveal d1"><span class="badge get">GET</span><h3>passport-list</h3><p>List passports. Filter by status, paginated.</p></div>
 <div class="ep reveal d2"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Revoke + cascade. Separation of duties.</p></div>
-<div class="ep reveal d3"><span class="badge post">POST</span><h3>translate</h3><p>A2A ↔ MCP ↔ AG-UI. 6 paths. &lt;1ms.</p></div>
-<div class="ep reveal"><span class="badge get">GET</span><h3>usage-check</h3><p>Real-time quotas and limits.</p></div>
-<div class="ep reveal d1"><span class="badge get">GET</span><h3>usage-history</h3><p>Daily analytics. Chart.js-ready.</p></div>
+<div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>A2A ↔ MCP ↔ AG-UI. 6 paths. &lt;1ms.</p></div>
+<div class="ep reveal d1"><span class="badge get">GET</span><h3>usage</h3><p>Real-time quotas, limits, daily analytics. Chart.js-ready.</p></div>
 <div class="ep reveal d2"><span class="badge post">POST</span><h3>policy-manage</h3><p>12 rule types. CRUD policies.</p></div>
-<div class="ep reveal d3"><span class="badge post">POST</span><h3>webhook-manage</h3><p>HMAC-SHA256. 4 event types.</p></div>
-<div class="ep reveal"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key gen. Auto-provisions org.</p></div>
-<div class="ep reveal d1"><span class="badge get">GET</span><h3>did-resolve</h3><p>W3C DID v1.1 resolution. did:web + did:key. No auth required.</p></div>
-<div class="ep reveal d2"><span class="badge get">GET</span><h3>audit-trail</h3><p>Query receipts by intent, risk, oversight. EU AI Act compliance report.</p></div>
-<div class="ep reveal d3"><span class="badge post">POST</span><h3>intent-analyze</h3><p>LLM-powered intent inference. Anomaly detection. Risk assessment.</p></div>
-<div class="ep reveal"><span class="badge post">POST</span><h3>vc-issue</h3><p>Issue W3C Verifiable Credentials. Ed25519Signature2020 proof.</p></div>
+<div class="ep reveal"><span class="badge post">POST</span><h3>webhook-manage</h3><p>HMAC-SHA256. 4 event types.</p></div>
+<div class="ep reveal d1"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key gen. Auto-provisions org.</p></div>
+<div class="ep reveal d2"><span class="badge get">GET</span><h3>did-resolve</h3><p>W3C DID v1.1 resolution. did:web + did:key. No auth.</p></div>
+<div class="ep reveal"><span class="badge get">GET</span><h3>audit-trail</h3><p>Query by intent, risk, oversight. EU AI Act compliance report.</p></div>
+<div class="ep reveal d1"><span class="badge post">POST</span><h3>intent-analyze</h3><p>LLM-powered intent inference. Anomaly detection.</p></div>
+<div class="ep reveal d2"><span class="badge post">POST</span><h3>vc-issue</h3><p>W3C Verifiable Credentials. Ed25519Signature2020 proof.</p></div>
 </div></div></section>
 
 <section><div class="w">
@@ -293,11 +292,12 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◆</div><div><h4>4 Protocols</h4><p>MCP (Anthropic), A2A (Google), ANP, AG-UI. Bidirectional translation between all formats.</p></div></div>
 <div class="ft reveal d1"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">✦</div><div><h4>Ed25519 Audit Trail</h4><p>RFC 8032 compliant signatures. Persistent PKCS8 keys stored in PostgreSQL. SHA-256 hash chain receipts.</p></div></div>
 <div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Accepts tokens from Google, Microsoft Entra, Okta, Auth0. JWKS verification + audience claim check.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rule Types</h4><p>deliverable_gate, capability_required, separation_of_duties, rate_limit, time_restrict, domain_block, and 6 more.</p></div></div>
-<div class="ft reveal"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 event types (passport.created, revoked, policy.violation, translate.completed). HMAC-SHA256 signed payloads.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revocation</h4><p>Revoking a parent passport automatically revokes all children in the delegation chain.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework Integration</h4><p>Works with LangChain, CrewAI, and OpenAI Agents SDK. 3 lines of Python to integrate.</p></div></div>
-<div class="ft reveal d3"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>CI/CD Pipeline</h4><p>GitHub Actions: unit tests, security scan, integration tests, auto-deploy to Netlify.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rule Types</h4><p>deliverable_gate, capability_required, separation_of_duties, rate_limit, time_restrict, domain_block, and 6 more.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 event types (passport.created, revoked, policy.violation, translate.completed). HMAC-SHA256 signed payloads.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revocation</h4><p>Revoking a parent passport automatically revokes all children in the delegation chain.</p></div></div>
+<div class="ft reveal"><div class="fi" style="background:rgba(245,158,11,.06);color:var(--amber)">⚖</div><div><h4>EU AI Act Compliance</h4><p>7 structured fields per receipt: intent, risk_level, human_oversight, decision_rationale. Article 12 report API.</p></div></div>
+<div class="ft reveal d1"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework Integration</h4><p>Works with LangChain, CrewAI, and OpenAI Agents SDK. 3 lines of Python to integrate.</p></div></div>
+<div class="ft reveal d2"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>W3C DID + VCs</h4><p>did:web + did:key resolution. Verifiable Credentials with Ed25519Signature2020 proof.</p></div></div>
 </div></div></section>
 
 <!-- FAQ -->
