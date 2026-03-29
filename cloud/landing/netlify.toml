@@ -74,3 +74,8 @@
   from = "/roadmap"
   to = "/roadmap.html"
   status = 200
+
+[[redirects]]
+  from = "/why"
+  to = "/why.html"
+  status = 200
