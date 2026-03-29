@@ -158,6 +158,8 @@ section{padding:96px 0}
 .tt{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--fg3)}
 .tb{padding:20px;font-family:var(--mono);font-size:13px;line-height:2.1}
 .tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .g{color:var(--fg3)}.tb .v{color:var(--purple)}.tb .o{color:var(--fg2)}
+.tl{opacity:0;transform:translateX(-8px);transition:opacity .3s ease,transform .3s ease}
+.term.typing .tl{opacity:1;transform:none;transition-delay:calc(var(--d) * .12s)}
 
 /* Endpoints */
 .ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -215,21 +217,21 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <section style="padding-top:40px;padding-bottom:60px"><div class="w" style="text-align:center">
 <div class="term reveal">
 <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">aib-cloud v2.15.1</div></div>
-<div class="tb">
-<div><span class="p">$</span> <span class="c">curl -X POST /functions/v1/passport-create \</span></div>
-<div><span class="g">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
-<div><span class="g">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
-<div style="height:4px"></div>
-<div><span class="g">{</span></div>
-<div>&nbsp;&nbsp;<span class="p">"passport_id"</span>: <span class="v">"urn:aib:agent:myorg:booking"</span>,</div>
-<div>&nbsp;&nbsp;<span class="p">"protocols"</span>: [<span class="v">"mcp"</span>, <span class="v">"a2a"</span>],</div>
-<div>&nbsp;&nbsp;<span class="p">"tier"</span>: <span class="v">"permanent"</span>,</div>
-<div>&nbsp;&nbsp;<span class="p">"expires_at"</span>: <span class="v">"2027-03-26T14:33:41.030Z"</span>,</div>
-<div>&nbsp;&nbsp;<span class="p">"signature"</span>: <span class="v">"a2e17652c9df..."</span></div>
-<div><span class="g">}</span></div>
-<div style="height:6px"></div>
-<div><span class="p">$</span> <span class="c">curl /functions/v1/usage-check -H "x-api-key: ..."</span></div>
-<div><span class="o">&nbsp;&nbsp;transactions: 3/100,000 | passports: 1/500 | plan: beta_pro</span></div>
+<div class="tb" id="term-lines">
+<div class="tl" style="--d:0"><span class="p">$</span> <span class="c">curl -X POST /functions/v1/passport-create \</span></div>
+<div class="tl" style="--d:1"><span class="g">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
+<div class="tl" style="--d:2"><span class="g">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
+<div class="tl" style="--d:3;height:4px"></div>
+<div class="tl" style="--d:4"><span class="g">{</span></div>
+<div class="tl" style="--d:5">&nbsp;&nbsp;<span class="p">"passport_id"</span>: <span class="v">"urn:aib:agent:myorg:booking"</span>,</div>
+<div class="tl" style="--d:6">&nbsp;&nbsp;<span class="p">"protocols"</span>: [<span class="v">"mcp"</span>, <span class="v">"a2a"</span>],</div>
+<div class="tl" style="--d:7">&nbsp;&nbsp;<span class="p">"tier"</span>: <span class="v">"permanent"</span>,</div>
+<div class="tl" style="--d:8">&nbsp;&nbsp;<span class="p">"expires_at"</span>: <span class="v">"2027-03-26T14:33:41.030Z"</span>,</div>
+<div class="tl" style="--d:9">&nbsp;&nbsp;<span class="p">"signature"</span>: <span class="v">"a2e17652c9df..."</span></div>
+<div class="tl" style="--d:10"><span class="g">}</span></div>
+<div class="tl" style="--d:11;height:6px"></div>
+<div class="tl" style="--d:12"><span class="p">$</span> <span class="c">curl /functions/v1/usage-check -H "x-api-key: ..."</span></div>
+<div class="tl" style="--d:13"><span class="o">&nbsp;&nbsp;transactions: 3/100,000 | passports: 1/500 | plan: beta_pro</span></div>
 </div></div>
 </div></section>
 
@@ -392,6 +394,9 @@ function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAl
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// Terminal typing animation
+var termObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('typing');termObs.unobserve(e.target)}})},{threshold:.3});
+document.querySelectorAll('.term').forEach(el=>termObs.observe(el));
 </script>
 </body>
 </html>

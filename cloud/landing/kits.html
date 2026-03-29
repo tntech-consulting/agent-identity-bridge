@@ -77,14 +77,87 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;backgroun
 <div class="page-head"><div class="w">
 <div class="tag">COMPLIANCE KITS</div>
 <div data-lang="en" class="show">
-<h1>Pre-built rules. <em>Instant compliance.</em></h1>
-<p>Ready-to-deploy policy templates for common AI agent scenarios. Each kit bundles multiple AIB policy rules optimized for a specific use case. Deploy via one API call.</p>
+<h1>One protocol. <em>Every regulation.</em></h1>
+<p>Industry-specific compliance kits built on the AIB protocol. Each kit adds sector-specific fields, audit trails, and policy templates to your agent identity infrastructure.</p>
 </div>
 <div data-lang="fr">
-<h1>Règles pré-configurées. <em>Conformité instantanée.</em></h1>
-<p>Templates de politique prêts à déployer pour les scénarios courants d'agents IA. Chaque kit regroupe plusieurs règles AIB optimisées pour un cas d'usage. Déploiement en un appel API.</p>
+<h1>Un protocole. <em>Chaque réglementation.</em></h1>
+<p>Kits de conformité sectoriels construits sur le protocole AIB. Chaque kit ajoute des champs, audit trails et templates de règles spécifiques à votre infrastructure d'identité agent.</p>
 </div>
 </div></div>
+
+<!-- ═══ SECTOR COMPLIANCE KITS ═══ -->
+<div class="w" style="margin-bottom:60px">
+<div style="text-align:center;margin-bottom:28px">
+<div data-lang="en" class="show" style="font-size:11px;font-family:var(--mono);color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Regulatory Compliance</div>
+<div data-lang="fr" style="font-size:11px;font-family:var(--mono);color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Conformité Réglementaire</div>
+</div>
+<div class="kits">
+
+<a href="/compliance" class="kit" style="text-decoration:none;cursor:pointer;--kit-color:var(--green)">
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:14px 14px 0 0"></div>
+<div class="kit-icon">🏛️</div>
+<div data-lang="en" class="show"><div class="kit-name">EU AI Act</div><div class="kit-desc">Article 12 record-keeping, Article 14 human oversight, risk classification. 7 compliance fields, signed audit trail, compliance reports. Deadline: August 2, 2026.</div></div>
+<div data-lang="fr"><div class="kit-name">EU AI Act</div><div class="kit-desc">Article 12 tenue de registres, Article 14 supervision humaine, classification de risque. 7 champs de conformité, audit trail signé, rapports de conformité. Deadline : 2 août 2026.</div></div>
+<ul class="kit-rules">
+<li>Intent tracking + risk level + human oversight</li>
+<li>Ed25519 signed receipts with decision rationale</li>
+<li>Article 12 compliance report endpoint</li>
+</ul>
+<span class="kit-badge ready">Available · Free beta</span>
+</a>
+
+<a href="/compliance-finance" class="kit" style="text-decoration:none;cursor:pointer;--kit-color:var(--amber)">
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#f97316);border-radius:14px 14px 0 0"></div>
+<div class="kit-icon">🏦</div>
+<div data-lang="en" class="show"><div class="kit-name">Financial Services</div><div class="kit-desc">KYA (Know Your Agent) for PSD2, MiCA, MiFID II. Transaction limits, delegation chains with financial caps, ISO 20022-compatible audit trail.</div></div>
+<div data-lang="fr"><div class="kit-name">Services Financiers</div><div class="kit-desc">KYA (Know Your Agent) pour PSD2, MiCA, MiFID II. Plafonds de transaction, délégation avec limites financières, audit trail compatible ISO 20022.</div></div>
+<ul class="kit-rules">
+<li>KYA profiles with transaction limits</li>
+<li>PSD2 / MiCA / MiFID II policy templates</li>
+<li>Financial audit trail + ISO 20022 export</li>
+</ul>
+<span class="kit-badge soon">Coming Q3 2026</span>
+</a>
+
+<div class="kit" style="opacity:.7">
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ef4444,#8b5cf6);border-radius:14px 14px 0 0"></div>
+<div class="kit-icon">🏥</div>
+<div data-lang="en" class="show"><div class="kit-name">Healthcare</div><div class="kit-desc">Agent compliance for medical AI. Patient-facing agent profiling, HL7/FHIR-compatible audit trail, MDR alignment, clinical decision traceability.</div></div>
+<div data-lang="fr"><div class="kit-name">Santé</div><div class="kit-desc">Conformité agent pour l'IA médicale. Profilage des agents patient-facing, audit trail compatible HL7/FHIR, alignement MDR, traçabilité des décisions cliniques.</div></div>
+<ul class="kit-rules">
+<li>KYP (Know Your Patient-facing Agent)</li>
+<li>HL7/FHIR audit trail integration</li>
+<li>EU MDR + EU AI Act high-risk alignment</li>
+</ul>
+<span class="kit-badge soon">Coming Q4 2026</span>
+</div>
+
+<div class="kit" style="opacity:.7">
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--fg3),var(--fg2));border-radius:14px 14px 0 0"></div>
+<div class="kit-icon">⚖️</div>
+<div data-lang="en" class="show"><div class="kit-name">Legal & GovTech</div><div class="kit-desc">Compliance for AI agents in legal and public sector. Algorithmic transparency obligations, GDPR Article 22, citizen-facing agent traceability.</div></div>
+<div data-lang="fr"><div class="kit-name">Juridique & GovTech</div><div class="kit-desc">Conformité pour les agents IA dans le secteur juridique et public. Obligations de transparence algorithmique, RGPD Article 22, traçabilité des agents citoyen-facing.</div></div>
+<ul class="kit-rules">
+<li>Algorithmic transparency reporting</li>
+<li>GDPR Article 22 automated decisions</li>
+<li>Public sector audit compliance</li>
+</ul>
+<span class="kit-badge soon">Coming 2027</span>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ POLICY TEMPLATES ═══ -->
+<div class="w" style="margin-bottom:40px">
+<div style="text-align:center;margin-bottom:28px">
+<div data-lang="en" class="show" style="font-size:11px;font-family:var(--mono);color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Policy Templates</div>
+<div data-lang="fr" style="font-size:11px;font-family:var(--mono);color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px">Templates de Règles</div>
+<div data-lang="en" class="show" style="color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto">Ready-to-deploy policy bundles for common AI agent scenarios. Deploy via one API call.</div>
+<div data-lang="fr" style="color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto">Ensembles de règles prêts à déployer pour les scénarios courants. Déploiement en un appel API.</div>
+</div>
+</div>
 
 <div class="w">
 <div class="kits">
