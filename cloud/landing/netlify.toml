@@ -79,3 +79,8 @@
   from = "/why"
   to = "/why.html"
   status = 200
+
+[[redirects]]
+  from = "/compliance"
+  to = "/compliance.html"
+  status = 200

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU AI Act Agent Compliance Kit — AIB</title>
+<meta name="description" content="Prove your AI agents are EU AI Act compliant before August 2026. SDK + dashboard + signed audit trail. Intent tracking, risk assessment, human oversight fields. From 490€/month.">
+<link rel="canonical" href="https://aib-tech.fr/compliance">
+<meta property="og:title" content="EU AI Act Agent Compliance Kit — Are your AI agents ready?">
+<meta property="og:description" content="Deadline: August 2, 2026. Prove Article 12 compliance with signed audit trails. Intent, risk, human oversight — all Ed25519 signed.">
+<meta property="og:url" content="https://aib-tech.fr/compliance">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);--purple:#8b5cf6;--green:#22c55e;--green-dim:rgba(34,197,94,.06);--amber:#f59e0b;--amber-dim:rgba(245,158,11,.06);--red:#ef4444;--red-dim:rgba(239,68,68,.06);--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
+a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+[data-lang]{display:none}.show{display:revert!important}
+button{font-family:inherit}
+
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}
+.logo-text{font-weight:700;font-size:16px;color:var(--fg);letter-spacing:-.3px}
+.nav-r{display:flex;gap:3px;align-items:center}
+.nav-item{position:relative}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:.15s}
+.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
+.dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:.12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
+.lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:.15s}.lb.active{color:var(--cyan)}
+.btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border-radius:4px}
+.tag-r{color:var(--red);border:1px solid rgba(239,68,68,.2);background:var(--red-dim)}
+.tag-c{color:var(--cyan);border:1px solid var(--cyan-glow);background:var(--cyan-dim)}
+section{padding:70px 0}
+.sh{text-align:center;margin-bottom:40px}
+.sh h2{font-size:30px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
+.sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sh p{color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto;line-height:1.8}
+
+/* HERO */
+.c-hero{padding:90px 0 50px;text-align:center}
+.c-hero h1{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;line-height:1.15}
+.c-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.c-hero p{color:var(--fg2);font-size:17px;max-width:600px;margin:0 auto 24px;line-height:1.8}
+.deadline{display:inline-block;background:var(--red-dim);border:1px solid rgba(239,68,68,.3);border-radius:8px;padding:8px 20px;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--red);margin-bottom:28px}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-h{display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 24px;border-radius:8px;transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.15)}.btn-h:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,212,255,.25);color:#fff}
+.btn-g{display:inline-block;background:rgba(255,255,255,.04);color:var(--fg);font-family:var(--mono);font-size:13px;font-weight:600;padding:12px 24px;border-radius:8px;border:1px solid var(--bd);transition:.2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* GRIDS */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.sc{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:24px 20px;backdrop-filter:blur(8px);transition:.3s}
+.sc:hover{border-color:rgba(0,212,255,.1)}
+.sc h4{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.sc p{color:var(--fg2);font-size:13.5px;line-height:1.7}
+.si{font-size:16px}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:900px;margin:0 auto}
+.plan{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:32px 24px;backdrop-filter:blur(8px);text-align:center;transition:.3s;position:relative}
+.plan:hover{border-color:rgba(0,212,255,.12);transform:translateY(-3px)}
+.plan.featured{border-color:rgba(0,212,255,.25);box-shadow:0 0 40px rgba(0,212,255,.06)}
+.plan-badge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 14px;border-radius:20px;letter-spacing:.5px}
+.plan h3{font-size:18px;font-weight:800;margin-bottom:4px}
+.plan .price{font-size:36px;font-weight:800;margin:12px 0 4px}
+.plan .price span{font-size:14px;font-weight:500;color:var(--fg2)}
+.plan .price-note{font-size:12px;color:var(--fg3);margin-bottom:16px}
+.plan ul{list-style:none;text-align:left;margin-bottom:20px}
+.plan li{font-size:13px;color:var(--fg2);padding:5px 0;display:flex;align-items:flex-start;gap:8px}
+.plan li::before{content:"✓";color:var(--green);font-weight:700;flex-shrink:0}
+.plan .plan-btn{display:block;padding:10px;border-radius:8px;font-family:var(--mono);font-size:13px;font-weight:700;text-align:center;transition:.2s}
+.plan .plan-btn-primary{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;box-shadow:0 0 16px rgba(0,212,255,.12)}.plan .plan-btn-primary:hover{box-shadow:0 0 28px rgba(0,212,255,.25);color:#fff}
+.plan .plan-btn-secondary{border:1px solid var(--bd);color:var(--fg2)}.plan .plan-btn-secondary:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* TERMINAL */
+.term{background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;overflow:hidden;max-width:700px;margin:0 auto}
+.term-bar{display:flex;align-items:center;padding:10px 14px;gap:6px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
+.td{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.08)}
+.tt{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--fg3)}
+.tb{padding:18px;font-family:var(--mono);font-size:12.5px;line-height:2;overflow-x:auto}
+.tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .v{color:var(--green)}.tb .g{color:var(--fg3)}
+
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2);transition:.15s}footer a:hover{color:var(--cyan)}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
+@media(max-width:768px){
+  .nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}
+  .c-hero h1{font-size:26px}.c-hero p{font-size:15px}
+  .g3,.g2,.pricing-grid{grid-template-columns:1fr}
+  .sh h2{font-size:24px}
+  section{padding:50px 0}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="w">
+<a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
+<div class="nav-r">
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a></div></div>
+<a href="/pricing" class="nb">Pricing</a>
+<div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
+<a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+</div></div></nav>
+
+<!-- ═══ HERO ═══ -->
+<div class="c-hero"><div class="w">
+<div class="tag tag-r">EU AI ACT</div>
+<h1 data-lang="en" class="show">Are your AI agents <em>compliant?</em></h1>
+<h1 data-lang="fr">Vos agents IA sont-ils <em>conformes ?</em></h1>
+<p data-lang="en" class="show">The EU AI Act requires complete traceability of AI agent decisions. Article 12 mandates record-keeping. Article 14 requires human oversight. Penalties up to 35M€ or 7% of global revenue.</p>
+<p data-lang="fr">L'EU AI Act exige la traçabilité complète des décisions des agents IA. L'Article 12 impose la tenue de registres. L'Article 14 exige la supervision humaine. Amendes jusqu'à 35M€ ou 7% du CA mondial.</p>
+<div class="deadline" data-lang="en" class="show">DEADLINE: AUGUST 2, 2026 — <span id="countdown-en"></span></div>
+<div class="deadline" data-lang="fr">DEADLINE : 2 AOÛT 2026 — <span id="countdown-fr"></span></div>
+<div class="hero-btns">
+<a href="#pricing" class="btn-h" data-lang="en" class="show">> Get Compliant</a>
+<a href="#pricing" class="btn-h" data-lang="fr">> Devenir conforme</a>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Run Quickstart</a>
+</div>
+</div></div>
+
+<!-- ═══ THE PROBLEM (3 cards) ═══ -->
+<section><div class="w">
+<div class="sh">
+<div class="tag tag-c" data-lang="en" class="show">THE PROBLEM</div>
+<div class="tag tag-c" data-lang="fr">LE PROBLÈME</div>
+<h2 data-lang="en" class="show">Your agents act. <em>Can you prove it?</em></h2>
+<h2 data-lang="fr">Vos agents agissent. <em>Pouvez-vous le prouver ?</em></h2>
+</div>
+<div class="g3">
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No audit trail</span><span data-lang="fr">Pas de piste d'audit</span></h4>
+<p data-lang="en" class="show">Your LangChain or CrewAI agents make decisions, call APIs, access data — but there's no signed, tamper-proof record of what they did and why.</p>
+<p data-lang="fr">Vos agents LangChain ou CrewAI prennent des décisions, appellent des APIs, accèdent aux données — mais il n'existe aucun registre signé et infalsifiable de ce qu'ils ont fait et pourquoi.</p>
+</div>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No intent tracking</span><span data-lang="fr">Pas de suivi d'intention</span></h4>
+<p data-lang="en" class="show">Article 12 requires knowing WHY an agent acted, not just WHAT it did. Current frameworks log actions but not intent, risk level, or human oversight status.</p>
+<p data-lang="fr">L'Article 12 exige de savoir POURQUOI un agent a agi, pas seulement CE qu'il a fait. Les frameworks actuels loguent les actions mais pas l'intention, le niveau de risque ou le statut de supervision humaine.</p>
+</div>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No compliance proof</span><span data-lang="fr">Pas de preuve de conformité</span></h4>
+<p data-lang="en" class="show">When an auditor asks "show me the decision log for your AI agents", you need a cryptographically signed, structured, exportable report. Not application logs.</p>
+<p data-lang="fr">Quand un auditeur demande « montrez-moi le registre des décisions de vos agents IA », il vous faut un rapport cryptographiquement signé, structuré et exportable. Pas des logs applicatifs.</p>
+</div>
+</div>
+</div></section>
+
+<!-- ═══ THE SOLUTION (6 cards) ═══ -->
+<section style="background:rgba(0,212,255,.006)"><div class="w">
+<div class="sh">
+<div class="tag tag-c" data-lang="en" class="show">THE KIT</div>
+<div class="tag tag-c" data-lang="fr">LE KIT</div>
+<h2 data-lang="en" class="show">7 fields. Every receipt. <em>Signed Ed25519.</em></h2>
+<h2 data-lang="fr">7 champs. Chaque reçu. <em>Signé Ed25519.</em></h2>
+<p data-lang="en" class="show">Add 3 lines to your agent code. AIB automatically captures, signs, and stores the compliance data that Article 12 requires.</p>
+<p data-lang="fr">Ajoutez 3 lignes à votre code agent. AIB capture, signe et stocke automatiquement les données de conformité exigées par l'Article 12.</p>
+</div>
+<div class="g3">
+<div class="sc reveal"><h4><span class="si" style="color:var(--cyan)">◆</span> intent</h4><p data-lang="en" class="show">What the agent is trying to accomplish. The "why" behind every action.</p><p data-lang="fr">Ce que l'agent essaie d'accomplir. Le « pourquoi » derrière chaque action.</p></div>
+<div class="sc reveal"><h4><span class="si" style="color:var(--cyan)">◆</span> invocation_chain</h4><p data-lang="en" class="show">Who invoked who. Full trace from human request to agent action.</p><p data-lang="fr">Qui a invoqué qui. Trace complète de la requête humaine à l'action de l'agent.</p></div>
+<div class="sc reveal"><h4><span class="si" style="color:var(--cyan)">◆</span> data_accessed</h4><p data-lang="en" class="show">Which datasets and APIs the agent touched. GDPR Article 30 ready.</p><p data-lang="fr">Quels datasets et APIs l'agent a accédés. Compatible RGPD Article 30.</p></div>
+<div class="sc reveal"><h4><span class="si" style="color:var(--blue)">⚖</span> risk_level</h4><p data-lang="en" class="show">Assessed risk: low, medium, high, critical. Set by caller or inferred by AI.</p><p data-lang="fr">Risque évalué : low, medium, high, critical. Défini ou inféré par IA.</p></div>
+<div class="sc reveal"><h4><span class="si" style="color:var(--blue)">⚖</span> human_oversight</h4><p data-lang="en" class="show">Was a human in the loop? Article 14 requires it for high-risk systems.</p><p data-lang="fr">Un humain était-il dans la boucle ? L'Article 14 l'exige pour les systèmes à haut risque.</p></div>
+<div class="sc reveal"><h4><span class="si" style="color:var(--blue)">⚖</span> decision_rationale</h4><p data-lang="en" class="show">Why the agent decided this. Article 13 transparency for high-risk AI.</p><p data-lang="fr">Pourquoi l'agent a décidé cela. Transparence Article 13 pour l'IA à haut risque.</p></div>
+</div>
+</div></section>
+
+<!-- ═══ HOW IT WORKS (terminal) ═══ -->
+<section><div class="w" style="text-align:center">
+<div class="sh">
+<div class="tag tag-c">3 LINES</div>
+<h2 data-lang="en" class="show">Add compliance to <em>any agent</em></h2>
+<h2 data-lang="fr">Ajoutez la conformité à <em>n'importe quel agent</em></h2>
+</div>
+<div class="term reveal">
+<div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">agent-compliance.py</div></div>
+<div class="tb">
+<div><span class="g"># Your existing agent code</span></div>
+<div><span class="p">curl</span> <span class="c">-X POST /passport-create \</span></div>
+<div><span class="c">&nbsp;&nbsp;-H "x-api-key: aib_sk_..." \</span></div>
+<div><span class="c">&nbsp;&nbsp;-H "x-aib-invoker-did: did:web:myorg.com" \</span></div>
+<div><span class="c">&nbsp;&nbsp;-d '{</span></div>
+<div><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;"agent_slug": "booking",</span></div>
+<div><span class="c">&nbsp;&nbsp;&nbsp;&nbsp;"protocols": ["mcp", "a2a"],</span></div>
+<div></div>
+<div><span class="g">&nbsp;&nbsp;&nbsp;&nbsp;// EU AI Act fields (3 lines added)</span></div>
+<div><span class="v">&nbsp;&nbsp;&nbsp;&nbsp;"intent": "Book a meeting for client #4521",</span></div>
+<div><span class="v">&nbsp;&nbsp;&nbsp;&nbsp;"risk_level": "low",</span></div>
+<div><span class="v">&nbsp;&nbsp;&nbsp;&nbsp;"human_oversight": true</span></div>
+<div><span class="c">&nbsp;&nbsp;}'</span></div>
+<div></div>
+<div><span class="g"># Response includes eu_ai_act_compliant: true</span></div>
+<div><span class="g"># Receipt signed Ed25519, SHA-256 hash chain</span></div>
+</div>
+</div>
+</div></section>
+
+<!-- ═══ COMPLIANCE REPORT ═══ -->
+<section style="background:rgba(0,212,255,.006)"><div class="w" style="text-align:center">
+<div class="sh">
+<div class="tag tag-c" data-lang="en" class="show">AUDIT READY</div>
+<div class="tag tag-c" data-lang="fr">PRÊT POUR L'AUDIT</div>
+<h2 data-lang="en" class="show">One API call. <em>Full compliance report.</em></h2>
+<h2 data-lang="fr">Un appel API. <em>Rapport de conformité complet.</em></h2>
+</div>
+<div class="term reveal">
+<div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">compliance-report.json</div></div>
+<div class="tb" style="text-align:left">
+<div><span class="p">GET</span> <span class="c">/audit-trail?format=compliance</span></div>
+<div></div>
+<div>{</div>
+<div>&nbsp;&nbsp;<span class="p">"report"</span>: <span class="v">"EU AI Act Compliance — Article 12"</span>,</div>
+<div>&nbsp;&nbsp;<span class="p">"summary"</span>: {</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">"total_actions"</span>: <span class="v">534</span>,</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">"intent_coverage_pct"</span>: <span class="v">94</span>,</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">"human_oversight_pct"</span>: <span class="v">87</span>,</div>
+<div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">"high_risk_actions"</span>: <span class="v">12</span></div>
+<div>&nbsp;&nbsp;},</div>
+<div>&nbsp;&nbsp;<span class="p">"risk_breakdown"</span>: { <span class="v">"low": 412, "medium": 98, "high": 12, "critical": 0</span> },</div>
+<div>&nbsp;&nbsp;<span class="p">"receipts"</span>: [ <span class="g">... Ed25519 signed receipts ...</span> ]</div>
+<div>}</div>
+</div>
+</div>
+</div></section>
+
+<!-- ═══ PRICING (3 plans) ═══ -->
+<section id="pricing"><div class="w">
+<div class="sh">
+<div class="tag tag-c">PRICING</div>
+<h2 data-lang="en" class="show">Choose your <em>compliance level</em></h2>
+<h2 data-lang="fr">Choisissez votre <em>niveau de conformité</em></h2>
+</div>
+<div class="pricing-grid">
+
+<div class="plan reveal">
+<h3 data-lang="en" class="show">Starter</h3>
+<h3 data-lang="fr">Starter</h3>
+<div class="price">490€<span data-lang="en" class="show">/mo</span><span data-lang="fr">/mois</span></div>
+<div class="price-note" data-lang="en" class="show">For teams starting compliance</div>
+<div class="price-note" data-lang="fr">Pour les équipes qui démarrent la conformité</div>
+<ul>
+<li data-lang="en" class="show">Up to 10,000 receipts/month</li><li data-lang="fr">Jusqu'à 10 000 reçus/mois</li>
+<li data-lang="en" class="show">7 EU AI Act fields</li><li data-lang="fr">7 champs EU AI Act</li>
+<li data-lang="en" class="show">Ed25519 signed audit trail</li><li data-lang="fr">Piste d'audit signée Ed25519</li>
+<li data-lang="en" class="show">Compliance report API</li><li data-lang="fr">API rapport de conformité</li>
+<li data-lang="en" class="show">Email support</li><li data-lang="fr">Support email</li>
+</ul>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Starter" class="plan-btn plan-btn-secondary" data-lang="en" class="show">Contact us</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Starter" class="plan-btn plan-btn-secondary" data-lang="fr">Nous contacter</a>
+</div>
+
+<div class="plan featured reveal">
+<div class="plan-badge" data-lang="en" class="show">RECOMMENDED</div>
+<div class="plan-badge" data-lang="fr">RECOMMANDÉ</div>
+<h3>Pro</h3>
+<div class="price">990€<span data-lang="en" class="show">/mo</span><span data-lang="fr">/mois</span></div>
+<div class="price-note" data-lang="en" class="show">Full compliance + intent inference</div>
+<div class="price-note" data-lang="fr">Conformité complète + inférence d'intention</div>
+<ul>
+<li data-lang="en" class="show">Up to 100,000 receipts/month</li><li data-lang="fr">Jusqu'à 100 000 reçus/mois</li>
+<li data-lang="en" class="show">Everything in Starter</li><li data-lang="fr">Tout le Starter inclus</li>
+<li data-lang="en" class="show">LLM-powered intent inference</li><li data-lang="fr">Inférence d'intention par LLM</li>
+<li data-lang="en" class="show">Anomaly detection</li><li data-lang="fr">Détection d'anomalies</li>
+<li data-lang="en" class="show">OIDC federation (Okta, Entra)</li><li data-lang="fr">Fédération OIDC (Okta, Entra)</li>
+<li data-lang="en" class="show">W3C Verifiable Credentials</li><li data-lang="fr">W3C Verifiable Credentials</li>
+<li data-lang="en" class="show">Priority support</li><li data-lang="fr">Support prioritaire</li>
+</ul>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Pro" class="plan-btn plan-btn-primary" data-lang="en" class="show">Get started</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Pro" class="plan-btn plan-btn-primary" data-lang="fr">Démarrer</a>
+</div>
+
+<div class="plan reveal">
+<h3>Enterprise</h3>
+<div class="price" data-lang="en" class="show">Custom</div>
+<div class="price" data-lang="fr">Sur devis</div>
+<div class="price-note" data-lang="en" class="show">Turnkey compliance + onboarding</div>
+<div class="price-note" data-lang="fr">Mise en conformité clé en main</div>
+<ul>
+<li data-lang="en" class="show">Unlimited receipts</li><li data-lang="fr">Reçus illimités</li>
+<li data-lang="en" class="show">Everything in Pro</li><li data-lang="fr">Tout le Pro inclus</li>
+<li data-lang="en" class="show">Dedicated onboarding (2 weeks)</li><li data-lang="fr">Onboarding dédié (2 semaines)</li>
+<li data-lang="en" class="show">Custom policy rules</li><li data-lang="fr">Règles de politique personnalisées</li>
+<li data-lang="en" class="show">SLA 99.9%</li><li data-lang="fr">SLA 99.9%</li>
+<li data-lang="en" class="show">On-premise deployment option</li><li data-lang="fr">Option déploiement on-premise</li>
+<li data-lang="en" class="show">Dedicated support + Slack</li><li data-lang="fr">Support dédié + Slack</li>
+</ul>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Enterprise" class="plan-btn plan-btn-secondary" data-lang="en" class="show">Contact sales</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Enterprise" class="plan-btn plan-btn-secondary" data-lang="fr">Contacter les ventes</a>
+</div>
+
+</div>
+</div></section>
+
+<!-- ═══ CTA ═══ -->
+<section style="text-align:center;padding:60px 0"><div class="w reveal">
+<div class="tag tag-r" data-lang="en" class="show">4 MONTHS LEFT</div>
+<div class="tag tag-r" data-lang="fr">4 MOIS RESTANTS</div>
+<h2 style="font-size:28px;font-weight:800;margin-bottom:8px" data-lang="en" class="show">Don't wait for the <em style="background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">auditor</em></h2>
+<h2 style="font-size:28px;font-weight:800;margin-bottom:8px" data-lang="fr">N'attendez pas <em style="background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">l'auditeur</em></h2>
+<p style="color:var(--fg2);margin-bottom:24px;font-size:14px" data-lang="en" class="show">pip install agent-identity-bridge — test compliance in 15 seconds. No API key needed.</p>
+<p style="color:var(--fg2);margin-bottom:24px;font-size:14px" data-lang="fr">pip install agent-identity-bridge — testez la conformité en 15 secondes. Pas de clé API requise.</p>
+<div class="hero-btns">
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-h">> Run Quickstart</a>
+<a href="/why" class="btn-g">Why AIB</a>
+<a href="/spec" class="btn-g">Read Spec</a>
+</div>
+</div></section>
+
+<footer><div class="w"><p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris, France — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/why">Why AIB</a> · Apache 2.0</p></div></footer>
+
+<script>
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
+// Countdown to August 2, 2026
+function updateCountdown(){var d=new Date('2026-08-02T00:00:00+02:00')-new Date();if(d<=0)return;var days=Math.floor(d/864e5);var el=document.getElementById('countdown-en');var ef=document.getElementById('countdown-fr');if(el)el.textContent=days+' days left';if(ef)ef.textContent=days+' jours restants'}
+updateCountdown();setInterval(updateCountdown,36e5);
+var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
