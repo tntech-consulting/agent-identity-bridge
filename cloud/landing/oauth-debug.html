@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB OAuth Debug</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+body{font-family:'Courier New',monospace;background:#0a0a1a;color:#00d4ff;padding:24px;font-size:13px}
+h1{color:#fff;font-size:18px;margin-bottom:20px}
+.box{background:#0f1029;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:16px;margin-bottom:16px}
+.box h2{color:#f59e0b;font-size:14px;margin-bottom:10px}
+pre{white-space:pre-wrap;word-break:break-all;color:#a0a5c8;font-size:11px}
+.ok{color:#22c55e}
+.err{color:#ef4444}
+.warn{color:#f59e0b}
+button{padding:12px 24px;background:linear-gradient(135deg,#00d4ff,#3b82f6);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;margin:8px 4px}
+button.secondary{background:#0f1029;border:1px solid rgba(255,255,255,.1);color:#a0a5c8}
+#log{max-height:500px;overflow-y:auto}
+</style>
+</head>
+<body>
+<h1>AIB OAuth Diagnostic</h1>
+
+<div class="box">
+<h2>1. Current URL state</h2>
+<pre id="url-info"></pre>
+</div>
+
+<div class="box">
+<h2>2. Supabase SDK session</h2>
+<pre id="session-info">Checking...</pre>
+</div>
+
+<div class="box">
+<h2>3. Auth state changes</h2>
+<pre id="auth-events">Listening...</pre>
+</div>
+
+<div class="box">
+<h2>4. Actions</h2>
+<button onclick="startGitHub()">Sign in with GitHub</button>
+<button onclick="clearAll()" class="secondary">Clear storage & reload</button>
+<button onclick="manualExchange()" class="secondary">Manual code exchange</button>
+<button onclick="checkUser()" class="secondary">Check /auth/v1/user</button>
+</div>
+
+<div class="box">
+<h2>5. Log</h2>
+<pre id="log"></pre>
+</div>
+
+<script>
+const SB_URL = "https://vempwtzknixfnvysmiwo.supabase.co";
+const SB_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw";
+
+function log(msg, type) {
+  const el = document.getElementById('log');
+  const cls = type === 'ok' ? 'ok' : type === 'err' ? 'err' : type === 'warn' ? 'warn' : '';
+  el.innerHTML = `<span class="${cls}">[${new Date().toLocaleTimeString()}] ${msg}</span>\n` + el.innerHTML;
+}
+
+// 1. URL state
+const urlInfo = document.getElementById('url-info');
+urlInfo.textContent = [
+  `href: ${window.location.href}`,
+  `origin: ${window.location.origin}`,
+  `pathname: ${window.location.pathname}`,
+  `search: ${window.location.search || '(empty)'}`,
+  `hash: ${window.location.hash || '(empty)'}`,
+  ``,
+  `Query params:`,
+  ...Array.from(new URL(window.location.href).searchParams.entries()).map(([k,v]) => `  ${k} = ${v.substring(0,50)}${v.length>50?'...':''}`),
+  new URL(window.location.href).searchParams.toString() === '' ? '  (none)' : '',
+  ``,
+  `Hash params:`,
+  ...(window.location.hash ? Array.from(new URLSearchParams(window.location.hash.substring(1)).entries()).map(([k,v]) => `  ${k} = ${v.substring(0,50)}${v.length>50?'...':''}`) : ['  (none)']),
+  ``,
+  `localStorage keys:`,
+  ...Object.keys(localStorage).map(k => `  ${k} = ${localStorage.getItem(k)?.substring(0,80)}...`),
+  Object.keys(localStorage).length === 0 ? '  (empty)' : '',
+].join('\n');
+
+// 2. SDK session
+const sb = supabase.createClient(SB_URL, SB_ANON);
+
+(async () => {
+  log('Calling sb.auth.getSession()...');
+  try {
+    const { data, error } = await sb.auth.getSession();
+    const el = document.getElementById('session-info');
+    if (error) {
+      el.innerHTML = `<span class="err">Error: ${error.message}</span>`;
+      log(`getSession error: ${error.message}`, 'err');
+    } else if (data.session) {
+      el.innerHTML = `<span class="ok">Session found!</span>\n` +
+        `user_id: ${data.session.user?.id}\n` +
+        `email: ${data.session.user?.email}\n` +
+        `provider: ${data.session.user?.app_metadata?.provider}\n` +
+        `access_token: ${data.session.access_token?.substring(0,30)}...\n` +
+        `expires_at: ${new Date(data.session.expires_at * 1000).toLocaleString()}`;
+      log(`Session found: ${data.session.user?.email} (${data.session.user?.app_metadata?.provider})`, 'ok');
+    } else {
+      el.innerHTML = `<span class="warn">No session</span>`;
+      log('No session found', 'warn');
+    }
+  } catch (e) {
+    document.getElementById('session-info').innerHTML = `<span class="err">Exception: ${e.message}</span>`;
+    log(`getSession exception: ${e.message}`, 'err');
+  }
+})();
+
+// 3. Auth state changes
+sb.auth.onAuthStateChange((event, session) => {
+  const el = document.getElementById('auth-events');
+  const msg = `Event: ${event}\nSession: ${session ? 'yes (user=' + session.user?.email + ')' : 'null'}\n\n`;
+  el.innerHTML = `<span class="${session ? 'ok' : 'warn'}">${msg}</span>` + el.innerHTML;
+  log(`onAuthStateChange: ${event} - ${session ? session.user?.email : 'no session'}`, session ? 'ok' : 'warn');
+});
+
+// Actions
+async function startGitHub() {
+  log('Starting GitHub OAuth...');
+  const { data, error } = await sb.auth.signInWithOAuth({
+    provider: 'github',
+    options: { redirectTo: window.location.origin + '/oauth-debug' }
+  });
+  if (error) log(`signInWithOAuth error: ${error.message}`, 'err');
+  else log(`Redirecting to: ${data.url}`, 'ok');
+}
+
+function clearAll() {
+  localStorage.clear();
+  sessionStorage.clear();
+  log('Storage cleared, reloading...');
+  setTimeout(() => window.location.href = window.location.pathname, 500);
+}
+
+async function manualExchange() {
+  const code = new URL(window.location.href).searchParams.get('code');
+  if (!code) { log('No ?code= in URL', 'err'); return; }
+  log(`Found code: ${code.substring(0,20)}... Exchanging...`);
+  try {
+    const { data, error } = await sb.auth.exchangeCodeForSession(code);
+    if (error) log(`exchangeCodeForSession error: ${error.message}`, 'err');
+    else log(`Session obtained: ${data.session?.user?.email}`, 'ok');
+  } catch (e) {
+    log(`Exchange exception: ${e.message}`, 'err');
+  }
+}
+
+async function checkUser() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { log('No session to check', 'err'); return; }
+  log(`Checking /auth/v1/user with token...`);
+  try {
+    const r = await fetch(SB_URL + '/auth/v1/user', {
+      headers: { 'Authorization': 'Bearer ' + session.access_token, 'apikey': SB_ANON }
+    });
+    const d = await r.json();
+    log(`/auth/v1/user response (${r.status}): ${JSON.stringify(d).substring(0,200)}`, r.ok ? 'ok' : 'err');
+  } catch (e) {
+    log(`Fetch error: ${e.message}`, 'err');
+  }
+}
+</script>
+</body>
+</html>

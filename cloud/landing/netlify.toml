@@ -84,3 +84,8 @@
   from = "/compliance"
   to = "/compliance.html"
   status = 200
+
+[[redirects]]
+  from = "/oauth-debug"
+  to = "/oauth-debug.html"
+  status = 200
