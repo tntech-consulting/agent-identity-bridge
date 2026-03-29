@@ -89,3 +89,8 @@
   from = "/oauth-debug"
   to = "/oauth-debug.html"
   status = 200
+
+[[redirects]]
+  from = "/compliance-finance"
+  to = "/compliance-finance.html"
+  status = 200
