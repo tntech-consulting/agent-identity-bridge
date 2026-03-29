@@ -20,6 +20,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 28px}
+[data-lang]{display:none}.show{display:revert!important}
 button{font-family:inherit}
 
 /* NAV */
@@ -39,7 +40,6 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
 .lb{background:none;border:none;color:var(--fg3);font-size:10px;font-weight:700;cursor:pointer;padding:3px 6px;border-radius:3px;font-family:var(--mono);letter-spacing:1px;transition:.15s}.lb.active{color:var(--cyan)}
 .btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
-@media(max-width:768px){.nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}}
 
 /* PAGE */
 .tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border:1px solid var(--cyan-glow);border-radius:4px;background:var(--cyan-dim)}
@@ -47,313 +47,324 @@ section{padding:70px 0}
 .sh{text-align:center;margin-bottom:40px}
 .sh h2{font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:8px}
 .sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.sh p{color:var(--fg2);font-size:16px;max-width:600px;margin:0 auto;line-height:1.8}
+.sh p{color:var(--fg2);font-size:15px;max-width:600px;margin:0 auto;line-height:1.8}
 
 /* HERO */
-.why-hero{padding:100px 0 60px;text-align:center}
-.why-hero h1{font-size:42px;font-weight:800;letter-spacing:-1.5px;margin-bottom:16px;line-height:1.15}
+.why-hero{padding:90px 0 50px;text-align:center}
+.why-hero h1{font-size:40px;font-weight:800;letter-spacing:-1.5px;margin-bottom:14px;line-height:1.15}
 .why-hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.why-hero p{color:var(--fg2);font-size:18px;max-width:640px;margin:0 auto;line-height:1.8}
+.why-hero p{color:var(--fg2);font-size:17px;max-width:620px;margin:0 auto;line-height:1.8}
 
-/* PILLARS */
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.pillar{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:32px 24px;backdrop-filter:blur(8px);transition:.3s;position:relative;overflow:hidden}
+/* GRIDS */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+
+/* PILLAR CARDS */
+.pillar{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:28px 22px;backdrop-filter:blur(8px);transition:.3s}
 .pillar:hover{border-color:rgba(0,212,255,.12);transform:translateY(-3px)}
-.pillar-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px}
-.pillar h3{font-size:18px;font-weight:800;margin-bottom:8px}
-.pillar p{color:var(--fg2);font-size:14px;line-height:1.7}
-.pillar .pillar-tag{font-family:var(--mono);font-size:10px;color:var(--cyan);margin-top:14px;display:block;letter-spacing:.5px}
+.pillar-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+.pillar h3{font-size:17px;font-weight:800;margin-bottom:6px}
+.pillar p{color:var(--fg2);font-size:13.5px;line-height:1.7}
+.pillar .ptag{font-family:var(--mono);font-size:10px;color:var(--cyan);margin-top:12px;display:block;letter-spacing:.3px}
 
-/* COMPARISON */
-.comp-table{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;border:1px solid var(--bd);background:var(--glass);backdrop-filter:blur(8px)}
-.comp-table th{background:rgba(0,212,255,.04);padding:14px 16px;text-align:left;font-size:13px;font-weight:700;color:var(--fg);border-bottom:1px solid var(--bd);font-family:var(--mono);letter-spacing:.5px}
-.comp-table td{padding:12px 16px;border-bottom:1px solid var(--bd);font-size:13.5px;color:var(--fg2);vertical-align:top}
-.comp-table tr:last-child td{border-bottom:none}
-.comp-table td:first-child{font-weight:600;color:var(--fg);min-width:140px}
-.comp-table .aib-col{background:rgba(0,212,255,.03);color:var(--fg)}
-.check{color:var(--green)}
-.cross{color:var(--fg3)}
-.partial{color:var(--amber)}
+/* STRENGTH CARDS */
+.sc{background:var(--glass);border:1px solid var(--bd);border-radius:11px;padding:22px 20px;backdrop-filter:blur(8px);transition:.3s}
+.sc:hover{border-color:rgba(0,212,255,.1)}
+.sc h4{font-size:14px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.sc p{color:var(--fg2);font-size:13px;line-height:1.7}
+.si{font-size:15px}
 
-/* STRENGTHS */
-.strengths{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.strengths-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.str-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:24px;backdrop-filter:blur(8px);transition:.3s}
-.str-card:hover{border-color:rgba(0,212,255,.1)}
-.str-card h4{font-size:15px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
-.str-card p{color:var(--fg2);font-size:13.5px;line-height:1.7}
-.str-icon{font-size:16px}
+/* TABLE */
+.ct{width:100%;border-collapse:separate;border-spacing:0;border-radius:12px;overflow:hidden;border:1px solid var(--bd);background:var(--glass);backdrop-filter:blur(8px)}
+.ct th{background:rgba(0,212,255,.04);padding:12px 14px;text-align:left;font-size:12px;font-weight:700;color:var(--fg);border-bottom:1px solid var(--bd);font-family:var(--mono);letter-spacing:.5px}
+.ct td{padding:10px 14px;border-bottom:1px solid var(--bd);font-size:13px;color:var(--fg2);vertical-align:top}
+.ct tr:last-child td{border-bottom:none}
+.ct td:first-child{font-weight:600;color:var(--fg);min-width:120px}
+.ct .ac{background:rgba(0,212,255,.03);color:var(--fg)}
+.ck{color:var(--green)}.cx{color:var(--fg3)}.cp{color:var(--amber)}
 
 /* CTA */
-.cta-section{text-align:center;padding:80px 0}
-.cta-section h2{font-size:30px;font-weight:800;margin-bottom:8px}
-.cta-section h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.cta-section p{color:var(--fg2);margin-bottom:28px;font-size:15px}
+.cta-s{text-align:center;padding:70px 0}
+.cta-s h2{font-size:28px;font-weight:800;margin-bottom:8px}
+.cta-s h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta-s p{color:var(--fg2);margin-bottom:24px;font-size:14px}
 .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.btn-h{display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;padding:12px 24px;border-radius:8px;transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.15)}.btn-h:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,212,255,.25);color:#fff}
-.btn-g{display:inline-block;background:rgba(255,255,255,.04);color:var(--fg);font-family:var(--mono);font-size:13px;font-weight:600;padding:12px 24px;border-radius:8px;border:1px solid var(--bd);transition:.2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
+.btn-h{display:inline-block;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-family:var(--mono);font-size:13px;font-weight:700;padding:11px 22px;border-radius:8px;transition:.2s;box-shadow:0 0 20px rgba(0,212,255,.15)}.btn-h:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,212,255,.25);color:#fff}
+.btn-g{display:inline-block;background:rgba(255,255,255,.04);color:var(--fg);font-family:var(--mono);font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;border:1px solid var(--bd);transition:.2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
 
 footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2);transition:.15s}footer a:hover{color:var(--cyan)}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
-@media(max-width:768px){.why-hero h1{font-size:28px}.pillars,.strengths,.strengths-3{grid-template-columns:1fr}.comp-table{font-size:12px}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-r{gap:1px}.nb{font-size:12px;padding:5px 7px}.btn-cta,.logo-text{display:none}
+  .why-hero h1{font-size:26px}.why-hero p{font-size:15px}
+  .g3,.g2{grid-template-columns:1fr}
+  .sh h2{font-size:24px}
+  .ct{font-size:11px}.ct th,.ct td{padding:8px 10px}
+  section{padding:50px 0}
+}
 </style>
 </head>
 <body>
 
+<!-- NAV (same as roadmap.html) -->
 <nav><div class="w">
 <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
 <div class="nav-r">
-<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a></div></div>
 <a href="/pricing" class="nb">Pricing</a>
+<div style="display:flex;gap:2px;margin-left:6px"><button class="lb active" id="btn-en" onclick="setLang('en')">EN</button><button class="lb" id="btn-fr" onclick="setLang('fr')">FR</button></div>
 <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
 </div></div></nav>
 
-<!-- HERO -->
+<!-- ═══ HERO ═══ -->
 <div class="why-hero"><div class="w">
 <div class="tag">WHY AIB</div>
-<h1>A standard, <em>not a product.</em></h1>
-<p>AIB is the protocol-neutral identity bridge that every AI agent ecosystem needs but no single vendor can build. Open-source, W3C DID native, EU AI Act compliant by design. Built in Paris, independent from protocol vendors.</p>
+<h1 data-lang="en" class="show">A standard, <em>not a product.</em></h1>
+<h1 data-lang="fr">Un standard, <em>pas un produit.</em></h1>
+<p data-lang="en" class="show">AIB is the protocol-neutral identity bridge that every AI agent ecosystem needs but no single vendor can build. Open-source, W3C DID native, EU AI Act compliant by design. Built in Paris, independent from protocol vendors.</p>
+<p data-lang="fr">AIB est le pont d'identité neutre dont chaque écosystème d'agents IA a besoin, mais qu'aucun éditeur seul ne peut construire. Open-source, W3C DID natif, conforme EU AI Act by design. Construit à Paris, indépendant des éditeurs de protocoles.</p>
 </div></div>
 
-<!-- 3 PILLARS -->
+<!-- ═══ 3 PILLARS ═══ -->
 <section><div class="w">
-<div class="sh"><div class="tag">CORE STRENGTHS</div><h2>Three things <em>no one else</em> offers</h2></div>
-<div class="pillars">
+<div class="sh">
+<div class="tag" data-lang="en" class="show">CORE STRENGTHS</div>
+<div class="tag" data-lang="fr">FORCES CLÉS</div>
+<h2 data-lang="en" class="show">Three things <em>no one else</em> offers</h2>
+<h2 data-lang="fr">Trois atouts <em>qu'aucun autre</em> n'a</h2>
+</div>
+<div class="g3">
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--cyan-dim);color:var(--cyan)">⬡</div>
-<h3>Protocol Neutral</h3>
-<p>AIB doesn't belong to Anthropic, Google, or any protocol vendor. It bridges MCP, A2A, ANP, and AG-UI equally. No lock-in, no vendor preference. Your agent works everywhere with one identity.</p>
-<span class="pillar-tag">Analogie : AIB is to agent protocols what JWT is to web frameworks.</span>
+<h3 data-lang="en" class="show">Protocol Neutral</h3>
+<h3 data-lang="fr">Neutralité protocolaire</h3>
+<p data-lang="en" class="show">AIB doesn't belong to Anthropic, Google, or any protocol vendor. It bridges MCP, A2A, ANP, and AG-UI equally. No lock-in, no vendor preference. Your agent works everywhere with one identity.</p>
+<p data-lang="fr">AIB n'appartient ni à Anthropic, ni à Google, ni à aucun éditeur de protocole. Il connecte MCP, A2A, ANP et AG-UI de manière égale. Pas de vendor lock-in. Votre agent fonctionne partout avec une seule identité.</p>
+<span class="ptag">JWT is to web frameworks what AIB is to agent protocols.</span>
 </div>
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--blue-dim);color:var(--blue)">⚖</div>
-<h3>EU AI Act Native</h3>
-<p>Every receipt carries intent, risk level, human oversight flag, decision rationale, and affected persons — all signed Ed25519. Article 12 compliance is not an add-on, it's built into every API call. No US vendor can credibly offer this.</p>
-<span class="pillar-tag">Deadline August 2026. AIB is ready today.</span>
+<h3 data-lang="en" class="show">EU AI Act Native</h3>
+<h3 data-lang="fr">EU AI Act natif</h3>
+<p data-lang="en" class="show">Every receipt carries intent, risk level, human oversight flag, decision rationale, and affected persons — all signed Ed25519. Article 12 compliance is not an add-on. No US vendor can credibly offer European sovereignty.</p>
+<p data-lang="fr">Chaque reçu porte l'intention, le niveau de risque, le flag de supervision humaine, la justification de décision et les personnes concernées — tout signé Ed25519. La conformité Article 12 n'est pas un module optionnel. Aucun éditeur US ne peut offrir la souveraineté européenne.</p>
+<span class="ptag" data-lang="en" class="show">Deadline August 2026. AIB is ready today.</span>
+<span class="ptag" data-lang="fr">Deadline août 2026. AIB est prêt aujourd'hui.</span>
 </div>
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--green-dim);color:var(--green)">◇</div>
-<h3>Open Standard</h3>
-<p>The spec is the product. Apache 2.0 license. W3C DID v1.1 (did:web + did:key). W3C Verifiable Credentials. The goal: enterprise IAM vendors implement AIB in their products, not compete with us.</p>
-<span class="pillar-tag">Like OIDC was adopted by Okta, Google, Microsoft.</span>
+<h3 data-lang="en" class="show">Open Standard</h3>
+<h3 data-lang="fr">Standard ouvert</h3>
+<p data-lang="en" class="show">The spec is the product. Apache 2.0 license. W3C DID v1.1 (did:web + did:key). W3C Verifiable Credentials. The goal: enterprise IAM vendors implement AIB in their products, like they adopted OIDC.</p>
+<p data-lang="fr">La spec est le produit. Licence Apache 2.0. W3C DID v1.1 (did:web + did:key). W3C Verifiable Credentials. L'objectif : que les éditeurs IAM enterprise implémentent AIB dans leurs produits, comme ils ont adopté OIDC.</p>
+<span class="ptag" data-lang="en" class="show">Like OIDC was adopted by Okta, Google, Microsoft.</span>
+<span class="ptag" data-lang="fr">Comme OIDC a été adopté par Okta, Google, Microsoft.</span>
 </div>
 
 </div>
 </div></section>
 
-<!-- WHAT AIB IS NOT -->
+<!-- ═══ IS / ISN'T (6 cards, 2 cols) ═══ -->
 <section style="background:rgba(0,212,255,.006)"><div class="w">
-<div class="sh"><div class="tag">POSITIONING</div><h2>What AIB <em>is and isn't</em></h2><p>Understanding where AIB sits in the stack prevents confusion and clarifies partnership opportunities.</p></div>
-<div class="strengths">
+<div class="sh">
+<div class="tag">POSITIONING</div>
+<h2 data-lang="en" class="show">What AIB <em>is and isn't</em></h2>
+<h2 data-lang="fr">Ce qu'AIB <em>est et n'est pas</em></h2>
+<p data-lang="en" class="show">Understanding where AIB sits in the stack prevents confusion and clarifies partnership opportunities.</p>
+<p data-lang="fr">Comprendre où AIB se positionne dans la stack évite les confusions et clarifie les opportunités de partenariat.</p>
+</div>
+<div class="g2">
 
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--green)">✓</span> AIB IS a protocol bridge</h4>
-<p>A portable identity layer that sits between protocols (MCP, A2A, ANP, AG-UI) and translates credentials between them. Like a passport that works in every country.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--green)">✓</span> <span data-lang="en" class="show">Protocol bridge</span><span data-lang="fr">Pont inter-protocoles</span></h4>
+<p data-lang="en" class="show">A portable identity layer between MCP, A2A, ANP, AG-UI. Translates credentials between formats. Like a passport that works in every country.</p>
+<p data-lang="fr">Une couche d'identité portable entre MCP, A2A, ANP, AG-UI. Traduit les credentials entre formats. Comme un passeport valide dans tous les pays.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--red)">✗</span> AIB is NOT an Identity Provider</h4>
-<p>We don't manage users, don't do SSO, don't do provisioning. Okta has 8,200+ integrations and 20 years of enterprise IAM. We accept their tokens via OIDC federation.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">✗</span> <span data-lang="en" class="show">NOT an Identity Provider</span><span data-lang="fr">PAS un fournisseur d'identité</span></h4>
+<p data-lang="en" class="show">We don't manage users, don't do SSO, don't do provisioning. Okta has 8,200+ integrations and 20 years of enterprise IAM. We accept their tokens via OIDC federation.</p>
+<p data-lang="fr">Nous ne gérons pas les utilisateurs, pas de SSO, pas de provisioning. Okta a 8 200+ intégrations et 20 ans d'IAM enterprise. Nous acceptons leurs tokens via fédération OIDC.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--green)">✓</span> AIB IS a compliance layer</h4>
-<p>Every action produces a signed receipt with intent, risk level, and EU AI Act Article 12 fields. Audit trails are cryptographic and tamper-evident.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--green)">✓</span> <span data-lang="en" class="show">Compliance layer</span><span data-lang="fr">Couche de compliance</span></h4>
+<p data-lang="en" class="show">Every action produces a signed receipt with intent, risk level, and EU AI Act Article 12 fields. Audit trails are cryptographic and tamper-evident.</p>
+<p data-lang="fr">Chaque action produit un reçu signé avec l'intention, le niveau de risque et les champs EU AI Act Article 12. Les pistes d'audit sont cryptographiques et infalsifiables.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--red)">✗</span> AIB is NOT a governance platform</h4>
-<p>We don't discover existing agents in your infrastructure. SailPoint scans AWS/Azure/Salesforce for shadow AI. We give agents a portable passport once they're discovered.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">✗</span> <span data-lang="en" class="show">NOT a governance platform</span><span data-lang="fr">PAS une plateforme de gouvernance</span></h4>
+<p data-lang="en" class="show">We don't discover existing agents in your infrastructure. SailPoint scans AWS/Azure/Salesforce for shadow AI. We give agents a portable passport once they're discovered.</p>
+<p data-lang="fr">Nous ne découvrons pas les agents existants dans votre infrastructure. SailPoint scanne AWS/Azure/Salesforce pour le shadow AI. Nous donnons aux agents un passeport portable une fois découverts.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--green)">✓</span> AIB IS a W3C standard implementation</h4>
-<p>DID v1.1 (did:web + did:key), Verifiable Credentials, Ed25519VerificationKey2020. Resolvable by any Universal Resolver. Open specification.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--green)">✓</span> <span data-lang="en" class="show">W3C standard implementation</span><span data-lang="fr">Implémentation W3C standard</span></h4>
+<p data-lang="en" class="show">DID v1.1 (did:web + did:key), Verifiable Credentials, Ed25519VerificationKey2020. Resolvable by any Universal Resolver. Open specification.</p>
+<p data-lang="fr">DID v1.1 (did:web + did:key), Verifiable Credentials, Ed25519VerificationKey2020. Résolvable par tout Universal Resolver. Spécification ouverte.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--red)">✗</span> AIB is NOT a SIEM or threat detection tool</h4>
-<p>We don't correlate identity signals with SOC events. Our intent inference API detects anomalies in agent behavior, but security operations belong to dedicated tools.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--red)">✗</span> <span data-lang="en" class="show">NOT a SIEM or threat detection</span><span data-lang="fr">PAS un SIEM ni un outil de détection</span></h4>
+<p data-lang="en" class="show">We don't correlate identity signals with SOC events. Our intent inference API detects anomalies in agent behavior, but security operations belong to dedicated tools.</p>
+<p data-lang="fr">Nous ne corrélons pas les signaux d'identité avec les événements SOC. Notre API d'inférence d'intention détecte les anomalies, mais les opérations de sécurité relèvent d'outils dédiés.</p>
 </div>
 
 </div>
 </div></section>
 
-<!-- COMPARISON TABLE -->
+<!-- ═══ COMPARISON TABLE ═══ -->
 <section><div class="w">
-<div class="sh"><div class="tag">LANDSCAPE</div><h2>How AIB <em>complements</em> the market</h2><p>AIB works alongside enterprise IAM, not against it. Every row shows where we add value without competing.</p></div>
+<div class="sh">
+<div class="tag">LANDSCAPE</div>
+<h2 data-lang="en" class="show">How AIB <em>complements</em> the market</h2>
+<h2 data-lang="fr">Comment AIB <em>complète</em> le marché</h2>
+<p data-lang="en" class="show">AIB works alongside enterprise IAM, not against it. Each row shows where we add value without competing.</p>
+<p data-lang="fr">AIB fonctionne aux côtés de l'IAM enterprise, pas contre. Chaque ligne montre où nous apportons de la valeur sans concurrencer.</p>
+</div>
 <div class="reveal" style="overflow-x:auto">
-<table class="comp-table">
+<table class="ct">
 <tr>
-<th>Capability</th>
-<th class="aib-col">AIB</th>
-<th>SailPoint AIS</th>
-<th>Oasis Security</th>
-<th>Okta / Auth0</th>
+<th data-lang="en" class="show">Capability</th><th data-lang="fr">Capacité</th>
+<th class="ac">AIB</th><th>SailPoint AIS</th><th>Oasis Security</th><th>Okta / Auth0</th>
 </tr>
-<tr>
-<td>Cross-protocol identity (MCP + A2A + ANP + AG-UI)</td>
-<td class="aib-col"><span class="check">✓ Native</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>Credential translation (&lt;1ms)</td>
-<td class="aib-col"><span class="check">✓ 6 paths</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>W3C DID (did:web + did:key)</td>
-<td class="aib-col"><span class="check">✓ v1.1</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>Verifiable Credentials (W3C VC)</td>
-<td class="aib-col"><span class="check">✓ Ed25519</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>EU AI Act Article 12 (record-keeping)</td>
-<td class="aib-col"><span class="check">✓ Native</span></td>
-<td><span class="partial">△ Partial</span></td>
-<td><span class="partial">△ Planned</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>Intent inference (LLM-driven)</td>
-<td class="aib-col"><span class="check">✓ API</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="partial">△ Announced</span></td>
-<td><span class="cross">—</span></td>
-</tr>
-<tr>
-<td>Agent discovery (AWS, Azure, Salesforce)</td>
-<td><span class="cross">—</span></td>
-<td class="aib-col"><span class="check">✓ Connectors</span></td>
-<td><span class="check">✓ Scanning</span></td>
-<td><span class="partial">△ Partial</span></td>
-</tr>
-<tr>
-<td>Enterprise IAM (SSO, provisioning)</td>
-<td><span class="cross">— (uses OIDC federation)</span></td>
-<td class="aib-col"><span class="check">✓ Full</span></td>
-<td><span class="cross">—</span></td>
-<td><span class="check">✓ Full</span></td>
-</tr>
-<tr>
-<td>Open-source</td>
-<td class="aib-col"><span class="check">✓ Apache 2.0</span></td>
-<td><span class="cross">Proprietary</span></td>
-<td><span class="cross">Proprietary</span></td>
-<td><span class="cross">Proprietary</span></td>
-</tr>
-<tr>
-<td>European sovereignty</td>
-<td class="aib-col"><span class="check">✓ Paris, France</span></td>
-<td><span class="cross">Austin, TX</span></td>
-<td><span class="cross">Tel Aviv, Israel</span></td>
-<td><span class="cross">San Francisco, CA</span></td>
-</tr>
+<tr><td>Cross-protocol (MCP + A2A + ANP + AG-UI)</td><td class="ac"><span class="ck">✓ Native</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td data-lang="en" class="show">Credential translation (&lt;1ms)</td><td data-lang="fr">Traduction de credentials (&lt;1ms)</td><td class="ac"><span class="ck">✓ 6 paths</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>W3C DID (did:web + did:key)</td><td class="ac"><span class="ck">✓ v1.1</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>Verifiable Credentials (W3C VC)</td><td class="ac"><span class="ck">✓ Ed25519</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>EU AI Act Article 12</td><td class="ac"><span class="ck">✓ Native</span></td><td><span class="cp">△ Partial</span></td><td><span class="cp">△ Planned</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>Intent inference (LLM)</td><td class="ac"><span class="ck">✓ API</span></td><td><span class="cx">—</span></td><td><span class="cp">△ Announced</span></td><td><span class="cx">—</span></td></tr>
+<tr><td data-lang="en" class="show">Agent discovery (AWS, Azure, Salesforce)</td><td data-lang="fr">Découverte d'agents (AWS, Azure, Salesforce)</td><td><span class="cx">—</span></td><td class="ac"><span class="ck">✓ Connectors</span></td><td><span class="ck">✓ Scanning</span></td><td><span class="cp">△ Partial</span></td></tr>
+<tr><td>Enterprise IAM (SSO, provisioning)</td><td><span class="cx">— (OIDC federation)</span></td><td class="ac"><span class="ck">✓ Full</span></td><td><span class="cx">—</span></td><td><span class="ck">✓ Full</span></td></tr>
+<tr><td>Open-source</td><td class="ac"><span class="ck">✓ Apache 2.0</span></td><td><span class="cx">Proprietary</span></td><td><span class="cx">Proprietary</span></td><td><span class="cx">Proprietary</span></td></tr>
+<tr><td data-lang="en" class="show">European sovereignty</td><td data-lang="fr">Souveraineté européenne</td><td class="ac"><span class="ck">✓ Paris, FR</span></td><td><span class="cx">Austin, TX</span></td><td><span class="cx">Tel Aviv, IL</span></td><td><span class="cx">San Francisco, CA</span></td></tr>
 </table>
 </div>
 </div></section>
 
-<!-- EU AI ACT DEEP DIVE -->
+<!-- ═══ EU AI ACT (9 cards, 3 cols) ═══ -->
 <section style="background:rgba(0,212,255,.006)"><div class="w">
-<div class="sh"><div class="tag">EU AI ACT</div><h2>Compliance <em>by design</em></h2><p>The EU AI Act requires complete traceability of AI system decisions. AIB receipts carry 7 structured fields that directly address Article 12 requirements.</p></div>
-<div class="strengths-3">
+<div class="sh">
+<div class="tag">EU AI ACT</div>
+<h2 data-lang="en" class="show">Compliance <em>by design</em></h2>
+<h2 data-lang="fr">Conformité <em>par conception</em></h2>
+<p data-lang="en" class="show">The EU AI Act requires complete traceability of AI system decisions. AIB receipts carry 7 structured fields that directly address Article 12 requirements.</p>
+<p data-lang="fr">L'EU AI Act exige la traçabilité complète des décisions des systèmes IA. Les reçus AIB portent 7 champs structurés répondant directement aux exigences de l'Article 12.</p>
+</div>
+<div class="g3">
 
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--cyan)">◆</span> intent</h4>
-<p>What the agent is trying to accomplish. Free text, signed in the receipt. Provides the "why" behind every action.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--cyan)">◆</span> intent</h4>
+<p data-lang="en" class="show">What the agent is trying to accomplish. Free text, signed in the receipt. Provides the "why" behind every action.</p>
+<p data-lang="fr">Ce que l'agent essaie d'accomplir. Texte libre, signé dans le reçu. Fournit le "pourquoi" derrière chaque action.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--cyan)">◆</span> invocation_chain</h4>
-<p>Array of DIDs showing who invoked who. Traces the full chain from human request to agent action. Header X-AIB-Invoker-DID captured automatically.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--cyan)">◆</span> invocation_chain</h4>
+<p data-lang="en" class="show">Array of DIDs showing who invoked who. Traces the full chain from human request to agent action.</p>
+<p data-lang="fr">Tableau de DIDs montrant qui a invoqué qui. Trace la chaîne complète de la requête humaine à l'action de l'agent.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--cyan)">◆</span> data_accessed</h4>
-<p>Array of datasets and APIs the agent touched during the action. Critical for data governance and GDPR Article 30 record-keeping.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--cyan)">◆</span> data_accessed</h4>
+<p data-lang="en" class="show">Datasets and APIs the agent touched. Critical for data governance and GDPR Article 30 record-keeping.</p>
+<p data-lang="fr">Datasets et APIs que l'agent a accédés. Essentiel pour la gouvernance des données et la tenue de registres RGPD Article 30.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--cyan)">◆</span> risk_level</h4>
-<p>Assessed risk: low, medium, high, critical. Can be set by the caller or inferred by the intent-analyze API. Filterable in audit trail queries.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--cyan)">◆</span> risk_level</h4>
+<p data-lang="en" class="show">Assessed risk: low, medium, high, critical. Set by the caller or inferred by the intent-analyze API.</p>
+<p data-lang="fr">Risque évalué : low, medium, high, critical. Défini par l'appelant ou inféré par l'API intent-analyze.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--blue)">⚖</span> human_oversight</h4>
-<p>Boolean flag: was a human in the loop? Article 14 requires human oversight for high-risk AI systems. This field proves it.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--blue)">⚖</span> human_oversight</h4>
+<p data-lang="en" class="show">Boolean: was a human in the loop? Article 14 requires human oversight for high-risk AI systems. This field proves it.</p>
+<p data-lang="fr">Booléen : un humain était-il dans la boucle ? L'Article 14 exige la supervision humaine pour les systèmes IA à haut risque.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--blue)">⚖</span> decision_rationale</h4>
-<p>Why the agent made this decision. Provides the explanability that Article 13 (transparency) requires for high-risk systems.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--blue)">⚖</span> decision_rationale</h4>
+<p data-lang="en" class="show">Why the agent made this decision. Article 13 (transparency) requires explainability for high-risk systems.</p>
+<p data-lang="fr">Pourquoi l'agent a pris cette décision. L'Article 13 (transparence) exige l'explicabilité pour les systèmes à haut risque.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--blue)">⚖</span> affected_persons</h4>
-<p>Category of persons impacted by the AI action. Required for risk assessment and fundamental rights impact assessment.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--blue)">⚖</span> affected_persons</h4>
+<p data-lang="en" class="show">Category of persons impacted. Required for risk assessment and fundamental rights impact assessment.</p>
+<p data-lang="fr">Catégorie de personnes impactées. Requis pour l'évaluation des risques et l'analyse d'impact sur les droits fondamentaux.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--green)">↗</span> Compliance Report API</h4>
-<p>GET /audit-trail?format=compliance generates a full Article 12 report: intent coverage %, human oversight %, risk breakdown, missing fields. Ready for auditors.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--green)">↗</span> Compliance Report API</h4>
+<p data-lang="en" class="show">GET /audit-trail?format=compliance generates a full Article 12 report with stats, risk breakdown, coverage percentages.</p>
+<p data-lang="fr">GET /audit-trail?format=compliance génère un rapport Article 12 complet avec stats, ventilation des risques, pourcentages de couverture.</p>
 </div>
-<div class="str-card reveal">
-<h4><span class="str-icon" style="color:var(--green)">✦</span> Ed25519 Signed Receipts</h4>
-<p>Every field above is included in the Ed25519 signed receipt. Tamper-evident SHA-256 hash chain. Persistent keys encrypted AES-256. Verifiable independently without AIB servers.</p>
+<div class="sc reveal">
+<h4><span class="si" style="color:var(--green)">✦</span> Ed25519 Signed Receipts</h4>
+<p data-lang="en" class="show">Every field above is in the Ed25519 signed receipt. Tamper-evident SHA-256 hash chain. AES-256 encrypted keys. Verifiable independently.</p>
+<p data-lang="fr">Chaque champ ci-dessus est dans le reçu signé Ed25519. Chaîne de hash SHA-256 infalsifiable. Clés chiffrées AES-256. Vérifiable indépendamment.</p>
 </div>
 
 </div>
 </div></section>
 
-<!-- COMPLEMENTARY PARTNERSHIPS -->
+<!-- ═══ PARTNERSHIPS (3 cards) ═══ -->
 <section><div class="w">
-<div class="sh"><div class="tag">PARTNERSHIPS</div><h2>Better <em>together</em></h2><p>AIB is designed to plug into existing enterprise infrastructure, not replace it.</p></div>
-<div class="pillars">
+<div class="sh">
+<div class="tag">PARTNERSHIPS</div>
+<h2 data-lang="en" class="show">Better <em>together</em></h2>
+<h2 data-lang="fr">Mieux <em>ensemble</em></h2>
+<p data-lang="en" class="show">AIB is designed to plug into existing enterprise infrastructure, not replace it.</p>
+<p data-lang="fr">AIB est conçu pour s'intégrer dans l'infrastructure enterprise existante, pas la remplacer.</p>
+</div>
+<div class="g3">
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--purple-dim);color:var(--purple)">🔐</div>
-<h3>With Okta / Entra / Auth0</h3>
-<p>Your agents authenticate with their existing OIDC tokens. AIB verifies via JWKS and creates a portable passport. Zero migration, zero new credentials to manage.</p>
-<span class="pillar-tag">OIDC Federation already implemented. RS256/384/512.</span>
+<h3>Okta / Entra / Auth0</h3>
+<p data-lang="en" class="show">Your agents authenticate with their existing OIDC tokens. AIB verifies via JWKS and creates a portable passport. Zero migration, zero new credentials.</p>
+<p data-lang="fr">Vos agents s'authentifient avec leurs tokens OIDC existants. AIB vérifie via JWKS et crée un passeport portable. Zéro migration, zéro nouveau credential.</p>
+<span class="ptag">OIDC Federation — RS256/384/512</span>
 </div>
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--amber-dim);color:var(--amber)">🛡</div>
-<h3>With SailPoint AIS</h3>
-<p>SailPoint discovers and governs your agents. AIB gives them a portable identity that works across protocols. SailPoint controls who the agent is. AIB ensures that identity is recognized everywhere.</p>
-<span class="pillar-tag">Different layers: governance (SailPoint) vs portability (AIB).</span>
+<h3>SailPoint AIS</h3>
+<p data-lang="en" class="show">SailPoint discovers and governs your agents. AIB gives them a portable identity across protocols. Different layers: governance (SailPoint) vs portability (AIB).</p>
+<p data-lang="fr">SailPoint découvre et gouverne vos agents. AIB leur donne une identité portable entre protocoles. Deux couches différentes : gouvernance (SailPoint) vs portabilité (AIB).</p>
+<span class="ptag" data-lang="en" class="show">Governance + Portability = Complete stack</span>
+<span class="ptag" data-lang="fr">Gouvernance + Portabilité = Stack complète</span>
 </div>
 
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--green-dim);color:var(--green)">📊</div>
-<h3>With your SIEM / SOC</h3>
-<p>AIB webhooks push signed events to your security infrastructure. Every passport creation, revocation, policy violation, and credential translation generates an HMAC-SHA256 signed notification.</p>
-<span class="pillar-tag">4 webhook events. Real-time. Your SIEM, your rules.</span>
+<h3 data-lang="en" class="show">Your SIEM / SOC</h3>
+<h3 data-lang="fr">Votre SIEM / SOC</h3>
+<p data-lang="en" class="show">AIB webhooks push signed events to your security infrastructure. Every passport creation, revocation, policy violation generates an HMAC-SHA256 signed notification.</p>
+<p data-lang="fr">Les webhooks AIB envoient des événements signés à votre infrastructure de sécurité. Chaque création, révocation, violation de politique génère une notification signée HMAC-SHA256.</p>
+<span class="ptag" data-lang="en" class="show">4 webhook events. Real-time. Your SIEM, your rules.</span>
+<span class="ptag" data-lang="fr">4 événements webhook. Temps réel. Votre SIEM, vos règles.</span>
 </div>
 
 </div>
 </div></section>
 
-<!-- CTA -->
-<section class="cta-section"><div class="w reveal">
+<!-- ═══ CTA ═══ -->
+<section class="cta-s"><div class="w reveal">
 <div class="tag">GET STARTED</div>
-<h2>Try it in <em>15 seconds</em></h2>
-<p>pip install agent-identity-bridge && python quickstart.py — 8 features, zero config, no API key needed.</p>
+<h2 data-lang="en" class="show">Try it in <em>15 seconds</em></h2>
+<h2 data-lang="fr">Testez en <em>15 secondes</em></h2>
+<p data-lang="en" class="show">pip install agent-identity-bridge && python quickstart.py — 8 features, zero config, no API key needed.</p>
+<p data-lang="fr">pip install agent-identity-bridge && python quickstart.py — 8 fonctionnalités, zéro config, pas de clé API requise.</p>
 <div class="cta-btns">
 <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-h">> Run Quickstart</a>
-<a href="/spec" class="btn-g">Read the Spec</a>
-<a href="/roadmap" class="btn-g">View Roadmap</a>
+<a href="/spec" class="btn-g">Spec</a>
+<a href="/roadmap" class="btn-g">Roadmap</a>
 </div>
 </div></section>
 
 <footer><div class="w"><p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/viz">Explorer</a> · <a href="/blog">Blog</a> · Apache 2.0</p></div></footer>
 
 <script>
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
 function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
