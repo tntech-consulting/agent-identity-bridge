@@ -158,8 +158,8 @@ section{padding:96px 0}
 .tt{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--fg3)}
 .tb{padding:20px;font-family:var(--mono);font-size:13px;line-height:2.1}
 .tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .g{color:var(--fg3)}.tb .v{color:var(--purple)}.tb .o{color:var(--fg2)}
-.tl{opacity:0;transform:translateX(-8px);transition:opacity .3s ease,transform .3s ease}
-.term.typing .tl{opacity:1;transform:none;transition-delay:calc(var(--d) * .12s)}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--cyan);animation:blink .6s step-end infinite;vertical-align:text-bottom;margin-left:2px}
+@keyframes blink{50%{opacity:0}}
 
 /* Endpoints */
 .ep-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -215,24 +215,10 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
 <!-- TERMINAL (above stats) -->
 <section style="padding-top:40px;padding-bottom:60px"><div class="w" style="text-align:center">
-<div class="term reveal">
+<div class="term reveal" id="aib-term">
 <div class="term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><div class="tt">aib-cloud v2.15.1</div></div>
-<div class="tb" id="term-lines">
-<div class="tl" style="--d:0"><span class="p">$</span> <span class="c">curl -X POST /functions/v1/passport-create \</span></div>
-<div class="tl" style="--d:1"><span class="g">&nbsp;&nbsp;-H "x-api-key: aib_sk_live_..." \</span></div>
-<div class="tl" style="--d:2"><span class="g">&nbsp;&nbsp;-d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'</span></div>
-<div class="tl" style="--d:3;height:4px"></div>
-<div class="tl" style="--d:4"><span class="g">{</span></div>
-<div class="tl" style="--d:5">&nbsp;&nbsp;<span class="p">"passport_id"</span>: <span class="v">"urn:aib:agent:myorg:booking"</span>,</div>
-<div class="tl" style="--d:6">&nbsp;&nbsp;<span class="p">"protocols"</span>: [<span class="v">"mcp"</span>, <span class="v">"a2a"</span>],</div>
-<div class="tl" style="--d:7">&nbsp;&nbsp;<span class="p">"tier"</span>: <span class="v">"permanent"</span>,</div>
-<div class="tl" style="--d:8">&nbsp;&nbsp;<span class="p">"expires_at"</span>: <span class="v">"2027-03-26T14:33:41.030Z"</span>,</div>
-<div class="tl" style="--d:9">&nbsp;&nbsp;<span class="p">"signature"</span>: <span class="v">"a2e17652c9df..."</span></div>
-<div class="tl" style="--d:10"><span class="g">}</span></div>
-<div class="tl" style="--d:11;height:6px"></div>
-<div class="tl" style="--d:12"><span class="p">$</span> <span class="c">curl /functions/v1/usage-check -H "x-api-key: ..."</span></div>
-<div class="tl" style="--d:13"><span class="o">&nbsp;&nbsp;transactions: 3/100,000 | passports: 1/500 | plan: beta_pro</span></div>
-</div></div>
+<div class="tb" id="term-out"><span class="p">$ </span><span class="cursor"></span></div>
+</div>
 </div></section>
 
 <!-- STATS -->
@@ -394,9 +380,68 @@ function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAl
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
-// Terminal typing animation
-var termObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('typing');termObs.unobserve(e.target)}})},{threshold:.3});
-document.querySelectorAll('.term').forEach(el=>termObs.observe(el));
+// Terminal typewriter
+(function(){
+  var lines=[
+    {t:'curl -X POST /functions/v1/passport-create \\',c:'c',spd:25},
+    {t:'  -H "x-api-key: aib_sk_live_..." \\',c:'g',spd:20},
+    {t:'  -d \'{"agent_slug":"booking","protocols":["mcp","a2a"]}\'',c:'g',spd:18},
+    {t:'',c:'',spd:0,pause:400},
+    {t:'{',c:'g',spd:0,instant:true},
+    {t:'  "passport_id": "urn:aib:agent:myorg:booking",',c:'',spd:0,instant:true,html:'  <span class="p">"passport_id"</span>: <span class="v">"urn:aib:agent:myorg:booking"</span>,'},
+    {t:'  "protocols": ["mcp", "a2a"],',c:'',spd:0,instant:true,html:'  <span class="p">"protocols"</span>: [<span class="v">"mcp"</span>, <span class="v">"a2a"</span>],'},
+    {t:'  "tier": "permanent",',c:'',spd:0,instant:true,html:'  <span class="p">"tier"</span>: <span class="v">"permanent"</span>,'},
+    {t:'  "expires_at": "2027-03-26T14:33:41.030Z",',c:'',spd:0,instant:true,html:'  <span class="p">"expires_at"</span>: <span class="v">"2027-03-26T14:33:41.030Z"</span>,'},
+    {t:'  "signature": "a2e17652c9df..."',c:'',spd:0,instant:true,html:'  <span class="p">"signature"</span>: <span class="v">"a2e17652c9df..."</span>'},
+    {t:'}',c:'g',spd:0,instant:true},
+    {t:'',c:'',spd:0,pause:300},
+    {t:'curl /functions/v1/usage-check -H "x-api-key: ..."',c:'c',spd:22,prompt:true},
+    {t:'  transactions: 3/100,000 | passports: 1/500 | plan: beta_pro',c:'o',spd:0,instant:true}
+  ];
+  var out=document.getElementById('term-out');
+  var running=false,tid;
+  function reset(){
+    out.innerHTML='<span class="p">$ </span><span class="cursor"></span>';
+    running=false;
+  }
+  function run(){
+    if(running)return;running=true;
+    reset();
+    var li=0,ci=0,cur=out.querySelector('.cursor');
+    function nextLine(){
+      if(li>=lines.length){setTimeout(function(){reset();setTimeout(run,800);},3000);return;}
+      var ln=lines[li];li++;
+      if(ln.pause){setTimeout(nextLine,ln.pause);return;}
+      if(ln.t===''&&!ln.pause){nextLine();return;}
+      if(ln.prompt){
+        cur.remove();
+        out.insertAdjacentHTML('beforeend','<br><span class="p">$ </span>');
+        cur=document.createElement('span');cur.className='cursor';out.appendChild(cur);
+      }
+      if(ln.instant){
+        cur.remove();
+        var h=ln.html||('<span class="'+(ln.c||'')+'">'+(ln.t)+'</span>');
+        out.insertAdjacentHTML('beforeend','<br>'+h);
+        out.appendChild(cur);
+        setTimeout(nextLine,60);return;
+      }
+      ci=0;
+      var span=document.createElement('span');
+      span.className=ln.c||'c';
+      cur.before(span);
+      function typeChar(){
+        if(ci>=ln.t.length){setTimeout(function(){cur.remove();out.insertAdjacentHTML('beforeend','<br>');out.appendChild(cur);nextLine();},80);return;}
+        span.textContent+=ln.t[ci];ci++;
+        setTimeout(typeChar,ln.spd+(Math.random()*15-7));
+      }
+      typeChar();
+    }
+    nextLine();
+  }
+  var termObs=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){run();termObs.unobserve(e.target);}});},{threshold:.3});
+  var term=document.getElementById('aib-term');
+  if(term)termObs.observe(term);
+})();
 </script>
 </body>
 </html>

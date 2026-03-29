@@ -94,3 +94,8 @@
   from = "/compliance-finance"
   to = "/compliance-finance.html"
   status = 200
+
+[[redirects]]
+  from = "/compliance-health"
+  to = "/compliance-health.html"
+  status = 200
