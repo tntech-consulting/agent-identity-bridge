@@ -101,18 +101,19 @@ async function GH(){
 
 // On page load: check if user is already authenticated (OAuth callback or existing session)
 sb.auth.onAuthStateChange(async(event,session)=>{
-  if(session&&session.access_token&&(event==='SIGNED_IN'||event==='INITIAL_SESSION')){
-    S.ss={access_token:session.access_token,refresh_token:session.refresh_token,user:session.user};
-    // Provision org + get API key via Edge Function
-    try{
-      const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:session.access_token});
-      if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}
-      if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;
-    }catch(e){}
-    // Clean URL params
-    window.history.replaceState({},'',window.location.pathname);
-    SD();
-  }
+  // Only react to actual sign-in events, not stale sessions
+  if(!session||!session.access_token)return;
+  if(event!=='SIGNED_IN'&&event!=='TOKEN_REFRESHED')return;
+  S.ss={access_token:session.access_token,refresh_token:session.refresh_token,user:session.user};
+  // Provision org + get API key via Edge Function
+  try{
+    const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:session.access_token});
+    if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}
+    if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;
+  }catch(e){}
+  // Clean URL params
+  window.history.replaceState({},'',window.location.pathname);
+  SD();
 });
 
 async function F(e,o={}){
