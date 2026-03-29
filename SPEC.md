@@ -1,6 +1,6 @@
 # AIB Protocol Specification
 
-**Version**: 2.15.0
+**Version**: 2.15.1
 **Status**: Draft
 **Author**: Thomas Nirennold, TNTECH CONSULTING SAS
 **Date**: 2026-03-28
@@ -317,7 +317,7 @@ All responses include the header `X-AIB-Version: 2.15.1`.
 | GET | `/usage-history` | Required | Daily activity analytics. |
 | GET/POST/DELETE | `/policy-manage` | Required | CRUD policy rules. |
 | GET/POST/DELETE | `/webhook-manage` | Required | CRUD webhooks. |
-| GET | `/did-resolve` | None | Resolve DID Document (W3C DID v1.1, did:web method). |
+| GET | `/did-resolve` | None | Resolve DID Document (W3C DID v1.1, did:web and did:key methods). |
 
 ### 10.1 Versioning policy
 
@@ -325,20 +325,24 @@ The API follows semantic versioning. The `X-AIB-Version` response header indicat
 
 ### 10.2 DID Resolution
 
-AIB passports can be resolved as W3C DID Documents using the `did:web` method.
+AIB supports two W3C DID methods:
 
-#### DID format
+#### Supported DID methods
 
-```
-did:web:aib-tech.fr:agents:{agent_slug}
-```
+| Method | Format | Resolution | Use case |
+|--------|--------|------------|----------|
+| `did:web` | `did:web:aib-tech.fr:agents:{slug}` | HTTP (GET `/agents/{slug}/did.json`) | Discoverable agents with service endpoints |
+| `did:key` | `did:key:z6Mk...` | Self-contained (no network) | Ephemeral agents, offline verification |
+
+Both methods use the same Ed25519 public key. A `did:web` document includes an `alsoKnownAs` field linking to the equivalent `did:key`.
 
 #### Resolution endpoint
 
 | Method | Endpoint | Auth | Description |
 |--------|----------|------|-------------|
-| GET | `/did-resolve?agent={slug}` | None | Resolve DID Document by agent slug. |
-| GET | `/did-resolve?did={did}` | None | Resolve DID Document by full DID URI. |
+| GET | `/did-resolve?agent={slug}` | None | Resolve DID Document by agent slug (did:web). |
+| GET | `/did-resolve?did=did:web:...` | None | Resolve DID Document by full did:web URI. |
+| GET | `/did-resolve?did=did:key:z6Mk...` | None | Resolve DID Document from did:key (no DB lookup, self-contained). |
 | GET | `/did-resolve?agent={slug}&format=resolution` | None | Full DID Resolution result (v0.3 format). |
 
 #### DID Document format
@@ -346,9 +350,10 @@ did:web:aib-tech.fr:agents:{agent_slug}
 The returned DID Document follows W3C DID v1.1 (Candidate Recommendation 2026-03-05):
 
 - `@context`: `["https://www.w3.org/ns/did/v1", "https://w3id.org/security/suites/ed25519-2020/v1"]`
-- `verificationMethod`: `Ed25519VerificationKey2020` with `publicKeyMultibase` (z + base58btc encoded)
+- `verificationMethod`: `Ed25519VerificationKey2020` with `publicKeyMultibase` (z + base58btc encoded, multicodec 0xed01)
 - `authentication` and `assertionMethod`: reference the verification key
-- `service`: includes protocol-specific endpoints (MCPServer, A2AAgent)
+- `service` (did:web only): includes protocol-specific endpoints (MCPServer, A2AAgent)
+- `alsoKnownAs` (did:web only): links to the equivalent did:key
 - Content-Type: `application/did+json`
 
 #### did:web resolution path
@@ -357,6 +362,14 @@ The returned DID Document follows W3C DID v1.1 (Candidate Recommendation 2026-03
 did:web:aib-tech.fr:agents:booking
 → https://aib-tech.fr/agents/booking/did.json
 → (proxied to) /functions/v1/did-resolve?agent=booking
+```
+
+#### did:key resolution (self-contained)
+
+```
+did:key:z6MkhmjtYcAiNcBH6siwrMfEGxAytkMMEa48QjPhEEgcn2AM
+→ DID Document derived from the key itself (no network request)
+→ Ed25519 public key: 314eff...aa9a
 ```
 
 ---

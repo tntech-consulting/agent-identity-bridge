@@ -34,6 +34,118 @@ def _base58btc_encode(data: bytes) -> str:
     return b''.join(reversed(result)).decode('ascii')
 
 
+def _base58btc_decode(s: str) -> bytes:
+    """Decode base58btc string to bytes."""
+    n = 0
+    for char in s.encode('ascii'):
+        n = n * 58 + _B58_ALPHABET.index(char)
+    # Count leading '1's (zero bytes)
+    leading_zeros = 0
+    for char in s.encode('ascii'):
+        if char == ord('1'):
+            leading_zeros += 1
+        else:
+            break
+    # Convert to bytes
+    byte_length = (n.bit_length() + 7) // 8
+    result = n.to_bytes(byte_length, 'big') if byte_length > 0 else b''
+    return b'\x00' * leading_zeros + result
+
+
+# ── did:key utilities ─────────────────────────────────────────
+# Ed25519 multicodec prefix: 0xed01
+_ED25519_MULTICODEC = b'\xed\x01'
+
+
+def public_key_to_did_key(public_key_hex: str) -> str:
+    """
+    Convert an Ed25519 public key (hex) to a did:key identifier.
+
+    Format: did:key:z6Mk... (z + base58btc(0xed01 + 32 bytes raw key))
+
+    Args:
+        public_key_hex: 64-char hex string (32 bytes Ed25519 public key)
+
+    Returns:
+        did:key string, e.g. "did:key:z6MkhmjtYcAiNcBH6siwrMfEGxAytkMMEa48QjPhEEgcn2AM"
+
+    Raises:
+        ValueError: if hex string is invalid or wrong length
+    """
+    if not public_key_hex or len(public_key_hex) < 64:
+        raise ValueError(f"Ed25519 public key must be 64 hex chars (32 bytes), got {len(public_key_hex or '')}")
+    raw_bytes = bytes.fromhex(public_key_hex[:64])
+    multicodec_bytes = _ED25519_MULTICODEC + raw_bytes
+    multibase_key = "z" + _base58btc_encode(multicodec_bytes)
+    return f"did:key:{multibase_key}"
+
+
+def did_key_to_public_key_hex(did_key: str) -> str:
+    """
+    Extract the Ed25519 public key (hex) from a did:key identifier.
+
+    Args:
+        did_key: did:key string, e.g. "did:key:z6MkhmjtYcAiNcBH6siwrMfEGxAytkMMEa48QjPhEEgcn2AM"
+
+    Returns:
+        64-char hex string (32 bytes Ed25519 public key)
+
+    Raises:
+        ValueError: if did:key is invalid or not Ed25519
+    """
+    if not did_key.startswith("did:key:z"):
+        raise ValueError(f"Invalid did:key format: must start with 'did:key:z', got '{did_key[:20]}'")
+    multibase_str = did_key[8:]  # strip "did:key:"
+    b58_str = multibase_str[1:]  # strip "z" (multibase prefix)
+    decoded = _base58btc_decode(b58_str)
+    if len(decoded) < 2 or decoded[0:2] != _ED25519_MULTICODEC:
+        raise ValueError(f"Not an Ed25519 did:key (expected multicodec 0xed01, got {decoded[:2].hex()})")
+    raw_key = decoded[2:]
+    if len(raw_key) != 32:
+        raise ValueError(f"Ed25519 key must be 32 bytes, got {len(raw_key)}")
+    return raw_key.hex()
+
+
+def did_key_to_did_document(did_key: str) -> dict:
+    """
+    Generate a minimal W3C DID Document from a did:key identifier.
+
+    did:key is self-resolving: the DID Document is derived entirely
+    from the key material encoded in the identifier itself.
+    No network resolution needed.
+
+    Args:
+        did_key: did:key string
+
+    Returns:
+        W3C DID v1.1 compliant DID Document
+    """
+    public_key_hex = did_key_to_public_key_hex(did_key)
+    raw_bytes = bytes.fromhex(public_key_hex)
+    multicodec_bytes = _ED25519_MULTICODEC + raw_bytes
+    multibase_key = "z" + _base58btc_encode(multicodec_bytes)
+
+    key_id = f"{did_key}#{did_key.split(':')[2]}"
+
+    return {
+        "@context": [
+            "https://www.w3.org/ns/did/v1",
+            "https://w3id.org/security/suites/ed25519-2020/v1",
+        ],
+        "id": did_key,
+        "verificationMethod": [
+            {
+                "id": key_id,
+                "type": "Ed25519VerificationKey2020",
+                "controller": did_key,
+                "publicKeyMultibase": multibase_key,
+            }
+        ],
+        "authentication": [key_id],
+        "assertionMethod": [key_id],
+    }
+
+
 class CredentialTranslator:
     """
     Translates identity/capability documents between AI protocols.
