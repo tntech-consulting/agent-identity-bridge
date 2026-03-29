@@ -20,7 +20,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 28px}
-[data-lang]{display:none}.show{display:revert!important}
+[data-lang]{display:none}.show{display:block!important}span.show,a.show,button.show{display:inline-block!important}li.show{display:flex!important}
 button{font-family:inherit}
 
 nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
@@ -124,10 +124,10 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <h1 data-lang="fr">Vos agents IA sont-ils <em>conformes ?</em></h1>
 <p data-lang="en" class="show">The EU AI Act requires complete traceability of AI agent decisions. Article 12 mandates record-keeping. Article 14 requires human oversight. Penalties up to 35M€ or 7% of global revenue.</p>
 <p data-lang="fr">L'EU AI Act exige la traçabilité complète des décisions des agents IA. L'Article 12 impose la tenue de registres. L'Article 14 exige la supervision humaine. Amendes jusqu'à 35M€ ou 7% du CA mondial.</p>
-<div class="deadline" data-lang="en" class="show">DEADLINE: AUGUST 2, 2026 — <span id="countdown-en"></span></div>
+<div class="deadline show" data-lang="en">DEADLINE: AUGUST 2, 2026 — <span id="countdown-en"></span></div>
 <div class="deadline" data-lang="fr">DEADLINE : 2 AOÛT 2026 — <span id="countdown-fr"></span></div>
 <div class="hero-btns">
-<a href="#pricing" class="btn-h" data-lang="en" class="show">> Get Compliant</a>
+<a href="#pricing" class="btn-h show" data-lang="en">> Get Compliant</a>
 <a href="#pricing" class="btn-h" data-lang="fr">> Devenir conforme</a>
 <a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Run Quickstart</a>
 </div>
@@ -136,24 +136,24 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <!-- ═══ THE PROBLEM (3 cards) ═══ -->
 <section><div class="w">
 <div class="sh">
-<div class="tag tag-c" data-lang="en" class="show">THE PROBLEM</div>
+<div class="tag tag-c show" data-lang="en">THE PROBLEM</div>
 <div class="tag tag-c" data-lang="fr">LE PROBLÈME</div>
 <h2 data-lang="en" class="show">Your agents act. <em>Can you prove it?</em></h2>
 <h2 data-lang="fr">Vos agents agissent. <em>Pouvez-vous le prouver ?</em></h2>
 </div>
 <div class="g3">
 <div class="sc reveal">
-<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No audit trail</span><span data-lang="fr">Pas de piste d'audit</span></h4>
+<h4><span class="si" style="color:var(--red)">⚠</span> <span class="show" data-lang="en">No audit trail</span><span data-lang="fr">Pas de piste d'audit</span></h4>
 <p data-lang="en" class="show">Your LangChain or CrewAI agents make decisions, call APIs, access data — but there's no signed, tamper-proof record of what they did and why.</p>
 <p data-lang="fr">Vos agents LangChain ou CrewAI prennent des décisions, appellent des APIs, accèdent aux données — mais il n'existe aucun registre signé et infalsifiable de ce qu'ils ont fait et pourquoi.</p>
 </div>
 <div class="sc reveal">
-<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No intent tracking</span><span data-lang="fr">Pas de suivi d'intention</span></h4>
+<h4><span class="si" style="color:var(--red)">⚠</span> <span class="show" data-lang="en">No intent tracking</span><span data-lang="fr">Pas de suivi d'intention</span></h4>
 <p data-lang="en" class="show">Article 12 requires knowing WHY an agent acted, not just WHAT it did. Current frameworks log actions but not intent, risk level, or human oversight status.</p>
 <p data-lang="fr">L'Article 12 exige de savoir POURQUOI un agent a agi, pas seulement CE qu'il a fait. Les frameworks actuels loguent les actions mais pas l'intention, le niveau de risque ou le statut de supervision humaine.</p>
 </div>
 <div class="sc reveal">
-<h4><span class="si" style="color:var(--red)">⚠</span> <span data-lang="en" class="show">No compliance proof</span><span data-lang="fr">Pas de preuve de conformité</span></h4>
+<h4><span class="si" style="color:var(--red)">⚠</span> <span class="show" data-lang="en">No compliance proof</span><span data-lang="fr">Pas de preuve de conformité</span></h4>
 <p data-lang="en" class="show">When an auditor asks "show me the decision log for your AI agents", you need a cryptographically signed, structured, exportable report. Not application logs.</p>
 <p data-lang="fr">Quand un auditeur demande « montrez-moi le registre des décisions de vos agents IA », il vous faut un rapport cryptographiquement signé, structuré et exportable. Pas des logs applicatifs.</p>
 </div>
@@ -163,7 +163,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <!-- ═══ THE SOLUTION (6 cards) ═══ -->
 <section style="background:rgba(0,212,255,.006)"><div class="w">
 <div class="sh">
-<div class="tag tag-c" data-lang="en" class="show">THE KIT</div>
+<div class="tag tag-c show" data-lang="en">THE KIT</div>
 <div class="tag tag-c" data-lang="fr">LE KIT</div>
 <h2 data-lang="en" class="show">7 fields. Every receipt. <em>Signed Ed25519.</em></h2>
 <h2 data-lang="fr">7 champs. Chaque reçu. <em>Signé Ed25519.</em></h2>
@@ -213,7 +213,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <!-- ═══ COMPLIANCE REPORT ═══ -->
 <section style="background:rgba(0,212,255,.006)"><div class="w" style="text-align:center">
 <div class="sh">
-<div class="tag tag-c" data-lang="en" class="show">AUDIT READY</div>
+<div class="tag tag-c show" data-lang="en">AUDIT READY</div>
 <div class="tag tag-c" data-lang="fr">PRÊT POUR L'AUDIT</div>
 <h2 data-lang="en" class="show">One API call. <em>Full compliance report.</em></h2>
 <h2 data-lang="fr">Un appel API. <em>Rapport de conformité complet.</em></h2>
@@ -250,8 +250,8 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <div class="plan reveal">
 <h3 data-lang="en" class="show">Starter</h3>
 <h3 data-lang="fr">Starter</h3>
-<div class="price">490€<span data-lang="en" class="show">/mo</span><span data-lang="fr">/mois</span></div>
-<div class="price-note" data-lang="en" class="show">For teams starting compliance</div>
+<div class="price">490€<span class="show" data-lang="en">/mo</span><span data-lang="fr">/mois</span></div>
+<div class="price-note show" data-lang="en">For teams starting compliance</div>
 <div class="price-note" data-lang="fr">Pour les équipes qui démarrent la conformité</div>
 <ul>
 <li data-lang="en" class="show">Up to 10,000 receipts/month</li><li data-lang="fr">Jusqu'à 10 000 reçus/mois</li>
@@ -260,16 +260,16 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <li data-lang="en" class="show">Compliance report API</li><li data-lang="fr">API rapport de conformité</li>
 <li data-lang="en" class="show">Email support</li><li data-lang="fr">Support email</li>
 </ul>
-<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Starter" class="plan-btn plan-btn-secondary" data-lang="en" class="show">Contact us</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Starter" class="plan-btn plan-btn-secondary show" data-lang="en">Contact us</a>
 <a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Starter" class="plan-btn plan-btn-secondary" data-lang="fr">Nous contacter</a>
 </div>
 
 <div class="plan featured reveal">
-<div class="plan-badge" data-lang="en" class="show">RECOMMENDED</div>
+<div class="plan-badge show" data-lang="en">RECOMMENDED</div>
 <div class="plan-badge" data-lang="fr">RECOMMANDÉ</div>
 <h3>Pro</h3>
-<div class="price">990€<span data-lang="en" class="show">/mo</span><span data-lang="fr">/mois</span></div>
-<div class="price-note" data-lang="en" class="show">Full compliance + intent inference</div>
+<div class="price">990€<span class="show" data-lang="en">/mo</span><span data-lang="fr">/mois</span></div>
+<div class="price-note show" data-lang="en">Full compliance + intent inference</div>
 <div class="price-note" data-lang="fr">Conformité complète + inférence d'intention</div>
 <ul>
 <li data-lang="en" class="show">Up to 100,000 receipts/month</li><li data-lang="fr">Jusqu'à 100 000 reçus/mois</li>
@@ -280,15 +280,15 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <li data-lang="en" class="show">W3C Verifiable Credentials</li><li data-lang="fr">W3C Verifiable Credentials</li>
 <li data-lang="en" class="show">Priority support</li><li data-lang="fr">Support prioritaire</li>
 </ul>
-<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Pro" class="plan-btn plan-btn-primary" data-lang="en" class="show">Get started</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Pro" class="plan-btn plan-btn-primary show" data-lang="en">Get started</a>
 <a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Pro" class="plan-btn plan-btn-primary" data-lang="fr">Démarrer</a>
 </div>
 
 <div class="plan reveal">
 <h3>Enterprise</h3>
-<div class="price" data-lang="en" class="show">Custom</div>
+<div class="price show" data-lang="en">Custom</div>
 <div class="price" data-lang="fr">Sur devis</div>
-<div class="price-note" data-lang="en" class="show">Turnkey compliance + onboarding</div>
+<div class="price-note show" data-lang="en">Turnkey compliance + onboarding</div>
 <div class="price-note" data-lang="fr">Mise en conformité clé en main</div>
 <ul>
 <li data-lang="en" class="show">Unlimited receipts</li><li data-lang="fr">Reçus illimités</li>
@@ -299,7 +299,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 <li data-lang="en" class="show">On-premise deployment option</li><li data-lang="fr">Option déploiement on-premise</li>
 <li data-lang="en" class="show">Dedicated support + Slack</li><li data-lang="fr">Support dédié + Slack</li>
 </ul>
-<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Enterprise" class="plan-btn plan-btn-secondary" data-lang="en" class="show">Contact sales</a>
+<a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Enterprise" class="plan-btn plan-btn-secondary show" data-lang="en">Contact sales</a>
 <a href="mailto:thomas.nirennold@live.fr?subject=AIB Compliance Kit Enterprise" class="plan-btn plan-btn-secondary" data-lang="fr">Contacter les ventes</a>
 </div>
 
@@ -308,7 +308,7 @@ footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{
 
 <!-- ═══ CTA ═══ -->
 <section style="text-align:center;padding:60px 0"><div class="w reveal">
-<div class="tag tag-r" data-lang="en" class="show">4 MONTHS LEFT</div>
+<div class="tag tag-r show" data-lang="en">4 MONTHS LEFT</div>
 <div class="tag tag-r" data-lang="fr">4 MOIS RESTANTS</div>
 <h2 style="font-size:28px;font-weight:800;margin-bottom:8px" data-lang="en" class="show">Don't wait for the <em style="background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">auditor</em></h2>
 <h2 style="font-size:28px;font-weight:800;margin-bottom:8px" data-lang="fr">N'attendez pas <em style="background:linear-gradient(135deg,var(--red),var(--amber));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">l'auditeur</em></h2>
