@@ -62,4 +62,5 @@
   </url>
   <url><loc>https://aib-tech.fr/compliance-finance</loc><priority>0.85</priority></url>
   <url><loc>https://aib-tech.fr/compliance-health</loc><priority>0.80</priority></url>
+  <url><loc>https://aib-tech.fr/compliance-legal</loc><priority>0.75</priority></url>
 </urlset>
