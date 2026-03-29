@@ -26,6 +26,7 @@ input,select,textarea,button{font-family:var(--m)}button{cursor:pointer}
 @media(max-width:600px){.dg2{grid-template-columns:1fr!important}.pg{grid-template-columns:1fr!important}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 
@@ -86,75 +87,33 @@ input,select,textarea,button{font-family:var(--m)}button{cursor:pointer}
 const B="https://vempwtzknixfnvysmiwo.supabase.co/functions/v1";
 const SB_URL="https://vempwtzknixfnvysmiwo.supabase.co";
 const SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw";
+const sb=supabase.createClient(SB_URL,SB_ANON);
 let S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};
 
-// GitHub OAuth — PKCE flow
+// GitHub OAuth via Supabase SDK
 async function GH(){
-  // Generate PKCE code_verifier (43-128 chars, URL-safe)
-  const buf=new Uint8Array(32);crypto.getRandomValues(buf);
-  const verifier=btoa(String.fromCharCode(...buf)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  // SHA-256 hash → code_challenge
-  const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(verifier));
-  const challenge=btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  // Store verifier for token exchange
-  sessionStorage.setItem('pkce_verifier',verifier);
-  // Redirect to Supabase authorize with PKCE
-  const redir=encodeURIComponent(window.location.origin+'/dashboard');
-  window.location.href=SB_URL+'/auth/v1/authorize?provider=github&redirect_to='+redir+'&code_challenge='+challenge+'&code_challenge_method=S256';
+  const{error}=await sb.auth.signInWithOAuth({
+    provider:'github',
+    options:{redirectTo:window.location.origin+'/dashboard'}
+  });
+  if(error)console.error('GitHub OAuth error:',error);
 }
 
-// Check for OAuth callback on page load (PKCE code or hash token)
-(async function checkOAuthCallback(){
-  // PKCE flow: code in query params
-  const url=new URL(window.location.href);
-  const code=url.searchParams.get('code');
-  if(code){
-    const verifier=sessionStorage.getItem('pkce_verifier');
-    sessionStorage.removeItem('pkce_verifier');
+// On page load: check if user is already authenticated (OAuth callback or existing session)
+sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session&&session.access_token&&(event==='SIGNED_IN'||event==='INITIAL_SESSION')){
+    S.ss={access_token:session.access_token,refresh_token:session.refresh_token,user:session.user};
+    // Provision org + get API key via Edge Function
     try{
-      const r=await fetch(SB_URL+'/auth/v1/token?grant_type=pkce',{
-        method:'POST',
-        headers:{'Content-Type':'application/json','apikey':SB_ANON},
-        body:JSON.stringify({auth_code:code,code_verifier:verifier||''})
-      });
-      const session=await r.json();
-      if(session.access_token){
-        S.ss={access_token:session.access_token,refresh_token:session.refresh_token,user:session.user};
-        // Provision org + get API key
-        try{
-          const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:session.access_token});
-          if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}
-          if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;
-        }catch(e){}
-        // Clean URL
-        window.history.replaceState({},'',window.location.pathname);
-        SD();return;
-      }
-    }catch(e){console.error('PKCE exchange error',e);}
+      const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:session.access_token});
+      if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}
+      if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;
+    }catch(e){}
+    // Clean URL params
+    window.history.replaceState({},'',window.location.pathname);
+    SD();
   }
-  // Fallback: hash fragment (implicit flow)
-  const hash=window.location.hash;
-  if(hash&&hash.includes("access_token")){
-    const params=new URLSearchParams(hash.substring(1));
-    const access_token=params.get("access_token");
-    if(access_token){
-      try{
-        const r=await fetch(SB_URL+"/auth/v1/user",{headers:{"Authorization":"Bearer "+access_token,"apikey":SB_ANON}});
-        const user=await r.json();
-        if(user&&user.id){
-          S.ss={access_token,refresh_token:params.get("refresh_token"),user};
-          try{
-            const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:access_token});
-            if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}
-            if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;
-          }catch(e){}
-          window.location.hash="";
-          SD();return;
-        }
-      }catch(e){console.error("OAuth hash error",e);}
-    }
-  }
-})();
+});
 
 async function F(e,o={}){
   const h={"Content-Type":"application/json"};
