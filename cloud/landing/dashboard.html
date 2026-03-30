@@ -147,7 +147,31 @@ let S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};
 let ghHandled=false;
 async function GH(){const{error}=await sb.auth.signInWithOAuth({provider:'github',options:{redirectTo:window.location.origin+'/dashboard'}});if(error)alert('GitHub auth error: '+error.message);}
 async function handleOAuthSession(session){if(ghHandled)return;ghHandled=true;S.ss={access_token:session.access_token,refresh_token:session.refresh_token,user:session.user};try{const d=await F("auth",{method:"POST",body:{action:"oauth_login"},token:session.access_token});if(d.api_key){S.ak=d.api_key;document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");}if(d.api_keys&&d.api_keys.length>0&&!S.ak)S.ak=d.api_keys[0].key_preview;if(d.org)S.ss.org=d.org;if(d.api_keys)S.ss.api_keys=d.api_keys;}catch(e){}window.history.replaceState({},'',window.location.pathname);SD();}
-(async()=>{try{const{data:{session}}=await sb.auth.getSession();if(session?.access_token)await handleOAuthSession(session);}catch(e){}sb.auth.onAuthStateChange((ev,session)=>{if(ev==='SIGNED_IN'&&session&&!ghHandled)handleOAuthSession(session);});})();
+(async()=>{
+  // 1. Check hash fragment for OAuth implicit flow tokens
+  var h=window.location.hash;
+  if(h&&h.includes('access_token')){
+    var p=new URLSearchParams(h.substring(1));
+    var at=p.get('access_token'),rt=p.get('refresh_token');
+    if(at){
+      try{
+        var{data,error}=await sb.auth.setSession({access_token:at,refresh_token:rt||''});
+        if(data?.session)await handleOAuthSession(data.session);
+        else if(!error){
+          // setSession didn't return session, try getUser directly
+          var r=await fetch(SB_URL+'/auth/v1/user',{headers:{'Authorization':'Bearer '+at,'apikey':SB_ANON}});
+          var u=await r.json();
+          if(u&&u.id)await handleOAuthSession({access_token:at,refresh_token:rt,user:u});
+        }
+      }catch(e){}
+      return;
+    }
+  }
+  // 2. Check existing session (returning user)
+  try{var{data:{session}}=await sb.auth.getSession();if(session?.access_token)await handleOAuthSession(session);}catch(e){}
+  // 3. Listen for future auth changes
+  sb.auth.onAuthStateChange((ev,session)=>{if(ev==='SIGNED_IN'&&session&&!ghHandled)handleOAuthSession(session);});
+})();
 async function F(e,o={}){const h={"Content-Type":"application/json"};if(S.ak)h["x-api-key"]=S.ak;else if(S.ss?.access_token)h["Authorization"]="Bearer "+S.ss.access_token;if(o.token)h["Authorization"]="Bearer "+o.token;const r=await fetch(B+"/"+e,{method:o.method||"GET",headers:h,body:o.body?JSON.stringify(o.body):undefined});return r.json();}
 function AM(m){S.m=m;document.getElementById("A-tl").className=m==="login"?"active":"inactive";document.getElementById("A-ts").className=m==="signup"?"active":"inactive";document.getElementById("A-nf").classList.toggle("h",m!=="signup");document.getElementById("A-sub").textContent=m==="login"?"Sign in to your account":"Create your account";document.getElementById("A-btn").textContent=m==="login"?"> sign in":"> create account";document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");}
 async function DA(){const e=document.getElementById("A-email").value,p=document.getElementById("A-pass").value,n=document.getElementById("A-name").value;if(!e||!p)return;document.getElementById("A-btn").textContent="...";document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");try{const d=await F("auth",{method:"POST",body:{action:S.m,email:e,password:p,full_name:n}});if(d.error){document.getElementById("A-err").textContent=d.error;document.getElementById("A-err").classList.remove("h");document.getElementById("A-btn").textContent=S.m==="login"?"> sign in":"> create account";return;}if(d.api_key){document.getElementById("A-kv").textContent=d.api_key;document.getElementById("A-key").classList.remove("h");S.ak=d.api_key;}S.ss=d;SD();}catch(err){document.getElementById("A-err").textContent=err.message;document.getElementById("A-err").classList.remove("h");document.getElementById("A-btn").textContent=S.m==="login"?"> sign in":"> create account";}}
