@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB — System Status</title>
+<meta name="description" content="Real-time status of the AIB Agent Identity Bridge platform. Uptime, latency, and endpoint health.">
+<link rel="canonical" href="https://aib-tech.fr/status">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a1a;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75;min-height:100vh}
+a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
+.w{max-width:720px;margin:0 auto;padding:0 24px}
+
+/* Header */
+.hdr{padding:24px 0;border-bottom:1px solid var(--bd)}
+.hdr .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;color:#fff}
+.logo-text{font-weight:700;font-size:15px;color:var(--fg);letter-spacing:-.3px}
+.hdr-link{font-size:12px;color:var(--fg3);font-family:var(--mono)}
+
+/* Hero status */
+.hero{padding:48px 0 32px;text-align:center}
+.status-dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:10px;vertical-align:middle}
+.status-dot.ok{background:var(--green);box-shadow:0 0 12px rgba(34,197,94,.4)}
+.status-dot.warn{background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.4)}
+.status-dot.down{background:var(--red);box-shadow:0 0 12px rgba(239,68,68,.4)}
+.status-dot.loading{background:var(--fg3);animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.hero h1{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.hero p{color:var(--fg2);font-size:14px}
+.hero .uptime-badge{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--green);letter-spacing:-.5px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
+.stat{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;text-align:center;backdrop-filter:blur(8px)}
+.stat .val{font-size:22px;font-weight:800;font-family:var(--mono)}
+.stat .lab{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-family:var(--mono)}
+
+/* Endpoints */
+.section-title{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.ep-list{background:var(--glass);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:32px;backdrop-filter:blur(8px)}
+.ep{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);align-items:center}
+.ep:last-child{border-bottom:none}
+.ep-name{font-weight:600;font-size:14px}
+.ep-latency{font-family:var(--mono);font-size:12px;color:var(--fg2);text-align:right}
+.ep-badge{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;text-align:center}
+.ep-badge.ok{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.ep-badge.warn{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
+.ep-badge.down{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+
+/* Alerts */
+.alert-list{margin-bottom:32px}
+.alert{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.alert-msg{font-size:13px;color:var(--fg2)}
+.alert-time{font-size:10px;color:var(--fg3);font-family:var(--mono);white-space:nowrap}
+
+/* Footer */
+.ftr{padding:24px 0;border-top:1px solid var(--bd);text-align:center}
+.ftr p{font-size:11px;color:var(--fg3)}
+.ftr a{color:var(--fg2)}
+.refresh-info{font-size:10px;color:var(--fg3);font-family:var(--mono);text-align:center;margin-bottom:24px}
+
+/* Skeleton loading */
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:16px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@media(max-width:500px){.stats{grid-template-columns:1fr 1fr}.ep{grid-template-columns:1fr auto}}
+</style>
+</head>
+<body>
+
+<div class="hdr"><div class="w">
+<a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">System Status</span></a>
+<a href="/dashboard" class="hdr-link">> Dashboard</a>
+</div></div>
+
+<div class="hero"><div class="w">
+<h1><span id="s-dot" class="status-dot loading"></span><span id="s-title">Checking systems...</span></h1>
+<p id="s-sub">Connecting to monitoring endpoint</p>
+<div id="s-uptime" class="uptime-badge" style="display:none"></div>
+</div></div>
+
+<div class="w">
+
+<div class="stats" id="s-stats">
+<div class="stat"><div class="val skel" style="width:60%;margin:0 auto">&nbsp;</div><div class="lab">Checks (24h)</div></div>
+<div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Avg Latency</div></div>
+<div class="stat"><div class="val skel" style="width:40%;margin:0 auto">&nbsp;</div><div class="lab">Alerts</div></div>
+</div>
+
+<div class="section-title">Endpoints</div>
+<div class="ep-list" id="s-endpoints">
+<div class="ep"><div class="skel" style="width:120px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
+<div class="ep"><div class="skel" style="width:100px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
+<div class="ep"><div class="skel" style="width:90px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
+</div>
+
+<div id="s-alerts"></div>
+
+<div class="refresh-info" id="s-refresh">Auto-refreshes every 60 seconds</div>
+
+</div>
+
+<div class="ftr"><div class="w">
+<p><a href="/">AIB</a> · <a href="/dashboard">Dashboard</a> · <a href="/kits">Compliance Kits</a> · <a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub</a> · Built by <a href="https://founder.tntech.fr" target="_blank">TNTECH</a></p>
+</div></div>
+
+<script>
+const API='https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/monitoring?action=status';
+
+async function load(){
+  try{
+    const r=await fetch(API);
+    const d=await r.json();
+    render(d);
+  }catch(e){
+    document.getElementById('s-dot').className='status-dot down';
+    document.getElementById('s-title').textContent='Unable to reach monitoring';
+    document.getElementById('s-sub').textContent='The status endpoint is not responding';
+  }
+}
+
+function render(d){
+  const dot=document.getElementById('s-dot');
+  const title=document.getElementById('s-title');
+  const sub=document.getElementById('s-sub');
+  const uptime=document.getElementById('s-uptime');
+
+  if(d.status==='all_healthy'){
+    dot.className='status-dot ok';
+    title.textContent='All Systems Operational';
+    sub.textContent='All endpoints are responding normally';
+  }else if(d.status==='degraded'){
+    dot.className='status-dot warn';
+    title.textContent='Degraded Performance';
+    sub.textContent='Some endpoints are experiencing issues';
+  }else if(d.status==='no_data'){
+    dot.className='status-dot warn';
+    title.textContent='Monitoring Starting';
+    sub.textContent=d.message||'Collecting initial data...';
+  }else{
+    dot.className='status-dot down';
+    title.textContent='System Issues Detected';
+    sub.textContent='One or more endpoints are down';
+  }
+
+  if(d.uptime_24h){
+    uptime.style.display='';
+    uptime.textContent=d.uptime_24h+' uptime (24h)';
+    uptime.style.color=parseFloat(d.uptime_24h)>=99?'var(--green)':parseFloat(d.uptime_24h)>=95?'var(--amber)':'var(--red)';
+  }
+
+  // Stats
+  document.getElementById('s-stats').innerHTML=
+    '<div class="stat"><div class="val" style="color:var(--cyan)">'+(d.total_checks||0)+'</div><div class="lab">Checks (24h)</div></div>'+
+    '<div class="stat"><div class="val" style="color:var(--blue)">'+(d.avg_latency_ms||0)+'<span style="font-size:12px;color:var(--fg3)">ms</span></div><div class="lab">Avg Latency</div></div>'+
+    '<div class="stat"><div class="val" style="color:'+(d.unacknowledged_alerts>0?'var(--red)':'var(--green)')+'">'+
+    (d.unacknowledged_alerts||0)+'</div><div class="lab">Open Alerts</div></div>';
+
+  // Endpoints
+  if(d.endpoints&&d.endpoints.length>0){
+    document.getElementById('s-endpoints').innerHTML=d.endpoints.map(function(ep){
+      var pct=parseFloat(ep.uptime);
+      var cls=pct>=99?'ok':pct>=90?'warn':'down';
+      return '<div class="ep"><div class="ep-name">'+ep.name+'</div>'+
+        '<div class="ep-latency">'+ep.avg_latency_ms+'ms</div>'+
+        '<div class="ep-badge '+cls+'">'+ep.uptime+'</div></div>';
+    }).join('');
+  }
+
+  // Alerts
+  if(d.alerts&&d.alerts.length>0){
+    document.getElementById('s-alerts').innerHTML=
+      '<div class="section-title">Recent Alerts</div><div class="alert-list">'+
+      d.alerts.map(function(a){
+        return '<div class="alert"><span class="alert-msg">'+a.message+'</span><span class="alert-time">'+new Date(a.created_at).toLocaleString()+'</span></div>';
+      }).join('')+'</div>';
+  }
+
+  document.getElementById('s-refresh').textContent='Last updated: '+new Date().toLocaleTimeString()+' · Auto-refreshes every 60s';
+}
+
+load();
+setInterval(load,60000);
+</script>
+</body>
+</html>
