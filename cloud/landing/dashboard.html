@@ -197,7 +197,12 @@ const steps=[
 ];
 const hasPassports=S.pp.length>0;
 const hasKeys=(S.ss?.api_keys||[]).length>0;
-const currentStep=hasPassports&&hasKeys?3:hasPassports?2:1;
+const hasPolicies=(S.u?.totals?.policy_rules||0)>0;
+const hasTranslations=(S.u?.usage?.translations?.used||0)>0;
+const hasWebhooks=(S.u?.totals?.webhooks||0)>0;
+const hasAnalytics=(S.u?.totals?.total_receipts||0)>0;
+const done=[hasPassports,hasKeys,hasPolicies,hasTranslations,hasWebhooks,hasAnalytics];
+let currentStep=7;for(let i=0;i<done.length;i++){if(!done[i]){currentStep=i+1;break;}}
 return '<div style="background:linear-gradient(135deg,rgba(0,212,255,.04),rgba(59,130,246,.04));border:1px solid rgba(0,212,255,.1);border-radius:16px;padding:24px;margin-bottom:24px">'+
 '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div style="font-size:24px">🚀</div><div><div style="font-size:16px;font-weight:800;color:var(--fg);letter-spacing:-.3px">Getting Started with AIB</div><div style="font-size:12px;color:var(--fg2)">Follow these steps to set up your agent identity infrastructure</div></div></div>'+
 '<div style="display:flex;gap:6px;margin-bottom:20px">'+steps.map(s=>{
