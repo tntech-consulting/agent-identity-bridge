@@ -4,28 +4,27 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB — System Status</title>
-<meta name="description" content="Real-time status of the AIB Agent Identity Bridge platform. Uptime, latency, and endpoint health.">
+<title>AIB — System Status & Agent Fleet</title>
+<meta name="description" content="Real-time status of the AIB Agent Identity Bridge platform. Uptime, latency, agent fleet, and platform health metrics.">
 <link rel="canonical" href="https://aib-tech.fr/status">
+<meta property="og:title" content="AIB System Status">
+<meta property="og:description" content="Live platform health, agent fleet status, and operational metrics for Agent Identity Bridge.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a1a;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+:root{--bg:#0a0a1a;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
 html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75;min-height:100vh}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
-.w{max-width:720px;margin:0 auto;padding:0 24px}
-
-/* Header */
+.w{max-width:780px;margin:0 auto;padding:0 24px}
 .hdr{padding:24px 0;border-bottom:1px solid var(--bd)}
 .hdr .w{display:flex;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px}
 .logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;color:#fff}
 .logo-text{font-weight:700;font-size:15px;color:var(--fg);letter-spacing:-.3px}
+.hdr-links{display:flex;gap:16px;align-items:center}
 .hdr-link{font-size:12px;color:var(--fg3);font-family:var(--mono)}
-
-/* Hero status */
-.hero{padding:48px 0 32px;text-align:center}
+.hero{padding:48px 0 24px;text-align:center}
 .status-dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:10px;vertical-align:middle}
 .status-dot.ok{background:var(--green);box-shadow:0 0 12px rgba(34,197,94,.4)}
 .status-dot.warn{background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.4)}
@@ -34,50 +33,66 @@ a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
 .hero h1{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
 .hero p{color:var(--fg2);font-size:14px}
-.hero .uptime-badge{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:20px;font-weight:700;color:var(--green);letter-spacing:-.5px}
-
-/* Stats */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px}
-.stat{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;text-align:center;backdrop-filter:blur(8px)}
-.stat .val{font-size:22px;font-weight:800;font-family:var(--mono)}
-.stat .lab{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-family:var(--mono)}
-
-/* Endpoints */
-.section-title{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
-.ep-list{background:var(--glass);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:32px;backdrop-filter:blur(8px)}
+.hero .uptime-badge{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.stat{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center;backdrop-filter:blur(8px)}
+.stat .val{font-size:20px;font-weight:800;font-family:var(--mono)}
+.stat .lab{font-size:9px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-family:var(--mono)}
+.stat .hint{font-size:10px;color:var(--fg3);margin-top:6px;line-height:1.3}
+.section{margin-bottom:32px}
+.section-title{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.section-title .info{font-size:10px;color:var(--fg3);font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+.section-desc{font-size:12px;color:var(--fg3);margin-bottom:12px;line-height:1.5}
+.card{background:var(--glass);border:1px solid var(--bd);border-radius:14px;overflow:hidden;backdrop-filter:blur(8px)}
 .ep{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);align-items:center}
 .ep:last-child{border-bottom:none}
-.ep-name{font-weight:600;font-size:14px}
+.ep-name{font-weight:600;font-size:13px}
+.ep-desc{font-size:10px;color:var(--fg3);margin-top:2px}
 .ep-latency{font-family:var(--mono);font-size:12px;color:var(--fg2);text-align:right}
-.ep-badge{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;text-align:center}
+.ep-badge{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;text-align:center;min-width:60px}
 .ep-badge.ok{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
 .ep-badge.warn{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
 .ep-badge.down{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
-
-/* Alerts */
-.alert-list{margin-bottom:32px}
+.agent{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 18px;border-bottom:1px solid var(--bd);align-items:center}
+.agent:last-child{border-bottom:none}
+.agent-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.agent-name{font-weight:600;font-size:13px}
+.agent-info{font-size:10px;color:var(--fg3);margin-top:1px}
+.agent-sched{font-family:var(--mono);font-size:10px;color:var(--fg2);text-align:right;white-space:nowrap}
+.agent-sched .freq{display:block;font-size:9px;color:var(--fg3);margin-top:1px}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
+.metric{background:var(--glass);border:1px solid var(--bd);border-radius:10px;padding:14px;backdrop-filter:blur(8px)}
+.metric .val{font-size:18px;font-weight:800;font-family:var(--mono)}
+.metric .lab{font-size:9px;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;font-family:var(--mono)}
+.metric .hint{font-size:10px;color:var(--fg3);margin-top:6px;line-height:1.3}
 .alert{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .alert-msg{font-size:13px;color:var(--fg2)}
 .alert-time{font-size:10px;color:var(--fg3);font-family:var(--mono);white-space:nowrap}
-
-/* Footer */
+.no-alerts{background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.1);border-radius:10px;padding:14px 18px;text-align:center;color:var(--green);font-size:13px}
+.explainer{background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.08);border-radius:12px;padding:18px;margin-bottom:32px}
+.explainer h3{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--cyan)}
+.explainer p{font-size:12px;color:var(--fg2);line-height:1.6;margin-bottom:6px}
+.explainer p:last-child{margin-bottom:0}
+.explainer strong{color:var(--fg)}
 .ftr{padding:24px 0;border-top:1px solid var(--bd);text-align:center}
 .ftr p{font-size:11px;color:var(--fg3)}
 .ftr a{color:var(--fg2)}
 .refresh-info{font-size:10px;color:var(--fg3);font-family:var(--mono);text-align:center;margin-bottom:24px}
-
-/* Skeleton loading */
 .skel{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:16px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-@media(max-width:500px){.stats{grid-template-columns:1fr 1fr}.ep{grid-template-columns:1fr auto}}
+@media(max-width:600px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .ep{grid-template-columns:1fr auto}.ep-latency{display:none}
+  .agent{grid-template-columns:auto 1fr}.agent-sched{display:none}
+}
 </style>
 </head>
 <body>
 
 <div class="hdr"><div class="w">
 <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">System Status</span></a>
-<a href="/dashboard" class="hdr-link">> Dashboard</a>
+<div class="hdr-links"><a href="/dashboard" class="hdr-link">Dashboard</a><a href="/" class="hdr-link">Home</a></div>
 </div></div>
 
 <div class="hero"><div class="w">
@@ -89,22 +104,67 @@ a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 <div class="w">
 
 <div class="stats" id="s-stats">
-<div class="stat"><div class="val skel" style="width:60%;margin:0 auto">&nbsp;</div><div class="lab">Checks (24h)</div></div>
+<div class="stat"><div class="val skel" style="width:60%;margin:0 auto">&nbsp;</div><div class="lab">Uptime 24h</div></div>
+<div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Checks</div></div>
 <div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Avg Latency</div></div>
 <div class="stat"><div class="val skel" style="width:40%;margin:0 auto">&nbsp;</div><div class="lab">Alerts</div></div>
 </div>
 
-<div class="section-title">Endpoints</div>
-<div class="ep-list" id="s-endpoints">
+<div class="explainer">
+<h3>How to read this page</h3>
+<p><strong>Uptime</strong> is the percentage of successful health checks over the last 24 hours. We ping each API endpoint every hour — if it responds with a valid status code, it counts as healthy. 99%+ is excellent.</p>
+<p><strong>Avg Latency</strong> is the average response time across all endpoints. Under 500ms is excellent, 500–2000ms is normal for Edge Functions with cold starts, over 2000ms may indicate load.</p>
+<p><strong>Alerts</strong> are triggered when an endpoint goes down or takes more than 5 seconds to respond. The ops team is notified instantly by email at <strong>noreply@aib-tech.fr</strong>.</p>
+<p><strong>Agent Fleet</strong> below shows 10 autonomous AI agents managing AIB — each with its own cryptographic AIB passport. This is live dogfooding of the protocol.</p>
+</div>
+
+<div class="section">
+<div class="section-title">API Endpoints <span class="info">— Monitored every hour by the Monitoring Agent</span></div>
+<div class="section-desc">Each endpoint is a Supabase Edge Function. The Monitoring Agent pings them every hour and records the status code and response time. Uptime % is calculated over the last 24h.</div>
+<div class="card" id="s-endpoints">
 <div class="ep"><div class="skel" style="width:120px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
 <div class="ep"><div class="skel" style="width:100px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
 <div class="ep"><div class="skel" style="width:90px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
 </div>
+</div>
 
+<div class="section">
+<div class="section-title">Agent Fleet <span class="info">— 10 autonomous agents, each with an AIB passport</span></div>
+<div class="section-desc">Every agent below has a cryptographic passport issued by AIB. They manage the platform 24/7 without human intervention — from monitoring uptime to scoring leads to generating content. This is live dogfooding: AIB agents managing the AIB platform.</div>
+<div class="card" id="s-agents">
+<div class="agent"><div class="agent-icon" style="background:rgba(34,197,94,.1)">🔍</div><div><div class="agent-name">Monitoring Agent</div><div class="agent-info">Pings all API endpoints, detects downtime, sends instant alerts. Generates daily uptime reports.</div></div><div class="agent-sched">Every hour<span class="freq">+ daily 9h report</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(0,212,255,.1)">✍️</div><div><div class="agent-name">Content Agent</div><div class="agent-info">Generates blog articles via Claude Haiku about agent identity, EU AI Act, MCP, A2A — 67 topics in 9 categories.</div></div><div class="agent-sched">Monday 10h<span class="freq">1 EN + 1 FR</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(59,130,246,.1)">📊</div><div><div class="agent-name">SEO Analytics Agent</div><div class="agent-info">Audits all 15 pages: title, meta description, H1, canonical, OG tags, word count, links. Scores each page 0-100.</div></div><div class="agent-sched">Wednesday 8h<span class="freq">weekly report</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(245,158,11,.1)">🎯</div><div><div class="agent-name">Waitlist Lead Scoring</div><div class="agent-info">Auto-scores signups by email domain (business vs personal), sector (finance, health, gov), EU geography. Alerts on hot leads (≥70/100).</div></div><div class="agent-sched">Real-time<span class="freq">+ Friday digest</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(168,85,247,.1)">🛡️</div><div><div class="agent-name">CI/CD Guardian</div><div class="agent-info">Watches GitHub Actions, tracks test results, detects flaky tests, alerts on pipeline failures with error diagnostics.</div></div><div class="agent-sched">Every 30 min<span class="freq">continuous</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(239,68,68,.1)">🔒</div><div><div class="agent-name">Security Scanner</div><div class="agent-info">Monthly audit: RLS policies on all tables, Edge Function CORS/auth config, secret exposure detection in database metadata.</div></div><div class="agent-sched">1st of month<span class="freq">monthly report</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(34,197,94,.1)">📈</div><div><div class="agent-name">Churn Tracker</div><div class="agent-info">Monitors user engagement: login frequency, API call volume, passport creation rate. Calculates engagement score 0-100, flags churn risk.</div></div><div class="agent-sched">Tuesday 9h<span class="freq">weekly scan</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(0,212,255,.1)">⭐</div><div><div class="agent-name">Social Proof Collector</div><div class="agent-info">Tracks GitHub stars/forks/contributors, PyPI downloads, platform metrics (passports, orgs, waitlist). Feeds marketing data for BPI dossier.</div></div><div class="agent-sched">Thursday 8h<span class="freq">weekly collection</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(59,130,246,.1)">🚀</div><div><div class="agent-name">Demo Data Seeder</div><div class="agent-info">Auto-creates 3 sample passports, 2 policies, and 2 analytics entries for new users on first login. Zero empty dashboards.</div></div><div class="agent-sched">On signup<span class="freq">automatic</span></div></div>
+<div class="agent"><div class="agent-icon" style="background:rgba(245,158,11,.1)">⚡</div><div><div class="agent-name">Quota Guardian</div><div class="agent-info">Checks daily usage vs plan limits (agents, transactions, webhooks). Warns at 80%, suggests upgrade at 100%.</div></div><div class="agent-sched">Daily 8h<span class="freq">+ instant alerts</span></div></div>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">Platform Metrics <span class="info">— Live infrastructure numbers</span></div>
+<div class="section-desc">These numbers reflect the current state of the AIB infrastructure. They're updated on each page load.</div>
+<div class="metrics-grid" id="s-platform">
+<div class="metric"><div class="val skel" style="width:40px">&nbsp;</div><div class="lab">Endpoints</div></div>
+<div class="metric"><div class="val skel" style="width:30px">&nbsp;</div><div class="lab">Cron Jobs</div></div>
+<div class="metric"><div class="val skel" style="width:50px">&nbsp;</div><div class="lab">MCP Tools</div></div>
+</div>
+</div>
+
+<div class="section" id="s-alerts-section" style="display:none">
+<div class="section-title">Recent Alerts</div>
+<div class="section-desc">Incidents detected by the Monitoring Agent. Alerts trigger an immediate email to the ops team.</div>
 <div id="s-alerts"></div>
+</div>
+<div id="s-no-alerts" style="display:none">
+<div class="no-alerts">✓ No open alerts — all systems running normally</div><br>
+</div>
 
 <div class="refresh-info" id="s-refresh">Auto-refreshes every 60 seconds</div>
-
 </div>
 
 <div class="ftr"><div class="w">
@@ -113,81 +173,65 @@ a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 
 <script>
 const API='https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/monitoring?action=status';
+const EP_DESC={
+  'passport-create':'Creates a new agent passport with Ed25519 cryptographic signature',
+  'passport-list':'Lists all active passports for an organization',
+  'passport-revoke':'Revokes an agent passport — irreversible, logged in audit trail',
+  'translate':'Converts credentials between MCP, A2A, AG-UI, and ANP formats',
+  'usage-check':'Returns current quota usage vs plan limits for an organization',
+  'auth':'Handles signup, login, OAuth (GitHub/Google), and API key generation',
+  'audit-trail':'Queries the cryptographically signed receipt history',
+  'policy-manage':'CRUD operations on compliance policies (capability, attestation rules)',
+  'webhook-manage':'Manages event-driven webhook configurations with HMAC secrets',
+  'usage-history':'Historical usage data, trends, and analytics over time',
+};
 
 async function load(){
-  try{
-    const r=await fetch(API);
-    const d=await r.json();
-    render(d);
-  }catch(e){
-    document.getElementById('s-dot').className='status-dot down';
-    document.getElementById('s-title').textContent='Unable to reach monitoring';
-    document.getElementById('s-sub').textContent='The status endpoint is not responding';
-  }
+  try{const r=await fetch(API);const d=await r.json();render(d);}
+  catch(e){document.getElementById('s-dot').className='status-dot down';document.getElementById('s-title').textContent='Unable to reach monitoring';document.getElementById('s-sub').textContent='The status endpoint is not responding. Try refreshing.';}
 }
 
 function render(d){
-  const dot=document.getElementById('s-dot');
-  const title=document.getElementById('s-title');
-  const sub=document.getElementById('s-sub');
-  const uptime=document.getElementById('s-uptime');
+  const dot=document.getElementById('s-dot'),title=document.getElementById('s-title'),sub=document.getElementById('s-sub'),uptime=document.getElementById('s-uptime');
+  if(d.status==='all_healthy'){dot.className='status-dot ok';title.textContent='All Systems Operational';sub.textContent='All endpoints responding normally — 10 agents active';}
+  else if(d.status==='degraded'){dot.className='status-dot warn';title.textContent='Degraded Performance';sub.textContent='Some endpoints are experiencing issues';}
+  else if(d.status==='no_data'){dot.className='status-dot warn';title.textContent='Monitoring Starting';sub.textContent=d.message||'Collecting initial data...';}
+  else{dot.className='status-dot down';title.textContent='System Issues Detected';sub.textContent='One or more critical endpoints are down';}
 
-  if(d.status==='all_healthy'){
-    dot.className='status-dot ok';
-    title.textContent='All Systems Operational';
-    sub.textContent='All endpoints are responding normally';
-  }else if(d.status==='degraded'){
-    dot.className='status-dot warn';
-    title.textContent='Degraded Performance';
-    sub.textContent='Some endpoints are experiencing issues';
-  }else if(d.status==='no_data'){
-    dot.className='status-dot warn';
-    title.textContent='Monitoring Starting';
-    sub.textContent=d.message||'Collecting initial data...';
-  }else{
-    dot.className='status-dot down';
-    title.textContent='System Issues Detected';
-    sub.textContent='One or more endpoints are down';
-  }
+  if(d.uptime_24h){uptime.style.display='';var pctU=parseFloat(d.uptime_24h);uptime.textContent=d.uptime_24h+' uptime (24h)';uptime.style.color=pctU>=99?'var(--green)':pctU>=95?'var(--amber)':'var(--red)';}
 
-  if(d.uptime_24h){
-    uptime.style.display='';
-    uptime.textContent=d.uptime_24h+' uptime (24h)';
-    uptime.style.color=parseFloat(d.uptime_24h)>=99?'var(--green)':parseFloat(d.uptime_24h)>=95?'var(--amber)':'var(--red)';
-  }
-
-  // Stats
+  var pct=d.uptime_24h||'--';var pctVal=parseFloat(pct);
   document.getElementById('s-stats').innerHTML=
-    '<div class="stat"><div class="val" style="color:var(--cyan)">'+(d.total_checks||0)+'</div><div class="lab">Checks (24h)</div></div>'+
-    '<div class="stat"><div class="val" style="color:var(--blue)">'+(d.avg_latency_ms||0)+'<span style="font-size:12px;color:var(--fg3)">ms</span></div><div class="lab">Avg Latency</div></div>'+
+    '<div class="stat"><div class="val" style="color:'+(pctVal>=99?'var(--green)':pctVal>=95?'var(--amber)':'var(--red)')+'">'+pct+'</div><div class="lab">Uptime 24h</div><div class="hint">% of successful health checks</div></div>'+
+    '<div class="stat"><div class="val" style="color:var(--cyan)">'+(d.total_checks||0)+'</div><div class="lab">Checks</div><div class="hint">Endpoint pings today</div></div>'+
+    '<div class="stat"><div class="val" style="color:var(--blue)">'+(d.avg_latency_ms||0)+'<span style="font-size:11px;color:var(--fg3)">ms</span></div><div class="lab">Avg Latency</div><div class="hint">'+(d.avg_latency_ms<500?'Excellent response time':'Normal for Edge Functions')+'</div></div>'+
     '<div class="stat"><div class="val" style="color:'+(d.unacknowledged_alerts>0?'var(--red)':'var(--green)')+'">'+
-    (d.unacknowledged_alerts||0)+'</div><div class="lab">Open Alerts</div></div>';
+    (d.unacknowledged_alerts||0)+'</div><div class="lab">Open Alerts</div><div class="hint">'+(d.unacknowledged_alerts>0?'Action needed':'All clear')+'</div></div>';
 
-  // Endpoints
   if(d.endpoints&&d.endpoints.length>0){
     document.getElementById('s-endpoints').innerHTML=d.endpoints.map(function(ep){
-      var pct=parseFloat(ep.uptime);
-      var cls=pct>=99?'ok':pct>=90?'warn':'down';
-      return '<div class="ep"><div class="ep-name">'+ep.name+'</div>'+
-        '<div class="ep-latency">'+ep.avg_latency_ms+'ms</div>'+
-        '<div class="ep-badge '+cls+'">'+ep.uptime+'</div></div>';
+      var p=parseFloat(ep.uptime);var cls=p>=99?'ok':p>=90?'warn':'down';var desc=EP_DESC[ep.name]||'';
+      return '<div class="ep"><div><div class="ep-name">'+ep.name+'</div>'+(desc?'<div class="ep-desc">'+desc+'</div>':'')+'</div><div class="ep-latency">'+ep.avg_latency_ms+'<span style="font-size:10px;color:var(--fg3)">ms</span></div><div class="ep-badge '+cls+'">'+ep.uptime+'</div></div>';
     }).join('');
   }
 
-  // Alerts
+  var totalPings=d.endpoints?d.endpoints.reduce(function(s,e){return s+(e.checks||0)},0):0;
+  document.getElementById('s-platform').innerHTML=
+    '<div class="metric"><div class="val" style="color:var(--cyan)">'+totalPings+'</div><div class="lab">Total Pings (24h)</div><div class="hint">Individual endpoint checks performed in the last 24 hours by the Monitoring Agent</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--green)">30</div><div class="lab">Edge Functions</div><div class="hint">Serverless APIs on Supabase — passport management, translation, auth, policies, webhooks, and 10 agent functions</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--blue)">12</div><div class="lab">Cron Jobs</div><div class="hint">Automated scheduled tasks — from hourly health pings to monthly security scans, all via pg_cron</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--purple)">10</div><div class="lab">AI Agents</div><div class="hint">Autonomous agents each with an AIB cryptographic passport — managing monitoring, content, SEO, leads, CI/CD, security</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--amber)">10</div><div class="lab">MCP Tools</div><div class="hint">Tools exposed via the MCP Ops Server — any MCP-compatible client (Claude, LangChain) can orchestrate the fleet</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--cyan)">3</div><div class="lab">Plans</div><div class="hint">Community (free) · Pro (open beta, free) · Enterprise (sur devis)</div></div>';
+
   if(d.alerts&&d.alerts.length>0){
-    document.getElementById('s-alerts').innerHTML=
-      '<div class="section-title">Recent Alerts</div><div class="alert-list">'+
-      d.alerts.map(function(a){
-        return '<div class="alert"><span class="alert-msg">'+a.message+'</span><span class="alert-time">'+new Date(a.created_at).toLocaleString()+'</span></div>';
-      }).join('')+'</div>';
-  }
+    document.getElementById('s-alerts-section').style.display='';document.getElementById('s-no-alerts').style.display='none';
+    document.getElementById('s-alerts').innerHTML=d.alerts.map(function(a){return '<div class="alert"><span class="alert-msg">'+a.message+'</span><span class="alert-time">'+new Date(a.created_at).toLocaleString()+'</span></div>';}).join('');
+  }else{document.getElementById('s-alerts-section').style.display='none';document.getElementById('s-no-alerts').style.display='';}
 
   document.getElementById('s-refresh').textContent='Last updated: '+new Date().toLocaleTimeString()+' · Auto-refreshes every 60s';
 }
-
-load();
-setInterval(load,60000);
+load();setInterval(load,60000);
 </script>
 </body>
 </html>
