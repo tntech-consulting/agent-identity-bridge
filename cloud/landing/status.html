@@ -13,86 +13,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a1a;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
-html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75;min-height:100vh}
+:root{--bg:#0a0a1a;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#6b70a0;--cyan:#00d4ff;--blue:#3b82f6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;--purple:#a855f7;--bd:rgba(255,255,255,.08);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:18px;line-height:1.8;min-height:100vh}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
-.w{max-width:780px;margin:0 auto;padding:0 24px}
+.w{max-width:820px;margin:0 auto;padding:0 24px}
 .hdr{padding:24px 0;border-bottom:1px solid var(--bd)}
 .hdr .w{display:flex;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;font-weight:700;color:#fff}
-.logo-text{font-weight:700;font-size:15px;color:var(--fg);letter-spacing:-.3px}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff}
+.logo-text{font-weight:700;font-size:17px;color:var(--fg);letter-spacing:-.3px}
 .hdr-links{display:flex;gap:16px;align-items:center}
-.hdr-link{font-size:12px;color:var(--fg3);font-family:var(--mono)}
-.hero{padding:48px 0 24px;text-align:center}
-.status-dot{width:14px;height:14px;border-radius:50%;display:inline-block;margin-right:10px;vertical-align:middle}
-.status-dot.ok{background:var(--green);box-shadow:0 0 12px rgba(34,197,94,.4)}
-.status-dot.warn{background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.4)}
-.status-dot.down{background:var(--red);box-shadow:0 0 12px rgba(239,68,68,.4)}
+.hdr-link{font-size:13px;color:var(--fg3);font-family:var(--mono);cursor:pointer}
+.lang-btn{background:var(--glass);border:1px solid var(--bd);border-radius:6px;padding:4px 12px;font-family:var(--mono);font-size:12px;color:var(--fg2);cursor:pointer;transition:.2s}
+.lang-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.hero{padding:52px 0 28px;text-align:center}
+.status-dot{width:16px;height:16px;border-radius:50%;display:inline-block;margin-right:12px;vertical-align:middle}
+.status-dot.ok{background:var(--green);box-shadow:0 0 16px rgba(34,197,94,.4)}
+.status-dot.warn{background:var(--amber);box-shadow:0 0 16px rgba(245,158,11,.4)}
+.status-dot.down{background:var(--red);box-shadow:0 0 16px rgba(239,68,68,.4)}
 .status-dot.loading{background:var(--fg3);animation:pulse 1.5s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
-.hero h1{font-size:24px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
-.hero p{color:var(--fg2);font-size:14px}
-.hero .uptime-badge{display:inline-block;margin-top:16px;font-family:var(--mono);font-size:22px;font-weight:700;letter-spacing:-.5px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
-.stat{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center;backdrop-filter:blur(8px)}
-.stat .val{font-size:20px;font-weight:800;font-family:var(--mono)}
-.stat .lab{font-size:9px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-family:var(--mono)}
-.stat .hint{font-size:10px;color:var(--fg3);margin-top:6px;line-height:1.3}
-.section{margin-bottom:32px}
-.section-title{font-size:11px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.section-title .info{font-size:10px;color:var(--fg3);font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
-.section-desc{font-size:12px;color:var(--fg3);margin-bottom:12px;line-height:1.5}
-.card{background:var(--glass);border:1px solid var(--bd);border-radius:14px;overflow:hidden;backdrop-filter:blur(8px)}
-.ep{display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:14px 18px;border-bottom:1px solid var(--bd);align-items:center}
+.hero h1{font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.hero p{color:var(--fg2);font-size:16px}
+.hero .uptime-badge{display:inline-block;margin-top:18px;font-family:var(--mono);font-size:26px;font-weight:700;letter-spacing:-.5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
+.stat{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:20px;text-align:center;backdrop-filter:blur(8px)}
+.stat .val{font-size:24px;font-weight:800;font-family:var(--mono)}
+.stat .lab{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-top:4px;font-family:var(--mono)}
+.stat .hint{font-size:12px;color:var(--fg3);margin-top:8px;line-height:1.4}
+.section{margin-bottom:36px}
+.section-title{font-size:13px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-title .info{font-size:12px;color:var(--fg3);font-family:var(--sans);text-transform:none;letter-spacing:0;font-weight:400}
+.section-desc{font-size:14px;color:var(--fg3);margin-bottom:14px;line-height:1.6}
+.card{background:var(--glass);border:1px solid var(--bd);border-radius:16px;overflow:hidden;backdrop-filter:blur(8px)}
+.ep{display:grid;grid-template-columns:1fr auto auto;gap:14px;padding:16px 20px;border-bottom:1px solid var(--bd);align-items:center}
 .ep:last-child{border-bottom:none}
-.ep-name{font-weight:600;font-size:13px}
-.ep-desc{font-size:10px;color:var(--fg3);margin-top:2px}
-.ep-latency{font-family:var(--mono);font-size:12px;color:var(--fg2);text-align:right}
-.ep-badge{font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:6px;text-align:center;min-width:60px}
+.ep-name{font-weight:700;font-size:15px}
+.ep-desc{font-size:12px;color:var(--fg3);margin-top:3px}
+.ep-latency{font-family:var(--mono);font-size:14px;color:var(--fg2);text-align:right}
+.ep-badge{font-family:var(--mono);font-size:12px;font-weight:700;padding:4px 14px;border-radius:8px;text-align:center;min-width:70px}
 .ep-badge.ok{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
 .ep-badge.warn{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
 .ep-badge.down{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
-.agent{display:grid;grid-template-columns:auto 1fr auto;gap:12px;padding:12px 18px;border-bottom:1px solid var(--bd);align-items:center}
+.agent{display:grid;grid-template-columns:auto 1fr auto;gap:14px;padding:14px 20px;border-bottom:1px solid var(--bd);align-items:center}
 .agent:last-child{border-bottom:none}
-.agent-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
-.agent-name{font-weight:600;font-size:13px}
-.agent-info{font-size:10px;color:var(--fg3);margin-top:1px}
-.agent-sched{font-family:var(--mono);font-size:10px;color:var(--fg2);text-align:right;white-space:nowrap}
-.agent-sched .freq{display:block;font-size:9px;color:var(--fg3);margin-top:1px}
-.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
-.metric{background:var(--glass);border:1px solid var(--bd);border-radius:10px;padding:14px;backdrop-filter:blur(8px)}
-.metric .val{font-size:18px;font-weight:800;font-family:var(--mono)}
-.metric .lab{font-size:9px;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;font-family:var(--mono)}
-.metric .hint{font-size:10px;color:var(--fg3);margin-top:6px;line-height:1.3}
-.alert{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
-.alert-msg{font-size:13px;color:var(--fg2)}
-.alert-time{font-size:10px;color:var(--fg3);font-family:var(--mono);white-space:nowrap}
-.no-alerts{background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.1);border-radius:10px;padding:14px 18px;text-align:center;color:var(--green);font-size:13px}
-.explainer{background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.08);border-radius:12px;padding:18px;margin-bottom:32px}
-.explainer h3{font-size:13px;font-weight:700;margin-bottom:10px;color:var(--cyan)}
-.explainer p{font-size:12px;color:var(--fg2);line-height:1.6;margin-bottom:6px}
+.agent-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.agent-name{font-weight:700;font-size:15px}
+.agent-info{font-size:12px;color:var(--fg3);margin-top:2px;line-height:1.4}
+.agent-sched{font-family:var(--mono);font-size:12px;color:var(--fg2);text-align:right;white-space:nowrap}
+.agent-sched .freq{display:block;font-size:10px;color:var(--fg3);margin-top:2px}
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.metric{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;backdrop-filter:blur(8px)}
+.metric .val{font-size:22px;font-weight:800;font-family:var(--mono)}
+.metric .lab{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.5px;margin-top:3px;font-family:var(--mono)}
+.metric .hint{font-size:12px;color:var(--fg3);margin-top:8px;line-height:1.4}
+.alert{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.12);border-radius:12px;padding:14px 18px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.alert-msg{font-size:15px;color:var(--fg2)}
+.alert-time{font-size:12px;color:var(--fg3);font-family:var(--mono);white-space:nowrap}
+.no-alerts{background:rgba(34,197,94,.04);border:1px solid rgba(34,197,94,.1);border-radius:12px;padding:18px 20px;text-align:center;color:var(--green);font-size:15px}
+.explainer{background:rgba(0,212,255,.03);border:1px solid rgba(0,212,255,.08);border-radius:14px;padding:22px;margin-bottom:36px}
+.explainer h3{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--cyan)}
+.explainer p{font-size:14px;color:var(--fg2);line-height:1.7;margin-bottom:8px}
 .explainer p:last-child{margin-bottom:0}
 .explainer strong{color:var(--fg)}
-.ftr{padding:24px 0;border-top:1px solid var(--bd);text-align:center}
-.ftr p{font-size:11px;color:var(--fg3)}
+.ftr{padding:28px 0;border-top:1px solid var(--bd);text-align:center}
+.ftr p{font-size:13px;color:var(--fg3)}
 .ftr a{color:var(--fg2)}
-.refresh-info{font-size:10px;color:var(--fg3);font-family:var(--mono);text-align:center;margin-bottom:24px}
-.skel{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:16px}
+.refresh-info{font-size:12px;color:var(--fg3);font-family:var(--mono);text-align:center;margin-bottom:28px}
+.skel{background:linear-gradient(90deg,rgba(255,255,255,.03) 25%,rgba(255,255,255,.06) 50%,rgba(255,255,255,.03) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px;height:18px}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
-@media(max-width:600px){
-  .stats{grid-template-columns:repeat(2,1fr)}
-  .metrics-grid{grid-template-columns:1fr 1fr}
-  .ep{grid-template-columns:1fr auto}.ep-latency{display:none}
-  .agent{grid-template-columns:auto 1fr}.agent-sched{display:none}
-}
+@media(max-width:600px){.stats{grid-template-columns:repeat(2,1fr)}.metrics-grid{grid-template-columns:1fr 1fr}.ep{grid-template-columns:1fr auto}.ep-latency{display:none}.agent{grid-template-columns:auto 1fr}.agent-sched{display:none}}
 </style>
 </head>
 <body>
 
 <div class="hdr"><div class="w">
 <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">System Status</span></a>
-<div class="hdr-links"><a href="/dashboard" class="hdr-link">Dashboard</a><a href="/" class="hdr-link">Home</a></div>
+<div class="hdr-links">
+<span class="lang-btn" id="lang-toggle" onclick="toggleLang()">FR</span>
+<a href="/dashboard" class="hdr-link">Dashboard</a>
+<a href="/" class="hdr-link">Home</a>
+</div>
 </div></div>
 
 <div class="hero"><div class="w">
@@ -106,65 +107,42 @@ a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 <div class="stats" id="s-stats">
 <div class="stat"><div class="val skel" style="width:60%;margin:0 auto">&nbsp;</div><div class="lab">Uptime 24h</div></div>
 <div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Checks</div></div>
-<div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Avg Latency</div></div>
+<div class="stat"><div class="val skel" style="width:50%;margin:0 auto">&nbsp;</div><div class="lab">Latency</div></div>
 <div class="stat"><div class="val skel" style="width:40%;margin:0 auto">&nbsp;</div><div class="lab">Alerts</div></div>
 </div>
 
-<div class="explainer">
-<h3>How to read this page</h3>
-<p><strong>Uptime</strong> is the percentage of successful health checks over the last 24 hours. We ping each API endpoint every hour — if it responds with a valid status code, it counts as healthy. 99%+ is excellent.</p>
-<p><strong>Avg Latency</strong> is the average response time across all endpoints. Under 500ms is excellent, 500–2000ms is normal for Edge Functions with cold starts, over 2000ms may indicate load.</p>
-<p><strong>Alerts</strong> are triggered when an endpoint goes down or takes more than 5 seconds to respond. The ops team is notified instantly by email at <strong>noreply@aib-tech.fr</strong>.</p>
-<p><strong>Agent Fleet</strong> below shows 10 autonomous AI agents managing AIB — each with its own cryptographic AIB passport. This is live dogfooding of the protocol.</p>
-</div>
+<div class="explainer" id="s-explainer"></div>
 
 <div class="section">
-<div class="section-title">API Endpoints <span class="info">— Monitored every hour by the Monitoring Agent</span></div>
-<div class="section-desc">Each endpoint is a Supabase Edge Function. The Monitoring Agent pings them every hour and records the status code and response time. Uptime % is calculated over the last 24h.</div>
+<div class="section-title" id="st-ep"></div>
+<div class="section-desc" id="sd-ep"></div>
 <div class="card" id="s-endpoints">
-<div class="ep"><div class="skel" style="width:120px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
-<div class="ep"><div class="skel" style="width:100px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
-<div class="ep"><div class="skel" style="width:90px;height:14px"></div><div class="skel" style="width:40px;height:14px"></div><div class="skel" style="width:60px;height:22px"></div></div>
+<div class="ep"><div class="skel" style="width:140px;height:16px"></div><div class="skel" style="width:50px;height:16px"></div><div class="skel" style="width:70px;height:24px"></div></div>
+<div class="ep"><div class="skel" style="width:120px;height:16px"></div><div class="skel" style="width:50px;height:16px"></div><div class="skel" style="width:70px;height:24px"></div></div>
+<div class="ep"><div class="skel" style="width:100px;height:16px"></div><div class="skel" style="width:50px;height:16px"></div><div class="skel" style="width:70px;height:24px"></div></div>
 </div>
 </div>
 
 <div class="section">
-<div class="section-title">Agent Fleet <span class="info">— 10 autonomous agents, each with an AIB passport</span></div>
-<div class="section-desc">Every agent below has a cryptographic passport issued by AIB. They manage the platform 24/7 without human intervention — from monitoring uptime to scoring leads to generating content. This is live dogfooding: AIB agents managing the AIB platform.</div>
-<div class="card" id="s-agents">
-<div class="agent"><div class="agent-icon" style="background:rgba(34,197,94,.1)">🔍</div><div><div class="agent-name">Monitoring Agent</div><div class="agent-info">Pings all API endpoints, detects downtime, sends instant alerts. Generates daily uptime reports.</div></div><div class="agent-sched">Every hour<span class="freq">+ daily 9h report</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(0,212,255,.1)">✍️</div><div><div class="agent-name">Content Agent</div><div class="agent-info">Generates blog articles via Claude Haiku about agent identity, EU AI Act, MCP, A2A — 67 topics in 9 categories.</div></div><div class="agent-sched">Monday 10h<span class="freq">1 EN + 1 FR</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(59,130,246,.1)">📊</div><div><div class="agent-name">SEO Analytics Agent</div><div class="agent-info">Audits all 15 pages: title, meta description, H1, canonical, OG tags, word count, links. Scores each page 0-100.</div></div><div class="agent-sched">Wednesday 8h<span class="freq">weekly report</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(245,158,11,.1)">🎯</div><div><div class="agent-name">Waitlist Lead Scoring</div><div class="agent-info">Auto-scores signups by email domain (business vs personal), sector (finance, health, gov), EU geography. Alerts on hot leads (≥70/100).</div></div><div class="agent-sched">Real-time<span class="freq">+ Friday digest</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(168,85,247,.1)">🛡️</div><div><div class="agent-name">CI/CD Guardian</div><div class="agent-info">Watches GitHub Actions, tracks test results, detects flaky tests, alerts on pipeline failures with error diagnostics.</div></div><div class="agent-sched">Every 30 min<span class="freq">continuous</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(239,68,68,.1)">🔒</div><div><div class="agent-name">Security Scanner</div><div class="agent-info">Monthly audit: RLS policies on all tables, Edge Function CORS/auth config, secret exposure detection in database metadata.</div></div><div class="agent-sched">1st of month<span class="freq">monthly report</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(34,197,94,.1)">📈</div><div><div class="agent-name">Churn Tracker</div><div class="agent-info">Monitors user engagement: login frequency, API call volume, passport creation rate. Calculates engagement score 0-100, flags churn risk.</div></div><div class="agent-sched">Tuesday 9h<span class="freq">weekly scan</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(0,212,255,.1)">⭐</div><div><div class="agent-name">Social Proof Collector</div><div class="agent-info">Tracks GitHub stars/forks/contributors, PyPI downloads, platform metrics (passports, orgs, waitlist). Feeds marketing data for BPI dossier.</div></div><div class="agent-sched">Thursday 8h<span class="freq">weekly collection</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(59,130,246,.1)">🚀</div><div><div class="agent-name">Demo Data Seeder</div><div class="agent-info">Auto-creates 3 sample passports, 2 policies, and 2 analytics entries for new users on first login. Zero empty dashboards.</div></div><div class="agent-sched">On signup<span class="freq">automatic</span></div></div>
-<div class="agent"><div class="agent-icon" style="background:rgba(245,158,11,.1)">⚡</div><div><div class="agent-name">Quota Guardian</div><div class="agent-info">Checks daily usage vs plan limits (agents, transactions, webhooks). Warns at 80%, suggests upgrade at 100%.</div></div><div class="agent-sched">Daily 8h<span class="freq">+ instant alerts</span></div></div>
-</div>
+<div class="section-title" id="st-agents"></div>
+<div class="section-desc" id="sd-agents"></div>
+<div class="card" id="s-agents"></div>
 </div>
 
 <div class="section">
-<div class="section-title">Platform Metrics <span class="info">— Live infrastructure numbers</span></div>
-<div class="section-desc">These numbers reflect the current state of the AIB infrastructure. They're updated on each page load.</div>
-<div class="metrics-grid" id="s-platform">
-<div class="metric"><div class="val skel" style="width:40px">&nbsp;</div><div class="lab">Endpoints</div></div>
-<div class="metric"><div class="val skel" style="width:30px">&nbsp;</div><div class="lab">Cron Jobs</div></div>
-<div class="metric"><div class="val skel" style="width:50px">&nbsp;</div><div class="lab">MCP Tools</div></div>
-</div>
+<div class="section-title" id="st-platform"></div>
+<div class="section-desc" id="sd-platform"></div>
+<div class="metrics-grid" id="s-platform"></div>
 </div>
 
 <div class="section" id="s-alerts-section" style="display:none">
-<div class="section-title">Recent Alerts</div>
-<div class="section-desc">Incidents detected by the Monitoring Agent. Alerts trigger an immediate email to the ops team.</div>
+<div class="section-title" id="st-alerts"></div>
+<div class="section-desc" id="sd-alerts"></div>
 <div id="s-alerts"></div>
 </div>
-<div id="s-no-alerts" style="display:none">
-<div class="no-alerts">✓ No open alerts — all systems running normally</div><br>
-</div>
+<div id="s-no-alerts" style="display:none"></div>
 
-<div class="refresh-info" id="s-refresh">Auto-refreshes every 60 seconds</div>
+<div class="refresh-info" id="s-refresh"></div>
 </div>
 
 <div class="ftr"><div class="w">
@@ -173,65 +151,172 @@ a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
 
 <script>
 const API='https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/monitoring?action=status';
-const EP_DESC={
+let lang=localStorage.getItem('aib-lang')||'en';
+
+const T={
+  en:{
+    checking:'Checking systems...',connecting:'Connecting to monitoring endpoint',
+    allOp:'All Systems Operational',allOpSub:'All endpoints responding normally — 10 agents active',
+    degraded:'Degraded Performance',degradedSub:'Some endpoints are experiencing issues',
+    starting:'Monitoring Starting',down:'System Issues Detected',downSub:'One or more critical endpoints are down',
+    unreachable:'Unable to reach monitoring',unreachableSub:'The status endpoint is not responding. Try refreshing.',
+    uptime:'Uptime 24h',checks:'Checks',latency:'Avg Latency',alerts:'Open Alerts',
+    uptimeHint:'% of successful checks',checksHint:'Endpoint pings today',
+    excellent:'Excellent response time',normal:'Normal for Edge Functions',allClear:'All clear',needsAttention:'Needs attention',
+    explainerTitle:'How to read this page',
+    exp1:'<strong>Uptime</strong> is the percentage of successful health checks over the last 24 hours. We ping each API endpoint every hour — if it responds with a valid status code, it counts as healthy. 99%+ is excellent.',
+    exp2:'<strong>Avg Latency</strong> is the average response time across all endpoints. Under 500ms is excellent, 500–2000ms is normal for Edge Functions with cold starts, over 2000ms may indicate load.',
+    exp3:'<strong>Alerts</strong> are triggered when an endpoint goes down or takes more than 5 seconds to respond. The ops team is notified instantly by email.',
+    exp4:'<strong>Agent Fleet</strong> below shows 10 autonomous AI agents managing AIB — each with its own cryptographic AIB passport. This is live dogfooding of the protocol.',
+    stEp:'API Endpoints',stEpInfo:'Monitored every hour by the Monitoring Agent',
+    sdEp:'Each endpoint is a Supabase Edge Function. The Monitoring Agent pings them every hour and records the status code and response time. Uptime % is calculated over the last 24h.',
+    stAgents:'Agent Fleet',stAgentsInfo:'10 autonomous agents, each with an AIB passport',
+    sdAgents:'Every agent has a cryptographic passport issued by AIB. They manage the platform 24/7 without human intervention. This is live dogfooding: AIB agents managing the AIB platform.',
+    stPlatform:'Platform Metrics',stPlatformInfo:'Live infrastructure numbers',
+    sdPlatform:'These numbers reflect the current state of the AIB infrastructure, updated on each page load.',
+    stAlerts:'Recent Alerts',sdAlerts:'Incidents detected by the Monitoring Agent. Alerts trigger an immediate email to the ops team.',
+    noAlerts:'✓ No open alerts — all systems running normally',
+    refreshPrefix:'Last updated:',refreshSuffix:'Auto-refreshes every 60s',
+    totalPings:'Total Pings (24h)',edgeFn:'Edge Functions',cronJobs:'Cron Jobs',aiAgents:'AI Agents',mcpTools:'MCP Tools',plans:'Plans',
+    totalPingsH:'Individual endpoint checks in the last 24 hours by the Monitoring Agent',
+    edgeFnH:'Serverless APIs on Supabase — passport management, translation, auth, policies, webhooks, and 10 agent functions',
+    cronH:'Automated scheduled tasks — from hourly pings to monthly security scans via pg_cron',
+    agentsH:'Autonomous agents, each with an AIB cryptographic passport — monitoring, content, SEO, leads, CI/CD, security',
+    mcpH:'Tools exposed via the MCP Ops Server — any MCP client (Claude, LangChain) can orchestrate the fleet',
+    plansH:'Community (free) · Pro (open beta) · Enterprise (on request)',
+    agents:[
+      {icon:'🔍',bg:'rgba(34,197,94,.1)',name:'Monitoring Agent',info:'Pings all API endpoints, detects downtime, sends instant alerts. Generates daily uptime reports.',sched:'Every hour',freq:'+ daily 9h report'},
+      {icon:'✍️',bg:'rgba(0,212,255,.1)',name:'Content Agent',info:'Generates blog articles via Claude Haiku about agent identity, EU AI Act, MCP, A2A — 67 topics in 9 categories.',sched:'Monday 10h',freq:'1 EN + 1 FR'},
+      {icon:'📊',bg:'rgba(59,130,246,.1)',name:'SEO Analytics Agent',info:'Audits all 15 pages: title, meta, H1, canonical, OG, word count, links. Scores each page 0-100.',sched:'Wednesday 8h',freq:'weekly report'},
+      {icon:'🎯',bg:'rgba(245,158,11,.1)',name:'Waitlist Lead Scoring',info:'Auto-scores signups by domain, sector, geography. Alerts on hot leads (≥70/100).',sched:'Real-time',freq:'+ Friday digest'},
+      {icon:'🛡️',bg:'rgba(168,85,247,.1)',name:'CI/CD Guardian',info:'Watches GitHub Actions, tracks failures, detects flaky tests, alerts on pipeline breaks.',sched:'Every 30 min',freq:'continuous'},
+      {icon:'🔒',bg:'rgba(239,68,68,.1)',name:'Security Scanner',info:'Audits RLS policies, Edge Function CORS/auth, secret exposure detection in database.',sched:'1st of month',freq:'monthly report'},
+      {icon:'📈',bg:'rgba(34,197,94,.1)',name:'Churn Tracker',info:'Monitors engagement: login frequency, API calls, passport creation. Calculates engagement score 0-100.',sched:'Tuesday 9h',freq:'weekly scan'},
+      {icon:'⭐',bg:'rgba(0,212,255,.1)',name:'Social Proof Collector',info:'Tracks GitHub stars/forks, PyPI downloads, platform metrics. Feeds marketing data.',sched:'Thursday 8h',freq:'weekly collection'},
+      {icon:'🚀',bg:'rgba(59,130,246,.1)',name:'Demo Data Seeder',info:'Creates 3 sample passports, 2 policies, 2 analytics entries for new users on first login.',sched:'On signup',freq:'automatic'},
+      {icon:'⚡',bg:'rgba(245,158,11,.1)',name:'Quota Guardian',info:'Checks daily usage vs plan limits. Warns at 80%, suggests upgrade at 100%.',sched:'Daily 8h',freq:'+ instant alerts'},
+    ],
+  },
+  fr:{
+    checking:'Vérification des systèmes...',connecting:'Connexion au monitoring',
+    allOp:'Tous les systèmes opérationnels',allOpSub:'Tous les endpoints répondent normalement — 10 agents actifs',
+    degraded:'Performance dégradée',degradedSub:'Certains endpoints rencontrent des problèmes',
+    starting:'Démarrage du monitoring',down:'Problèmes détectés',downSub:'Un ou plusieurs endpoints critiques sont hors service',
+    unreachable:'Monitoring inaccessible',unreachableSub:"L'endpoint de monitoring ne répond pas. Essayez de rafraîchir.",
+    uptime:'Uptime 24h',checks:'Vérifications',latency:'Latence moy.',alerts:'Alertes ouvertes',
+    uptimeHint:'% de checks réussis',checksHint:"Pings d'endpoints aujourd'hui",
+    excellent:'Excellent temps de réponse',normal:'Normal pour les Edge Functions',allClear:'Rien à signaler',needsAttention:'Attention requise',
+    explainerTitle:'Comment lire cette page',
+    exp1:"<strong>Uptime</strong> est le pourcentage de checks de santé réussis sur les dernières 24 heures. Chaque endpoint API est pingué toutes les heures — s'il répond avec un code valide, il est compté comme sain. 99%+ est excellent.",
+    exp2:"<strong>Latence moyenne</strong> est le temps de réponse moyen de tous les endpoints. Sous 500ms c'est excellent, 500–2000ms est normal pour les Edge Functions (cold start), au-dessus de 2000ms peut indiquer une charge.",
+    exp3:"<strong>Alertes</strong> se déclenchent quand un endpoint tombe ou met plus de 5 secondes à répondre. L'équipe ops est notifiée immédiatement par email.",
+    exp4:"<strong>Flotte d'agents</strong> ci-dessous montre 10 agents IA autonomes qui gèrent AIB — chacun avec son propre passeport AIB cryptographique. C'est du dogfooding en production.",
+    stEp:'Endpoints API',stEpInfo:"Monitorés toutes les heures par l'Agent de Monitoring",
+    sdEp:"Chaque endpoint est une Edge Function Supabase. L'Agent de Monitoring les pingue toutes les heures et enregistre le code de statut et le temps de réponse. Le % d'uptime est calculé sur les dernières 24h.",
+    stAgents:"Flotte d'agents",stAgentsInfo:'10 agents autonomes, chacun avec un passeport AIB',
+    sdAgents:"Chaque agent possède un passeport cryptographique délivré par AIB. Ils gèrent la plateforme 24/7 sans intervention humaine. C'est du dogfooding : des agents AIB qui gèrent la plateforme AIB.",
+    stPlatform:'Métriques plateforme',stPlatformInfo:"Chiffres de l'infrastructure en direct",
+    sdPlatform:"Ces chiffres reflètent l'état actuel de l'infrastructure AIB, mis à jour à chaque chargement.",
+    stAlerts:'Alertes récentes',sdAlerts:"Incidents détectés par l'Agent de Monitoring. Les alertes déclenchent un email immédiat à l'équipe ops.",
+    noAlerts:'✓ Aucune alerte ouverte — tous les systèmes fonctionnent normalement',
+    refreshPrefix:'Dernière mise à jour :',refreshSuffix:'Actualisation auto toutes les 60s',
+    totalPings:'Pings totaux (24h)',edgeFn:'Edge Functions',cronJobs:'Tâches cron',aiAgents:'Agents IA',mcpTools:'Outils MCP',plans:'Plans',
+    totalPingsH:"Vérifications individuelles d'endpoints dans les dernières 24h par l'Agent de Monitoring",
+    edgeFnH:'APIs serverless sur Supabase — gestion des passeports, traduction, auth, policies, webhooks, et 10 fonctions agents',
+    cronH:'Tâches automatisées planifiées — des pings horaires aux scans de sécurité mensuels via pg_cron',
+    agentsH:'Agents autonomes, chacun avec un passeport AIB cryptographique — monitoring, contenu, SEO, leads, CI/CD, sécurité',
+    mcpH:'Outils exposés via le serveur MCP Ops — tout client MCP (Claude, LangChain) peut orchestrer la flotte',
+    plansH:'Community (gratuit) · Pro (open beta) · Enterprise (sur devis)',
+    agents:[
+      {icon:'🔍',bg:'rgba(34,197,94,.1)',name:'Agent de Monitoring',info:"Pingue tous les endpoints, détecte les pannes, envoie des alertes instantanées. Génère un rapport d'uptime quotidien.",sched:'Toutes les heures',freq:'+ rapport quotidien 9h'},
+      {icon:'✍️',bg:'rgba(0,212,255,.1)',name:'Agent de Contenu',info:"Génère des articles de blog via Claude Haiku sur l'identité agent, EU AI Act, MCP, A2A — 67 sujets dans 9 catégories.",sched:'Lundi 10h',freq:'1 EN + 1 FR'},
+      {icon:'📊',bg:'rgba(59,130,246,.1)',name:'Agent SEO',info:'Audite les 15 pages : titre, meta, H1, canonical, OG, nombre de mots, liens. Score 0-100 par page.',sched:'Mercredi 8h',freq:'rapport hebdo'},
+      {icon:'🎯',bg:'rgba(245,158,11,.1)',name:'Scoring de leads waitlist',info:'Scoring automatique par domaine, secteur, géographie. Alerte sur les leads chauds (≥70/100).',sched:'Temps réel',freq:'+ digest vendredi'},
+      {icon:'🛡️',bg:'rgba(168,85,247,.1)',name:'Gardien CI/CD',info:'Surveille GitHub Actions, traque les échecs, détecte les tests flaky, alerte sur les cassures de pipeline.',sched:'Toutes les 30 min',freq:'continu'},
+      {icon:'🔒',bg:'rgba(239,68,68,.1)',name:'Scanner de sécurité',info:"Audite les policies RLS, la config CORS/auth des Edge Functions, détecte l'exposition de secrets en base.",sched:'1er du mois',freq:'rapport mensuel'},
+      {icon:'📈',bg:'rgba(34,197,94,.1)',name:"Tracker d'engagement",info:"Monitore l'engagement : fréquence de login, appels API, création de passeports. Score d'engagement 0-100.",sched:'Mardi 9h',freq:'scan hebdo'},
+      {icon:'⭐',bg:'rgba(0,212,255,.1)',name:'Collecteur de preuves sociales',info:'Traque les stars/forks GitHub, téléchargements PyPI, métriques plateforme. Alimente les données marketing.',sched:'Jeudi 8h',freq:'collecte hebdo'},
+      {icon:'🚀',bg:'rgba(59,130,246,.1)',name:'Semeur de données démo',info:"Crée 3 passeports d'exemple, 2 policies, 2 entrées analytics pour les nouveaux utilisateurs au premier login.",sched:"À l'inscription",freq:'automatique'},
+      {icon:'⚡',bg:'rgba(245,158,11,.1)',name:'Gardien de quotas',info:"Vérifie l'usage quotidien vs les limites du plan. Avertit à 80%, suggère l'upgrade à 100%.",sched:'Quotidien 8h',freq:'+ alertes instantanées'},
+    ],
+  },
+};
+
+const EP_DESC={en:{
   'passport-create':'Creates a new agent passport with Ed25519 cryptographic signature',
   'passport-list':'Lists all active passports for an organization',
   'passport-revoke':'Revokes an agent passport — irreversible, logged in audit trail',
   'translate':'Converts credentials between MCP, A2A, AG-UI, and ANP formats',
-  'usage-check':'Returns current quota usage vs plan limits for an organization',
-  'auth':'Handles signup, login, OAuth (GitHub/Google), and API key generation',
-  'audit-trail':'Queries the cryptographically signed receipt history',
-  'policy-manage':'CRUD operations on compliance policies (capability, attestation rules)',
-  'webhook-manage':'Manages event-driven webhook configurations with HMAC secrets',
-  'usage-history':'Historical usage data, trends, and analytics over time',
-};
+  'usage-check':'Returns current quota usage vs plan limits',
+  'auth':'Handles signup, login, OAuth (GitHub/Google), API key generation',
+},fr:{
+  'passport-create':"Crée un nouveau passeport agent avec signature cryptographique Ed25519",
+  'passport-list':"Liste tous les passeports actifs d'une organisation",
+  'passport-revoke':"Révoque un passeport agent — irréversible, tracé dans l'audit trail",
+  'translate':'Convertit les credentials entre les formats MCP, A2A, AG-UI et ANP',
+  'usage-check':"Retourne l'usage actuel vs les limites du plan",
+  'auth':"Gère l'inscription, la connexion, OAuth (GitHub/Google), génération de clés API",
+}};
+
+function toggleLang(){lang=lang==='en'?'fr':'en';localStorage.setItem('aib-lang',lang);document.getElementById('lang-toggle').textContent=lang==='en'?'FR':'EN';renderI18n();load();}
+
+function renderI18n(){
+  const t=T[lang];
+  document.getElementById('lang-toggle').textContent=lang==='en'?'FR':'EN';
+  document.getElementById('s-explainer').innerHTML='<h3>'+t.explainerTitle+'</h3><p>'+t.exp1+'</p><p>'+t.exp2+'</p><p>'+t.exp3+'</p><p>'+t.exp4+'</p>';
+  document.getElementById('st-ep').innerHTML=t.stEp+' <span class="info">— '+t.stEpInfo+'</span>';
+  document.getElementById('sd-ep').textContent=t.sdEp;
+  document.getElementById('st-agents').innerHTML=t.stAgents+' <span class="info">— '+t.stAgentsInfo+'</span>';
+  document.getElementById('sd-agents').textContent=t.sdAgents;
+  document.getElementById('st-platform').innerHTML=t.stPlatform+' <span class="info">— '+t.stPlatformInfo+'</span>';
+  document.getElementById('sd-platform').textContent=t.sdPlatform;
+  document.getElementById('st-alerts').innerHTML=t.stAlerts;
+  document.getElementById('sd-alerts').textContent=t.sdAlerts;
+  // Agents
+  document.getElementById('s-agents').innerHTML=t.agents.map(function(a){
+    return '<div class="agent"><div class="agent-icon" style="background:'+a.bg+'">'+a.icon+'</div><div><div class="agent-name">'+a.name+'</div><div class="agent-info">'+a.info+'</div></div><div class="agent-sched">'+a.sched+'<span class="freq">'+a.freq+'</span></div></div>';
+  }).join('');
+}
 
 async function load(){
   try{const r=await fetch(API);const d=await r.json();render(d);}
-  catch(e){document.getElementById('s-dot').className='status-dot down';document.getElementById('s-title').textContent='Unable to reach monitoring';document.getElementById('s-sub').textContent='The status endpoint is not responding. Try refreshing.';}
+  catch(e){const t=T[lang];document.getElementById('s-dot').className='status-dot down';document.getElementById('s-title').textContent=t.unreachable;document.getElementById('s-sub').textContent=t.unreachableSub;}
 }
 
 function render(d){
-  const dot=document.getElementById('s-dot'),title=document.getElementById('s-title'),sub=document.getElementById('s-sub'),uptime=document.getElementById('s-uptime');
-  if(d.status==='all_healthy'){dot.className='status-dot ok';title.textContent='All Systems Operational';sub.textContent='All endpoints responding normally — 10 agents active';}
-  else if(d.status==='degraded'){dot.className='status-dot warn';title.textContent='Degraded Performance';sub.textContent='Some endpoints are experiencing issues';}
-  else if(d.status==='no_data'){dot.className='status-dot warn';title.textContent='Monitoring Starting';sub.textContent=d.message||'Collecting initial data...';}
-  else{dot.className='status-dot down';title.textContent='System Issues Detected';sub.textContent='One or more critical endpoints are down';}
-
-  if(d.uptime_24h){uptime.style.display='';var pctU=parseFloat(d.uptime_24h);uptime.textContent=d.uptime_24h+' uptime (24h)';uptime.style.color=pctU>=99?'var(--green)':pctU>=95?'var(--amber)':'var(--red)';}
-
-  var pct=d.uptime_24h||'--';var pctVal=parseFloat(pct);
+  const t=T[lang];const dot=document.getElementById('s-dot'),title=document.getElementById('s-title'),sub=document.getElementById('s-sub'),uptime=document.getElementById('s-uptime');
+  if(d.status==='all_healthy'){dot.className='status-dot ok';title.textContent=t.allOp;sub.textContent=t.allOpSub;}
+  else if(d.status==='degraded'){dot.className='status-dot warn';title.textContent=t.degraded;sub.textContent=t.degradedSub;}
+  else if(d.status==='no_data'){dot.className='status-dot warn';title.textContent=t.starting;sub.textContent=d.message||'...';}
+  else{dot.className='status-dot down';title.textContent=t.down;sub.textContent=t.downSub;}
+  if(d.uptime_24h){uptime.style.display='';var pu=parseFloat(d.uptime_24h);uptime.textContent=d.uptime_24h+' uptime (24h)';uptime.style.color=pu>=99?'var(--green)':pu>=95?'var(--amber)':'var(--red)';}
+  var pct=d.uptime_24h||'--';var pv=parseFloat(pct);
   document.getElementById('s-stats').innerHTML=
-    '<div class="stat"><div class="val" style="color:'+(pctVal>=99?'var(--green)':pctVal>=95?'var(--amber)':'var(--red)')+'">'+pct+'</div><div class="lab">Uptime 24h</div><div class="hint">% of successful health checks</div></div>'+
-    '<div class="stat"><div class="val" style="color:var(--cyan)">'+(d.total_checks||0)+'</div><div class="lab">Checks</div><div class="hint">Endpoint pings today</div></div>'+
-    '<div class="stat"><div class="val" style="color:var(--blue)">'+(d.avg_latency_ms||0)+'<span style="font-size:11px;color:var(--fg3)">ms</span></div><div class="lab">Avg Latency</div><div class="hint">'+(d.avg_latency_ms<500?'Excellent response time':'Normal for Edge Functions')+'</div></div>'+
-    '<div class="stat"><div class="val" style="color:'+(d.unacknowledged_alerts>0?'var(--red)':'var(--green)')+'">'+
-    (d.unacknowledged_alerts||0)+'</div><div class="lab">Open Alerts</div><div class="hint">'+(d.unacknowledged_alerts>0?'Action needed':'All clear')+'</div></div>';
-
+    '<div class="stat"><div class="val" style="color:'+(pv>=99?'var(--green)':pv>=95?'var(--amber)':'var(--red)')+'">'+pct+'</div><div class="lab">'+t.uptime+'</div><div class="hint">'+t.uptimeHint+'</div></div>'+
+    '<div class="stat"><div class="val" style="color:var(--cyan)">'+(d.total_checks||0)+'</div><div class="lab">'+t.checks+'</div><div class="hint">'+t.checksHint+'</div></div>'+
+    '<div class="stat"><div class="val" style="color:var(--blue)">'+(d.avg_latency_ms||0)+'<span style="font-size:13px;color:var(--fg3)">ms</span></div><div class="lab">'+t.latency+'</div><div class="hint">'+(d.avg_latency_ms<500?t.excellent:t.normal)+'</div></div>'+
+    '<div class="stat"><div class="val" style="color:'+(d.unacknowledged_alerts>0?'var(--red)':'var(--green)')+'">'+(d.unacknowledged_alerts||0)+'</div><div class="lab">'+t.alerts+'</div><div class="hint">'+(d.unacknowledged_alerts>0?t.needsAttention:t.allClear)+'</div></div>';
   if(d.endpoints&&d.endpoints.length>0){
+    var descs=EP_DESC[lang]||EP_DESC.en;
     document.getElementById('s-endpoints').innerHTML=d.endpoints.map(function(ep){
-      var p=parseFloat(ep.uptime);var cls=p>=99?'ok':p>=90?'warn':'down';var desc=EP_DESC[ep.name]||'';
-      return '<div class="ep"><div><div class="ep-name">'+ep.name+'</div>'+(desc?'<div class="ep-desc">'+desc+'</div>':'')+'</div><div class="ep-latency">'+ep.avg_latency_ms+'<span style="font-size:10px;color:var(--fg3)">ms</span></div><div class="ep-badge '+cls+'">'+ep.uptime+'</div></div>';
+      var p=parseFloat(ep.uptime);var cls=p>=99?'ok':p>=90?'warn':'down';var desc=descs[ep.name]||'';
+      return '<div class="ep"><div><div class="ep-name">'+ep.name+'</div>'+(desc?'<div class="ep-desc">'+desc+'</div>':'')+'</div><div class="ep-latency">'+ep.avg_latency_ms+'<span style="font-size:12px;color:var(--fg3)">ms</span></div><div class="ep-badge '+cls+'">'+ep.uptime+'</div></div>';
     }).join('');
   }
-
-  var totalPings=d.endpoints?d.endpoints.reduce(function(s,e){return s+(e.checks||0)},0):0;
+  var tp=d.endpoints?d.endpoints.reduce(function(s,e){return s+(e.checks||0)},0):0;
   document.getElementById('s-platform').innerHTML=
-    '<div class="metric"><div class="val" style="color:var(--cyan)">'+totalPings+'</div><div class="lab">Total Pings (24h)</div><div class="hint">Individual endpoint checks performed in the last 24 hours by the Monitoring Agent</div></div>'+
-    '<div class="metric"><div class="val" style="color:var(--green)">30</div><div class="lab">Edge Functions</div><div class="hint">Serverless APIs on Supabase — passport management, translation, auth, policies, webhooks, and 10 agent functions</div></div>'+
-    '<div class="metric"><div class="val" style="color:var(--blue)">12</div><div class="lab">Cron Jobs</div><div class="hint">Automated scheduled tasks — from hourly health pings to monthly security scans, all via pg_cron</div></div>'+
-    '<div class="metric"><div class="val" style="color:var(--purple)">10</div><div class="lab">AI Agents</div><div class="hint">Autonomous agents each with an AIB cryptographic passport — managing monitoring, content, SEO, leads, CI/CD, security</div></div>'+
-    '<div class="metric"><div class="val" style="color:var(--amber)">10</div><div class="lab">MCP Tools</div><div class="hint">Tools exposed via the MCP Ops Server — any MCP-compatible client (Claude, LangChain) can orchestrate the fleet</div></div>'+
-    '<div class="metric"><div class="val" style="color:var(--cyan)">3</div><div class="lab">Plans</div><div class="hint">Community (free) · Pro (open beta, free) · Enterprise (sur devis)</div></div>';
-
-  if(d.alerts&&d.alerts.length>0){
-    document.getElementById('s-alerts-section').style.display='';document.getElementById('s-no-alerts').style.display='none';
-    document.getElementById('s-alerts').innerHTML=d.alerts.map(function(a){return '<div class="alert"><span class="alert-msg">'+a.message+'</span><span class="alert-time">'+new Date(a.created_at).toLocaleString()+'</span></div>';}).join('');
-  }else{document.getElementById('s-alerts-section').style.display='none';document.getElementById('s-no-alerts').style.display='';}
-
-  document.getElementById('s-refresh').textContent='Last updated: '+new Date().toLocaleTimeString()+' · Auto-refreshes every 60s';
+    '<div class="metric"><div class="val" style="color:var(--cyan)">'+tp+'</div><div class="lab">'+t.totalPings+'</div><div class="hint">'+t.totalPingsH+'</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--green)">30</div><div class="lab">'+t.edgeFn+'</div><div class="hint">'+t.edgeFnH+'</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--blue)">12</div><div class="lab">'+t.cronJobs+'</div><div class="hint">'+t.cronH+'</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--purple)">10</div><div class="lab">'+t.aiAgents+'</div><div class="hint">'+t.agentsH+'</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--amber)">10</div><div class="lab">'+t.mcpTools+'</div><div class="hint">'+t.mcpH+'</div></div>'+
+    '<div class="metric"><div class="val" style="color:var(--cyan)">3</div><div class="lab">'+t.plans+'</div><div class="hint">'+t.plansH+'</div></div>';
+  if(d.alerts&&d.alerts.length>0){document.getElementById('s-alerts-section').style.display='';document.getElementById('s-no-alerts').style.display='none';document.getElementById('s-alerts').innerHTML=d.alerts.map(function(a){return '<div class="alert"><span class="alert-msg">'+a.message+'</span><span class="alert-time">'+new Date(a.created_at).toLocaleString()+'</span></div>';}).join('');}
+  else{document.getElementById('s-alerts-section').style.display='none';document.getElementById('s-no-alerts').style.display='';document.getElementById('s-no-alerts').innerHTML='<div class="no-alerts">'+t.noAlerts+'</div><br>';}
+  document.getElementById('s-refresh').textContent=t.refreshPrefix+' '+new Date().toLocaleTimeString()+' · '+t.refreshSuffix;
 }
-load();setInterval(load,60000);
+
+renderI18n();load();setInterval(load,60000);
 </script>
 </body>
 </html>
