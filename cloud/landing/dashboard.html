@@ -186,7 +186,39 @@ function SC(icon,label,val,lim,col){const p=lim?Math.min(val/lim*100,100):null;r
 function IR(k,v){return '<div class="info-row"><span class="k">'+k+'</span><span class="v">'+(v||"–")+'</span></div>';}
 function HLP(icon,title,lines){return '<div style="background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.1);border-radius:12px;padding:16px 20px;margin-bottom:20px;display:flex;gap:14px;align-items:flex-start"><div style="font-size:20px;flex-shrink:0;margin-top:2px">'+icon+'</div><div><div style="font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:4px">'+title+'</div><div style="font-size:12px;color:var(--fg2);line-height:1.7">'+lines+'</div></div></div>';}
 
-function RO(c){const u=S.u?.usage||{},o=S.u?.org||{},t=S.u?.totals||{};c.innerHTML=HLP('📊','Welcome to your AIB Dashboard','This is your command center. Here you can see your usage stats, active passports, and endpoint status. <strong>Start by creating your first passport</strong> in the Passports tab, or <strong>generate an API key</strong> in the API Keys tab to start integrating.')+
+function TUT(){
+const steps=[
+{n:1,icon:'🪪',title:'Create your first Agent Passport',desc:'A passport is a <strong>verifiable cryptographic identity</strong> for your AI agent. Give it a slug (e.g. <code style="color:var(--cyan)">booking-bot</code>), choose which protocols it speaks (MCP, A2A), and define its capabilities.',cta:'Go to Passports',tab:'passports'},
+{n:2,icon:'🔑',title:'Generate an API Key',desc:'Your API key authenticates every request to the AIB API. Use the <code style="color:var(--cyan)">x-api-key</code> header. Create separate keys for dev, staging, and prod environments.',cta:'Go to API Keys',tab:'keys'},
+{n:3,icon:'🛡️',title:'Set up a Policy',desc:'Policies are guardrails: require a capability before creating a passport, enforce Ed25519 signatures, block untrusted protocols. Start with a <code style="color:var(--cyan)">capability_required</code> rule.',cta:'Go to Policies',tab:'policies'},
+{n:4,icon:'🔄',title:'Try a Protocol Translation',desc:'Convert an agent identity between formats. Paste an A2A Agent Card and translate it to an MCP Server Card — or vice versa. Useful when your agents work across ecosystems.',cta:'Go to Translate',tab:'translate'},
+{n:5,icon:'🔔',title:'Configure a Webhook',desc:'Get notified in real-time when things happen — a passport is created, revoked, or a policy violation occurs. Point it at your server and we send an HTTP POST with an HMAC-signed payload.',cta:'Go to Webhooks',tab:'webhooks'},
+{n:6,icon:'📈',title:'Check your Analytics',desc:'See 30 days of activity: daily operations, action breakdown, average latency, recent transactions. Every single operation is tracked via <strong>Ed25519-signed receipts</strong>.',cta:'Go to Analytics',tab:'analytics'},
+];
+const hasPassports=S.pp.length>0;
+const hasKeys=(S.ss?.api_keys||[]).length>0;
+const currentStep=hasPassports&&hasKeys?3:hasPassports?2:1;
+return '<div style="background:linear-gradient(135deg,rgba(0,212,255,.04),rgba(59,130,246,.04));border:1px solid rgba(0,212,255,.1);border-radius:16px;padding:24px;margin-bottom:24px">'+
+'<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><div style="font-size:24px">🚀</div><div><div style="font-size:16px;font-weight:800;color:var(--fg);letter-spacing:-.3px">Getting Started with AIB</div><div style="font-size:12px;color:var(--fg2)">Follow these steps to set up your agent identity infrastructure</div></div></div>'+
+'<div style="display:flex;gap:6px;margin-bottom:20px">'+steps.map(s=>{
+const done=s.n<currentStep;const active=s.n===currentStep;
+return '<div style="flex:1;height:4px;border-radius:2px;background:'+(done?'var(--green)':active?'var(--cyan)':'rgba(255,255,255,.06)')+'"></div>';
+}).join('')+'</div>'+
+steps.map(s=>{
+const done=s.n<currentStep;const active=s.n===currentStep;
+const opacity=done?'0.5':active?'1':'0.4';
+const border=active?'border:1px solid rgba(0,212,255,.2)':'border:1px solid var(--bd)';
+return '<div style="'+border+';border-radius:12px;padding:14px 18px;margin-bottom:8px;background:'+(active?'rgba(0,212,255,.04)':'var(--glass)')+';opacity:'+opacity+';display:flex;align-items:center;gap:14px;transition:.2s">'+
+'<div style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;'+(done?'background:rgba(34,197,94,.1);':'background:rgba(0,212,255,.08);')+'">'+(done?'✅':s.icon)+'</div>'+
+'<div style="flex:1"><div style="font-size:13px;font-weight:700;color:'+(done?'var(--green)':'var(--fg)')+'">'+
+(done?'<s style="text-decoration:line-through;opacity:.7">':'')+'Step '+s.n+': '+s.title+(done?'</s>':'')+
+'</div>'+(active?'<div style="font-size:11px;color:var(--fg2);line-height:1.6;margin-top:4px">'+s.desc+'</div>':'')+'</div>'+
+(active?'<button onclick="ST(\''+s.tab+'\')" class="btn-action" style="font-size:11px;padding:6px 16px;white-space:nowrap">'+s.cta+' →</button>':'')+
+'</div>';
+}).join('')+
+'</div>';
+}
+function RO(c){const u=S.u?.usage||{},o=S.u?.org||{},t=S.u?.totals||{};c.innerHTML=TUT()+
 '<div class="stat-grid">'+SC("▸","Transactions",u.transactions?.used||0,u.transactions?.limit,"var(--cyan)")+SC("+","Passports",t.active_passports||0,u.passports_created?.limit,"var(--blue)")+SC("~","Translations",u.translations?.used||0,null,"var(--yellow)")+SC("#","Receipts",t.total_receipts||0,null,"var(--orange)")+'</div><div class="grid-2"><div class="card"><div class="card-title">Organization</div>'+IR("Name",o.name)+IR("Slug",o.slug)+IR("Plan",o.plan)+IR("Month",S.u?.month)+IR("Retention",(t.audit_retention_days||90)+"d")+'</div><div class="card"><div class="card-title">Endpoints</div>'+["passport-create","passport-list","passport-revoke","translate","usage-check","auth","audit-trail","intent-analyze","vc-issue"].map(e=>'<div style="display:flex;justify-content:space-between;font-size:12px;font-family:var(--mono);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.02)"><span style="color:var(--cyan)">'+e+'</span><span class="tag tag-green">ACTIVE</span></div>').join("")+'</div></div>';}
 
 function PR(p){const a=p.status==="active";return '<div style="display:grid;grid-template-columns:1fr 120px 70px 70px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:13px">'+p.display_name+'</div><div style="color:var(--fg3);font-size:10px;font-family:var(--mono)">'+p.passport_id+'</div></div><div style="display:flex;gap:3px;flex-wrap:wrap">'+(p.protocols||[]).map(pr=>'<span class="tag tag-cyan">'+pr+'</span>').join("")+'</div><div style="color:var(--fg2);font-size:11px;font-family:var(--mono)">'+p.tier+'</div><span class="tag '+(a?"tag-green":"tag-red")+'">'+p.status+'</span><div>'+(a?'<button class="btn-danger" onclick="RV(&quot;'+p.passport_id.replace(/"/g,'&amp;quot;')+'&quot;)">revoke</button>':'')+'</div></div>';}
