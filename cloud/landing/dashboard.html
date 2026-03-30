@@ -142,7 +142,7 @@ select.inp{appearance:none;cursor:pointer}
 const B="https://vempwtzknixfnvysmiwo.supabase.co/functions/v1";
 const SB_URL="https://vempwtzknixfnvysmiwo.supabase.co";
 const SB_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw";
-const sb=supabase.createClient(SB_URL,SB_ANON);
+const sb=supabase.createClient(SB_URL,SB_ANON,{auth:{detectSessionInUrl:false,autoRefreshToken:false,persistSession:true}});
 let S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};
 let ghHandled=false;
 async function GH(){const{error}=await sb.auth.signInWithOAuth({provider:'github',options:{redirectTo:window.location.origin+'/dashboard'}});if(error)alert('GitHub auth error: '+error.message);}
