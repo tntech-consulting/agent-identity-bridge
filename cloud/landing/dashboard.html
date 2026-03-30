@@ -154,14 +154,14 @@ async function handleOAuthSession(session){if(ghHandled)return;ghHandled=true;S.
     var p=new URLSearchParams(h.substring(1));
     var at=p.get('access_token'),rt=p.get('refresh_token');
     if(at){
-      // Get user info directly from Supabase Auth API (bypass SDK)
+      // Decode JWT payload directly (no network call needed)
       try{
-        var r=await fetch(SB_URL+'/auth/v1/user',{headers:{'Authorization':'Bearer '+at,'apikey':SB_ANON}});
-        if(r.ok){
-          var u=await r.json();
-          if(u&&u.id){await handleOAuthSession({access_token:at,refresh_token:rt,user:u});return;}
-        }
-      }catch(e){}
+        var parts=at.split('.');
+        var payload=JSON.parse(atob(parts[1].replace(/-/g,'+').replace(/_/g,'/')));
+        var user={id:payload.sub,email:payload.email,user_metadata:payload.user_metadata||{},app_metadata:payload.app_metadata||{}};
+        await handleOAuthSession({access_token:at,refresh_token:rt,user:user});
+        return;
+      }catch(e){console.error('JWT decode error',e);}
     }
   }
   // 2. Check existing SDK session (returning user / email login)
