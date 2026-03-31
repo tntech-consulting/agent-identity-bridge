@@ -293,6 +293,27 @@ SC("📋","Waitlist",p.total_waitlist||0,null,"var(--green)")+
 '</div>';
 // Revenue section
 const rv=d.revenue||{};const sc=rv.scenarios||{};const gr=rv.growth||{};const pj=rv.projections||{};const sim=rv.simulated||{};
+// MCP section
+let mcpHTML='';
+try{const mcpR=await F('mcp-ops?action=stats');const mu=mcpR.tool_usage||{};const ml=mcpR.recent_logs||[];
+mcpHTML='<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(139,92,246,.04),rgba(0,212,255,.04));border:1px solid rgba(139,92,246,.15);border-radius:16px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:22px">🔌</div><div><div style="font-size:18px;font-weight:800;color:var(--fg)">MCP Ops Server Monitor</div><div style="font-size:12px;color:var(--fg3)">JSON-RPC calls to aib-ops-mcp — 10 tools available</div></div></div>'+
+'<div class="stat-grid" style="margin-bottom:16px">'+
+SC("📡","Total Calls",mcpR.total_calls||0,null,"var(--purple)")+
+SC("🔧","Tools Available",10,null,"var(--cyan)")+
+SC("✅","Unique Tools Used",Object.keys(mu).length,null,"var(--green)")+
+SC("❌","Errors",Object.values(mu).reduce((s,v)=>s+(v.error||0),0),null,"var(--red)")+
+'</div>'+
+'<div class="grid-2" style="margin-bottom:16px">'+
+'<div class="card" style="margin-bottom:0"><div class="card-title">📊 Tool Usage</div>'+
+(Object.keys(mu).length===0?'<div style="color:var(--fg3);font-size:12px;text-align:center;padding:16px">No calls yet — connect a MCP client to start</div>':
+Object.entries(mu).sort((a,b)=>b[1].total-a[1].total).map(([name,stats])=>'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bd);font-size:11px;align-items:center"><span style="color:var(--fg);font-family:var(--mono);font-weight:600">'+name+'</span><div style="display:flex;gap:8px"><span style="color:var(--green);font-family:var(--mono)">'+stats.success+'✓</span>'+(stats.error>0?'<span style="color:var(--red);font-family:var(--mono)">'+stats.error+'✗</span>':'')+'<span style="color:var(--fg3);font-family:var(--mono)">'+stats.total+'</span></div></div>').join(''))+
+'</div>'+
+'<div class="card" style="margin-bottom:0"><div class="card-title">📋 Recent Calls</div>'+
+(ml.length===0?'<div style="color:var(--fg3);font-size:12px;text-align:center;padding:16px">No calls recorded</div>':
+ml.slice(0,10).map(l=>'<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd);font-size:10px;align-items:center"><div><span style="color:var(--cyan);font-family:var(--mono);font-weight:600">'+l.tool_name+'</span><br><span style="color:var(--fg3)">'+new Date(l.created_at).toLocaleString()+'</span></div><div style="text-align:right"><span style="color:'+(l.status==="success"?"var(--green)":"var(--red)")+';font-family:var(--mono)">'+l.status+'</span><br><span style="color:var(--fg3);font-family:var(--mono)">'+(l.latency_ms||0)+'ms</span></div></div>').join(''))+
+'</div></div></div>';
+}catch(e){mcpHTML='';}
+c.innerHTML+=mcpHTML;
 c.innerHTML+=
 '<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(0,212,255,.04));border:1px solid rgba(34,197,94,.15);border-radius:16px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:22px">💰</div><div><div style="font-size:18px;font-weight:800;color:var(--fg)">Revenue & Pricing Simulator</div><div style="font-size:12px;color:var(--fg3)">Based on current platform usage — if we charged today</div></div></div>'+
 '<div class="stat-grid" style="margin-bottom:16px">'+
