@@ -291,6 +291,35 @@ SC("📋","Waitlist",p.total_waitlist||0,null,"var(--green)")+
 '<div class="card"><div class="card-title">🪪 Recent Passports (all orgs)</div>'+
 (d.recent_passports||[]).map(pp=>'<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--bd);font-size:11px;align-items:center"><div><span style="color:var(--fg);font-weight:600">'+pp.display_name+'</span><br><span style="color:var(--fg3);font-family:var(--mono);font-size:9px">'+pp.passport_id+'</span></div><div style="text-align:right"><span style="display:flex;gap:2px;flex-wrap:wrap;justify-content:flex-end">'+(pp.protocols||[]).map(pr=>'<span class="tag tag-cyan">'+pr+'</span>').join('')+'</span><span style="color:var(--fg3);font-size:9px">'+new Date(pp.created_at).toLocaleDateString()+'</span></div></div>').join('')+
 '</div>';
+// Revenue section
+const rv=d.revenue||{};const sc=rv.scenarios||{};const gr=rv.growth||{};const pj=rv.projections||{};const sim=rv.simulated||{};
+c.innerHTML+=
+'<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(0,212,255,.04));border:1px solid rgba(34,197,94,.15);border-radius:16px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:16px"><div style="font-size:22px">💰</div><div><div style="font-size:18px;font-weight:800;color:var(--fg)">Revenue & Pricing Simulator</div><div style="font-size:12px;color:var(--fg3)">Based on current platform usage — if we charged today</div></div></div>'+
+'<div class="stat-grid" style="margin-bottom:16px">'+
+'<div class="stat-card" style="text-align:center;border:1px solid rgba(34,197,94,.15)"><div class="stat-label">Current MRR</div><div class="stat-value" style="color:var(--green);font-size:28px">'+rv.current_mrr+' €</div><div style="font-size:9px;color:var(--fg3)">Open Beta (free)</div></div>'+
+'<div class="stat-card" style="text-align:center;border:1px solid rgba(0,212,255,.15)"><div class="stat-label">Simulated MRR</div><div class="stat-value" style="color:var(--cyan);font-size:28px">'+(sim.mrr_if_charged_today||0)+' €</div><div style="font-size:9px;color:var(--fg3)">If charged today (medium)</div></div>'+
+'<div class="stat-card" style="text-align:center;border:1px solid rgba(59,130,246,.15)"><div class="stat-label">Simulated ARR</div><div class="stat-value" style="color:var(--blue);font-size:28px">'+(sim.arr_if_charged_today||0).toLocaleString()+' €</div><div style="font-size:9px;color:var(--fg3)">Projected annually</div></div>'+
+'<div class="stat-card" style="text-align:center;border:1px solid rgba(245,158,11,.15)"><div class="stat-label">Orgs above free tier</div><div class="stat-value" style="color:var(--yellow);font-size:28px">'+(gr.orgs_above_free||0)+'</div><div style="font-size:9px;color:var(--fg3)">Would need paid plan</div></div>'+
+'</div>'+
+'<div class="grid-2" style="margin-bottom:16px">'+
+'<div class="card" style="margin-bottom:0"><div class="card-title">📊 3 Pricing Scenarios</div>'+
+Object.values(sc).map(s=>'<div style="padding:10px 0;border-bottom:1px solid var(--bd)"><div style="font-size:12px;font-weight:700;color:var(--fg);margin-bottom:4px">'+s.label+'</div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">Paying orgs</span><span style="color:var(--fg);font-family:var(--mono)">'+s.paying_orgs+'</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">MRR</span><span style="color:var(--green);font-family:var(--mono);font-weight:700">'+s.mrr+' €</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">ARR</span><span style="color:var(--cyan);font-family:var(--mono);font-weight:700">'+s.arr.toLocaleString()+' €</span></div></div>').join('')+
+'</div>'+
+'<div class="card" style="margin-bottom:0"><div class="card-title">🔮 Projections par taux de conversion</div>'+
+'<div style="font-size:10px;color:var(--fg3);margin-bottom:10px">Base : '+gr.total_orgs+' orgs × prix moyen 49€</div>'+
+Object.entries(pj).map(([k,v])=>{const pct=k.replace('conversion_','').replace('pct','');return '<div style="padding:8px 0;border-bottom:1px solid var(--bd)"><div style="font-size:12px;font-weight:700;color:var(--fg);margin-bottom:4px">Conversion '+pct+'%</div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">Clients payants</span><span style="color:var(--fg);font-family:var(--mono)">'+v.paying+'</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">MRR</span><span style="color:var(--green);font-family:var(--mono);font-weight:700">'+v.mrr_medium+' €</span></div><div style="display:flex;justify-content:space-between;font-size:11px"><span style="color:var(--fg3)">ARR</span><span style="color:var(--cyan);font-family:var(--mono);font-weight:700">'+v.arr_medium.toLocaleString()+' €</span></div></div>';}).join('')+
+'</div></div>'+
+'<div class="card"><div class="card-title">📈 Growth Metrics</div><div class="stat-grid">'+
+SC("🏢","New orgs (30d)",gr.new_orgs_30d||0,null,"var(--cyan)")+
+SC("🪪","New passports (30d)",gr.new_passports_30d||0,null,"var(--blue)")+
+SC("⚡","Tx this month",gr.tx_this_month||0,null,"var(--green)")+
+SC("🔄","Translations",gr.translations_this_month||0,null,"var(--yellow)")+
+SC("📋","Waitlist (30d)",gr.waitlist_30d||0,null,"var(--orange)")+
+SC("💬","Bot sessions (7d)",gr.bot_sessions_7d||0,null,"var(--purple)")+
+'</div></div>'+
+'<div class="card"><div class="card-title">🏷️ Org Plan Distribution (simulated)</div>'+
+Object.entries(sim.by_plan||{}).map(([plan,count])=>{const colors={starter:'var(--fg3)',growth:'var(--green)',scale:'var(--blue)',enterprise:'var(--yellow)'};const prices={starter:'Free',growth:'49€/mo',scale:'199€/mo',enterprise:'500€+/mo'};return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);align-items:center"><div><span style="color:var(--fg);font-weight:600">'+plan.charAt(0).toUpperCase()+plan.slice(1)+'</span><span style="color:var(--fg3);font-size:10px;margin-left:8px">'+prices[plan]+'</span></div><div style="display:flex;align-items:center;gap:10px"><div style="width:'+(count*40)+'px;height:8px;background:'+(colors[plan]||'var(--fg3)')+';border-radius:4px;min-width:8px"></div><span style="color:var(--fg);font-family:var(--mono);font-weight:700;font-size:14px">'+count+'</span></div></div>';}).join('')+
+'</div></div>';
 }
 async function LO(){try{await sb.auth.signOut();}catch(e){}ghHandled=false;S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};document.getElementById("V-auth").classList.remove("h");document.getElementById("V-dash").classList.add("h");document.getElementById("A-email").value="";document.getElementById("A-pass").value="";document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");}
 </script>
