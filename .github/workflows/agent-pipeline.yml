@@ -1,6 +1,7 @@
 name: 🤖 AI Agent Pipeline — Coder · Tester · Publisher
 
 on:
+  # Déclenchement manuel (conservé)
   workflow_dispatch:
     inputs:
       publish:
@@ -15,6 +16,15 @@ on:
         default: 'patch'
         type: choice
         options: ['patch', 'minor', 'major']
+
+  # Push de tag vX.Y.Z → pipeline complet + publication automatique
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+  # Cron nocturne → tests uniquement, pas de publication
+  schedule:
+    - cron: '0 2 * * *'   # 2h UTC = 3h Paris (hors été) / 4h Paris (été)
 
 env:
   PYTHON_VERSION: '3.12'
@@ -974,7 +984,11 @@ Max 350 mots."""
     needs: [tester-agent-r1, tester-agent-r2, coder-agent-r2, tester-agent-r3, coder-agent-r3]
     if: |
       always() &&
-      github.event.inputs.publish == 'true' &&
+      (
+        github.event.inputs.publish == 'true' ||
+        startsWith(github.ref, 'refs/tags/v')
+      ) &&
+      github.event_name != 'schedule' &&
       (
         needs.tester-agent-r1.outputs.tests_passed == 'true' ||
         (needs.tester-agent-r2.result == 'success' && needs.tester-agent-r2.outputs.tests_passed == 'true') ||
@@ -1005,7 +1019,15 @@ Max 350 mots."""
           python3 << 'PYTHON'
           import os, re, json, urllib.request
 
+          import re as re_mod
+          # Si push de tag, détecter le bump depuis le tag lui-même
+          github_ref = os.environ.get("GITHUB_REF", "")
           bump_type = os.environ.get("BUMP_TYPE", "patch")
+          if github_ref.startswith("refs/tags/v"):
+              tag_version = github_ref.replace("refs/tags/v", "")
+              # Le bump sera "none" car le tag définit déjà la version
+              bump_type = "from_tag"
+              os.environ["TAG_VERSION"] = tag_version
 
           with open("pyproject.toml") as f:
               content = f.read()
@@ -1013,13 +1035,17 @@ Max 350 mots."""
           major, minor, patch = int(match.group(1)), int(match.group(2)), int(match.group(3))
           old_version = f"{major}.{minor}.{patch}"
 
-          if bump_type == "major":
+          if bump_type == "from_tag":
+              new_version = os.environ.get("TAG_VERSION", f"{major}.{minor}.{patch + 1}")
+          elif bump_type == "major":
               major += 1; minor = 0; patch = 0
+              new_version = f"{major}.{minor}.{patch}"
           elif bump_type == "minor":
               minor += 1; patch = 0
+              new_version = f"{major}.{minor}.{patch}"
           else:
               patch += 1
-          new_version = f"{major}.{minor}.{patch}"
+              new_version = f"{major}.{minor}.{patch}"
 
           new_content = content.replace(f'version = "{old_version}"', f'version = "{new_version}"')
           with open("pyproject.toml", "w") as f:
@@ -1125,7 +1151,16 @@ Max 120 mots."""
     steps:
       - name: Final summary
         run: |
+          # Détecter le mode de déclenchement
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            MODE="🌙 Cron nocturne (tests uniquement)"
+          elif [[ "${{ github.ref }}" == refs/tags/v* ]]; then
+            MODE="🏷️ Push de tag ${{ github.ref_name }} (tests + publication)"
+          else
+            MODE="🖱️ Manuel"
+          fi
           echo "# 🤖 AI Agent Pipeline — Final Summary" >> $GITHUB_STEP_SUMMARY
+          echo "**Mode:** $MODE" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Agent | Round | Status |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-------|--------|" >> $GITHUB_STEP_SUMMARY
@@ -1148,4 +1183,5 @@ Max 120 mots."""
           else
             echo "### ⚠️ Pipeline terminé — voir les rapports ci-dessus" >> $GITHUB_STEP_SUMMARY
           fi
+
 
