@@ -2,12 +2,12 @@
 
 **One identity. Every protocol. Full audit trail.**
 
-[![Tests](https://img.shields.io/badge/tests-1054%20passed-brightgreen)]()
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue)]()
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-1054%20passed-brightgreen)](https://github.com/tntech-consulting/agent-identity-bridge/actions)
+[![Python](https://img.shields.io/pypi/pyversions/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
+[![License](https://img.shields.io/pypi/l/agent-identity-bridge)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
 [![Edge Functions](https://img.shields.io/badge/edge%20functions-19%20active-green)]()
-[![Version](https://img.shields.io/badge/version-2.15.1-blue)]()
+[![Version](https://img.shields.io/pypi/v/agent-identity-bridge?label=version)](https://pypi.org/project/agent-identity-bridge/)
 
 AIB is an open-source protocol that gives AI agents a **single portable identity** across MCP (Anthropic), A2A (Google), ANP, and AG-UI — with W3C DID v1.1, Verifiable Credentials, and EU AI Act compliance built in.
 
