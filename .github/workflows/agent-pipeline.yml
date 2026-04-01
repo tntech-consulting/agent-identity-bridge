@@ -1,0 +1,581 @@
+name: 🤖 AI Agent Pipeline — Coder · Tester · Publisher
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publier sur PyPI si les tests passent ?'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['true', 'false']
+      bump:
+        description: 'Type de bump de version'
+        required: false
+        default: 'patch'
+        type: choice
+        options: ['patch', 'minor', 'major']
+
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+
+  # ─────────────────────────────────────────────────────────────
+  # 🧪 TESTER AGENT — Lance pytest et analyse les échecs
+  # ─────────────────────────────────────────────────────────────
+  tester-agent:
+    name: 🧪 Tester Agent
+    runs-on: ubuntu-latest
+    outputs:
+      tests_passed: ${{ steps.evaluate.outputs.tests_passed }}
+      test_report: ${{ steps.evaluate.outputs.test_report }}
+      coverage: ${{ steps.evaluate.outputs.coverage }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]" || pip install -e .
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run tests with coverage
+        id: pytest
+        run: |
+          python -m pytest tests/ \
+            -v --tb=short \
+            -k "not integration" \
+            --junitxml=test-results.xml \
+            --cov=aib \
+            --cov-report=json:coverage.json \
+            --cov-report=term-missing \
+            2>&1 | tee pytest-output.txt
+          echo "exit_code=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Upload raw artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts
+          path: |
+            test-results.xml
+            pytest-output.txt
+            coverage.json
+
+      - name: 🤖 Claude Tester Agent — Analyse des résultats
+        id: evaluate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 << 'PYTHON'
+          import os, json, subprocess, urllib.request
+
+          # Lire les outputs pytest
+          try:
+              with open("pytest-output.txt") as f:
+                  pytest_output = f.read()[-6000:]  # derniers 6000 chars
+          except:
+              pytest_output = "No output"
+
+          try:
+              with open("coverage.json") as f:
+                  cov_data = json.load(f)
+              coverage_pct = round(cov_data.get("totals", {}).get("percent_covered", 0), 1)
+          except:
+              coverage_pct = 0
+
+          # Déterminer si les tests ont passé
+          tests_passed = "passed" in pytest_output and "error" not in pytest_output.lower().split("passed")[0][-100:]
+          failed_count = 0
+          for line in pytest_output.split("\n"):
+              if "failed" in line and ("passed" in line or "error" in line):
+                  try:
+                      failed_count = int(line.split("failed")[0].strip().split()[-1])
+                  except:
+                      pass
+
+          tests_passed = failed_count == 0 and "passed" in pytest_output
+
+          # Appel Claude pour analyse
+          api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+          report = ""
+
+          if api_key:
+              prompt = f"""Tu es le Tester Agent du pipeline CI/CD AIB. Analyse ces résultats pytest et génère un rapport concis en markdown.
+
+          PYTEST OUTPUT:
+          {pytest_output[-3000:]}
+
+          COVERAGE: {coverage_pct}%
+          TESTS PASSED: {tests_passed}
+
+          Génère un rapport markdown avec:
+          1. ✅/❌ Statut global
+          2. Nb tests passés/échoués
+          3. Coverage %
+          4. Si échecs: liste des tests en échec avec cause probable (1 ligne chacun)
+          5. Recommandation: PROCEED ou BLOCK (pour la suite du pipeline)
+
+          Sois concis, max 300 mots."""
+
+              try:
+                  payload = json.dumps({
+                      "model": "claude-sonnet-4-20250514",
+                      "max_tokens": 1000,
+                      "messages": [{"role": "user", "content": prompt}]
+                  }).encode()
+                  req = urllib.request.Request(
+                      "https://api.anthropic.com/v1/messages",
+                      data=payload,
+                      headers={
+                          "Content-Type": "application/json",
+                          "x-api-key": api_key,
+                          "anthropic-version": "2023-06-01"
+                      }
+                  )
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      result = json.loads(resp.read())
+                      report = result["content"][0]["text"]
+              except Exception as e:
+                  report = f"Claude unavailable: {e}\nTests passed: {tests_passed}, Coverage: {coverage_pct}%"
+          else:
+              report = f"No API key — Tests passed: {tests_passed}, Coverage: {coverage_pct}%, Failed: {failed_count}"
+
+          # Écrire les outputs GitHub Actions
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"tests_passed={'true' if tests_passed else 'false'}\n")
+              f.write(f"coverage={coverage_pct}\n")
+              # Multiline output
+              f.write("test_report<<EOF\n")
+              f.write(report + "\n")
+              f.write("EOF\n")
+
+          print("=" * 60)
+          print("🤖 TESTER AGENT REPORT")
+          print("=" * 60)
+          print(report)
+          print("=" * 60)
+          print(f"TESTS PASSED: {tests_passed}")
+          print(f"COVERAGE: {coverage_pct}%")
+          PYTHON
+
+      - name: Publish report to Job Summary
+        if: always()
+        run: |
+          echo "## 🧪 Tester Agent Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.evaluate.outputs.test_report }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Coverage:** ${{ steps.evaluate.outputs.coverage }}%" >> $GITHUB_STEP_SUMMARY
+
+  # ─────────────────────────────────────────────────────────────
+  # 🔧 CODER AGENT — Analyse le code et corrige les bugs
+  # ─────────────────────────────────────────────────────────────
+  coder-agent:
+    name: 🔧 Coder Agent
+    runs-on: ubuntu-latest
+    needs: tester-agent
+    outputs:
+      fixes_applied: ${{ steps.coder.outputs.fixes_applied }}
+      pr_url: ${{ steps.pr.outputs.pr_url }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]" || pip install -e .
+          pip install ruff pyflakes
+
+      - name: Run static analysis
+        id: static
+        run: |
+          echo "=== RUFF ===" > analysis.txt
+          python -m ruff check aib/ --output-format=text 2>&1 | head -100 >> analysis.txt || true
+          echo "" >> analysis.txt
+          echo "=== PYFLAKES ===" >> analysis.txt
+          python -m pyflakes aib/ 2>&1 | head -50 >> analysis.txt || true
+          cat analysis.txt
+
+      - name: Download test artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test-artifacts
+        continue-on-error: true
+
+      - name: 🤖 Claude Coder Agent — Analyse et corrections
+        id: coder
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 << 'PYTHON'
+          import os, json, urllib.request, subprocess, glob
+
+          api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+          if not api_key:
+              print("No API key — skipping Coder Agent")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("fixes_applied=false\n")
+              exit(0)
+
+          # Lire les analyses statiques
+          try:
+              with open("analysis.txt") as f:
+                  static_analysis = f.read()
+          except:
+              static_analysis = "No static analysis"
+
+          # Lire les échecs de tests si disponibles
+          test_failures = ""
+          try:
+              with open("pytest-output.txt") as f:
+                  output = f.read()
+              # Extraire seulement les sections FAILED
+              lines = output.split("\n")
+              in_failure = False
+              failure_lines = []
+              for line in lines:
+                  if "FAILED" in line or "ERROR" in line:
+                      in_failure = True
+                  if in_failure:
+                      failure_lines.append(line)
+                  if len(failure_lines) > 100:
+                      break
+              test_failures = "\n".join(failure_lines[:80])
+          except:
+              test_failures = "No test failures data"
+
+          # Lire les fichiers source principaux
+          source_files = {}
+          priority_files = [
+              "aib/cloud.py", "aib/passport.py",
+              "aib/translator.py", "aib/policy_engine.py"
+          ]
+          for filepath in priority_files:
+              try:
+                  with open(filepath) as f:
+                      content = f.read()
+                  source_files[filepath] = content[:3000]  # premiers 3000 chars
+              except:
+                  pass
+
+          source_summary = "\n\n".join([
+              f"### {path}\n```python\n{content}\n```"
+              for path, content in source_files.items()
+          ])
+
+          prompt = f"""Tu es le Coder Agent du pipeline CI/CD AIB. Tu dois analyser le code et identifier les corrections nécessaires.
+
+          ANALYSE STATIQUE (ruff + pyflakes):
+          {static_analysis[:2000]}
+
+          ÉCHECS DE TESTS:
+          {test_failures[:1500]}
+
+          SOURCE FILES (extraits):
+          {source_summary[:3000]}
+
+          Ta mission:
+          1. Identifie les bugs réels (pas les warnings de style)
+          2. Identifie les opportunités de refactoring à fort impact
+          3. Pour chaque fix: donne le fichier, le problème, et la correction exacte
+
+          Réponds en JSON strict:
+          {{
+            "fixes": [
+              {{
+                "file": "aib/xxx.py",
+                "type": "bug|refactor",
+                "description": "Description courte",
+                "priority": "high|medium|low",
+                "patch": "code corrigé si applicable, sinon null"
+              }}
+            ],
+            "summary": "Résumé des corrections en 2 phrases",
+            "recommendation": "APPLY_FIXES|NO_FIXES_NEEDED"
+          }}
+
+          Sois conservateur — ne propose que des corrections sûres et certaines."""
+
+          try:
+              payload = json.dumps({
+                  "model": "claude-sonnet-4-20250514",
+                  "max_tokens": 1000,
+                  "messages": [{"role": "user", "content": prompt}]
+              }).encode()
+              req = urllib.request.Request(
+                  "https://api.anthropic.com/v1/messages",
+                  data=payload,
+                  headers={
+                      "Content-Type": "application/json",
+                      "x-api-key": api_key,
+                      "anthropic-version": "2023-06-01"
+                  }
+              )
+              with urllib.request.urlopen(req, timeout=90) as resp:
+                  result = json.loads(resp.read())
+                  response_text = result["content"][0]["text"]
+
+              # Parser le JSON
+              import re
+              json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+              if json_match:
+                  analysis = json.loads(json_match.group())
+              else:
+                  analysis = {"fixes": [], "summary": response_text[:200], "recommendation": "NO_FIXES_NEEDED"}
+
+              print("=" * 60)
+              print("🔧 CODER AGENT ANALYSIS")
+              print("=" * 60)
+              print(json.dumps(analysis, indent=2, ensure_ascii=False))
+
+              # Sauvegarder l'analyse pour la PR
+              with open("coder-analysis.json", "w") as f:
+                  json.dump(analysis, f, ensure_ascii=False, indent=2)
+
+              fixes_count = len(analysis.get("fixes", []))
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"fixes_applied={'true' if fixes_count > 0 else 'false'}\n")
+                  f.write(f"fixes_count={fixes_count}\n")
+                  summary = analysis.get('summary', 'No fixes needed')
+                  f.write(f"summary={summary}\n")
+
+          except Exception as e:
+              print(f"Coder Agent error: {e}")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("fixes_applied=false\n")
+          PYTHON
+
+      - name: Create PR with Coder Agent report
+        id: pr
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Lire l'analyse
+          if [ -f "coder-analysis.json" ]; then
+            SUMMARY=$(python3 -c "
+          import json
+          with open('coder-analysis.json') as f:
+              d = json.load(f)
+          fixes = d.get('fixes', [])
+          lines = [f'**Coder Agent Report** — {d.get(\"summary\", \"\")}', '']
+          lines.append(f'**{len(fixes)} fix(es) identified:**')
+          for fix in fixes[:10]:
+              lines.append(f'- [{fix[\"priority\"].upper()}] `{fix[\"file\"]}`: {fix[\"description\"]}')
+          print('\n'.join(lines))
+          " 2>/dev/null || echo "Coder Agent completed — see logs for details")
+          else
+            SUMMARY="Coder Agent completed — no issues found"
+          fi
+
+          # Publier dans le Job Summary
+          echo "## 🔧 Coder Agent Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "$SUMMARY" >> $GITHUB_STEP_SUMMARY
+
+          echo "pr_url=none" >> $GITHUB_OUTPUT
+
+  # ─────────────────────────────────────────────────────────────
+  # 🚀 PUBLISHER AGENT — Bump version + build + PyPI
+  # ─────────────────────────────────────────────────────────────
+  publisher-agent:
+    name: 🚀 Publisher Agent
+    runs-on: ubuntu-latest
+    needs: [tester-agent, coder-agent]
+    if: |
+      needs.tester-agent.outputs.tests_passed == 'true' &&
+      github.event.inputs.publish == 'true'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install build tools
+        run: pip install build twine
+
+      - name: 🤖 Claude Publisher Agent — Bump version
+        id: bump
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BUMP_TYPE: ${{ github.event.inputs.bump }}
+        run: |
+          python3 << 'PYTHON'
+          import os, re, json, urllib.request
+
+          bump_type = os.environ.get("BUMP_TYPE", "patch")
+
+          # Lire version actuelle
+          with open("pyproject.toml") as f:
+              content = f.read()
+          match = re.search(r'version = "(\d+)\.(\d+)\.(\d+)"', content)
+          major, minor, patch = int(match.group(1)), int(match.group(2)), int(match.group(3))
+          old_version = f"{major}.{minor}.{patch}"
+
+          # Bumper
+          if bump_type == "major":
+              major += 1; minor = 0; patch = 0
+          elif bump_type == "minor":
+              minor += 1; patch = 0
+          else:
+              patch += 1
+          new_version = f"{major}.{minor}.{patch}"
+
+          # Mettre à jour pyproject.toml
+          new_content = content.replace(f'version = "{old_version}"', f'version = "{new_version}"')
+          with open("pyproject.toml", "w") as f:
+              f.write(new_content)
+
+          # Mettre à jour __init__.py
+          with open("aib/__init__.py") as f:
+              init_content = f.read()
+          init_content = init_content.replace(f'__version__ = "{old_version}"', f'__version__ = "{new_version}"')
+          with open("aib/__init__.py", "w") as f:
+              f.write(init_content)
+
+          print(f"Version bumped: {old_version} → {new_version}")
+
+          # Claude génère les release notes
+          api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+          release_notes = f"Release {new_version} — automated by Publisher Agent"
+
+          if api_key:
+              try:
+                  # Lire le CHANGELOG pour contexte
+                  with open("CHANGELOG.md") as f:
+                      changelog = f.read()[:1500]
+
+                  prompt = f"""Tu es le Publisher Agent du pipeline CI/CD AIB.
+          Génère des release notes concises pour la version {new_version} (bump {bump_type} depuis {old_version}).
+
+          CHANGELOG récent:
+          {changelog}
+
+          Génère des release notes en markdown, max 150 mots, format:
+          ## [{new_version}] - YYYY-MM-DD
+          ### Changed / Fixed / Added
+          - ...
+
+          Date d'aujourd'hui: utilisé dans le titre."""
+
+                  payload = json.dumps({
+                      "model": "claude-haiku-4-5-20251001",
+                      "max_tokens": 500,
+                      "messages": [{"role": "user", "content": prompt}]
+                  }).encode()
+                  req = urllib.request.Request(
+                      "https://api.anthropic.com/v1/messages",
+                      data=payload,
+                      headers={
+                          "Content-Type": "application/json",
+                          "x-api-key": api_key,
+                          "anthropic-version": "2023-06-01"
+                      }
+                  )
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      result = json.loads(resp.read())
+                      release_notes = result["content"][0]["text"]
+              except Exception as e:
+                  print(f"Claude unavailable for release notes: {e}")
+
+          # Sauvegarder pour les étapes suivantes
+          with open("release-notes.md", "w") as f:
+              f.write(release_notes)
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"old_version={old_version}\n")
+              f.write(f"new_version={new_version}\n")
+
+          print("Release notes generated:")
+          print(release_notes)
+          PYTHON
+
+      - name: Commit version bump
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "AIB Publisher Agent"
+          git config user.email "agent@aib-tech.fr"
+          git add pyproject.toml aib/__init__.py
+          git commit -m "chore(release): bump version to ${{ steps.bump.outputs.new_version }} [skip ci]"
+          git tag "v${{ steps.bump.outputs.new_version }}"
+          git push origin main --tags
+
+      - name: Build package
+        run: |
+          rm -rf dist/ build/ *.egg-info
+          python -m build
+          echo "📦 Build artifacts:"
+          ls -lh dist/
+
+      - name: Publish to PyPI
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          python -m twine upload dist/* --non-interactive
+          echo "✅ Published to PyPI: ${{ steps.bump.outputs.new_version }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ steps.bump.outputs.new_version }}" \
+            --title "v${{ steps.bump.outputs.new_version }}" \
+            --notes-file release-notes.md \
+            dist/*.whl dist/*.tar.gz
+
+      - name: Publisher Agent Summary
+        if: always()
+        run: |
+          echo "## 🚀 Publisher Agent Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ steps.bump.outputs.old_version }} → ${{ steps.bump.outputs.new_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Bump type:** ${{ github.event.inputs.bump }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Release Notes" >> $GITHUB_STEP_SUMMARY
+          cat release-notes.md >> $GITHUB_STEP_SUMMARY
+
+  # ─────────────────────────────────────────────────────────────
+  # 📊 PIPELINE SUMMARY
+  # ─────────────────────────────────────────────────────────────
+  pipeline-summary:
+    name: 📊 Pipeline Summary
+    runs-on: ubuntu-latest
+    needs: [tester-agent, coder-agent, publisher-agent]
+    if: always()
+    steps:
+      - name: Final Summary
+        run: |
+          echo "## 🤖 AI Agent Pipeline Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Agent | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Tester Agent | ${{ needs.tester-agent.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔧 Coder Agent | ${{ needs.coder-agent.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🚀 Publisher Agent | ${{ needs.publisher-agent.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Tests passed:** ${{ needs.tester-agent.outputs.tests_passed }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Coverage:** ${{ needs.tester-agent.outputs.coverage }}%" >> $GITHUB_STEP_SUMMARY
