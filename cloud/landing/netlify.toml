@@ -113,7 +113,7 @@
 # Blog article pages — dynamic loading via blog-api
 # /blog/some-article-slug -> /blog/article.html (which loads content via API)
 [[redirects]]
-  from = "/blog/*"
-  to = "/blog/article.html"
+  from = "/blog/:slug"
+  to = "/blog/article.html?slug=:slug"
   status = 200
-  force = false
+  force = true
