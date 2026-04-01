@@ -18,7 +18,7 @@ on:
 
 env:
   PYTHON_VERSION: '3.12'
-  MAX_RETRY: 2   # Nombre max de cycles Coder → Tester
+  MAX_RETRY: 3   # Nombre max de cycles Coder → Tester
 
 jobs:
 
@@ -636,6 +636,334 @@ Max 300 mots."""
           echo "${{ steps.evaluate.outputs.test_report }}" >> $GITHUB_STEP_SUMMARY
           echo "**Coverage:** ${{ steps.evaluate.outputs.coverage }}%" >> $GITHUB_STEP_SUMMARY
 
+
+  # ─────────────────────────────────────────────────────────────
+  # 🔧 CODER AGENT (round 3) — Activé si tests R2 échouent
+  # ─────────────────────────────────────────────────────────────
+  coder-agent-r3:
+    name: 🔧 Coder Agent (round 3 — final retry)
+    runs-on: ubuntu-latest
+    needs: tester-agent-r2
+    if: needs.tester-agent-r2.outputs.tests_passed == 'false'
+    outputs:
+      fixes_applied: ${{ steps.coder.outputs.fixes_applied }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: pip install -e ".[dev]" || pip install -e .
+
+      - name: Download test artifacts R2
+        uses: actions/download-artifact@v4
+        with:
+          name: test-artifacts-r2
+        continue-on-error: true
+
+      - name: 🤖 Claude Coder Agent R3 — Dernier recours
+        id: coder
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TEST_REPORT_R2: ${{ needs.tester-agent-r2.outputs.test_report }}
+        run: |
+          python3 << 'PYTHON'
+          import os, json, urllib.request, re
+
+          api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+          test_report_r2 = os.environ.get("TEST_REPORT_R2", "")
+
+          if not api_key:
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("fixes_applied=false\n")
+              exit(0)
+
+          try:
+              with open("pytest-output-r2.txt") as f:
+                  pytest_output = f.read()
+          except:
+              pytest_output = test_report_r2
+
+          # Identifier tous les fichiers en échec et lire leur code source complet
+          failed_files = set()
+          for line in pytest_output.split("\n"):
+              if line.startswith("FAILED"):
+                  parts = line.split("::")[0].replace("FAILED ", "").strip()
+                  failed_files.add(parts)
+                  module = parts.replace("tests/test_", "aib/").replace(".py", ".py")
+                  failed_files.add(module)
+
+          source_context = {}
+          for filepath in list(failed_files)[:8]:
+              try:
+                  with open(filepath) as f:
+                      source_context[filepath] = f.read()[:4000]
+              except:
+                  pass
+
+          source_summary = "\n\n".join([f"### {p}\n```python\n{c}\n```" for p, c in source_context.items()])
+
+          prompt = f"""Tu es le Coder Agent du pipeline CI/CD AIB — ROUND 3 (dernier recours).
+Les rounds 1 et 2 n'ont pas suffi à corriger tous les tests. Analyse approfondie requise.
+
+RAPPORT TESTER R2:
+{test_report_r2}
+
+PYTEST OUTPUT R2 (complet):
+{pytest_output[-5000:]}
+
+CODE SOURCE COMPLET DES FICHIERS CONCERNÉS:
+{source_summary[:4000]}
+
+C'est le dernier round automatique. Sois exhaustif et précis.
+Si tu ne peux pas corriger avec certitude, indique confidence=low et n'applique rien.
+
+Réponds en JSON strict:
+{{
+  "root_cause": "Analyse approfondie de la cause racine",
+  "fixes": [
+    {{
+      "file": "aib/xxx.py",
+      "type": "bug",
+      "description": "Ce qui est corrigé",
+      "old_code": "code verbatim existant",
+      "new_code": "nouveau code"
+    }}
+  ],
+  "confidence": "high|medium|low",
+  "summary": "Résumé des corrections R3",
+  "manual_review_hint": "Si confidence=low, indique ici ce qu'un humain devrait vérifier"
+}}"""
+
+          try:
+              payload = json.dumps({
+                  "model": "claude-sonnet-4-20250514",
+                  "max_tokens": 2000,
+                  "messages": [{"role": "user", "content": prompt}]
+              }).encode()
+              req = urllib.request.Request(
+                  "https://api.anthropic.com/v1/messages",
+                  data=payload,
+                  headers={"Content-Type": "application/json", "x-api-key": api_key, "anthropic-version": "2023-06-01"}
+              )
+              with urllib.request.urlopen(req, timeout=120) as resp:
+                  result = json.loads(resp.read())
+                  response_text = result["content"][0]["text"]
+
+              json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
+              analysis = json.loads(json_match.group()) if json_match else {"fixes": [], "root_cause": "Parse error", "confidence": "low", "summary": "Could not parse", "manual_review_hint": response_text[:300]}
+
+              print("🔧 CODER AGENT R3")
+              print(f"Root cause: {analysis.get('root_cause', '')}")
+              print(f"Confidence: {analysis.get('confidence', '')}")
+
+              fixes_applied = 0
+              if analysis.get("confidence") in ["high", "medium"]:
+                  for fix in analysis.get("fixes", []):
+                      filepath = fix.get("file", "")
+                      old_code = fix.get("old_code", "")
+                      new_code = fix.get("new_code", "")
+                      if filepath and old_code and new_code:
+                          try:
+                              with open(filepath) as f:
+                                  content = f.read()
+                              if old_code in content:
+                                  content = content.replace(old_code, new_code, 1)
+                                  with open(filepath, "w") as f:
+                                      f.write(content)
+                                  print(f"✅ Applied fix to {filepath}")
+                                  fixes_applied += 1
+                              else:
+                                  print(f"⚠️  old_code not found in {filepath} — skipping")
+                          except Exception as e:
+                              print(f"❌ Error: {e}")
+              else:
+                  hint = analysis.get("manual_review_hint", "")
+                  print(f"⚠️  Confidence low — no auto-fix applied")
+                  print(f"Manual review hint: {hint}")
+
+              with open("coder-r3-analysis.json", "w") as f:
+                  json.dump({**analysis, "fixes_applied_count": fixes_applied}, f, ensure_ascii=False, indent=2)
+
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write(f"fixes_applied={'true' if fixes_applied > 0 else 'false'}\n")
+
+          except Exception as e:
+              print(f"Error: {e}")
+              with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+                  f.write("fixes_applied=false\n")
+          PYTHON
+
+      - name: Commit R3 fixes if applied
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "AIB Coder Agent"
+          git config user.email "agent@aib-tech.fr"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "fix(agent-r3): final auto-fix attempt after R2 failure [skip ci]"
+            git push origin main
+            echo "✅ R3 fixes committed"
+          fi
+
+      - name: Publish R3 summary
+        if: always()
+        run: |
+          echo "## 🔧 Coder Agent — Round 3 (final retry)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f coder-r3-analysis.json ]; then
+            python3 -c "
+          import json
+          with open('coder-r3-analysis.json') as f: d = json.load(f)
+          print(f'**Root cause:** {d.get(\"root_cause\", \"\")}')
+          print(f'**Confidence:** {d.get(\"confidence\", \"\")}')
+          print(f'**Fixes applied:** {d.get(\"fixes_applied_count\", 0)}')
+          if d.get(\"manual_review_hint\"):
+              print(f'\\n> ⚠️ Manual review hint: {d[\"manual_review_hint\"]}')
+          " >> $GITHUB_STEP_SUMMARY 2>/dev/null || true
+          fi
+
+  # ─────────────────────────────────────────────────────────────
+  # 🧪 TESTER AGENT (round 3) — Après correction Coder R3
+  # ─────────────────────────────────────────────────────────────
+  tester-agent-r3:
+    name: 🧪 Tester Agent (round 3 — final)
+    runs-on: ubuntu-latest
+    needs: coder-agent-r3
+    outputs:
+      tests_passed: ${{ steps.evaluate.outputs.tests_passed }}
+      coverage: ${{ steps.evaluate.outputs.coverage }}
+      test_report: ${{ steps.evaluate.outputs.test_report }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]" || pip install -e .
+          pip install pytest pytest-asyncio pytest-cov
+
+      - name: Run tests (round 3)
+        run: |
+          python -m pytest tests/ -v --tb=short \
+            -k "not integration" \
+            --junitxml=test-results-r3.xml \
+            --cov=aib --cov-report=json:coverage-r3.json \
+            2>&1 | tee pytest-output-r3.txt
+        continue-on-error: true
+
+      - name: Upload artifacts R3
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-artifacts-r3
+          path: |
+            test-results-r3.xml
+            pytest-output-r3.txt
+            coverage-r3.json
+
+      - name: 🤖 Claude Tester Agent R3 — Verdict final
+        id: evaluate
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python3 << 'PYTHON'
+          import os, json, urllib.request
+
+          try:
+              with open("pytest-output-r3.txt") as f:
+                  pytest_output = f.read()
+          except:
+              pytest_output = ""
+
+          try:
+              with open("coverage-r3.json") as f:
+                  cov_data = json.load(f)
+              coverage_pct = round(cov_data.get("totals", {}).get("percent_covered", 0), 1)
+          except:
+              coverage_pct = 0
+
+          failed_count = 0
+          for line in pytest_output.split("\n"):
+              if " failed" in line and ("passed" in line or "error" in line):
+                  try:
+                      failed_count = int(line.strip().split(" failed")[0].split()[-1])
+                  except:
+                      pass
+          tests_passed = failed_count == 0 and "passed" in pytest_output
+
+          api_key = os.environ.get("ANTHROPIC_API_KEY", "")
+          report = f"Round 3 FINAL — Tests passed: {tests_passed}, Coverage: {coverage_pct}%, Failed: {failed_count}"
+
+          if api_key:
+              prompt = f"""Tu es le Tester Agent — Round 3 FINAL (dernier round automatique possible).
+
+PYTEST OUTPUT R3:
+{pytest_output[-3000:]}
+
+COVERAGE: {coverage_pct}%
+TESTS PASSED: {tests_passed}
+
+Génère un rapport markdown:
+1. ✅/❌ Statut Round 3 FINAL
+2. Si encore des échecs: liste précise des tests qui persistent avec cause probable
+3. Verdict: PROCEED ou MANUAL_REVIEW_REQUIRED (plus de retry automatique possible)
+4. Si MANUAL_REVIEW_REQUIRED: donne 2-3 pistes concrètes pour le développeur
+
+Max 350 mots."""
+
+              try:
+                  payload = json.dumps({
+                      "model": "claude-sonnet-4-20250514",
+                      "max_tokens": 800,
+                      "messages": [{"role": "user", "content": prompt}]
+                  }).encode()
+                  req = urllib.request.Request(
+                      "https://api.anthropic.com/v1/messages",
+                      data=payload,
+                      headers={"Content-Type": "application/json", "x-api-key": api_key, "anthropic-version": "2023-06-01"}
+                  )
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      result = json.loads(resp.read())
+                      report = result["content"][0]["text"]
+              except Exception as e:
+                  report = f"Claude unavailable: {e}\n{report}"
+
+          gof = os.environ["GITHUB_OUTPUT"]
+          with open(gof, "a") as f:
+              f.write(f"tests_passed={'true' if tests_passed else 'false'}\n")
+              f.write(f"coverage={coverage_pct}\n")
+              f.write("test_report<<EOF\n" + report + "\nEOF\n")
+
+          print("🧪 TESTER AGENT R3 FINAL:", "✅ PASSED" if tests_passed else "❌ MANUAL REVIEW REQUIRED")
+          print(report)
+          PYTHON
+
+      - name: Publish R3 summary
+        if: always()
+        run: |
+          echo "## 🧪 Tester Agent — Round 3 (FINAL)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "${{ steps.evaluate.outputs.test_report }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Coverage:** ${{ steps.evaluate.outputs.coverage }}%" >> $GITHUB_STEP_SUMMARY
+
   # ─────────────────────────────────────────────────────────────
   # 🚀 PUBLISHER AGENT — Bump + build + PyPI
   # Activé si R1 OK OU si R2 OK (après retry)
@@ -643,13 +971,14 @@ Max 300 mots."""
   publisher-agent:
     name: 🚀 Publisher Agent
     runs-on: ubuntu-latest
-    needs: [tester-agent-r1, tester-agent-r2, coder-agent-r2]
+    needs: [tester-agent-r1, tester-agent-r2, coder-agent-r2, tester-agent-r3, coder-agent-r3]
     if: |
       always() &&
       github.event.inputs.publish == 'true' &&
       (
         needs.tester-agent-r1.outputs.tests_passed == 'true' ||
-        (needs.tester-agent-r2.result == 'success' && needs.tester-agent-r2.outputs.tests_passed == 'true')
+        (needs.tester-agent-r2.result == 'success' && needs.tester-agent-r2.outputs.tests_passed == 'true') ||
+        (needs.tester-agent-r3.result == 'success' && needs.tester-agent-r3.outputs.tests_passed == 'true')
       )
 
     steps:
@@ -791,7 +1120,7 @@ Max 120 mots."""
   pipeline-summary:
     name: 📊 Pipeline Summary
     runs-on: ubuntu-latest
-    needs: [tester-agent-r1, coder-agent-r2, tester-agent-r2, publisher-agent]
+    needs: [tester-agent-r1, coder-agent-r2, tester-agent-r2, coder-agent-r3, tester-agent-r3, publisher-agent]
     if: always()
     steps:
       - name: Final summary
@@ -804,16 +1133,19 @@ Max 120 mots."""
           echo "| 🧪 Tester Agent | R1 | ${{ needs.tester-agent-r1.result }} (passed: ${{ needs.tester-agent-r1.outputs.tests_passed }}) |" >> $GITHUB_STEP_SUMMARY
           echo "| 🔧 Coder Agent | R2 (retry) | ${{ needs.coder-agent-r2.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "| 🧪 Tester Agent | R2 | ${{ needs.tester-agent-r2.result }} (passed: ${{ needs.tester-agent-r2.outputs.tests_passed }}) |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔧 Coder Agent | R3 (final retry) | ${{ needs.coder-agent-r3.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🧪 Tester Agent | R3 (final) | ${{ needs.tester-agent-r3.result }} (passed: ${{ needs.tester-agent-r3.outputs.tests_passed }}) |" >> $GITHUB_STEP_SUMMARY
           echo "| 🚀 Publisher | — | ${{ needs.publisher-agent.result }} |" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # Verdict final
           if [ "${{ needs.publisher-agent.result }}" = "success" ]; then
             echo "### ✅ Pipeline complet — Publié sur PyPI" >> $GITHUB_STEP_SUMMARY
-          elif [ "${{ needs.tester-agent-r2.outputs.tests_passed }}" = "false" ]; then
-            echo "### ❌ Tests encore en échec après retry — Review manuelle requise" >> $GITHUB_STEP_SUMMARY
+          elif [ "${{ needs.tester-agent-r3.outputs.tests_passed }}" = "false" ]; then
+            echo "### ❌ Tests encore en échec après 3 rounds — Review manuelle requise" >> $GITHUB_STEP_SUMMARY
           elif [ "${{ needs.tester-agent-r1.outputs.tests_passed }}" = "true" ]; then
             echo "### ✅ Tests OK — Publisher non déclenché (publish=false)" >> $GITHUB_STEP_SUMMARY
           else
             echo "### ⚠️ Pipeline terminé — voir les rapports ci-dessus" >> $GITHUB_STEP_SUMMARY
           fi
+
