@@ -1,3 +1,16 @@
+## [2.16.0] - 2026-04-01
+
+### Added — Cloud SDK v2.16.0
+- **`audit_trail()`** — Query signed cryptographic receipts. Supports filtering by passport_id, pagination, and EU AI Act Article 12 compliance report format (`compliance_format=True`).
+- **`intent_analyze()`** — Analyze agent intent for EU AI Act compliance. Uses Claude Haiku (LLM) or rule-based fallback. Returns risk level, per-article EU AI Act assessment, anomaly detection, and recommended policies.
+- **`vc_issue()`** — Issue W3C Verifiable Credentials (Ed25519Signature2020) anchored to a passport. Returns the full VC object with proof block and status URL.
+- **`vc_verify()`** — Check revocation status of a Verifiable Credential (public, no auth required).
+- **`did_resolve()`** — Resolve a DID (did:web or did:key) to its W3C DID Document.
+- **`keygen()`** — Generate an Ed25519 key pair with did:key, public/private hex, and JWK output.
+- **`list_templates()`** — List pre-configured passport templates filterable by protocol and use case.
+- **Top-level export** — `AIBCloud` and `AIBCloudError` now importable directly from `aib`: `from aib import AIBCloud`.
+
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
