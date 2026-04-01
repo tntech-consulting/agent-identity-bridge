@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent-identity-bridge"
-version = "2.15.1"
+version = "2.16.0"
 description = "Portable identity for AI agents across MCP, A2A, ANP, and AG-UI protocols"
 readme = "README.md"
 license = {text = "Apache-2.0"}
@@ -66,3 +66,4 @@ line-length = 100
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+
