@@ -109,3 +109,11 @@
   from = "/status"
   to = "/status.html"
   status = 200
+
+# Blog article pages — dynamic loading via blog-api
+# /blog/some-article-slug -> /blog/article.html (which loads content via API)
+[[redirects]]
+  from = "/blog/*"
+  to = "/blog/article.html"
+  status = 200
+  force = false
