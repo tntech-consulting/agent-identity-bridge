@@ -83,19 +83,27 @@ var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
 function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 var lang=localStorage.getItem('aib-lang')||'en';
-fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api?action=list').then(r=>r.json()).then(d=>{
-  var g=document.getElementById('blog-posts');
-  var posts=d.posts||d||[];
-  if(!posts.length){g.innerHTML='<div class="empty-state">No articles yet.</div>';return}
-  g.innerHTML=posts.map(function(p){
-    var t=lang==='fr'?(p.title_fr||p.title):p.title;
-    var desc=lang==='fr'?(p.description_fr||p.description||''):(p.description||'');
-    if(!desc&&p.content)desc=p.content.substring(0,160)+'...';
-    var date=p.published_at?new Date(p.published_at).toLocaleDateString(lang==='fr'?'fr':'en',{year:'numeric',month:'long',day:'numeric'}):'';
-    var tags=p.tags||[];
-    return '<div class="blog-card"><div class="blog-date">'+date+'</div><h3>'+t+'</h3><p>'+desc+'</p>'+(tags.length?'<div class="blog-tag">'+tags[0]+'</div>':'')+'</div>';
-  }).join('');
-}).catch(function(){document.getElementById('blog-posts').innerHTML='<div class="empty-state">Articles coming soon.</div>'});
+function loadBlog(){
+  fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api?action=list&lang='+lang).then(r=>r.json()).then(d=>{
+    var g=document.getElementById('blog-posts');
+    var posts=d.posts||d.articles||[];
+    // Filter by language if article has a lang field
+    var filtered=posts.filter(function(p){return !p.lang||p.lang===lang});
+    if(!filtered.length){g.innerHTML='<div class="empty-state">'+(lang==='fr'?'Aucun article pour le moment.':'No articles yet.')+'</div>';return}
+    g.innerHTML=filtered.map(function(p){
+      var t=lang==='fr'?(p.title_fr||p.title):p.title;
+      var desc=lang==='fr'?(p.description_fr||p.description||''):(p.description||'');
+      if(!desc&&p.content)desc=p.content.substring(0,160)+'...';
+      var date=p.published_at?new Date(p.published_at).toLocaleDateString(lang==='fr'?'fr':'en',{year:'numeric',month:'long',day:'numeric'}):'';
+      var tags=p.tags||[];
+      var href=p.url||('/blog/'+p.slug);
+      return '<a href="'+href+'" class="blog-card" style="text-decoration:none;color:inherit;display:block"><div class="blog-date">'+date+(p.read_time_min?' · '+p.read_time_min+' min read':'')+'</div><h3>'+t+'</h3><p>'+desc+'</p>'+(tags.length?'<div class="blog-tag">'+tags[0]+'</div>':'')+'</a>';
+    }).join('');
+  }).catch(function(){document.getElementById('blog-posts').innerHTML='<div class="empty-state">Articles coming soon.</div>'});
+}
+loadBlog();
+// Reload blog when language changes
+var origSetLang=setLang;setLang=function(l){origSetLang(l);lang=l;loadBlog()};
 </script>
 </body>
 </html>
