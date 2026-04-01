@@ -1,5 +1,5 @@
 """Agent Identity Bridge — Portable identity for AI agents across protocols."""
-__version__ = "2.15.1"
+__version__ = "2.16.0"
 
 from .passport import PassportService
 from .translator import (
@@ -10,3 +10,5 @@ from .translator import (
 )
 from .policy_engine import PolicyEngine
 from .integrations import AIBToolkit, get_langchain_tools, get_crewai_tools, get_openai_agents_tools
+from .cloud import AIBCloud, AIBCloudError
+
