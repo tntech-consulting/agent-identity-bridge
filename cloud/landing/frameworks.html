@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB — Framework Integration | LangChain, CrewAI, OpenAI Agents</title>
+<title>AIB — Framework Integration | LangChain, CrewAI, OpenAI Agents, OpenClaw</title>
 <link rel="canonical" href="https://aib-tech.fr/frameworks">
-<meta property="og:title" content="AIB Framework Integration — LangChain, CrewAI, OpenAI Agents">
-<meta property="og:description" content="Integrate Agent Identity Bridge with LangChain, CrewAI, and OpenAI Agents SDK. Real code examples with get_langchain_tools, get_crewai_tools, get_openai_agents_tools.">
+<meta property="og:title" content="AIB Framework Integration — LangChain, CrewAI, OpenAI Agents, OpenClaw">
+<meta property="og:description" content="Integrate Agent Identity Bridge with LangChain, CrewAI, OpenAI Agents SDK, and OpenClaw. Python SDK + CLI skill for pre-action guardrails.">
 <meta property="og:url" content="https://aib-tech.fr/frameworks">
 <meta property="og:type" content="website">
-<meta name="description" content="Integrate Agent Identity Bridge with LangChain, CrewAI, and OpenAI Agents SDK in 3 lines of Python.">
+<meta name="description" content="Integrate Agent Identity Bridge with LangChain, CrewAI, OpenAI Agents SDK, and OpenClaw (145K stars). Python SDK + CLI guardrails.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -37,7 +37,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .page-head h1{font-size:40px;font-weight:800;margin-bottom:10px;letter-spacing:-1.5px}
 .page-head h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .page-head p{color:var(--fg2);font-size:17px;max-width:500px;margin:0 auto}
-.fw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:60px}
+.fw-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;padding-bottom:60px}
 .fw{background:var(--glass);border:1px solid var(--bd);border-radius:16px;padding:32px 24px;backdrop-filter:blur(8px);transition:.3s}
 .fw:hover{border-color:rgba(0,212,255,.12);transform:translateY(-3px)}
 .fw-name{font-size:20px;font-weight:800;margin-bottom:6px}.fw-desc{color:var(--fg2);font-size:14px;margin-bottom:20px}
@@ -186,7 +186,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="nav-r">
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports & policies</small></a><a href="/pricing">Pricing<small>Community, Pro & Enterprise</small></a></div></div>
 <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation ↗<small>API reference & guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub ↗<small>Source & 1,054 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI ↗<small>pip install agent-identity-bridge</small></a></div></div>
-<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles & updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI, OpenClaw</small></a><a href="/roadmap">Roadmap<small>What's next</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a></div></div>
 <div class="nav-item" style="margin-left:6px">
 <button class="nb lang-btn" id="lang-toggle" onclick="toggleDD(this)">
 <span id="lang-flag">🇬🇧</span> <span id="lang-label">EN</span>
@@ -242,7 +242,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="mob-sub">
 <a href="/blog">Blog<small>Articles & updates</small></a>
 <a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a>
-<a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a>
+<a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI, OpenClaw</small></a>
 <a href="/roadmap">Roadmap<small>What's next</small></a>
 <a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a>
 </div>
@@ -265,8 +265,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="tag">FRAMEWORKS</div>
 <h1 data-lang="en" class="show">3 lines. <em>Any framework.</em></h1>
 <h1 data-lang="fr">3 lignes. <em>N'importe quel framework.</em></h1>
-<p data-lang="en" class="show">AIB provides native tool integrations for LangChain, CrewAI, and OpenAI Agents SDK. Each returns a list of 6 tools: create, verify, revoke, list, translate, and check policy.</p>
-<p data-lang="fr">AIB fournit des intégrations natives pour LangChain, CrewAI et OpenAI Agents SDK. Chacune retourne 6 outils : create, verify, revoke, list, translate et check policy.</p>
+<p data-lang="en" class="show">AIB provides native integrations for LangChain, CrewAI, OpenAI Agents SDK, and OpenClaw. Python SDK for cloud frameworks, CLI skill for self-hosted agents.</p>
+<p data-lang="fr">AIB fournit des intégrations natives pour LangChain, CrewAI, OpenAI Agents SDK et OpenClaw. SDK Python pour les frameworks cloud, skill CLI pour les agents self-hosted.</p>
 </div></div>
 
 <div class="w">
@@ -285,6 +285,11 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="fw-name">🧠 OpenAI Agents SDK</div>
 <div class="fw-desc">Returns 6 @function_tool functions compatible with the OpenAI Agents SDK.</div>
 <div class="fw-code"><span class="k">from</span> aib.integrations <span class="k">import</span> get_openai_agents_tools<br><br>tools = get_openai_agents_tools(secret_key=<span class="s">"your-key"</span>)<br><br><span class="c"># Create agent with AIB identity tools</span><br><span class="k">from</span> agents <span class="k">import</span> Agent<br>agent = Agent(name=<span class="s">"Identity Manager"</span>, tools=tools)</div>
+</div>
+<div class="fw" id="openclaw" style="border-color:rgba(239,68,68,.15);background:linear-gradient(135deg,var(--glass),rgba(239,68,68,.03))">
+<div class="fw-name">🦞 OpenClaw <span style="font-size:11px;font-weight:600;color:var(--green);background:rgba(34,197,94,.1);padding:2px 8px;border-radius:4px;margin-left:8px;vertical-align:middle;font-family:var(--mono)">145K ★</span></div>
+<div class="fw-desc">AgentSkills-compatible skill. Pre-action guardrails, Ed25519 identity, EU AI Act governance, and cross-protocol translation — enforced before every tool call.</div>
+<div class="fw-code"><span class="c"># Install the AIB skill</span><br><span class="k">$</span> clawhub install aib-identity-governance<br><br><span class="c"># Or manually</span><br><span class="k">$</span> bash ~/.openclaw/skills/aib-identity-governance/scripts/setup.sh<br><br><span class="c"># Guard runs before every tool call</span><br><span class="c"># Exit 0 = ALLOW, Exit 1 = DENY</span><br><span class="k">$</span> aib guard check --action <span class="s">"exec.run"</span> \<br>&nbsp;&nbsp;--params <span class="s">'{"command":"ls"}'</span></div>
 </div>
 </div>
 
@@ -308,12 +313,19 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </div>
 </div>
 <section><div class="w" style="text-align:center">
-<h2 style="font-size:28px;font-weight:800;margin-bottom:8px">Install the SDK</h2>
-<div style="background:rgba(0,0,0,.3);border-radius:10px;padding:20px;font-family:var(--mono);font-size:14px;max-width:500px;margin:0 auto;color:var(--cyan)">
+<h2 style="font-size:28px;font-weight:800;margin-bottom:8px">Install</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;margin:0 auto">
+<div style="background:rgba(0,0,0,.3);border-radius:10px;padding:20px;font-family:var(--mono);font-size:14px;color:var(--cyan);text-align:left">
+<div style="color:var(--fg3);font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Python SDK</div>
 $ pip install agent-identity-bridge
 </div>
+<div style="background:rgba(0,0,0,.3);border-radius:10px;padding:20px;font-family:var(--mono);font-size:14px;color:var(--cyan);text-align:left">
+<div style="color:var(--fg3);font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">CLI (Node.js)</div>
+$ npm install -g @aib-protocol/cli
+</div>
+</div>
 <p style="color:var(--fg3);margin-top:16px;font-size:14px">v2.15.1 · 1,044 unit + 10 integration tests · Apache 2.0</p>
-<p style="color:var(--fg3);margin-top:6px;font-size:13px">Framework dependencies are optional: install langchain-core, crewai, or openai-agents separately.</p>
+<p style="color:var(--fg3);margin-top:6px;font-size:13px">Framework dependencies are optional. OpenClaw skill: <span style="color:var(--cyan)">clawhub install aib-identity-governance</span></p>
 </div></section>
 
 <footer><div class="w"><p>&copy; 2026 TNTECH CONSULTING SAS — Paris — <a href="/">AIB</a> · <a href="/cgv">Terms</a> · Apache 2.0</p></div></footer>
