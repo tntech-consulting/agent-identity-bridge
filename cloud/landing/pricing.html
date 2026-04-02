@@ -268,7 +268,33 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
 
 
-<div class="page-head"><div class="w">
+<div class="page-head"><div class="hero-logo-wrap" style="margin:0 auto 40px;max-width:240px;display:flex;justify-content:center">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="220" height="220" style="filter:drop-shadow(0 0 28px rgba(139,92,246,.4))">
+<defs>
+<linearGradient id="hg1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8b5cf6"/><stop offset="100%" stop-color="#00d4ff"/></linearGradient>
+<linearGradient id="hg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#3b82f6"/></linearGradient>
+<filter id="hglow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<rect width="400" height="400" fill="#0a0a1a" rx="32"/>
+<g fill="none" stroke="url(#hg1)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hglow)">
+<path d="M200 80 C160 78,120 90,105 115 C88 142,88 170,95 192 C102 215,95 235,100 255 C108 278,125 295,148 302 C165 308,182 305,195 300 L195 85 Z"/>
+<path d="M155 105 C140 118,130 135,135 155"/><path d="M120 140 C112 155,112 172,118 188"/>
+<path d="M140 190 C130 205,132 222,142 235"/><path d="M165 235 C155 248,155 262,162 272"/>
+<line x1="195" y1="80" x2="195" y2="305" stroke="url(#hg1)" stroke-width="1.5" stroke-dasharray="4,4"/>
+</g>
+<g fill="none" stroke="url(#hg2)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#hglow)">
+<path d="M205 85 L205 300 C218 305,235 308,252 302 C275 295,292 278,300 255 C305 235,298 215,305 192 C312 170,312 142,295 115 C280 90,240 78,205 80 Z"/>
+<line x1="205" y1="130" x2="260" y2="130"/><line x1="260" y1="130" x2="260" y2="155"/><line x1="260" y1="155" x2="295" y2="155"/>
+<line x1="205" y1="185" x2="245" y2="185"/><line x1="245" y1="185" x2="245" y2="165"/><line x1="245" y1="165" x2="290" y2="165"/>
+<line x1="205" y1="230" x2="255" y2="230"/><line x1="255" y1="230" x2="255" y2="210"/><line x1="255" y1="210" x2="300" y2="210"/>
+<circle cx="295" cy="155" r="8" fill="#00d4ff" stroke="none" filter="url(#hglow)"/>
+<circle cx="300" cy="210" r="8" fill="#00d4ff" stroke="none" filter="url(#hglow)"/>
+<circle cx="285" cy="250" r="6" fill="#3b82f6" stroke="none"/>
+</g>
+<text x="200" y="358" font-family="monospace" font-size="52" font-weight="700" text-anchor="middle" letter-spacing="8" fill="url(#hg1)" filter="url(#hglow)">AIB</text>
+</svg>
+</div>
+<div class="w">
 <h1 data-lang="en" class="show">Simple, transparent <em>pricing</em></h1>
 <h1 data-lang="fr">Tarification simple et <em>transparente</em></h1>
 <p data-lang="en" class="show">Free during beta. All Pro features included. No credit card required.</p>
