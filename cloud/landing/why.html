@@ -93,7 +93,7 @@ section{padding:70px 0}
 .btn-g{display:inline-block;background:rgba(255,255,255,.04);color:var(--fg);font-family:var(--mono);font-size:13px;font-weight:600;padding:11px 22px;border-radius:8px;border:1px solid var(--bd);transition:.2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
 
 footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center}footer p{font-size:11.5px;color:var(--fg3)}footer a{color:var(--fg2);transition:.15s}footer a:hover{color:var(--cyan)}
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
+.reveal{opacity:1;transform:none;transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}.js-ready .reveal{opacity:0;transform:translateY(16px)}.reveal.v{opacity:1;transform:none}
 
 /* MOBILE */
 @media(max-width:768px){
@@ -565,7 +565,7 @@ function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.class
 var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
 function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
-var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
+document.body.classList.add('js-ready');var obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('v');obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 
