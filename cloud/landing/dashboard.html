@@ -241,7 +241,73 @@ async function DT(){var f=document.getElementById('tr-f').value,t=document.getEl
 async function RWH(c){c.innerHTML='<div class="card" style="text-align:center;color:var(--fg3)">Loading webhooks...</div>';const data=await F("webhook-manage");const hooks=data.webhooks||[];const validEvents=['passport.created','passport.revoked','policy.violation','translate.completed'];c.innerHTML=HLP('🔔','Get notified when things happen','Webhooks send a real-time HTTP POST to your server when events occur --- a passport is created, revoked, or a policy is violated. Add your endpoint URL, select the events you care about, and optionally add an HMAC secret for signature verification.')+'<div class="card"><div class="card-title">Create webhook</div><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px"><div style="flex:2;min-width:200px"><span class="lbl">URL</span><input id="wh-url" placeholder="https://your-app.com/webhooks" class="inp" style="margin-bottom:0"></div><div style="flex:1;min-width:140px"><span class="lbl">SECRET (optional)</span><input id="wh-secret" placeholder="hmac-secret" class="inp" style="margin-bottom:0"></div></div><span class="lbl">EVENTS</span><div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px">'+validEvents.map(e=>'<label style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--fg2);font-family:var(--mono);cursor:pointer"><input type="checkbox" class="wh-ev" value="'+e+'" '+(e==="passport.created"||e==="passport.revoked"?"checked":"")+'>'+e+'</label>').join('')+'</div><button onclick="createWH()" class="btn-action">> create webhook</button><div id="wh-msg" class="h" style="font-size:11px;margin-top:8px;font-family:var(--mono)"></div></div><div style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:14px;overflow:hidden"><div style="display:grid;grid-template-columns:1fr 130px 60px 60px 60px;gap:8px;padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)"><span>URL</span><span>Events</span><span>OK</span><span>Fail</span><span></span></div>'+(hooks.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No webhooks configured</div>':hooks.map(h=>'<div style="display:grid;grid-template-columns:1fr 130px 60px 60px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:12px;word-break:break-all">'+h.url+'</div><div style="color:var(--fg3);font-size:9px;font-family:var(--mono)">'+(h.last_fired_at?'Last: '+new Date(h.last_fired_at).toLocaleString():'Never fired')+'</div></div><div style="display:flex;gap:2px;flex-wrap:wrap">'+h.events.map(e=>'<span class="tag tag-cyan">'+e.split('.').pop()+'</span>').join('')+'</div><span style="font-size:12px;color:var(--green);font-family:var(--mono);text-align:center">'+h.success_count+'</span><span style="font-size:12px;color:var(--red);font-family:var(--mono);text-align:center">'+h.failure_count+'</span><button class="btn-danger" onclick="delWH(\''+h.id+'\')">delete</button></div>').join(''))+'</div>';}
 async function createWH(){const url=document.getElementById('wh-url').value;if(!url)return;const secret=document.getElementById('wh-secret').value;const events=Array.from(document.querySelectorAll('.wh-ev:checked')).map(el=>el.value);if(events.length===0){const m=document.getElementById('wh-msg');m.style.color='var(--red)';m.textContent='Select at least one event';m.classList.remove('h');return;}const body={url,events};if(secret)body.secret=secret;const d=await F('webhook-manage',{method:'POST',body});const m=document.getElementById('wh-msg');m.classList.remove('h');if(d.error){m.style.color='var(--red)';m.textContent=d.error;}else{m.style.color='var(--cyan)';m.textContent='✓ Webhook created';document.getElementById('wh-url').value='';setTimeout(()=>RWH(document.getElementById('D-content')),500);}}
 async function delWH(id){if(!confirm('Delete this webhook?'))return;await F('webhook-manage?id='+id,{method:'DELETE'});RWH(document.getElementById('D-content'));}
-function RK(c){const ks=S.ss?.api_keys||[];c.innerHTML=HLP('🔑','Manage your API keys','API keys authenticate your requests to the AIB API. Use the <code style="color:var(--cyan)">x-api-key</code> header in your calls. You can create multiple keys for different environments (dev, staging, prod). <strong>Keys are shown only once</strong> --- save them immediately after generation.')+'<div class="card"><div class="card-title">Generate new API key</div><div style="display:flex;gap:10px;align-items:end"><div style="flex:1"><span class="lbl">KEY NAME</span><input id="gk-n" placeholder="My integration" class="inp" style="margin-bottom:0"></div><button onclick="GK()" class="btn-action">> generate</button></div><div id="gk-r" class="h key-box" style="margin-top:14px"><div class="key-label">Save this key now:</div><code id="gk-v"></code></div></div><div id="gk-list" style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:14px;overflow:hidden"><div style="padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Active API keys</div>'+(ks.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No keys found</div>':ks.map(k=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd);font-size:12px"><div><div style="color:var(--fg);font-weight:600">'+k.name+'</div><div style="color:var(--fg3);font-family:var(--mono);font-size:10px">'+k.key_preview+'</div></div><div style="color:var(--fg3);font-size:10px">'+(k.last_used_at?new Date(k.last_used_at).toLocaleDateString():"Never used")+'</div></div>').join(""))+'</div>';}
+function RK(c){const ks=S.ss?.api_keys||[];c.innerHTML=HLP('🔑','Manage your API keys','API keys authenticate your requests to the AIB API. Use the <code style="color:var(--cyan)">x-api-key</code> header in your calls. You can create multiple keys for different environments (dev, staging, prod). <strong>Keys are shown only once</strong> --- save them immediately after generation.')+'<div class="card"><div class="card-title">Generate new API key</div><div style="display:flex;gap:10px;align-items:end"><div style="flex:1"><span class="lbl">KEY NAME</span><input id="gk-n" placeholder="My integration" class="inp" style="margin-bottom:0"></div><button onclick="GK()" class="btn-action">> generate</button></div><div id="gk-r" class="h key-box" style="margin-top:14px"><div class="key-label">Save this key now:</div><code id="gk-v"></code></div></div><div id="gk-list" style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:14px;overflow:hidden"><div style="padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)">Active API keys</div>'+(ks.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No keys found</div>':ks.map(k=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--bd);font-size:12px"><div><div style="color:var(--fg);font-weight:600">'+k.name+'</div><div style="color:var(--fg3);font-family:var(--mono);font-size:10px">'+k.key_preview+'</div></div><div style="color:var(--fg3);font-size:10px">'+(k.last_used_at?new Date(k.last_used_at).toLocaleDateString():"Never used")+'</div></div>').join(""))+'</div>'+RK_complianceBlock();}
+async function exportUserCompliance(format){
+  const passports=S.pp||[];
+  const org=S.u?.org||{};
+  const now=new Date().toISOString();
+  const date=now.split('T')[0];
+  if(format==='json'){
+    const report={
+      metadata:{generated_at:now,org_slug:org.slug,org_plan:org.plan,standard:'EU AI Act 2024/1689',articles_covered:['Art.9 - Gestion des risques','Art.12 - Journalisation','Art.13 - Transparence','Art.14 - Supervision humaine'],platform:'aib-tech.fr',note:'Chaque operation produit un receipt cryptographique signe Ed25519. Pour audit complet, contacter contact.tntechcorp@gmail.com'},
+      agents:passports.map(p=>({passport_id:p.passport_id,display_name:p.display_name,protocols:p.protocols,capabilities:p.capabilities,tier:p.tier,status:p.status,issued_at:p.created_at,compliance:{receipt_trail:'Chaque operation genere un receipt signe Ed25519 stocke en base immuable',intent:'Defini lors de la creation du passeport',risk_level:p.risk_level||'A renseigner lors de la creation',human_oversight:p.human_oversight!==undefined?p.human_oversight:'A renseigner',data_accessed:'A documenter dans le body de chaque appel API',affected_persons:'A documenter si applicable'}}))
+    };
+    const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='AIB_Compliance_'+org.slug+'_'+date+'.json';a.click();
+  } else {
+    const rows=[['passport_id','display_name','protocols','tier','status','issued_at','note_conformite'].join(',')];
+    for(const p of passports){
+      rows.push([p.passport_id,p.display_name,(p.protocols||[]).join('|'),p.tier,p.status,p.created_at||'','Receipts Ed25519 signes - Art.9/12/13/14 EU AI Act'].map(v=>'"'+String(v||'').replace(/"/g,'""')+'"').join(','));
+    }
+    const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='AIB_Compliance_'+org.slug+'_'+date+'.csv';a.click();
+  }
+}
+function RK_complianceBlock(){
+  const passports=S.pp||[];
+  const org=S.u?.org||{};
+  if(passports.length===0) return '';
+  const high=passports.filter(p=>p.risk_level==='high').length;
+  const med=passports.filter(p=>p.risk_level==='medium').length;
+  return '<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(168,85,247,.04),rgba(59,130,246,.04));border:1px solid rgba(168,85,247,.15);border-radius:14px">'+
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">'+
+      '<div style="display:flex;align-items:center;gap:10px">'+
+        '<span style="font-size:20px">⚖️</span>'+
+        '<div>'+
+          '<div style="font-size:15px;font-weight:800;color:var(--fg)">Mon registre EU AI Act</div>'+
+          '<div style="font-size:11px;color:var(--fg3)">'+passports.length+' agent'+( passports.length>1?'s':'')+' - org: '+org.slug+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div style="display:flex;gap:8px">'+
+        '<button onclick="exportUserCompliance(\'json\')" style="padding:8px 14px;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.35);border-radius:7px;color:#a855f7;font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer">⬇ JSON</button>'+
+        '<button onclick="exportUserCompliance(\'csv\')" style="padding:8px 14px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3);border-radius:7px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer">⬇ CSV</button>'+
+      '</div>'+
+    '</div>'+
+    '<div style="font-size:11px;color:var(--fg2);margin-bottom:12px;line-height:1.6">'+
+      'Chaque operation de vos agents genere un <strong style="color:var(--cyan)">receipt cryptographique signe Ed25519</strong> '+
+      'conforme aux Art. 9 (gestion des risques), 12 (journalisation), 13 (transparence) et 14 (supervision humaine) du Reglement EU AI Act 2024/1689.'+
+    '</div>'+
+    passports.map(p=>{
+      const riskColor=p.risk_level==='high'?'var(--red)':p.risk_level==='medium'?'var(--yellow)':'var(--fg3)';
+      const riskLabel=p.risk_level||'non defini';
+      const protoStr=(p.protocols||[]).join(', ');
+      return '<div style="padding:10px 0;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">'+
+        '<div>'+
+          '<div style="font-size:12px;font-weight:600;color:var(--fg)">'+p.display_name+'</div>'+
+          '<div style="font-family:var(--mono);font-size:9px;color:var(--fg3)">'+p.passport_id+'</div>'+
+        '</div>'+
+        '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">'+
+          '<span style="font-family:var(--mono);font-size:10px;color:var(--fg3)">'+protoStr+'</span>'+
+          '<span style="display:inline-block;padding:2px 8px;background:'+riskColor+'18;color:'+riskColor+';font-family:var(--mono);font-size:9px;font-weight:700;border-radius:4px;border:1px solid '+riskColor+'30">'+riskLabel+'</span>'+
+          '<span style="display:inline-block;padding:2px 8px;background:rgba(34,197,94,.08);color:var(--green);font-family:var(--mono);font-size:9px;font-weight:700;border-radius:4px">'+p.status+'</span>'+
+        '</div>'+
+      '</div>';
+    }).join('')+
+    '<div style="margin-top:12px;padding:10px 12px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.1);border-radius:8px;font-size:10px;color:var(--fg3);font-family:var(--mono)">'+
+      'Pour un audit complet avec audit trail complet : contact.tntechcorp@gmail.com'+
+    '</div>'+
+  '</div>';
+}
 async function GK(){const n=document.getElementById("gk-n").value||"API Key";const body={action:"generate_key",key_name:n};if(S.ak)body.api_key=S.ak;if(S.ss?.access_token)body.access_token=S.ss.access_token;try{const d=await F("auth",{method:"POST",body});if(d.error){document.getElementById("gk-r").classList.remove("h");document.getElementById("gk-v").textContent="Error: "+d.error;return;}if(d.api_key){document.getElementById("gk-v").textContent=d.api_key;document.getElementById("gk-r").classList.remove("h");if(!S.ss.api_keys)S.ss.api_keys=[];S.ss.api_keys.push({id:'new-'+Date.now(),name:n,key_prefix:d.api_key.substring(0,18),key_preview:d.api_key.substring(0,18)+'...',status:'active',last_used_at:null});RK(document.getElementById("D-content"));document.getElementById("gk-r").classList.remove("h");document.getElementById("gk-v").textContent=d.api_key;}}catch(e){document.getElementById("gk-r").classList.remove("h");document.getElementById("gk-v").textContent="Error: "+e.message;}}
 async function RPol(c){c.innerHTML='<div class="card" style="text-align:center;color:var(--fg3)">Loading policies...</div>';const data=await F("policy-manage");const rules=data.rules||[];const typeColors={deliverable_gate:'var(--yellow)',separation_of_duties:'var(--red)',attestation_required:'var(--green)',capability_required:'var(--blue)',domain_block:'var(--red)',protocol_restrict:'var(--orange)',tier_restrict:'var(--fg2)',rate_limit:'var(--orange)'};c.innerHTML=HLP('🛡️','Define rules for your agents','Policies are <strong>guardrails</strong> evaluated on every passport operation. For example: require a specific capability before creating a passport, block certain protocols, or enforce human oversight. Choose a rule type, set severity (block/warn/log), and configure via JSON.')+'<div class="card"><div class="card-title">Create policy rule</div><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px"><div style="flex:1;min-width:160px"><span class="lbl">RULE TYPE</span><select id="pol-type" onchange="polTypeChange()" class="inp" style="margin-bottom:0"><option value="deliverable_gate">deliverable_gate</option><option value="separation_of_duties">separation_of_duties</option><option value="attestation_required">attestation_required</option><option value="capability_required">capability_required</option><option value="domain_block">domain_block</option><option value="protocol_restrict">protocol_restrict</option></select></div><div style="flex:1;min-width:160px"><span class="lbl">SEVERITY</span><select id="pol-sev" class="inp" style="margin-bottom:0"><option value="block">block</option><option value="warn">warn</option><option value="log">log</option></select></div></div><span class="lbl">DESCRIPTION</span><input id="pol-desc" placeholder="Require tests_passed capability" class="inp"><span class="lbl">CONFIG (JSON)</span><textarea id="pol-cfg" rows="3" style="width:100%;padding:12px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;color:var(--cyan);font-size:11px;font-family:var(--mono);resize:vertical;outline:none">{"required_capabilities": ["tests_passed"], "action": "create"}</textarea><div style="display:flex;gap:10px;margin-top:12px"><button onclick="createPolicy()" class="btn-action">&gt; create rule</button><button onclick="testPolicy()" class="btn-outline" style="border-color:rgba(245,158,11,.3);color:var(--yellow)">&gt; test policy</button></div><div id="pol-msg" style="font-size:11px;margin-top:8px;font-family:var(--mono)"></div></div><div style="background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--bd);border-radius:14px;overflow:hidden"><div style="display:grid;grid-template-columns:1fr 130px 60px 50px 60px;gap:8px;padding:10px 16px;font-size:10px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--bd)"><span>Rule</span><span>Type</span><span>Sev</span><span>Hits</span><span></span></div>'+(rules.length===0?'<div style="padding:24px;text-align:center;color:var(--fg3);font-size:13px">No policy rules yet</div>':rules.map(r=>{const col=typeColors[r.rule_type]||'var(--fg2)';return '<div style="display:grid;grid-template-columns:1fr 130px 60px 50px 60px;gap:8px;padding:12px 16px;border-bottom:1px solid var(--bd);align-items:center"><div><div style="color:var(--fg);font-weight:600;font-size:13px">'+(r.description||r.rule_id)+'</div><div style="color:var(--fg3);font-size:10px;font-family:var(--mono)">'+r.rule_id+'</div></div><span style="font-size:10px;padding:2px 6px;border-radius:4px;font-family:var(--mono);font-weight:600;background:rgba(255,255,255,.03);color:'+col+'">'+r.rule_type+'</span><span style="font-size:10px;color:'+(r.severity==='block'?'var(--red)':'var(--yellow)')+';font-family:var(--mono)">'+r.severity+'</span><span style="font-size:12px;color:var(--fg);font-family:var(--mono);text-align:center">'+(r.hits||0)+'</span><button class="btn-danger" onclick="delPolicy(\''+r.rule_id+'\')">delete</button></div>';}).join(''))+'</div><div id="pol-test-result" style="margin-top:16px"></div>';}
 const POL_TEMPLATES={deliverable_gate:{cfg:'{"required_capabilities": ["tests_passed"], "action": "create"}',desc:'Require tests_passed capability'},separation_of_duties:{cfg:'{"blocked_self_actions": ["revoke"], "strict": true}',desc:'Block self-revoke'},attestation_required:{cfg:'{"actions": ["create", "revoke"]}',desc:'Sign all create/revoke receipts'},capability_required:{cfg:'{"required": ["deploy"]}',desc:'Require deploy capability'},domain_block:{cfg:'{"blocked_domains": ["untrusted.com"]}',desc:'Block untrusted domain'},protocol_restrict:{cfg:'{"blocked_protocols": ["anp"]}',desc:'Block ANP protocol'}};
@@ -363,111 +429,7 @@ SC("💬","Bot sessions (7d)",gr.bot_sessions_7d||0,null,"var(--purple)")+
 '</div></div>'+
 '<div class="card"><div class="card-title">🏷️ Org Plan Distribution (simulated)</div>'+
 Object.entries(sim.by_plan||{}).map(([plan,count])=>{const colors={starter:'var(--fg3)',growth:'var(--green)',scale:'var(--blue)',enterprise:'var(--yellow)'};const prices={starter:'Free',growth:'49€/mo',scale:'199€/mo',enterprise:'500€+/mo'};return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);align-items:center"><div><span style="color:var(--fg);font-weight:600">'+plan.charAt(0).toUpperCase()+plan.slice(1)+'</span><span style="color:var(--fg3);font-size:10px;margin-left:8px">'+prices[plan]+'</span></div><div style="display:flex;align-items:center;gap:10px"><div style="width:'+(count*40)+'px;height:8px;background:'+(colors[plan]||'var(--fg3)')+';border-radius:4px;min-width:8px"></div><span style="color:var(--fg);font-family:var(--mono);font-weight:700;font-size:14px">'+count+'</span></div></div>';}).join('')+
-'</div></div>'+
-
-// ── EU AI ACT COMPLIANCE REPORT ──
-'<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(168,85,247,.04),rgba(0,212,255,.04));border:1px solid rgba(168,85,247,.2);border-radius:16px">'+
-'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:gap">'+
-  '<div style="display:flex;align-items:center;gap:10px">'+
-    '<div style="font-size:22px">⚖️</div>'+
-    '<div>'+
-      '<div style="font-size:18px;font-weight:800;color:var(--fg)">EU AI Act Compliance Report</div>'+
-      '<div style="font-size:12px;color:var(--fg3)">Registre reglementaire - Art. 9, 12, 13, 14 EU AI Act</div>'+
-    '</div>'+
-  '</div>'+
-  '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
-    '<button onclick="generateComplianceReport(\'json\')" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(168,85,247,.05));border:1px solid rgba(168,85,247,.4);border-radius:8px;color:#a855f7;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer">'+
-      '<span>⬇</span><span>Export JSON</span>'+
-    '</button>'+
-    '<button onclick="generateComplianceReport(\'csv\')" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(0,212,255,.05));border:1px solid rgba(0,212,255,.4);border-radius:8px;color:var(--cyan);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer">'+
-      '<span>⬇</span><span>Export CSV</span>'+
-    '</button>'+
-    '<button onclick="copyAuditSQL()" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.3);border-radius:8px;color:var(--green);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer" id="btn-sql">'+
-      '<span>📋</span><span>Copier SQL auditeur</span>'+
-    '</button>'+
-  '</div>'+
-'</div>'+
-
-// Tableau des agents classifiés
-'<div style="overflow-x:auto">'+
-'<table style="width:100%;border-collapse:collapse;font-size:11px">'+
-'<thead><tr>'+
-  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Agent</th>'+
-  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Categorie</th>'+
-  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Risque</th>'+
-  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Supervision</th>'+
-  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Base legale</th>'+
-  '<th style="text-align:center;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Score</th>'+
-'</tr></thead><tbody>'+
-(d.agent_fleet||[]).map(a=>{
-  const slug=a.passport_id.split(':').pop()||'';
-  const riskColor=a.risk_level==='high'?'var(--red)':a.risk_level==='medium'?'var(--yellow)':'var(--green)';
-  const catColor=a.eu_ai_act_category==='high_risk'?'var(--red)':a.eu_ai_act_category==='limited_risk'?'var(--yellow)':'var(--fg3)';
-  const score=(a.total_receipts>0)?(a.avg_latency_ms?5:5):0;
-  const scoreStr=a.total_receipts>0?'5-6/6':'--';
-  const scoreColor=a.total_receipts>0?'var(--green)':'var(--fg3)';
-  return '<tr style="border-bottom:1px solid rgba(255,255,255,.03)">'+
-    '<td style="padding:8px 10px;color:var(--fg);font-weight:600">'+a.display_name+'</td>'+
-    '<td style="padding:8px 10px;font-family:var(--mono);color:'+catColor+'">'+(a.eu_ai_act_category||'minimal_risk')+'</td>'+
-    '<td style="padding:8px 10px"><span style="display:inline-block;padding:2px 8px;background:'+riskColor+'18;color:'+riskColor+';font-family:var(--mono);font-size:10px;font-weight:700;border-radius:4px;border:1px solid '+riskColor+'30">'+(a.risk_level||'low')+'</span></td>'+
-    '<td style="padding:8px 10px;font-family:var(--mono);color:'+(a.human_oversight?'var(--amber)':'var(--fg3)')+'">'+(a.human_oversight?'Requise':'Autonome')+'</td>'+
-    '<td style="padding:8px 10px;color:var(--fg2);font-size:10px">'+(a.legal_basis||'-')+'</td>'+
-    '<td style="padding:8px 10px;text-align:center;font-family:var(--mono);font-weight:700;color:'+scoreColor+'">'+scoreStr+'</td>'+
-  '</tr>';
-}).join('')+
-'</tbody></table>'+
-'</div>'+
-
-// Légende
-'<div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:9px;color:var(--fg3)">'+
-  '<span>Score = champs EU AI Act remplis par receipt (max 6/6)</span>'+
-  '<span>Art.9 risk_level &bull; Art.12 data_accessed &bull; Art.13 intent &bull; Art.14 decision_rationale, human_oversight</span>'+
-'</div>'+
-'</div>';
-
-}
-async function generateComplianceReport(format){
-  const fleet=S.u?.agent_fleet||[];
-  const now=new Date().toISOString();
-  const meta={generated_at:now,generated_by:'AIB Dashboard Admin',platform:'aib-tech.fr',standard:'EU AI Act 2024/1689',articles:['Art.9 - Gestion des risques','Art.12 - Journalisation','Art.13 - Transparence','Art.14 - Supervision humaine'],total_agents:fleet.length,high_risk:fleet.filter(a=>a.risk_level==='high').length,medium_risk:fleet.filter(a=>a.risk_level==='medium').length,low_risk:fleet.filter(a=>a.risk_level==='low').length};
-  if(format==='json'){
-    const report={metadata:meta,agents:fleet.map(a=>({passport_id:a.passport_id,display_name:a.display_name,eu_ai_act_category:a.eu_ai_act_category||'minimal_risk',risk_level:a.risk_level,human_oversight:a.human_oversight,legal_basis:a.legal_basis||null,status:a.status,total_receipts:a.total_receipts,last_run_at:a.last_run_at,compliance_note:'Chaque operation genere un receipt signe Ed25519 avec intent, risk_level, human_oversight, decision_rationale, data_accessed, affected_persons'}))};
-    const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});
-    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AIB_EU_AI_Act_Compliance_'+now.split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);
-  } else if(format==='csv'){
-    const headers=['passport_id','display_name','eu_ai_act_category','risk_level','human_oversight','legal_basis','status','total_receipts','last_run_at'];
-    const rows=fleet.map(a=>headers.map(h=>{const v=a[h];if(v===null||v===undefined)return '';if(typeof v==='boolean')return v?'OUI':'NON';return '"'+String(v).replace(/"/g,'""')+'"';}).join(','));
-    const csv=[headers.join(','),...rows].join('\n');
-    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
-    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AIB_EU_AI_Act_Registre_'+now.split('T')[0]+'.csv';a.click();URL.revokeObjectURL(url);
-  }
-}
-async function copyAuditSQL(){
-  const sql=`-- Registre EU AI Act AIB - Art. 9, 12, 13, 14
--- A executer sur la base Supabase AIB (contact: contact.tntechcorp@gmail.com)
-SELECT
-  split_part(p.passport_id, ':', 5) AS agent_slug,
-  p.display_name,
-  c.eu_ai_act_category,
-  c.risk_level,
-  c.human_oversight,
-  c.intent AS "finalite_art13",
-  c.decision_rationale AS "logique_decision_art14",
-  c.data_accessed AS "donnees_accedees_art12",
-  c.affected_persons AS "personnes_concernees_art9",
-  c.legal_basis AS "base_legale_rgpd",
-  COUNT(r.id) AS operations_tracees,
-  COUNT(r.id) FILTER (WHERE r.decision_rationale IS NOT NULL) AS receipts_conformes,
-  MAX(r.created_at) AS derniere_operation
-FROM passports p
-JOIN agent_euaiact_config c ON c.slug = split_part(p.passport_id, ':', 5)
-LEFT JOIN receipts r ON r.passport_id = p.passport_id AND r.action != 'create'
-WHERE p.passport_id LIKE '%thomas-nirennold-1%'
-GROUP BY p.passport_id, p.display_name, c.eu_ai_act_category,
-         c.risk_level, c.human_oversight, c.intent, c.decision_rationale,
-         c.data_accessed, c.affected_persons, c.legal_basis
-ORDER BY CASE c.risk_level WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END, agent_slug;`;
-  try{await navigator.clipboard.writeText(sql);const btn=document.getElementById('btn-sql');if(btn){const orig=btn.innerHTML;btn.innerHTML='<span>✓</span><span>Copie !</span>';btn.style.color='var(--green)';setTimeout(()=>{btn.innerHTML=orig;btn.style.color='var(--green)';},2000);}}catch(e){alert('Copier manuellement:\n\n'+sql);}
+'</div></div>';
 }
 async function LO(){try{await sb.auth.signOut();}catch(e){}ghHandled=false;S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};document.getElementById("V-auth").classList.remove("h");document.getElementById("V-dash").classList.add("h");document.getElementById("aib-bot").style.display="none";botOpen=false;document.getElementById('bot-window').style.display='none';document.getElementById('bot-fab').style.display='flex';botSessionId=null;document.getElementById("A-email").value="";document.getElementById("A-pass").value="";document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");}
 </script>
