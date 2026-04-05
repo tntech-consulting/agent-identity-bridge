@@ -669,8 +669,6 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <footer><div class="w"><p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/viz">Explorer</a> · <a href="/blog">Blog</a> · Apache 2.0</p></div></footer>
 
 <script>
-function setLang(l){document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
-var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
 function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(x=>x.classList.remove('open'));document.querySelectorAll('.dd').forEach(x=>x.classList.remove('open'));if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
 document.addEventListener('click',e=>{if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(b=>b.classList.remove('open'));document.querySelectorAll('.dd').forEach(d=>d.classList.remove('open'))}});
 
@@ -681,15 +679,16 @@ var LANGS={en:{flag:'🇬🇧',label:'EN'},fr:{flag:'🇫🇷',label:'FR'}};
 function setLang(l){
   document.querySelectorAll('[data-lang]').forEach(e=>{e.classList.toggle('show',e.getAttribute('data-lang')===l)});
   var L=LANGS[l]||LANGS.en;
-  document.getElementById('lang-flag').textContent=L.flag;
-  document.getElementById('lang-label').textContent=L.label;
+  var lf=document.getElementById('lang-flag');if(lf)lf.textContent=L.flag;
+  var ll=document.getElementById('lang-label');if(ll)ll.textContent=L.label;
   Object.keys(LANGS).forEach(k=>{var o=document.getElementById('opt-'+k);if(o)o.style.color=k===l?'var(--cyan)':'';});
-  // update mobile lang buttons
+  var be=document.getElementById('btn-en'),bf=document.getElementById('btn-fr');
+  if(be)be.classList.toggle('active',l==='en');
+  if(bf)bf.classList.toggle('active',l==='fr');
   var me=document.getElementById('mob-btn-en'),mf=document.getElementById('mob-btn-fr');
   if(me)me.classList.toggle('active',l==='en');
   if(mf)mf.classList.toggle('active',l==='fr');
   localStorage.setItem('aib-lang',l);
-  // close dropdown
   var btn=document.getElementById('lang-toggle');if(btn){btn.classList.remove('open');var dd=btn.nextElementSibling;if(dd)dd.classList.remove('open');}
 }
 // Mobile drawer
@@ -698,7 +697,7 @@ function closeMob(){var d=document.getElementById('mob-drawer'),h=document.getEl
 function closeMobIfBg(e){if(e.target===document.getElementById('mob-drawer'))closeMob();}
 function toggleMobSub(btn){var sub=btn.nextElementSibling;var isOpen=sub.classList.contains('open');document.querySelectorAll('.mob-sub').forEach(s=>s.classList.remove('open'));document.querySelectorAll('.mob-trigger').forEach(t=>t.classList.remove('open'));if(!isOpen){sub.classList.add('open');btn.classList.add('open');}}
 
-var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+var sl=localStorage.getItem('aib-lang');setLang(sl||'en');
 </script>
 </body>
 </html>
