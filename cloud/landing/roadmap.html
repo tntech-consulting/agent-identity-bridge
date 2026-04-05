@@ -328,91 +328,94 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="phase-head">
 <div class="phase-icon" style="background:var(--green-dim);color:var(--green)">✓</div>
 <div class="phase-title">Foundation — Core Protocol</div>
-<div class="phase-tag phase-tag-done">SHIPPED · v2.15.1</div>
+<div class="phase-tag phase-tag-done">SHIPPED · v2.16.0</div>
 </div>
-<p class="phase-desc">The core identity bridge: portable passports, credential translation, policy engine, audit trail, OIDC federation, and webhooks. Deployed and running in production.</p>
+<p class="phase-desc">The core identity bridge is live in production. Portable passports, credential translation across 4 protocols, Ed25519 audit trail, policy engine, OIDC federation, webhooks — and a full autonomous agent fleet running 24/7.</p>
 <div class="features">
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Agent Passport (URN scheme)</div><div class="feat-desc">Portable identity credential valid across MCP, A2A, ANP, AG-UI. 3 tiers: permanent, session, ephemeral.</div><div class="feat-tech">urn:aib:agent:{org}:{agent} · 9 API endpoints · Supabase Edge Functions</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Credential Translation</div><div class="feat-desc">Bidirectional translation between A2A Agent Cards, MCP Server Cards, and AG-UI Descriptors in under 1ms.</div><div class="feat-tech">6 translation paths · _aib_source metadata · sub-millisecond latency</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Ed25519 Audit Trail</div><div class="feat-desc">Every action produces a cryptographically signed receipt. Persistent signing keys stored in PostgreSQL. SHA-256 hash chain.</div><div class="feat-tech">RFC 8032 · PKCS8 persistent keys · tamper-evident chain</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Policy Engine (12 rule types)</div><div class="feat-desc">Declarative rules evaluated before every action. Deliverable gates, separation of duties, rate limits, time restrictions, domain control.</div><div class="feat-tech">block / warn / log severity · denial receipts signed</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">OIDC Federation</div><div class="feat-desc">Accept tokens from Google, Microsoft Entra, Okta, Auth0. JWKS verification with audience claim check.</div><div class="feat-tech">RS256/384/512 · JWKS caching 1h · federation_trust table</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Webhooks</div><div class="feat-desc">4 event types with HMAC-SHA256 signed payloads: passport.created, revoked, policy.violation, translate.completed.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">W3C DID:web Resolution</div><div class="feat-desc">Every passport resolvable as a W3C DID v1.1 Document via did:web method. Ed25519VerificationKey2020 with publicKeyMultibase.</div><div class="feat-tech">did:web:aib-tech.fr:agents:{slug} · /agents/{slug}/did.json · application/did+json</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">CI/CD Pipeline</div><div class="feat-desc">GitHub Actions: 1,044 unit tests, security scan, 10 integration tests, auto-deploy to Netlify (dev → prod workflow).</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Framework Integrations</div><div class="feat-desc">Native tools for LangChain, CrewAI, and OpenAI Agents SDK. 6 tools per integration.</div><div class="feat-tech">get_langchain_tools() · get_crewai_tools() · get_openai_agents_tools()</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Agent Passport (URN scheme)</div><div class="feat-desc">Portable identity valid across MCP, A2A, ANP, AG-UI. 3 tiers: permanent, session, ephemeral.</div><div class="feat-tech">urn:aib:agent:{org}:{agent} · Ed25519 signed · 9 API endpoints</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Credential Translation</div><div class="feat-desc">6 bidirectional translation paths between MCP, A2A, ANP, AG-UI. Sub-millisecond.</div><div class="feat-tech">/translate · 6 paths · &lt;1ms · format-agnostic</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Ed25519 Audit Trail</div><div class="feat-desc">Every operation produces a signed receipt with SHA-256 hash chain. Tamper-evident, forever verifiable.</div><div class="feat-tech">Ed25519 · SHA-256 chain · AES-256 key encryption · /audit-trail</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Policy Engine</div><div class="feat-desc">5 guardrail types: capability_required, deliverable_gate, separation_of_duties, rate_limit, human_in_loop. ALLOW / ESCALATE / DENY.</div><div class="feat-tech">/policy-manage · CRUD · per-passport enforcement</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">OIDC Federation</div><div class="feat-desc">Accept tokens from Okta, Entra, Auth0 via JWKS. Zero migration for existing enterprise IAM.</div><div class="feat-tech">RS256/384/512 · JWKS auto-fetch · /federation-trust</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">W3C DID:web + DID:key Resolution</div><div class="feat-desc">Full DID v1.1 support. Resolvable by any Universal Resolver. did:web for orgs, did:key for ephemeral agents.</div><div class="feat-tech">W3C DID v1.1 · /did-resolve · Universal Resolver compatible</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">W3C Verifiable Credentials</div><div class="feat-desc">Issue and verify Ed25519-signed VCs. Ed25519VerificationKey2020. Revocation via StatusList2021.</div><div class="feat-tech">/vc-issue · /vc-verify · StatusList2021 · W3C VC Data Model</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">EU AI Act Compliance — Article 12</div><div class="feat-desc">7 structured fields in every receipt: intent, risk_level, human_oversight, decision_rationale, affected_persons, invocation_chain, data_accessed.</div><div class="feat-tech">/intent-analyze · /audit-trail?format=compliance · Article 12 + 13 + 14</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Python SDK v2.16.0</div><div class="feat-desc">7 methods: audit_trail, intent_analyze, vc_issue, vc_verify, did_resolve, keygen, list_templates. Published on PyPI.</div><div class="feat-tech">pip install agent-identity-bridge · PyPI · 1,054 tests · Apache 2.0</div></div></div>
+<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Autonomous Agent Fleet (14 agents)</div><div class="feat-desc">Monitoring, blog, SEO, outreach, onboarding, feedback, CI/CD guardian, security scanner, churn tracker — all running on pg_cron.</div><div class="feat-tech">Supabase Edge Functions · Deno · Claude Haiku · 18 cron jobs</div></div></div>
 </div>
 </div>
 
-<!-- ═══════ PHASE 2: DECENTRALIZED IDENTITY (NEXT) ═══════ -->
+<!-- ═══════ PHASE 2: ENTERPRISE & STANDARDIZATION ═══════ -->
 <div class="phase reveal">
 <div class="phase-head">
-<div class="phase-icon" style="background:var(--cyan-dim);color:var(--cyan)">◆</div>
-<div class="phase-title">Decentralized Identity</div>
-<div class="phase-tag phase-tag-next">NEXT UP</div>
+<div class="phase-icon" style="background:var(--cyan-dim);color:var(--cyan)">→</div>
+<div class="phase-title">Enterprise & Standardization</div>
+<div class="phase-tag phase-tag-progress">IN PROGRESS · Q2 2026</div>
 </div>
-<p class="phase-desc">Make Agent Passports fully self-sovereign with W3C Verifiable Credentials, did:key support, and offline verification. No database required to verify an identity.</p>
+<p class="phase-desc">BPI France deadline June 9, 2026. Targeting sovereign hosting, W3C CCG submission, and first enterprise design partners (BNP Paribas, SNCF, TotalEnergies). The spec becomes the product.</p>
 <div class="features">
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">did:key Support</div><div class="feat-desc">Self-contained DID method that encodes the public key directly in the identifier. No network resolution needed — ideal for ephemeral agents.</div><div class="feat-tech">did:key:z6Mk... · Ed25519 multicodec · offline resolvable · SDK + Edge Function</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">W3C Verifiable Credentials</div><div class="feat-desc">Each passport emitted as a W3C VC signed by the issuer. Verifiable offline without contacting the AIB server. Follows VC Data Model 2.0.</div><div class="feat-tech">JSON-LD + Ed25519Signature2020 · credentialSubject: capabilities, protocols, bindings</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">VC Verification Endpoint</div><div class="feat-desc">Dedicated endpoint to verify any VC — pure cryptographic check, no database lookup. Accepts VC JSON, returns valid/invalid + decoded payload.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">StatusList2021 Revocation</div><div class="feat-desc">Publish a compressed bitstring indicating which credentials are revoked. Enables revocation checks without real-time API calls.</div><div class="feat-tech">W3C StatusList2021 · static endpoint · efficient batch revocation</div></div></div>
+<div class="feat-item"><div class="feat-status progress"></div><div class="feat-content"><div class="feat-name">BPI France — Pionniers de l'IA</div><div class="feat-desc">Five-phase enterprise readiness dossier. Funding to accelerate sovereign hosting and Go/Rust rewrite of the passport service.</div><div class="feat-tech">Deadline June 9, 2026 · SecNumCloud track · OVHcloud / Outscale</div></div></div>
+<div class="feat-item"><div class="feat-status progress"></div><div class="feat-content"><div class="feat-name">W3C CCG Standardization</div><div class="feat-desc">Submit AIB spec to W3C Credentials Community Group. Currently limited by single-implementer status — seeking 2nd implementer.</div><div class="feat-tech">W3C CCG · DID:web · VC Data Model · community report track</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">Stripe Billing Integration</div><div class="feat-desc">Connect pricing tiers to Stripe. Community (free), Pro, Enterprise. Usage-based billing via the /usage-check endpoint.</div><div class="feat-tech">Stripe · webhook · /usage-check · 3 tiers</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">Enterprise Prospect Outreach (100 leads)</div><div class="feat-desc">Automated outreach to 100 target accounts via the outreach-agent. Focus: fintech, health, legal, public sector.</div><div class="feat-tech">outreach-agent · Claude Haiku · outreach_prospects table</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">CNIL IA Sandbox</div><div class="feat-desc">Apply to CNIL sandbox program for AI systems. Validates EU AI Act compliance posture with the French data protection authority.</div><div class="feat-tech">CNIL · sandbox IA · EU AI Act · GDPR Article 30</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Sovereign Hosting (SecNumCloud)</div><div class="feat-desc">Move from Supabase (EU-West-1) to OVHcloud or Outscale SecNumCloud-qualified infrastructure for BNP/SNCF/TotalEnergies requirements.</div><div class="feat-tech">OVHcloud · Outscale · SecNumCloud · ANSSI</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">passport-service Rewrite (Go / Rust)</div><div class="feat-desc">Replace Deno Edge Functions with a compiled passport-service for &lt;1ms signing latency and deterministic memory footprint at enterprise scale.</div><div class="feat-tech">Go or Rust · Ed25519 · sub-millisecond · enterprise SLA</div></div></div>
 </div>
 </div>
 
-<!-- ═══════ PHASE 3: DELEGATION & TRUST (PLANNED) ═══════ -->
+<!-- ═══════ PHASE 3: SCALE & FEDERATION ═══════ -->
 <div class="phase reveal">
 <div class="phase-head">
-<div class="phase-icon" style="background:var(--amber-dim);color:var(--amber)">⛓</div>
-<div class="phase-title">Delegation & Trust Chains</div>
-<div class="phase-tag phase-tag-planned">PLANNED</div>
+<div class="phase-icon" style="background:var(--amber-dim);color:var(--amber)">⚡</div>
+<div class="phase-title">Scale & Federation</div>
+<div class="phase-tag phase-tag-next">NEXT UP · Q3 2026</div>
 </div>
-<p class="phase-desc">Hierarchical delegation with Verifiable Presentations. An agent delegates to a sub-agent with narrowed permissions — the entire chain is cryptographically verifiable.</p>
+<p class="phase-desc">The current architecture hits a concurrency ceiling around 20-30 simultaneous agents. This phase removes that limit with a message broker, decentralized signing, and cross-org trust federation.</p>
 <div class="features">
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Delegation Credentials</div><div class="feat-desc">New VC type: AIBDelegationCredential. Encodes delegator DID, delegatee DID, authorized capabilities (subset of parent), and validity period.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Verifiable Presentations (VP)</div><div class="feat-desc">A delegatee presents a VP containing its own VC + the delegation VC + the parent VC. Verifier validates the entire chain in one operation.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Scope Narrowing Enforcement</div><div class="feat-desc">Policy engine prevents privilege escalation: each delegation must reduce or maintain capabilities, never add.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Cascade Revocation via VC</div><div class="feat-desc">Revoking a parent VC automatically invalidates all downstream delegation VCs through StatusList propagation.</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">NATS JetStream Message Broker</div><div class="feat-desc">Replace synchronous REST calls between agents with NATS JetStream. Enables 500+ concurrent agents without cascading failures.</div><div class="feat-tech">NATS JetStream · pub/sub · guaranteed delivery · agent-to-agent</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">Decentralized Ed25519 Signing</div><div class="feat-desc">Move from centralized signing key to per-agent HSM-backed keys. HashiCorp Vault or cloud HSM for root key management.</div><div class="feat-tech">HashiCorp Vault · HSM · per-agent keys · key rotation</div></div></div>
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content"><div class="feat-name">receipts Table Partitioning + TTL</div><div class="feat-desc">Partition the receipts table by month, add TTL policies. Required for &gt;10M receipts/month at enterprise scale.</div><div class="feat-tech">PostgreSQL partitioning · pg_partman · TTL · archive strategy</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Cross-Org Trust Federation</div><div class="feat-desc">Two organizations can establish a trust relationship, allowing agents from Org A to be recognized by Org B without re-issuing credentials.</div><div class="feat-tech">DID:web · OIDC federation · federation_trust table · bilateral</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Delegation Chains (VP + Scope Narrowing)</div><div class="feat-desc">Agent A can delegate a subset of its capabilities to Agent B via a signed Verifiable Presentation. Cascade revocation propagates automatically.</div><div class="feat-tech">W3C VP · scope narrowing · cascade revocation · invocation_chain</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">ES256 / EdDSA Algorithm Support</div><div class="feat-desc">Add ECDSA P-256 (ES256) and EdDSA alongside Ed25519 for compatibility with existing enterprise PKI infrastructure.</div><div class="feat-tech">ES256 · EdDSA · JOSE · JWK · enterprise PKI</div></div></div>
 </div>
 </div>
 
-<!-- ═══════ PHASE 4: CONTEXTUAL SECURITY (PLANNED) ═══════ -->
+<!-- ═══════ PHASE 4: ECOSYSTEM ═══════ -->
 <div class="phase reveal">
 <div class="phase-head">
-<div class="phase-icon" style="background:rgba(139,92,246,.06);color:var(--purple)">⚡</div>
-<div class="phase-title">Contextual Security</div>
-<div class="phase-tag phase-tag-planned">PLANNED</div>
+<div class="phase-icon" style="background:var(--purple-dim);color:var(--purple)">◈</div>
+<div class="phase-title">Ecosystem & Tooling</div>
+<div class="phase-tag phase-tag-planned">PLANNED · Q4 2026</div>
 </div>
-<p class="phase-desc">Credentials bound to task context. Ephemeral identities that expire with their mission. One-use credentials that self-destruct after presentation.</p>
+<p class="phase-desc">The spec adoption flywheel: TypeScript SDK, CLI, VS Code extension, framework integrations, and a marketplace of policy templates. Making AIB the default identity layer for every AI framework.</p>
 <div class="features">
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Task-Context Binding</div><div class="feat-desc">Ephemeral credentials include a task_context hash (task_id, action, target, dataset). If the context changes, the credential is rejected.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">One-Use Credentials</div><div class="feat-desc">Credentials that can be presented exactly once. After use, automatically added to the revocation list.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Strict Auto-Expiration</div><div class="feat-desc">Ephemeral credentials expire to the second. No grace period. SDK refuses to use them after expiration.</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">TypeScript / Node.js SDK</div><div class="feat-desc">Full-featured TypeScript SDK mirroring the Python SDK. npm package. Target: LangChain.js, Vercel AI SDK, and Node.js agent stacks.</div><div class="feat-tech">npm · TypeScript · ESM · LangChain.js · Vercel AI SDK</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">AIB CLI (aib)</div><div class="feat-desc">Command-line tool for passport creation, policy management, audit trail queries, and local key generation. Works offline.</div><div class="feat-tech">Go CLI · aib passport create · aib guard · aib audit · offline-capable</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">VS Code Extension</div><div class="feat-desc">Inline passport validation, policy linting, and receipt inspection directly in the IDE. Zero-friction developer experience.</div><div class="feat-tech">VS Code · Language Server Protocol · policy linting · DID resolution</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">AIB Shield — Security Scanner</div><div class="feat-desc">Scan agent configurations for missing passports, over-permissioned policies, expired credentials, and shadow agents.</div><div class="feat-tech">Static analysis · policy scoring · risk report · CI/CD integration</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Policy Marketplace (POLICY_KIT.md)</div><div class="feat-desc">Community-contributed policy templates for common use cases: GDPR DPO agent, financial advisor, medical assistant, HR automation.</div><div class="feat-tech">POLICY_KIT.md format · open source · community · npm publishable</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">PR on everything-claude-code</div><div class="feat-desc">Contribute AIB as an identity primitive to the everything-claude-code repo (112K stars). Massive developer visibility.</div><div class="feat-tech">GitHub · 112K stars · community · developer adoption</div></div></div>
 </div>
 </div>
 
-<!-- ═══════ PHASE 5: SEMANTIC AUDIT (PLANNED) ═══════ -->
+<!-- ═══════ PHASE 5: AGENTIC INTERNET ═══════ -->
 <div class="phase reveal">
 <div class="phase-head">
-<div class="phase-icon" style="background:rgba(239,68,68,.06);color:var(--red)">◉</div>
-<div class="phase-title">Semantic Audit &amp; Intent</div>
-<div class="phase-tag phase-tag-planned">PLANNED</div>
+<div class="phase-icon" style="background:var(--blue-dim);color:var(--blue)">∞</div>
+<div class="phase-title">Agentic Internet Infrastructure</div>
+<div class="phase-tag phase-tag-planned">PLANNED · 2027</div>
 </div>
-<p class="phase-desc">Audit trails that capture not just what happened, but why. Intent fields, invocation chains, data access logs, and EU AI Act compliance fields — all signed Ed25519.</p>
+<p class="phase-desc">The long game: AIB becomes the identity substrate for the agentic web. Every AI agent on the internet has a DID. Every inter-agent interaction produces a signed receipt. The open protocol layer that enterprise IAM vendors implement — like they adopted OIDC.</p>
 <div class="features">
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Intent Fields in Receipts</div><div class="feat-desc">Structured intent, invocation_chain (who invoked who), data_accessed (datasets touched), and risk_level — all signed in the receipt.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">EU AI Act Compliance (Article 12)</div><div class="feat-desc">Fields for human_oversight, decision_rationale, and affected_persons. Native compliance with EU AI Act record-keeping requirements.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Intent Inference API</div><div class="feat-desc">LLM-powered analysis of agent actions: infer intent, detect anomalies, flag risk. Policy integration: block actions that don't match authorized intents.</div></div></div>
-<div class="feat-item"><div class="feat-status done"></div><div class="feat-content"><div class="feat-name">Compliance Reports</div><div class="feat-desc">Batch analysis endpoint: generate compliance reports from audit trail data. Exportable PDF/JSON for auditors.</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">ANP Native Integration</div><div class="feat-desc">Deep integration with the Agent Network Protocol. AIB passports become the identity primitive for ANP-native agent discovery and invocation.</div><div class="feat-tech">ANP · agent discovery · did:web · decentralized registry</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">AG-UI Binding — Full Spec</div><div class="feat-desc">Complete AG-UI binding implementation. Every human-agent interaction carries a passport + receipt, enabling end-to-end accountability.</div><div class="feat-tech">AG-UI · human-in-loop · receipt-per-interaction · frontend SDK</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Continuous Learning Policy Agent</div><div class="feat-desc">An autonomous agent that analyzes receipt patterns across all orgs and recommends policy improvements. Privacy-preserving, federated learning.</div><div class="feat-tech">Claude · federated analysis · policy recommendations · anomaly detection</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">W3C Recommendation Track</div><div class="feat-desc">From Community Report to W3C Working Draft. Requires 2+ independent implementations and W3C member sponsorship.</div><div class="feat-tech">W3C WG · multiple implementers · royalty-free · internet standard</div></div></div>
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content"><div class="feat-name">Enterprise IAM Vendor Adoption</div><div class="feat-desc">Okta, SailPoint, Ping Identity implement the AIB spec as a native connector — the same path OIDC took between 2007 and 2014.</div><div class="feat-tech">Okta connector · SailPoint AIS · Ping Identity · enterprise native</div></div></div>
 </div>
 </div>
-
-<!-- TIMELINE NOTE -->
-<div class="timeline-note reveal">
-<p><strong>How we prioritize:</strong> Community feedback drives our roadmap. If a feature matters to you, open an issue on <a href="https://github.com/tntech-consulting/agent-identity-bridge/issues" target="_blank">GitHub</a> or reach out directly. We ship in 1-3 week sprints, open-source everything, and deploy to production continuously.</p>
-</div>
-
-</div><!-- /.w -->
 
 <footer>
 <div class="w">
