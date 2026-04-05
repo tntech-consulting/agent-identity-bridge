@@ -25,14 +25,12 @@
     Access-Control-Allow-Origin = "*"
 
 # W3C DID:web Resolution
-# did:web:aib-tech.fr:agents:booking -> https://aib-tech.fr/agents/booking/did.json
 [[redirects]]
   from = "/agents/:agent/did.json"
   to = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/did-resolve?agent=:agent"
   status = 200
   force = true
 
-# did:web:aib-tech.fr -> https://aib-tech.fr/.well-known/did.json
 [[redirects]]
   from = "/.well-known/did.json"
   to = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/did-resolve?agent=root"
@@ -110,10 +108,10 @@
   to = "/status.html"
   status = 200
 
-# Blog article pages — dynamic loading via blog-api
-# /blog/some-article-slug -> /blog/article.html (which loads content via API)
 [[redirects]]
   from = "/blog/:slug"
   to = "/blog/article.html?slug=:slug"
   status = 200
   force = true
+
+# deploy trigger: 2026-04-05T15:40
