@@ -420,67 +420,293 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <span class="kit-badge ready">5 rules · Ready</span>
 </div>
 
-<div class="kit">
-<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--orange));border-radius:14px 14px 0 0"></div>
-<div class="kit-icon">🛡️</div>
-<div data-lang="en" class="show"><div class="kit-name">Security Hardening</div><div class="kit-desc">Lock down agent operations with strict security controls. IP restrictions, time windows, mandatory attestation, and aggressive rate limiting.</div></div>
-<div data-lang="fr"><div class="kit-name">Durcissement Sécurité</div><div class="kit-desc">Verrouillez les opérations des agents avec des contrôles stricts. Restrictions IP, fenêtres horaires, attestation obligatoire, et limitation de débit agressive.</div></div>
-<ul class="kit-rules">
-<li>domain_block: ["*.untrusted.com"]</li>
-<li>time_restrict: 08:00-18:00 UTC weekdays</li>
-<li>rate_limit: max 20 actions/hour</li>
-<li>attestation_required: all actions</li>
-<li>action_block: block ["revoke", "delete"]</li>
-<li>tier_restrict: permanent only</li>
-</ul>
-<span class="kit-badge ready">6 rules · Ready</span>
-</div>
-
-<div class="kit">
-<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--fg3),var(--fg2));border-radius:14px 14px 0 0"></div>
-<div class="kit-icon">🏗️</div>
-<div data-lang="en" class="show"><div class="kit-name">Custom Kit Builder</div><div class="kit-desc">Mix and match any of the 12 AIB rule types to create your own compliance kit. Export as JSON, deploy via API, share across your organization.</div></div>
-<div data-lang="fr"><div class="kit-name">Créateur de Kit Personnalisé</div><div class="kit-desc">Combinez les 12 types de règles AIB pour créer votre propre kit de conformité. Exportez en JSON, déployez via API, partagez dans votre organisation.</div></div>
-<ul class="kit-rules">
-<li>deliverable_gate</li>
-<li>capability_required</li>
-<li>separation_of_duties</li>
-<li>+ 9 more rule types</li>
-</ul>
-<span class="kit-badge soon">Coming soon</span>
-</div>
 
 </div>
+</section>
+
+<!-- ═══ CUSTOM KIT BUILDER ═══ -->
+<section style="background:rgba(0,212,255,.025);border-top:1px solid var(--bd);padding:60px 0 80px">
+<div class="w">
+
+<div style="text-align:center;margin-bottom:40px">
+<div style="display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:2px;padding:4px 14px;border:1px solid rgba(0,212,255,.2);border-radius:4px;background:rgba(0,212,255,.05);margin-bottom:12px">KIT BUILDER</div>
+<h2 data-lang="en" class="show" style="font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px">Build your kit. <em style="font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Get the exact command.</em></h2>
+<h2 data-lang="fr" style="font-size:28px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px">Construisez votre kit. <em style="font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Obtenez la commande exacte.</em></h2>
+<p data-lang="en" class="show" style="color:var(--fg3);font-size:14px">Select a template, customize the rules, copy the real API call. No signup needed to build — only to deploy.</p>
+<p data-lang="fr" style="color:var(--fg3);font-size:14px">Choisissez un template, personnalisez les règles, copiez le vrai appel API. Pas d'inscription pour construire — seulement pour déployer.</p>
 </div>
 
-<div class="how"><div class="w">
-<div data-lang="en" class="show"><h2>Deploy a kit in <em style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">3 steps</em></h2></div>
-<div data-lang="fr"><h2>Déployez un kit en <em style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">3 étapes</em></h2></div>
-<div class="how-steps">
-<div class="how-step">
-<div class="how-num">1</div>
-<div data-lang="en" class="show"><h4>Choose a kit</h4><p>Select a pre-built compliance kit or create your own.</p></div>
-<div data-lang="fr"><h4>Choisissez un kit</h4><p>Sélectionnez un kit pré-configuré ou créez le vôtre.</p></div>
+<div id="kit-builder" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+
+  <!-- LEFT: Template selector + rule editor -->
+  <div>
+    <!-- Step 1: Template -->
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:12px">① TEMPLATE</div>
+      <div id="kb-templates" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="color:var(--fg3);font-size:12px;font-family:var(--mono)">Loading templates...</div>
+      </div>
+    </div>
+
+    <!-- Step 2: Rules -->
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1px">② RULES</div>
+        <button id="kb-add-rule" onclick="kbAddRule()" style="background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:var(--mono);font-size:10px;font-weight:700;padding:4px 10px;border-radius:5px;cursor:pointer;transition:.15s" onmouseover="this.style.background='rgba(0,212,255,.15)'" onmouseout="this.style.background='rgba(0,212,255,.08)'">+ ADD RULE</button>
+      </div>
+      <div id="kb-rules" style="display:flex;flex-direction:column;gap:8px;min-height:60px">
+        <div style="color:var(--fg3);font-size:12px;font-family:var(--mono);padding:12px;text-align:center;border:1px dashed var(--bd);border-radius:8px">Select a template above to start</div>
+      </div>
+    </div>
+
+    <!-- Step 3: Agent name -->
+    <div style="background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px">
+      <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:12px">③ AGENT NAME</div>
+      <input id="kb-agent-name" type="text" placeholder="my-agent" value="my-agent"
+        style="width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--mono);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.15s;box-sizing:border-box"
+        oninput="kbRefreshOutput()"
+        onfocus="this.style.borderColor='var(--cyan)'"
+        onblur="this.style.borderColor='var(--bd)'">
+    </div>
+  </div>
+
+  <!-- RIGHT: Live output -->
+  <div style="position:sticky;top:80px">
+    <div style="background:var(--bg);border:1px solid rgba(0,212,255,.15);border-radius:12px;overflow:hidden">
+      <!-- Tab bar -->
+      <div style="display:flex;border-bottom:1px solid var(--bd);background:var(--bg2)">
+        <button class="kb-tab active" onclick="kbSwitchTab(this,'python')" style="flex:1;background:none;border:none;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;padding:10px;cursor:pointer;border-bottom:2px solid var(--cyan)">Python SDK</button>
+        <button class="kb-tab" onclick="kbSwitchTab(this,'curl')" style="flex:1;background:none;border:none;color:var(--fg3);font-family:var(--mono);font-size:11px;font-weight:700;padding:10px;cursor:pointer;border-bottom:2px solid transparent">cURL</button>
+        <button class="kb-tab" onclick="kbSwitchTab(this,'json')" style="flex:1;background:none;border:none;color:var(--fg3);font-family:var(--mono);font-size:11px;font-weight:700;padding:10px;cursor:pointer;border-bottom:2px solid transparent">JSON</button>
+      </div>
+
+      <!-- Output area -->
+      <div id="kb-output" style="padding:16px;font-family:var(--mono);font-size:11.5px;line-height:1.8;min-height:200px;overflow-x:auto;white-space:pre;color:var(--fg2)">
+        <span style="color:var(--fg3)"># Select a template to generate the command</span>
+      </div>
+
+      <!-- Copy + Deploy buttons -->
+      <div style="padding:12px 16px;border-top:1px solid var(--bd);display:flex;gap:8px">
+        <button onclick="kbCopy()" style="flex:1;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;padding:9px;border-radius:7px;cursor:pointer;transition:.15s" onmouseover="this.style.background='rgba(0,212,255,.15)'" onmouseout="this.style.background='rgba(0,212,255,.08)'">📋 COPY</button>
+        <a href="/dashboard#api-keys" style="flex:1;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#0a0a1a;font-family:var(--mono);font-size:11px;font-weight:700;padding:9px;border-radius:7px;text-align:center;text-decoration:none;transition:.15s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">→ DEPLOY</button>
+      </div>
+    </div>
+
+    <!-- Auth note -->
+    <div style="margin-top:10px;padding:10px 14px;background:rgba(255,170,0,.04);border:1px solid rgba(255,170,0,.12);border-radius:8px;font-size:11px;color:var(--fg3);font-family:var(--mono)">
+      <span style="color:#FFAA00">⚠</span> Replace <span style="color:var(--cyan)">aib_sk_...</span> with your API key from the <a href="/dashboard#api-keys" style="color:var(--cyan)">Dashboard</a>. Free during open beta.
+    </div>
+  </div>
+
 </div>
-<div class="how-step">
-<div class="how-num">2</div>
-<div data-lang="en" class="show"><h4>Deploy via API</h4><p>One POST to /policy-manage with the kit's JSON payload.</p></div>
-<div data-lang="fr"><h4>Déployez via API</h4><p>Un POST à /policy-manage avec le payload JSON du kit.</p></div>
 </div>
-<div class="how-step">
-<div class="how-num">3</div>
-<div data-lang="en" class="show"><h4>Enforced instantly</h4><p>All rules are evaluated on every action. Ed25519 signed receipts.</p></div>
-<div data-lang="fr"><h4>Appliqué instantanément</h4><p>Toutes les règles sont évaluées à chaque action. Reçus signés Ed25519.</p></div>
-</div>
-</div>
-<div class="code-ex">
-<span class="c"># Deploy the EU AI Act Compliance Kit</span><br>
-<span class="k">curl</span> -X POST /functions/v1/policy-manage \<br>
-&nbsp;&nbsp;-H <span class="s">"x-api-key: aib_sk_live_..."</span> \<br>
-&nbsp;&nbsp;-d <span class="s">'{"kit": "eu-ai-act", "severity": "block"}'</span><br><br>
-<span class="v">✓ 5 rules deployed · severity: block · active immediately</span>
-</div>
-</div></div>
+</section>
+
+<script>
+(function(){
+var SUPABASE_URL = 'https://vempwtzknixfnvysmiwo.supabase.co';
+var ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw';
+
+var RULE_TYPES = {
+  rate_limit:           { label: 'Rate Limit',            fields: [{key:'max_per_hour', label:'Max/hour', type:'number', default:100}] },
+  capability_required:  { label: 'Capability Required',   fields: [{key:'capabilities', label:'Capabilities (comma-sep)', type:'text', default:'data_read'}] },
+  capability_limit:     { label: 'Capability Limit',      fields: [{key:'max_capabilities', label:'Max capabilities', type:'number', default:5}] },
+  deliverable_gate:     { label: 'Deliverable Gate',      fields: [{key:'requires_approval', label:'Requires approval above (€)', type:'number', default:500}] },
+  separation_of_duties: { label: 'Separation of Duties',  fields: [{key:'no_self_approve', label:'No self-approval', type:'bool', default:true}] },
+  domain_block:         { label: 'Domain Block',          fields: [{key:'domains', label:'Blocked domains (comma-sep)', type:'text', default:'*.external.com'}] },
+  attestation_required: { label: 'Attestation Required',  fields: [{key:'all_actions', label:'All actions signed', type:'bool', default:true}] },
+  time_restrict:        { label: 'Time Restrict',         fields: [{key:'hours', label:'Allowed hours (UTC)', type:'text', default:'08:00-18:00'}] },
+  tier_restrict:        { label: 'Tier Restrict',         fields: [{key:'allowed_tiers', label:'Allowed tiers (comma-sep)', type:'text', default:'permanent'}] }
+};
+
+var STATE = { templates: [], selectedTemplate: null, rules: [], tab: 'python' };
+
+// Load templates from real API
+fetch(SUPABASE_URL + '/functions/v1/template-list', {
+  headers: { 'Authorization': 'Bearer ' + ANON_KEY }
+})
+.then(function(r){ return r.json(); })
+.then(function(d){
+  STATE.templates = d.templates || [];
+  renderTemplates();
+})
+.catch(function(){ 
+  document.getElementById('kb-templates').innerHTML = '<div style="color:var(--fg3);font-size:11px;font-family:var(--mono)">Could not load templates</div>';
+});
+
+function renderTemplates() {
+  var ICONS = { 'customer-facing':'💬', 'internal':'⚙', 'orchestration':'🔀', 'compliance':'⚖' };
+  var html = STATE.templates.map(function(t){
+    var active = STATE.selectedTemplate && STATE.selectedTemplate.slug === t.slug;
+    return '<button onclick="kbSelectTemplate(\''+t.slug+'\')" style="text-align:left;background:'+(active?'rgba(0,212,255,.1)':'var(--bg)')+';border:1px solid '+(active?'var(--cyan)':'var(--bd)')+';border-radius:8px;padding:10px 12px;cursor:pointer;transition:.15s;width:100%" onmouseover="if(!this.classList.contains(\'kb-active\'))this.style.borderColor=\'rgba(0,212,255,.3)\'" onmouseout="if(!this.classList.contains(\'kb-active\'))this.style.borderColor=\'var(--bd)\'">'
+      + '<div style="font-size:14px;margin-bottom:4px">'+(ICONS[t.category]||'📦')+'</div>'
+      + '<div style="font-family:var(--mono);font-size:10px;font-weight:700;color:'+(active?'var(--cyan)':'var(--fg)')+'">' + t.name + '</div>'
+      + '<div style="font-size:9px;color:var(--fg3);margin-top:2px">' + (t.protocols||[]).join(' · ') + '</div>'
+      + '</button>';
+  }).join('');
+  document.getElementById('kb-templates').innerHTML = html;
+}
+
+window.kbSelectTemplate = function(slug) {
+  STATE.selectedTemplate = STATE.templates.find(function(t){ return t.slug === slug; });
+  if (!STATE.selectedTemplate) return;
+  // Load policy_presets as initial rules
+  STATE.rules = (STATE.selectedTemplate.policy_presets || []).map(function(p, i){
+    return { id: i, rule_type: p.rule_type, config: Object.assign({}, p.config) };
+  });
+  renderTemplates();
+  renderRules();
+  kbRefreshOutput();
+};
+
+function renderRules() {
+  if (!STATE.rules.length) {
+    document.getElementById('kb-rules').innerHTML = '<div style="color:var(--fg3);font-size:11px;font-family:var(--mono);padding:10px;text-align:center;border:1px dashed var(--bd);border-radius:8px">No rules — click ADD RULE</div>';
+    return;
+  }
+  var html = STATE.rules.map(function(rule){
+    var def = RULE_TYPES[rule.rule_type] || { label: rule.rule_type, fields: [] };
+    var configStr = Object.entries(rule.config).map(function(e){ return e[0]+': '+e[1]; }).join(', ');
+    return '<div style="background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center">'
+      + '<div><div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan)">' + def.label + '</div>'
+      + '<div style="font-family:var(--mono);font-size:9px;color:var(--fg3);margin-top:2px">' + configStr + '</div></div>'
+      + '<button onclick="kbRemoveRule('+rule.id+')" style="background:none;border:none;color:var(--fg3);font-size:14px;cursor:pointer;padding:0 4px;transition:.15s;line-height:1" onmouseover="this.style.color=\'var(--red)\'" onmouseout="this.style.color=\'var(--fg3)\'">×</button>'
+      + '</div>';
+  }).join('');
+  document.getElementById('kb-rules').innerHTML = html;
+}
+
+window.kbAddRule = function() {
+  var types = Object.keys(RULE_TYPES);
+  var existing = STATE.rules.map(function(r){ return r.rule_type; });
+  var available = types.filter(function(t){ return !existing.includes(t); });
+  if (!available.length) { alert('All rule types already added.'); return; }
+  var chosen = available[0];
+  var def = RULE_TYPES[chosen];
+  var config = {};
+  def.fields.forEach(function(f){ config[f.key] = f.default; });
+  var id = Date.now();
+  STATE.rules.push({ id: id, rule_type: chosen, config: config });
+  renderRules();
+  kbRefreshOutput();
+};
+
+window.kbRemoveRule = function(id) {
+  STATE.rules = STATE.rules.filter(function(r){ return r.id !== id; });
+  renderRules();
+  kbRefreshOutput();
+};
+
+window.kbRefreshOutput = function() {
+  if (!STATE.selectedTemplate) return;
+  var agentName = document.getElementById('kb-agent-name').value || 'my-agent';
+  var t = STATE.selectedTemplate;
+  var rules = STATE.rules;
+  var endpoint = SUPABASE_URL + '/functions/v1/policy-manage';
+
+  var pythonLines = [
+    'import aib',
+    '',
+    '# 1. Install: pip install agent-identity-bridge',
+    '# 2. Get your API key: aib-tech.fr/dashboard#api-keys',
+    '',
+    'client = aib.Client(api_key="aib_sk_...")',
+    '',
+    '# Create passport from template',
+    'passport = client.passport_get_or_create(',
+    '  name="' + agentName + '",',
+    '  template="' + t.slug + '"',
+    ')',
+    '',
+    '# Apply custom policy rules'
+  ];
+
+  rules.forEach(function(r){
+    var def = RULE_TYPES[r.rule_type] || {};
+    pythonLines.push('client.policy_create(');
+    pythonLines.push('  passport_id=passport["passport_id"],');
+    pythonLines.push('  rule_type="' + r.rule_type + '",');
+    pythonLines.push('  config=' + JSON.stringify(r.config, null, 2).split('\n').join('\n  ') + ',');
+    pythonLines.push('  severity="block"');
+    pythonLines.push(')');
+  });
+
+  pythonLines.push('');
+  pythonLines.push('print("Passport:", passport["passport_id"])');
+
+  var curlPayload = {
+    action: 'create',
+    passport_id: '<passport_id>',
+    rules: rules.map(function(r){ return { rule_type: r.rule_type, config: r.config, severity: 'block' }; })
+  };
+
+  var curlLines = [
+    '# 1. Create passport',
+    'curl -X POST \\',
+    '  ' + SUPABASE_URL + '/functions/v1/passport-create \\',
+    '  -H "x-api-key: aib_sk_..." \\',
+    '  -H "Content-Type: application/json" \\',
+    '  -d \'{"name":"' + agentName + '","template":"' + t.slug + '"}\'',
+    '',
+    '# 2. Apply policy rules',
+    'curl -X POST \\',
+    '  ' + endpoint + ' \\',
+    '  -H "x-api-key: aib_sk_..." \\',
+    '  -H "Content-Type: application/json" \\',
+    "  -d '" + JSON.stringify(curlPayload, null, 2) + "'"
+  ];
+
+  var jsonOutput = JSON.stringify({
+    template: t.slug,
+    agent_name: agentName,
+    protocols: t.protocols,
+    rules: rules.map(function(r){ return { rule_type: r.rule_type, config: r.config, severity: 'block' }; })
+  }, null, 2);
+
+  STATE.outputs = { python: pythonLines.join('\n'), curl: curlLines.join('\n'), json: jsonOutput };
+  renderOutput();
+};
+
+function renderOutput() {
+  var out = STATE.outputs ? (STATE.outputs[STATE.tab] || '') : '';
+  var el = document.getElementById('kb-output');
+  // Syntax highlight simple
+  out = out.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  out = out.replace(/(#[^\n]+)/g,'<span style="color:var(--fg3)">$1</span>');
+  out = out.replace(/"([^"]+)"(?=:)/g,'"<span style="color:var(--cyan)">$1</span>"');
+  out = out.replace(/("aib_sk_\.\.\.")/g,'<span style="color:var(--orange)">$1</span>');
+  el.innerHTML = out || '<span style="color:var(--fg3)"># Select a template above</span>';
+}
+
+window.kbSwitchTab = function(btn, tab) {
+  STATE.tab = tab;
+  document.querySelectorAll('.kb-tab').forEach(function(b){
+    b.style.color = 'var(--fg3)';
+    b.style.borderBottomColor = 'transparent';
+  });
+  btn.style.color = 'var(--cyan)';
+  btn.style.borderBottomColor = 'var(--cyan)';
+  renderOutput();
+};
+
+window.kbCopy = function() {
+  var out = STATE.outputs ? (STATE.outputs[STATE.tab] || '') : '';
+  if (!out) return;
+  // Strip HTML tags for clipboard
+  var tmp = document.createElement('div');
+  tmp.innerHTML = out;
+  var text = tmp.textContent || tmp.innerText || out;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn = event.target;
+    var orig = btn.textContent;
+    btn.textContent = '✓ COPIED';
+    btn.style.color = 'var(--green)';
+    setTimeout(function(){ btn.textContent = orig; btn.style.color = 'var(--cyan)'; }, 1500);
+  });
+};
+
+})();
+</script>
 
 <footer>
 <div class="w">
