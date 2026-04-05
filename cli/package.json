@@ -1,0 +1,19 @@
+{
+  "name": "@aib-protocol/cli",
+  "version": "0.1.0",
+  "description": "AIB Protocol CLI — Agent Identity & Governance for AI agents",
+  "type": "module",
+  "bin": { "aib": "./bin/aib.js" },
+  "engines": { "node": ">=18.0.0" },
+  "keywords": ["ai-agent","identity","passport","mcp","a2a","eu-ai-act","ed25519"],
+  "author": "TNTECH CONSULTING SAS <contact@aib-tech.fr>",
+  "license": "Apache-2.0",
+  "homepage": "https://aib-tech.fr",
+  "repository": { "type": "git", "url": "https://github.com/tntech-consulting/agent-identity-bridge" },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "@noble/ed25519": "^2.1.0",
+    "@noble/hashes": "^1.4.0"
+  }
+}
