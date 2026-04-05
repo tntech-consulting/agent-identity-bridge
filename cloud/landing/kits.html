@@ -533,7 +533,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
     <div class="kb-card">
       <div class="kb-label">
         <span>② RULES</span>
-        <button class="kb-addbtn" onclick="KB.addRule()">+ ADD RULE</button>
+        <button class="kb-addbtn" id="kb-addbtn" onclick="KB.addRule()">+ ADD RULE</button>
       </div>
       <div id="kb-rules-list">
         <div class="kb-empty">Select a template above</div>
@@ -732,6 +732,11 @@ var KB = (function(){
       renderOutput();
     },
     addRule: function(){
+      if(!state.selected){
+        var btn=document.getElementById('kb-addbtn');
+        if(btn){btn.textContent='Select a template first';setTimeout(function(){btn.textContent='+ ADD RULE';},1800);}
+        return;
+      }
       var used = state.rules.map(function(r){return r.type;});
       var avail = Object.keys(RULE_DEFS).filter(function(k){return !used.includes(k);});
       if(!avail.length){alert('All rule types already added.');return;}
