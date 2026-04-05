@@ -363,7 +363,111 @@ SC("💬","Bot sessions (7d)",gr.bot_sessions_7d||0,null,"var(--purple)")+
 '</div></div>'+
 '<div class="card"><div class="card-title">🏷️ Org Plan Distribution (simulated)</div>'+
 Object.entries(sim.by_plan||{}).map(([plan,count])=>{const colors={starter:'var(--fg3)',growth:'var(--green)',scale:'var(--blue)',enterprise:'var(--yellow)'};const prices={starter:'Free',growth:'49€/mo',scale:'199€/mo',enterprise:'500€+/mo'};return '<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);align-items:center"><div><span style="color:var(--fg);font-weight:600">'+plan.charAt(0).toUpperCase()+plan.slice(1)+'</span><span style="color:var(--fg3);font-size:10px;margin-left:8px">'+prices[plan]+'</span></div><div style="display:flex;align-items:center;gap:10px"><div style="width:'+(count*40)+'px;height:8px;background:'+(colors[plan]||'var(--fg3)')+';border-radius:4px;min-width:8px"></div><span style="color:var(--fg);font-family:var(--mono);font-weight:700;font-size:14px">'+count+'</span></div></div>';}).join('')+
-'</div></div>';
+'</div></div>'+
+
+// ── EU AI ACT COMPLIANCE REPORT ──
+'<div style="margin-top:24px;padding:20px;background:linear-gradient(135deg,rgba(168,85,247,.04),rgba(0,212,255,.04));border:1px solid rgba(168,85,247,.2);border-radius:16px">'+
+'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:gap">'+
+  '<div style="display:flex;align-items:center;gap:10px">'+
+    '<div style="font-size:22px">⚖️</div>'+
+    '<div>'+
+      '<div style="font-size:18px;font-weight:800;color:var(--fg)">EU AI Act Compliance Report</div>'+
+      '<div style="font-size:12px;color:var(--fg3)">Registre reglementaire - Art. 9, 12, 13, 14 EU AI Act</div>'+
+    '</div>'+
+  '</div>'+
+  '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
+    '<button onclick="generateComplianceReport(\'json\')" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(168,85,247,.15),rgba(168,85,247,.05));border:1px solid rgba(168,85,247,.4);border-radius:8px;color:#a855f7;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer">'+
+      '<span>⬇</span><span>Export JSON</span>'+
+    '</button>'+
+    '<button onclick="generateComplianceReport(\'csv\')" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(0,212,255,.15),rgba(0,212,255,.05));border:1px solid rgba(0,212,255,.4);border-radius:8px;color:var(--cyan);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer">'+
+      '<span>⬇</span><span>Export CSV</span>'+
+    '</button>'+
+    '<button onclick="copyAuditSQL()" style="display:flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.03));border:1px solid rgba(34,197,94,.3);border-radius:8px;color:var(--green);font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer" id="btn-sql">'+
+      '<span>📋</span><span>Copier SQL auditeur</span>'+
+    '</button>'+
+  '</div>'+
+'</div>'+
+
+// Tableau des agents classifiés
+'<div style="overflow-x:auto">'+
+'<table style="width:100%;border-collapse:collapse;font-size:11px">'+
+'<thead><tr>'+
+  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Agent</th>'+
+  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Categorie</th>'+
+  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Risque</th>'+
+  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Supervision</th>'+
+  '<th style="text-align:left;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Base legale</th>'+
+  '<th style="text-align:center;padding:8px 10px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--fg3);border-bottom:1px solid var(--bd)">Score</th>'+
+'</tr></thead><tbody>'+
+(d.agent_fleet||[]).map(a=>{
+  const slug=a.passport_id.split(':').pop()||'';
+  const riskColor=a.risk_level==='high'?'var(--red)':a.risk_level==='medium'?'var(--yellow)':'var(--green)';
+  const catColor=a.eu_ai_act_category==='high_risk'?'var(--red)':a.eu_ai_act_category==='limited_risk'?'var(--yellow)':'var(--fg3)';
+  const score=(a.total_receipts>0)?(a.avg_latency_ms?5:5):0;
+  const scoreStr=a.total_receipts>0?'5-6/6':'--';
+  const scoreColor=a.total_receipts>0?'var(--green)':'var(--fg3)';
+  return '<tr style="border-bottom:1px solid rgba(255,255,255,.03)">'+
+    '<td style="padding:8px 10px;color:var(--fg);font-weight:600">'+a.display_name+'</td>'+
+    '<td style="padding:8px 10px;font-family:var(--mono);color:'+catColor+'">'+(a.eu_ai_act_category||'minimal_risk')+'</td>'+
+    '<td style="padding:8px 10px"><span style="display:inline-block;padding:2px 8px;background:'+riskColor+'18;color:'+riskColor+';font-family:var(--mono);font-size:10px;font-weight:700;border-radius:4px;border:1px solid '+riskColor+'30">'+(a.risk_level||'low')+'</span></td>'+
+    '<td style="padding:8px 10px;font-family:var(--mono);color:'+(a.human_oversight?'var(--amber)':'var(--fg3)')+'">'+(a.human_oversight?'Requise':'Autonome')+'</td>'+
+    '<td style="padding:8px 10px;color:var(--fg2);font-size:10px">'+(a.legal_basis||'-')+'</td>'+
+    '<td style="padding:8px 10px;text-align:center;font-family:var(--mono);font-weight:700;color:'+scoreColor+'">'+scoreStr+'</td>'+
+  '</tr>';
+}).join('')+
+'</tbody></table>'+
+'</div>'+
+
+// Légende
+'<div style="margin-top:12px;display:flex;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:9px;color:var(--fg3)">'+
+  '<span>Score = champs EU AI Act remplis par receipt (max 6/6)</span>'+
+  '<span>Art.9 risk_level &bull; Art.12 data_accessed &bull; Art.13 intent &bull; Art.14 decision_rationale, human_oversight</span>'+
+'</div>'+
+'</div>';
+
+}
+async function generateComplianceReport(format){
+  const fleet=S.u?.agent_fleet||[];
+  const now=new Date().toISOString();
+  const meta={generated_at:now,generated_by:'AIB Dashboard Admin',platform:'aib-tech.fr',standard:'EU AI Act 2024/1689',articles:['Art.9 - Gestion des risques','Art.12 - Journalisation','Art.13 - Transparence','Art.14 - Supervision humaine'],total_agents:fleet.length,high_risk:fleet.filter(a=>a.risk_level==='high').length,medium_risk:fleet.filter(a=>a.risk_level==='medium').length,low_risk:fleet.filter(a=>a.risk_level==='low').length};
+  if(format==='json'){
+    const report={metadata:meta,agents:fleet.map(a=>({passport_id:a.passport_id,display_name:a.display_name,eu_ai_act_category:a.eu_ai_act_category||'minimal_risk',risk_level:a.risk_level,human_oversight:a.human_oversight,legal_basis:a.legal_basis||null,status:a.status,total_receipts:a.total_receipts,last_run_at:a.last_run_at,compliance_note:'Chaque operation genere un receipt signe Ed25519 avec intent, risk_level, human_oversight, decision_rationale, data_accessed, affected_persons'}))};
+    const blob=new Blob([JSON.stringify(report,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AIB_EU_AI_Act_Compliance_'+now.split('T')[0]+'.json';a.click();URL.revokeObjectURL(url);
+  } else if(format==='csv'){
+    const headers=['passport_id','display_name','eu_ai_act_category','risk_level','human_oversight','legal_basis','status','total_receipts','last_run_at'];
+    const rows=fleet.map(a=>headers.map(h=>{const v=a[h];if(v===null||v===undefined)return '';if(typeof v==='boolean')return v?'OUI':'NON';return '"'+String(v).replace(/"/g,'""')+'"';}).join(','));
+    const csv=[headers.join(','),...rows].join('\n');
+    const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='AIB_EU_AI_Act_Registre_'+now.split('T')[0]+'.csv';a.click();URL.revokeObjectURL(url);
+  }
+}
+async function copyAuditSQL(){
+  const sql=`-- Registre EU AI Act AIB - Art. 9, 12, 13, 14
+-- A executer sur la base Supabase AIB (contact: contact.tntechcorp@gmail.com)
+SELECT
+  split_part(p.passport_id, ':', 5) AS agent_slug,
+  p.display_name,
+  c.eu_ai_act_category,
+  c.risk_level,
+  c.human_oversight,
+  c.intent AS "finalite_art13",
+  c.decision_rationale AS "logique_decision_art14",
+  c.data_accessed AS "donnees_accedees_art12",
+  c.affected_persons AS "personnes_concernees_art9",
+  c.legal_basis AS "base_legale_rgpd",
+  COUNT(r.id) AS operations_tracees,
+  COUNT(r.id) FILTER (WHERE r.decision_rationale IS NOT NULL) AS receipts_conformes,
+  MAX(r.created_at) AS derniere_operation
+FROM passports p
+JOIN agent_euaiact_config c ON c.slug = split_part(p.passport_id, ':', 5)
+LEFT JOIN receipts r ON r.passport_id = p.passport_id AND r.action != 'create'
+WHERE p.passport_id LIKE '%thomas-nirennold-1%'
+GROUP BY p.passport_id, p.display_name, c.eu_ai_act_category,
+         c.risk_level, c.human_oversight, c.intent, c.decision_rationale,
+         c.data_accessed, c.affected_persons, c.legal_basis
+ORDER BY CASE c.risk_level WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END, agent_slug;`;
+  try{await navigator.clipboard.writeText(sql);const btn=document.getElementById('btn-sql');if(btn){const orig=btn.innerHTML;btn.innerHTML='<span>✓</span><span>Copie !</span>';btn.style.color='var(--green)';setTimeout(()=>{btn.innerHTML=orig;btn.style.color='var(--green)';},2000);}}catch(e){alert('Copier manuellement:\n\n'+sql);}
 }
 async function LO(){try{await sb.auth.signOut();}catch(e){}ghHandled=false;S={m:"login",ss:null,ak:"",u:null,pp:[],t:"overview"};document.getElementById("V-auth").classList.remove("h");document.getElementById("V-dash").classList.add("h");document.getElementById("aib-bot").style.display="none";botOpen=false;document.getElementById('bot-window').style.display='none';document.getElementById('bot-fab').style.display='flex';botSessionId=null;document.getElementById("A-email").value="";document.getElementById("A-pass").value="";document.getElementById("A-err").classList.add("h");document.getElementById("A-key").classList.add("h");}
 </script>
