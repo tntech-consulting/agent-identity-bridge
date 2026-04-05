@@ -619,6 +619,191 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
   </div>
 </div></section>
 
+<!-- ═══════ 6. AGENT REQUEST PIPELINE ═══════ --><section class="viz-section"><div class="w">
+  <h2><span class="tag tag-core">CORE</span> Agent Request Pipeline</h2>
+  <p class="viz-desc" data-lang="en">Every API call flows through 4 deterministic stages. Auth · Policy · Translate · Receipt — under 10ms. No stage can be skipped.</p>
+  <p class="viz-desc" data-lang="fr">Chaque appel API traverse 4 étapes déterministes. Auth · Policy · Translate · Reçu — en moins de 10ms. Aucune étape ne peut être sautée.</p>
+
+  <div class="viz-tabs">
+    <button class="viz-tab active" onclick="showPipPanel(this,'pip-request')">Request Flow</button>
+    <button class="viz-tab" onclick="showPipPanel(this,'pip-policy')">Policy Engine</button>
+    <button class="viz-tab" onclick="showPipPanel(this,'pip-receipt')">Receipt Anatomy</button>
+  </div>
+
+  <!-- Panel 1: Request Flow -->
+  <div id="pip-request" class="viz-panel active">
+    <div class="diagram-box">
+      <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- Background grid -->
+        <defs>
+          <pattern id="pgrid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,.03)" stroke-width="1"/></pattern>
+          <marker id="arrow-c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00d4ff" opacity=".6"/></marker>
+          <marker id="arrow-p" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#7B61FF" opacity=".6"/></marker>
+          <marker id="arrow-t" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#00C5FF" opacity=".6"/></marker>
+          <marker id="arrow-r" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#FFAA00" opacity=".6"/></marker>
+        </defs>
+        <rect width="800" height="220" fill="url(#pgrid)"/>
+
+        <!-- Agent (source) -->
+        <rect x="10" y="80" width="90" height="60" rx="8" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.25)" stroke-width="1"/>
+        <text x="55" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00d4ff" font-weight="700">AGENT</text>
+        <text x="55" y="120" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">did:web:...</text>
+        <circle cx="55" cy="135" r="3" fill="#00e5a0"><animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/></circle>
+
+        <!-- Arrow 1 -->
+        <line x1="102" y1="110" x2="148" y2="110" stroke="#00d4ff" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5" marker-end="url(#arrow-c)"/>
+        <text x="125" y="105" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00d4ff" opacity=".6">POST</text>
+
+        <!-- Stage 1: PASSPORT -->
+        <rect x="150" y="60" width="120" height="100" rx="8" fill="rgba(0,212,255,.05)" stroke="rgba(0,212,255,.3)" stroke-width="1.5"/>
+        <rect x="150" y="60" width="120" height="4" rx="2" fill="#00d4ff" opacity=".8"/>
+        <text x="210" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#00d4ff" font-weight="700">PASSPORT</text>
+        <text x="210" y="108" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">DID resolve</text>
+        <text x="210" y="120" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Ed25519 verify</text>
+        <text x="210" y="132" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">API key check</text>
+        <rect x="175" y="142" width="70" height="14" rx="4" fill="rgba(0,229,160,.1)" stroke="rgba(0,229,160,.2)"/>
+        <text x="210" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00e5a0">✓ passed</text>
+
+        <!-- Arrow 2 -->
+        <line x1="272" y1="110" x2="318" y2="110" stroke="#7B61FF" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5" marker-end="url(#arrow-p)"/>
+
+        <!-- Stage 2: POLICY -->
+        <rect x="320" y="60" width="120" height="100" rx="8" fill="rgba(123,97,255,.05)" stroke="rgba(123,97,255,.3)" stroke-width="1.5"/>
+        <rect x="320" y="60" width="120" height="4" rx="2" fill="#7B61FF" opacity=".8"/>
+        <text x="380" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#7B61FF" font-weight="700">POLICY</text>
+        <text x="380" y="108" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Guardrails eval</text>
+        <text x="380" y="120" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Risk assessment</text>
+        <text x="380" y="132" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">EU AI Act stamp</text>
+        <rect x="345" y="142" width="70" height="14" rx="4" fill="rgba(0,229,160,.1)" stroke="rgba(0,229,160,.2)"/>
+        <text x="380" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00e5a0">✓ passed</text>
+
+        <!-- Arrow 3 -->
+        <line x1="442" y1="110" x2="488" y2="110" stroke="#00C5FF" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5" marker-end="url(#arrow-t)"/>
+
+        <!-- Stage 3: TRANSLATE -->
+        <rect x="490" y="60" width="120" height="100" rx="8" fill="rgba(0,197,255,.05)" stroke="rgba(0,197,255,.3)" stroke-width="1.5"/>
+        <rect x="490" y="60" width="120" height="4" rx="2" fill="#00C5FF" opacity=".8"/>
+        <text x="550" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#00C5FF" font-weight="700">TRANSLATE</text>
+        <text x="550" y="108" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">MCP → A2A</text>
+        <text x="550" y="120" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">A2A → ANP</text>
+        <text x="550" y="132" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">6 paths · &lt;1ms</text>
+        <rect x="515" y="142" width="70" height="14" rx="4" fill="rgba(0,229,160,.1)" stroke="rgba(0,229,160,.2)"/>
+        <text x="550" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00e5a0">✓ 6 paths</text>
+
+        <!-- Arrow 4 -->
+        <line x1="612" y1="110" x2="658" y2="110" stroke="#FFAA00" stroke-width="1.5" stroke-dasharray="4,3" opacity=".5" marker-end="url(#arrow-r)"/>
+
+        <!-- Stage 4: RECEIPT -->
+        <rect x="660" y="60" width="120" height="100" rx="8" fill="rgba(255,170,0,.05)" stroke="rgba(255,170,0,.3)" stroke-width="1.5"/>
+        <rect x="660" y="60" width="120" height="4" rx="2" fill="#FFAA00" opacity=".8"/>
+        <text x="720" y="90" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#FFAA00" font-weight="700">RECEIPT</text>
+        <text x="720" y="108" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Ed25519 signed</text>
+        <text x="720" y="120" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">SHA-256 chain</text>
+        <text x="720" y="132" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Tamper-evident</text>
+        <rect x="685" y="142" width="70" height="14" rx="4" fill="rgba(0,229,160,.1)" stroke="rgba(0,229,160,.2)"/>
+        <text x="720" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00e5a0">✓ signed</text>
+
+        <!-- 200 OK label -->
+        <rect x="580" y="185" width="120" height="22" rx="5" fill="rgba(0,229,160,.08)" stroke="rgba(0,229,160,.2)"/>
+        <text x="640" y="200" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00e5a0" font-weight="700">200 OK · &lt;10ms</text>
+        <line x1="720" y1="162" x2="720" y2="180" stroke="rgba(0,229,160,.3)" stroke-width="1" stroke-dasharray="3,2"/>
+        <line x1="640" y1="180" x2="720" y2="180" stroke="rgba(0,229,160,.3)" stroke-width="1"/>
+        <line x1="640" y1="180" x2="640" y2="185" stroke="rgba(0,229,160,.3)" stroke-width="1"/>
+      </svg>
+    </div>
+    <div class="diagram-legend">
+      <span class="legend-item"><span class="legend-dot" style="background:#00d4ff"></span>Passport Auth</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#7B61FF"></span>Policy Engine</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#00C5FF"></span>Protocol Translate</span>
+      <span class="legend-item"><span class="legend-dot" style="background:#FFAA00"></span>Signed Receipt</span>
+    </div>
+  </div>
+
+  <!-- Panel 2: Policy Engine -->
+  <div id="pip-policy" class="viz-panel">
+    <div class="diagram-box">
+      <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg">
+        <rect width="800" height="220" fill="url(#pgrid)"/>
+        <!-- Policy types -->
+        <text x="400" y="25" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#7B61FF" font-weight="700">POLICY ENGINE — 5 GUARDRAIL TYPES</text>
+
+        <rect x="20" y="40" width="145" height="70" rx="7" fill="rgba(123,97,255,.06)" stroke="rgba(123,97,255,.25)"/>
+        <text x="92" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#7B61FF" font-weight="700">CAPABILITY</text>
+        <text x="92" y="78" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Required capabilities</text>
+        <text x="92" y="90" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">before execution</text>
+        <rect x="55" y="98" width="75" height="10" rx="3" fill="rgba(123,97,255,.1)"/>
+        <text x="92" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#7B61FF">capability_required</text>
+
+        <rect x="175" y="40" width="145" height="70" rx="7" fill="rgba(0,212,255,.06)" stroke="rgba(0,212,255,.25)"/>
+        <text x="247" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00d4ff" font-weight="700">DELIVERABLE</text>
+        <text x="247" y="78" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Output must match</text>
+        <text x="247" y="90" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">expected schema</text>
+        <rect x="210" y="98" width="75" height="10" rx="3" fill="rgba(0,212,255,.1)"/>
+        <text x="247" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00d4ff">deliverable_gate</text>
+
+        <rect x="330" y="40" width="145" height="70" rx="7" fill="rgba(255,170,0,.06)" stroke="rgba(255,170,0,.25)"/>
+        <text x="402" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FFAA00" font-weight="700">SEPARATION</text>
+        <text x="402" y="78" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">No agent acts on</text>
+        <text x="402" y="90" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">its own output</text>
+        <rect x="365" y="98" width="75" height="10" rx="3" fill="rgba(255,170,0,.1)"/>
+        <text x="402" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#FFAA00">separation_of_duties</text>
+
+        <rect x="485" y="40" width="145" height="70" rx="7" fill="rgba(255,68,68,.06)" stroke="rgba(255,68,68,.25)"/>
+        <text x="557" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#FF4444" font-weight="700">RATE LIMIT</text>
+        <text x="557" y="78" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">Requests/minute</text>
+        <text x="557" y="90" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">per passport tier</text>
+        <rect x="520" y="98" width="75" height="10" rx="3" fill="rgba(255,68,68,.1)"/>
+        <text x="557" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#FF4444">rate_limit</text>
+
+        <rect x="640" y="40" width="145" height="70" rx="7" fill="rgba(0,197,255,.06)" stroke="rgba(0,197,255,.25)"/>
+        <text x="712" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00C5FF" font-weight="700">HUMAN LOOP</text>
+        <text x="712" y="78" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">High-risk actions</text>
+        <text x="712" y="90" text-anchor="middle" font-family="DM Sans" font-size="8" fill="#5e6388">require approval</text>
+        <rect x="675" y="98" width="75" height="10" rx="3" fill="rgba(0,197,255,.1)"/>
+        <text x="712" y="107" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#00C5FF">human_in_loop</text>
+
+        <!-- Result row -->
+        <rect x="100" y="135" width="600" height="65" rx="8" fill="rgba(0,229,160,.04)" stroke="rgba(0,229,160,.15)"/>
+        <text x="400" y="157" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#00e5a0" font-weight="700">POLICY EVALUATION RESULT</text>
+        <text x="200" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#5e6388">ALLOW → execute + stamp receipt</text>
+        <text x="400" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FFAA00">ESCALATE → queue human approval</text>
+        <text x="610" y="175" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#FF4444">DENY → 403 + signed violation log</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Panel 3: Receipt Anatomy -->
+  <div id="pip-receipt" class="viz-panel">
+    <div class="code-block">
+<span class="c">// Ed25519-signed receipt — every AIB operation</span>
+{
+  <span class="k">"receipt_id"</span>: <span class="s">"rcpt_01JQZB7..."</span>,          <span class="c">// URN unique</span>
+  <span class="k">"passport_id"</span>: <span class="s">"urn:aib:passport:..."</span>,     <span class="c">// Agent DID</span>
+  <span class="k">"operation"</span>: <span class="s">"passport.create"</span>,
+  <span class="k">"intent"</span>: <span class="s">"Provision identity for CI pipeline agent"</span>, <span class="c">// Art. 12</span>
+  <span class="k">"risk_level"</span>: <span class="s">"low"</span>,                         <span class="c">// low|medium|high|critical</span>
+  <span class="k">"human_oversight"</span>: <span class="v">true</span>,                   <span class="c">// Art. 14</span>
+  <span class="k">"decision_rationale"</span>: <span class="s">"Auto-approved: low risk, valid policy"</span>,
+  <span class="k">"affected_persons"</span>: <span class="s">"none"</span>,
+  <span class="k">"invocation_chain"</span>: [<span class="s">"did:web:user"</span>, <span class="s">"did:web:agent"</span>],
+  <span class="k">"data_accessed"</span>: [<span class="s">"passports"</span>, <span class="s">"signing_keys"</span>],
+  <span class="k">"timestamp_utc"</span>: <span class="s">"2026-04-05T14:30:00Z"</span>,
+  <span class="k">"previous_hash"</span>: <span class="s">"sha256:a4f2..."</span>,           <span class="c">// Hash chain</span>
+  <span class="k">"signature"</span>: <span class="s">"ed25519:7f3c9a..."</span>             <span class="c">// Tamper-evident</span>
+}
+    </div>
+  </div>
+
+  <script>
+  function showPipPanel(btn, id) {
+    document.querySelectorAll('#pip-request,#pip-policy,#pip-receipt').forEach(function(p){p.classList.remove('active')});
+    document.querySelectorAll('.viz-tab').forEach(function(b){b.classList.remove('active')});
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+  </script>
+</div></section>
+
 <!-- FOOTER -->
 <footer><div class="w">
   <p>&copy; 2026 <a href="https://tntech.fr">TNTECH CONSULTING SAS</a> — Paris — <a href="https://github.com/tntech-consulting/agent-identity-bridge">GitHub</a> · <a href="/spec">Spec</a> · <a href="/blog">Blog</a> · Apache 2.0</p>
