@@ -618,43 +618,89 @@ var KB = (function(){
   function buildOutputs() {
     var t = state.selected;
     if (!t) return null;
-    var name = (document.getElementById('kb-agent') || {value: 'my-agent'}).value || 'my-agent';
+    var slug = (document.getElementById('kb-agent') || {value: 'my-agent'}).value || 'my-agent';
     var rules = state.rules;
     var base = SUPA + '/functions/v1';
+    var protocols = (t.protocols || ['mcp', 'a2a']);
+    var capabilities = (t.capabilities || []);
 
-    var py = ['import aib', '', '# pip install agent-identity-bridge', '# Get API key: aib-tech.fr/dashboard', '',
-      'client = aib.Client(api_key="aib_sk_...")', '',
-      'passport = client.passport_get_or_create(', '    name="' + name + '",', '    template="' + t.slug + '"', ')',
-      'pid = passport["passport_id"]', ''];
-    rules.forEach(function(r) {
-      py.push('client.policy_create(');
-      py.push('    passport_id=pid, rule_type="' + r.type + '",');
-      py.push('    config=' + JSON.stringify(r.cfg) + ', severity="block"');
-      py.push(')');
+    // Python — vraies signatures aib.AIBCloud v2.16.0
+    var py = [
+      'from aib import AIBCloud',
+      '',
+      '# pip install agent-identity-bridge',
+      '# Get your API key at aib-tech.fr/dashboard',
+      '',
+      'client = AIBCloud(api_key="aib_sk_...")',
+      '',
+      '# 1. Create agent passport',
+      'passport = client.create_passport(',
+      '    agent_slug="' + slug + '",',
+      '    protocols=' + JSON.stringify(protocols) + ',',
+      '    capabilities=' + JSON.stringify(capabilities) + ',',
+      '    tier="' + (t.tier || 'permanent') + '"',
+      ')',
+      'pid = passport["passport_id"]',
+      'print("Passport created:", pid)',
+      ''
+    ];
+    if (rules.length) {
+      py.push('# 2. Apply policy rules');
+      rules.forEach(function(r) {
+        py.push('client.create_policy(');
+        py.push('    rule_type="' + r.type + '",');
+        py.push('    config=' + JSON.stringify(r.cfg) + ',');
+        py.push('    severity="block"');
+        py.push(')');
+      });
       py.push('');
-    });
-    py.push('print("Passport:", pid)');
+    }
+    py.push('# 3. Verify');
+    py.push('passports = client.list_passports()');
+    py.push('print("Active passports:", passports["count"])');
 
-    var curl = ['# 1. Create passport', 'curl -s -X POST \\',
+    // cURL — vrais endpoints
+    var curl = [
+      '# 1. Create passport',
+      'curl -s -X POST \\',
       '  ' + base + '/passport-create \\',
       '  -H "x-api-key: aib_sk_..." \\',
       '  -H "Content-Type: application/json" \\',
-      "  -d '{\"name\":\"" + name + '","template":"' + t.slug + "\"}'", ''];
+      '  -d \'{ \\',
+      '    "agent_slug": "' + slug + '", \\',
+      '    "protocols": ' + JSON.stringify(protocols) + ', \\',
+      '    "tier": "' + (t.tier || 'permanent') + '"',
+      '  }\'',
+      ''
+    ];
     rules.forEach(function(r, i) {
-      curl.push('# ' + (i + 2) + '. Apply ' + r.type);
+      curl.push('# ' + (i + 2) + '. ' + (RULE_DEFS[r.type] ? RULE_DEFS[r.type].label : r.type));
       curl.push('curl -s -X POST \\');
       curl.push('  ' + base + '/policy-manage \\');
       curl.push('  -H "x-api-key: aib_sk_..." \\');
       curl.push('  -H "Content-Type: application/json" \\');
-      curl.push("  -d '" + JSON.stringify({action:'create',passport_id:'<pid>',rule_type:r.type,config:r.cfg,severity:'block'}) + "'");
+      curl.push('  -d \'{ \\');
+      curl.push('    "action": "create", \\');
+      curl.push('    "rule_type": "' + r.type + '", \\');
+      curl.push('    "config": ' + JSON.stringify(r.cfg) + ', \\');
+      curl.push('    "severity": "block"');
+      curl.push('  }\'');
       curl.push('');
     });
 
-    var json = JSON.stringify({template:t.slug, agent_name:name, protocols:t.protocols,
-      rules:rules.map(function(r){ return {rule_type:r.type, config:r.cfg, severity:'block'}; })
+    // JSON config exportable
+    var jsonOut = JSON.stringify({
+      agent_slug: slug,
+      protocols: protocols,
+      capabilities: capabilities,
+      tier: t.tier || 'permanent',
+      ttl_days: t.ttl_days || 365,
+      policies: rules.map(function(r) {
+        return {rule_type: r.type, config: r.cfg, severity: 'block'};
+      })
     }, null, 2);
 
-    return {python: py.join('\n'), curl: curl.join('\n'), json: json};
+    return {python: py.join('\n'), curl: curl.join('\n'), json: jsonOut};
   }
 
   function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
