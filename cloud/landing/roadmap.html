@@ -364,6 +364,69 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </div>
 </div>
 
+<!-- ═══════ PHASE 2b: INFRASTRUCTURE MIGRATION ═══════ -->
+<div class="phase reveal">
+<div class="phase-head">
+<div class="phase-icon" style="background:var(--amber-dim);color:var(--amber)">⚙</div>
+<div class="phase-title">Infrastructure Migration</div>
+<div class="phase-tag phase-tag-next">NEXT UP · Q2–Q3 2026</div>
+</div>
+<p class="phase-desc" data-lang="en" class="show">Migrate from the current Supabase/Deno/Netlify stack to a sovereign, production-grade infrastructure. Required for enterprise contracts (BNP Paribas, SNCF, TotalEnergies) and BPI France compliance. Each step is independent and can ship incrementally.</p>
+<p class="phase-desc" data-lang="fr">Migration de la stack Supabase/Deno/Netlify actuelle vers une infrastructure souveraine et production-grade. Requis pour les contrats enterprise (BNP Paribas, SNCF, TotalEnergies) et la conformité BPI France. Chaque étape est indépendante et peut être livrée de manière incrémentale.</p>
+<div class="features">
+
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content">
+<div class="feat-name">Supabase → PostgreSQL souverain</div>
+<div class="feat-desc" data-lang="en" class="show">Migrate 40 tables + RLS policies + 35 Edge Functions from Supabase (eu-west-1) to a self-managed PostgreSQL on OVHcloud or Outscale. Retain pg_cron for agent scheduling.</div>
+<div class="feat-desc" data-lang="fr">Migration de 40 tables + politiques RLS + 35 Edge Functions de Supabase (eu-west-1) vers un PostgreSQL auto-géré sur OVHcloud ou Outscale. Conservation de pg_cron pour le scheduling des agents.</div>
+<div class="feat-tech">OVHcloud Managed PostgreSQL · Outscale SecNumCloud · pg_cron · RLS · zero-downtime migration</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content">
+<div class="feat-name">Edge Functions → passport-service (Go / Rust)</div>
+<div class="feat-desc" data-lang="en" class="show">Rewrite the core passport-create, passport-revoke, translate, and audit-trail Edge Functions as a compiled Go or Rust binary. Target: &lt;1ms signing latency, deterministic memory, enterprise SLA.</div>
+<div class="feat-desc" data-lang="fr">Réécriture des Edge Functions core (passport-create, passport-revoke, translate, audit-trail) en binaire compilé Go ou Rust. Objectif : latence de signature &lt;1ms, mémoire déterministe, SLA enterprise.</div>
+<div class="feat-tech">Go · Rust · Ed25519 · &lt;1ms p99 · stateless · horizontal scaling</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content">
+<div class="feat-name">NATS JetStream — Message Broker</div>
+<div class="feat-desc" data-lang="en" class="show">Replace synchronous REST calls between the 14 autonomous agents with NATS JetStream. Removes the ~20–30 concurrent agent ceiling. Guaranteed delivery, replay, and dead-letter queues.</div>
+<div class="feat-desc" data-lang="fr">Remplacement des appels REST synchrones entre les 14 agents autonomes par NATS JetStream. Supprime le plafond de ~20–30 agents concurrents. Livraison garantie, replay et dead-letter queues.</div>
+<div class="feat-tech">NATS JetStream · pub/sub · consumer groups · at-least-once delivery · self-hosted</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status next"></div><div class="feat-content">
+<div class="feat-name">HashiCorp Vault / HSM — Root Key Management</div>
+<div class="feat-desc" data-lang="en" class="show">Move the Ed25519 root signing key out of Supabase secrets into HashiCorp Vault or a hardware HSM. Per-agent key derivation. Automatic key rotation. Required for SecNumCloud and enterprise audits.</div>
+<div class="feat-desc" data-lang="fr">Déplacement de la clé de signature Ed25519 root hors des secrets Supabase vers HashiCorp Vault ou un HSM matériel. Dérivation de clé par agent. Rotation automatique. Requis pour SecNumCloud et les audits enterprise.</div>
+<div class="feat-tech">HashiCorp Vault · HSM · PKCS#11 · key derivation · auto-rotation · SecNumCloud</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content">
+<div class="feat-name">Netlify → CDN souverain</div>
+<div class="feat-desc" data-lang="en" class="show">Replace Netlify (US-based) with a European CDN for the frontend assets. OVHcloud CDN or Clever Cloud. Maintains atomic deploys via CI/CD Git workflow. Zero change to the deployment pipeline logic.</div>
+<div class="feat-desc" data-lang="fr">Remplacement de Netlify (US) par un CDN européen pour les assets frontend. OVHcloud CDN ou Clever Cloud. Conservation des déploiements atomiques via le workflow CI/CD Git. Aucun changement à la logique du pipeline de déploiement.</div>
+<div class="feat-tech">OVHcloud CDN · Clever Cloud · atomic deploy · GitHub Actions · aib-tech.fr</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content">
+<div class="feat-name">receipts Table — Partitioning + Archive</div>
+<div class="feat-desc" data-lang="en" class="show">Partition the receipts table by month using pg_partman. Add TTL policy for automatic archiving after 7 years (EU AI Act retention requirement). Required before 10M+ receipts/month.</div>
+<div class="feat-desc" data-lang="fr">Partitionnement de la table receipts par mois via pg_partman. Politique TTL pour archivage automatique après 7 ans (exigence de rétention EU AI Act). Requis avant 10M+ receipts/mois.</div>
+<div class="feat-tech">pg_partman · monthly partitions · TTL · S3-compatible archive · EU AI Act Art. 12</div>
+</div></div>
+
+<div class="feat-item"><div class="feat-status planned"></div><div class="feat-content">
+<div class="feat-name">Monitoring — Prometheus + Grafana</div>
+<div class="feat-desc" data-lang="en" class="show">Replace the current custom monitoring Edge Function with a proper Prometheus + Grafana stack. Latency histograms, agent fleet health, receipt throughput, signing key usage — all observable.</div>
+<div class="feat-desc" data-lang="fr">Remplacement de la Edge Function de monitoring custom par un stack Prometheus + Grafana standard. Histogrammes de latence, santé de la flotte d'agents, débit de receipts, usage des clés de signature — tout observable.</div>
+<div class="feat-tech">Prometheus · Grafana · alert rules · p50/p95/p99 latency · agent fleet dashboard</div>
+</div></div>
+
+</div>
+</div>
+
 <!-- ═══════ PHASE 3: SCALE & FEDERATION ═══════ -->
 <div class="phase reveal">
 <div class="phase-head">
