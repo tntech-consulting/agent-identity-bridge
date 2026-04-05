@@ -811,9 +811,6 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
 <script>
 // Language
-function setLang(l){document.querySelectorAll('[data-lang]').forEach(function(e){e.classList.toggle('show',e.getAttribute('data-lang')===l)});document.getElementById('btn-en').classList.toggle('active',l==='en');document.getElementById('btn-fr').classList.toggle('active',l==='fr');localStorage.setItem('aib-lang',l)}
-var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
-
 // Dropdown
 function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('open')});document.querySelectorAll('.dd').forEach(function(x){x.classList.remove('open')});if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
 document.addEventListener('click',function(e){if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('open')});document.querySelectorAll('.dd').forEach(function(d){d.classList.remove('open')})}});
@@ -898,7 +895,7 @@ function closeMob(){var d=document.getElementById('mob-drawer'),h=document.getEl
 function closeMobIfBg(e){if(e.target===document.getElementById('mob-drawer'))closeMob();}
 function toggleMobSub(btn){var sub=btn.nextElementSibling;var isOpen=sub.classList.contains('open');document.querySelectorAll('.mob-sub').forEach(s=>s.classList.remove('open'));document.querySelectorAll('.mob-trigger').forEach(t=>t.classList.remove('open'));if(!isOpen){sub.classList.add('open');btn.classList.add('open');}}
 
-var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+var sl=localStorage.getItem('aib-lang');setLang(sl||'en');
 </script>
 </body>
 </html>
