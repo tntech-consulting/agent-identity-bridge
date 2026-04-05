@@ -570,7 +570,6 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <script>
 var KB = (function(){
   var SUPA = 'https://vempwtzknixfnvysmiwo.supabase.co';
-  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw';
   var ICONS = {'customer-facing':'💬','internal':'⚙️','orchestration':'🔀','compliance':'⚖️'};
   var RULE_DEFS = {
     rate_limit:           {label:'Rate Limit',           cfg:{max_per_hour:100}},
@@ -691,7 +690,7 @@ var KB = (function(){
       var countEl = document.getElementById('kb-tpl-count');
       var gridEl  = document.getElementById('kb-tpl-grid');
       if (!gridEl) return;
-      fetch(SUPA + '/functions/v1/template-list', {headers: {'Authorization': 'Bearer ' + ANON}})
+      fetch(SUPA + '/functions/v1/template-list')
         .then(function(r) { return r.json(); })
         .then(function(d) {
           state.templates = d.templates || [];
@@ -751,14 +750,17 @@ var KB = (function(){
     refresh: function() { renderOutput(); }
   };
 
+  window.KB = api;
   return api;
 })();
 
-/* Init — fonctionne que le script soit avant ou après le DOM */
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function(){ KB.init(); });
-} else {
-  KB.init();
+/* Init déclenché après setLang */
+if (typeof KB !== 'undefined' && KB.init) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ KB.init(); });
+  } else {
+    KB.init();
+  }
 }
 </script>
 
