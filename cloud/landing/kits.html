@@ -583,213 +583,185 @@ var KB = (function(){
     time_restrict:        {label:'Time Restrict',        cfg:{hours_utc:'08:00-18:00'}},
     tier_restrict:        {label:'Tier Restrict',        cfg:{allowed_tiers:'permanent'}}
   };
-
   var state = {templates:[], selected:null, rules:[], tab:'python'};
-
-  function init() {
-    fetch(SUPA+'/functions/v1/template-list',{headers:{'Authorization':'Bearer '+ANON}})
-      .then(function(r){return r.json();})
-      .then(function(d){
-        state.templates = d.templates||[];
-        document.getElementById('kb-tpl-count').textContent = state.templates.length+' available';
-        renderTemplates();
-      })
-      .catch(function(){
-        document.getElementById('kb-tpl-grid').innerHTML = '<div class="kb-empty" style="grid-column:1/-1">Could not load templates — check connection</div>';
-      });
-  }
 
   function renderTemplates() {
     var html = state.templates.map(function(t){
-      var active = state.selected && state.selected.slug===t.slug;
-      return '<button class="kb-tpl'+(active?' active':'')+'" onclick="KB.selectTpl(''+t.slug+'')">'
-        +'<div class="kb-tpl-icon">'+(ICONS[t.category]||'📦')+'</div>'
-        +'<div class="kb-tpl-name">'+t.name+'</div>'
-        +'<div class="kb-tpl-proto">'+(t.protocols||[]).join(' · ')+'</div>'
-        +'</button>';
+      var active = state.selected && state.selected.slug === t.slug;
+      return '<button class="kb-tpl' + (active ? ' active' : '') + '" onclick="KB.selectTpl(\'' + t.slug + '\')">'
+        + '<div class="kb-tpl-icon">' + (ICONS[t.category] || '📦') + '</div>'
+        + '<div class="kb-tpl-name">' + t.name + '</div>'
+        + '<div class="kb-tpl-proto">' + (t.protocols || []).join(' · ') + '</div>'
+        + '</button>';
     }).join('');
-    document.getElementById('kb-tpl-grid').innerHTML = html||'<div class="kb-empty" style="grid-column:1/-1">No templates</div>';
+    var el = document.getElementById('kb-tpl-grid');
+    if (el) el.innerHTML = html || '<div class="kb-empty" style="grid-column:1/-1">No templates</div>';
   }
 
   function renderRules() {
-    if(!state.rules.length){
-      document.getElementById('kb-rules-list').innerHTML='<div class="kb-empty">No rules — click ADD RULE</div>';
+    var el = document.getElementById('kb-rules-list');
+    if (!el) return;
+    if (!state.rules.length) {
+      el.innerHTML = '<div class="kb-empty">' + (state.selected ? 'No rules — click ADD RULE' : 'Select a template above') + '</div>';
       return;
     }
-    var html = state.rules.map(function(r,i){
-      var def = RULE_DEFS[r.type]||{label:r.type};
-      var cfg = Object.entries(r.cfg).map(function(e){return e[0]+': '+e[1];}).join(', ');
+    el.innerHTML = state.rules.map(function(r, i) {
+      var def = RULE_DEFS[r.type] || {label: r.type};
+      var cfg = Object.entries(r.cfg).map(function(e){ return e[0] + ': ' + e[1]; }).join(', ');
       return '<div class="kb-rule">'
-        +'<div class="kb-rule-info"><div class="kb-rule-type">'+def.label+'</div><div class="kb-rule-cfg">'+cfg+'</div></div>'
-        +'<button class="kb-rule-del" onclick="KB.removeRule('+i+')">×</button>'
-        +'</div>';
+        + '<div class="kb-rule-info"><div class="kb-rule-type">' + def.label + '</div>'
+        + '<div class="kb-rule-cfg">' + cfg + '</div></div>'
+        + '<button class="kb-rule-del" onclick="KB.removeRule(' + i + ')">×</button>'
+        + '</div>';
     }).join('');
-    document.getElementById('kb-rules-list').innerHTML=html;
   }
 
   function buildOutputs() {
     var t = state.selected;
-    if(!t) return null;
-    var name = (document.getElementById('kb-agent')||{}).value||'my-agent';
+    if (!t) return null;
+    var name = (document.getElementById('kb-agent') || {value: 'my-agent'}).value || 'my-agent';
     var rules = state.rules;
+    var base = SUPA + '/functions/v1';
 
-    var py = [
-      'import aib',
-      '',
-      '# pip install agent-identity-bridge',
-      '# API key: aib-tech.fr/dashboard#api-keys',
-      '',
-      'client = aib.Client(api_key="aib_sk_...")',
-      '',
-      '# Create passport from template',
-      'passport = client.passport_get_or_create(',
-      '    name="'+name+'",',
-      '    template="'+t.slug+'"',
-      ')',
-      'pid = passport["passport_id"]',
-      ''
-    ];
-    rules.forEach(function(r){
-      var def = RULE_DEFS[r.type]||{};
-      py.push('# '+( def.label||r.type));
+    var py = ['import aib', '', '# pip install agent-identity-bridge', '# Get API key: aib-tech.fr/dashboard', '',
+      'client = aib.Client(api_key="aib_sk_...")', '',
+      'passport = client.passport_get_or_create(', '    name="' + name + '",', '    template="' + t.slug + '"', ')',
+      'pid = passport["passport_id"]', ''];
+    rules.forEach(function(r) {
       py.push('client.policy_create(');
-      py.push('    passport_id=pid,');
-      py.push('    rule_type="'+r.type+'",');
-      py.push('    config='+JSON.stringify(r.cfg)+',');
-      py.push('    severity="block"');
+      py.push('    passport_id=pid, rule_type="' + r.type + '",');
+      py.push('    config=' + JSON.stringify(r.cfg) + ', severity="block"');
       py.push(')');
       py.push('');
     });
     py.push('print("Passport:", pid)');
 
-    var baseUrl = SUPA+'/functions/v1';
-    var curl = [
-      '# 1. Create passport from template',
-      'curl -s -X POST \',
-      '  '+baseUrl+'/passport-create \',
-      '  -H "x-api-key: aib_sk_..." \',
-      '  -H "Content-Type: application/json" \',
-      '  -d '{"name":"'+name+'","template":"'+t.slug+'"}'',
-      ''
-    ];
-    rules.forEach(function(r,i){
-      curl.push('# '+(i+2)+'. Apply '+r.type);
-      curl.push('curl -s -X POST \');
-      curl.push('  '+baseUrl+'/policy-manage \');
-      curl.push('  -H "x-api-key: aib_sk_..." \');
-      curl.push('  -H "Content-Type: application/json" \');
-      curl.push('  -d ''+JSON.stringify({action:'create',passport_id:'<pid>',rule_type:r.type,config:r.cfg,severity:'block'})+''');
+    var curl = ['# 1. Create passport', 'curl -s -X POST \\',
+      '  ' + base + '/passport-create \\',
+      '  -H "x-api-key: aib_sk_..." \\',
+      '  -H "Content-Type: application/json" \\',
+      "  -d '{\"name\":\"" + name + '","template":"' + t.slug + "\"}'", ''];
+    rules.forEach(function(r, i) {
+      curl.push('# ' + (i + 2) + '. Apply ' + r.type);
+      curl.push('curl -s -X POST \\');
+      curl.push('  ' + base + '/policy-manage \\');
+      curl.push('  -H "x-api-key: aib_sk_..." \\');
+      curl.push('  -H "Content-Type: application/json" \\');
+      curl.push("  -d '" + JSON.stringify({action:'create',passport_id:'<pid>',rule_type:r.type,config:r.cfg,severity:'block'}) + "'");
       curl.push('');
     });
 
-    var json = JSON.stringify({
-      template: t.slug,
-      agent_name: name,
-      protocols: t.protocols,
-      rules: rules.map(function(r){return{rule_type:r.type,config:r.cfg,severity:'block'};})
+    var json = JSON.stringify({template:t.slug, agent_name:name, protocols:t.protocols,
+      rules:rules.map(function(r){ return {rule_type:r.type, config:r.cfg, severity:'block'}; })
     }, null, 2);
 
-    return {python:py.join('
-'), curl:curl.join('
-'), json:json};
+    return {python: py.join('\n'), curl: curl.join('\n'), json: json};
   }
 
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-  function highlight(code, lang) {
-    var s = esc(code);
-    if(lang==='python'||lang==='curl'){
-      s = s.replace(/(#[^
-]+)/g,'<span style="color:var(--fg3)">$1</span>');
-      s = s.replace(/("aib_sk_\.\.\.")/g,'<span style="color:#FFAA00">$1</span>');
-      s = s.replace(/("aib-tech\.fr[^"]*")/g,'<span style="color:var(--cyan)">$1</span>');
-    }
-    if(lang==='json'){
-      s = s.replace(/"([^"]+)"(?=\s*:)/g,'"<span style="color:var(--cyan)">$1</span>"');
-      s = s.replace(/:\s*"([^"]+)"/g,': "<span style="color:var(--green)">$1</span>"');
-    }
-    return s;
-  }
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   function renderOutput() {
-    var out = buildOutputs();
     var el = document.getElementById('kb-output');
-    if(!out){el.innerHTML='<span style="color:var(--fg3)"># Select a template above</span>';return;}
-    var code = out[state.tab]||'';
-    el.innerHTML = highlight(code, state.tab);
+    if (!el) return;
+    var out = buildOutputs();
+    if (!out) { el.innerHTML = '<span style="color:var(--fg3)"># Select a template above to generate the command</span>'; return; }
+    var code = esc(out[state.tab] || '');
+    code = code.replace(/(#[^\n]+)/g, '<span style="color:var(--fg3)">$1</span>');
+    code = code.replace(/(aib_sk_\.\.\.)/g, '<span style="color:#FFAA00">$1</span>');
+    el.innerHTML = code;
   }
 
-  return {
-    selectTpl: function(slug){
-      state.selected = state.templates.find(function(t){return t.slug===slug;})||null;
-      if(state.selected){
-        state.rules = (state.selected.policy_presets||[]).map(function(p){
-          return {type:p.rule_type, cfg:Object.assign({},p.config)};
+  function fallbackCopy(text, btn) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); flashBtn(btn); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+
+  function flashBtn(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✓ COPIED'; btn.style.color = 'var(--green)';
+    setTimeout(function(){ btn.textContent = orig; btn.style.color = ''; }, 1600);
+  }
+
+  /* ── Public API ── */
+  var api = {
+    init: function() {
+      var countEl = document.getElementById('kb-tpl-count');
+      var gridEl  = document.getElementById('kb-tpl-grid');
+      if (!gridEl) return;
+      fetch(SUPA + '/functions/v1/template-list', {headers: {'Authorization': 'Bearer ' + ANON}})
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          state.templates = d.templates || [];
+          if (countEl) countEl.textContent = state.templates.length + ' available';
+          renderTemplates();
+        })
+        .catch(function() {
+          if (gridEl) gridEl.innerHTML = '<div class="kb-empty" style="grid-column:1/-1">Could not load templates — check connection</div>';
+        });
+    },
+    selectTpl: function(slug) {
+      state.selected = null;
+      for (var i = 0; i < state.templates.length; i++) {
+        if (state.templates[i].slug === slug) { state.selected = state.templates[i]; break; }
+      }
+      if (state.selected) {
+        state.rules = (state.selected.policy_presets || []).map(function(p) {
+          return {type: p.rule_type, cfg: Object.assign({}, p.config)};
         });
       }
       renderTemplates();
       renderRules();
       renderOutput();
     },
-    addRule: function(){
-      if(!state.selected){
-        var btn=document.getElementById('kb-addbtn');
-        if(btn){btn.textContent='Select a template first';setTimeout(function(){btn.textContent='+ ADD RULE';},1800);}
+    addRule: function() {
+      if (!state.selected) {
+        var btn = document.getElementById('kb-addbtn');
+        if (btn) { btn.textContent = '← Pick a template first'; setTimeout(function(){ btn.textContent = '+ ADD RULE'; }, 1800); }
         return;
       }
-      var used = state.rules.map(function(r){return r.type;});
-      var avail = Object.keys(RULE_DEFS).filter(function(k){return !used.includes(k);});
-      if(!avail.length){alert('All rule types already added.');return;}
-      var type = avail[0];
-      state.rules.push({type:type, cfg:Object.assign({},RULE_DEFS[type].cfg)});
+      var used = state.rules.map(function(r){ return r.type; });
+      var avail = Object.keys(RULE_DEFS).filter(function(k){ return used.indexOf(k) === -1; });
+      if (!avail.length) { alert('All rule types already added.'); return; }
+      state.rules.push({type: avail[0], cfg: Object.assign({}, RULE_DEFS[avail[0]].cfg)});
       renderRules();
       renderOutput();
     },
-    removeRule: function(i){
-      state.rules.splice(i,1);
+    removeRule: function(i) {
+      state.rules.splice(i, 1);
       renderRules();
       renderOutput();
     },
-    tab: function(btn, t){
-      state.tab=t;
-      document.querySelectorAll('.kb-tab').forEach(function(b){b.classList.remove('active');});
+    tab: function(btn, t) {
+      state.tab = t;
+      document.querySelectorAll('.kb-tab').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
       renderOutput();
     },
-    copy: function(btn){
+    copy: function(btn) {
       var out = buildOutputs();
-      if(!out) return;
-      var text = out[state.tab]||'';
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(function(){
-          var orig=btn.textContent; btn.textContent='✓ COPIED'; btn.style.color='var(--green)';
-          setTimeout(function(){btn.textContent=orig;btn.style.color='';},1600);
-        }).catch(function(){fallbackCopy(text,btn);});
-      } else { fallbackCopy(text,btn); }
+      if (!out) return;
+      var text = out[state.tab] || '';
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function(){ flashBtn(btn); }).catch(function(){ fallbackCopy(text, btn); });
+      } else { fallbackCopy(text, btn); }
     },
-    refresh: function(){renderOutput();}
+    refresh: function() { renderOutput(); }
   };
 
-  function fallbackCopy(text, btn){
-    var ta=document.createElement('textarea');
-    ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select();
-    try{
-      document.execCommand('copy');
-      var orig=btn.textContent; btn.textContent='✓ COPIED'; btn.style.color='var(--green)';
-      setTimeout(function(){btn.textContent=orig;btn.style.color='';},1600);
-    }catch(e){}
-    document.body.removeChild(ta);
-  }
+  return api;
 })();
 
-document.addEventListener('DOMContentLoaded', function(){ KB.init ? KB.init() : (function(){
-  // fallback si DOMContentLoaded déjà passé
-})(); });
-if(document.readyState==='complete'||document.readyState==='interactive'){
-  setTimeout(function(){KB.init&&KB.init();},0);
+/* Init — fonctionne que le script soit avant ou après le DOM */
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function(){ KB.init(); });
+} else {
+  KB.init();
 }
 </script>
+
 
 <footer>
 <div class="w">
