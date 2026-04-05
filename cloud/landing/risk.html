@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EU AI Act Risk Calculator &mdash; AIB</title>
+<meta name="description" content="Assess your AI agent's EU AI Act compliance risk. Get your risk level, applicable articles, potential fines, and a downloadable compliance report.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a1a;--bg2:#0f1029;--bg3:#171840;
+  --fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);
+  --purple:#8b5cf6;--purple-dim:rgba(139,92,246,.06);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.06);
+  --red:#ef4444;--red-dim:rgba(239,68,68,.08);
+  --orange:#f59e0b;--orange-dim:rgba(245,158,11,.08);
+  --bd:rgba(255,255,255,.06);
+  --glass:rgba(15,16,41,.6);
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.75}
+a{color:var(--cyan);text-decoration:none;transition:all .2s}a:hover{color:#fff}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+button{font-family:inherit}
+
+/* ═══ BG ═══ */
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 20s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:rgba(239,68,68,.05);top:-15%;left:-8%;animation-delay:0s}
+.orb-2{width:500px;height:500px;background:rgba(245,158,11,.04);bottom:5%;right:-8%;animation-delay:-7s}
+.orb-3{width:450px;height:450px;background:rgba(0,212,255,.04);top:35%;left:45%;animation-delay:-13s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,10px) scale(1.02)}}
+main{position:relative;z-index:2}
+
+/* ═══ NAV ═══ */
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.logo-text{font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-r{display:flex;gap:3px;align-items:center}
+.nav-item{position:relative}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:all .15s}
+.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
+.dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:all .12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px;font-weight:400}
+.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
+.btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s;box-shadow:0 0 20px rgba(0,212,255,.12)}.btn-cta:hover{box-shadow:0 0 32px rgba(0,212,255,.25);transform:translateY(-1px);color:#fff}
+.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:8px;transition:.2s;flex-shrink:0}
+.ham span{display:block;height:2px;background:var(--fg2);border-radius:2px;transition:all .3s}
+.mob-drawer{display:none;position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.mob-drawer.open{display:block}
+.mob-panel{position:absolute;top:0;right:0;width:min(320px,85vw);height:100%;background:#0f1029;border-left:1px solid var(--bd);padding:20px 0;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.mob-drawer.open .mob-panel{transform:translateX(0)}
+.mob-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+.mob-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;padding:4px;line-height:1}
+.mob-trigger{width:100%;background:none;border:none;color:var(--fg);font-family:var(--sans);font-size:14px;font-weight:600;padding:13px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.15s}
+.mob-trigger:hover{background:rgba(255,255,255,.03);color:var(--cyan)}
+.mob-sub{display:none;padding:0 0 8px}.mob-sub.open{display:block}
+.mob-sub a{display:block;padding:9px 20px 9px 32px;color:var(--fg2);font-size:13px;transition:.15s}.mob-sub a:hover{color:var(--cyan);background:rgba(0,212,255,.04)}
+.mob-sub a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}
+.mob-sep{height:1px;background:var(--bd);margin:8px 20px}
+.mob-cta{margin:12px 20px 0;display:block;padding:13px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;border-radius:10px;font-weight:700;font-size:13px;font-family:var(--mono);text-align:center}
+@media(max-width:768px){.nav-r{display:none}.ham{display:flex}}
+
+/* ═══ HERO ═══ */
+.hero{padding:80px 0 48px;text-align:center;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--red-dim);border:1px solid rgba(239,68,68,.2);padding:6px 16px;border-radius:20px;margin-bottom:32px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-badge span{font-family:var(--mono);font-size:12px;color:var(--red);font-weight:600;letter-spacing:1.5px}
+.hero h1{font-size:52px;font-weight:800;line-height:1.1;margin-bottom:20px;letter-spacing:-2px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--red),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--fg2);font-size:17px;line-height:1.7;max-width:560px;margin:0 auto 16px}
+.deadline{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);padding:8px 20px;border-radius:8px;font-family:var(--mono);font-size:12px;color:var(--orange);font-weight:600}
+.deadline svg{width:14px;height:14px}
+
+/* ═══ CALCULATOR ═══ */
+.calc-layout{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start;padding:48px 0 80px}
+
+/* Form panel */
+.form-panel{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;overflow:hidden}
+.form-section{padding:24px 28px;border-bottom:1px solid var(--bd)}
+.form-section:last-child{border-bottom:none}
+.section-label{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-label .sn{width:18px;height:18px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--cyan)}
+
+/* Chips selector */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font-size:13px;color:var(--fg2);cursor:pointer;transition:all .15s;user-select:none}
+.chip:hover{border-color:rgba(255,255,255,.12);color:var(--fg)}
+.chip.active{background:var(--cyan-dim);border-color:var(--cyan-glow);color:var(--cyan)}
+.chip.active.risk-high{background:var(--red-dim);border-color:rgba(239,68,68,.25);color:var(--red)}
+.chip.active.risk-medium{background:var(--orange-dim);border-color:rgba(245,158,11,.25);color:var(--orange)}
+
+/* Toggles */
+.toggles{display:flex;flex-direction:column;gap:12px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;cursor:pointer;transition:.15s}
+.toggle-row:hover{border-color:rgba(255,255,255,.1)}
+.toggle-row.active{background:var(--cyan-dim);border-color:var(--cyan-glow)}
+.toggle-row.active.risk{background:var(--red-dim);border-color:rgba(239,68,68,.2)}
+.trow-left{display:flex;flex-direction:column;gap:2px}
+.trow-label{font-size:13.5px;font-weight:600;color:var(--fg)}
+.trow-sub{font-size:11px;color:var(--fg3)}
+.tswitch{width:36px;height:20px;background:var(--bg);border:1px solid var(--bd);border-radius:10px;position:relative;transition:.2s;flex-shrink:0}
+.tswitch::after{content:'';position:absolute;width:14px;height:14px;background:var(--fg3);border-radius:50%;top:2px;left:2px;transition:.2s}
+.toggle-row.active .tswitch{background:var(--cyan-dim);border-color:var(--cyan-glow)}
+.toggle-row.active .tswitch::after{background:var(--cyan);left:18px}
+.toggle-row.active.risk .tswitch{background:var(--red-dim);border-color:rgba(239,68,68,.3)}
+.toggle-row.active.risk .tswitch::after{background:var(--red)}
+
+/* Volume select */
+.vol-select{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.vol-opt{background:var(--bg3);border:1px solid var(--bd);border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:.15s}
+.vol-opt:hover{border-color:rgba(255,255,255,.1)}
+.vol-opt.active{background:var(--cyan-dim);border-color:var(--cyan-glow)}
+.vol-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--cyan)}
+.vol-label{font-size:10px;color:var(--fg3);margin-top:3px}
+
+/* Calculate button */
+.calc-btn{width:100%;background:linear-gradient(135deg,var(--red),var(--orange));color:#fff;border:none;padding:16px;border-radius:10px;font-family:var(--mono);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;letter-spacing:.5px;margin-top:4px}
+.calc-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 8px 32px rgba(239,68,68,.25)}
+.calc-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* ═══ RESULTS PANEL ═══ */
+.results-panel{position:sticky;top:84px}
+.results-card{background:var(--bg2);border:1px solid var(--bd);border-radius:16px;overflow:hidden;transition:all .3s}
+
+/* Empty state */
+.empty-state{padding:48px 28px;text-align:center}
+.empty-icon{width:56px;height:56px;background:var(--bg3);border:1px solid var(--bd);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px}
+.empty-title{font-weight:700;font-size:16px;margin-bottom:8px}
+.empty-sub{font-size:13px;color:var(--fg3);line-height:1.6}
+
+/* Risk score */
+.score-header{padding:24px 24px 0}
+.score-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:block}
+.score-big{font-size:56px;font-weight:800;line-height:1;letter-spacing:-2px;margin-bottom:4px}
+.score-label{font-size:14px;color:var(--fg2);margin-bottom:20px}
+
+.risk-minimal .score-big{background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.risk-minimal .score-tag{color:var(--green)}
+.risk-minimal{border-color:rgba(34,197,94,.15)}
+.risk-limited .score-big{background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.risk-limited .score-tag{color:var(--cyan)}
+.risk-limited{border-color:rgba(0,212,255,.15)}
+.risk-high .score-big{background:linear-gradient(135deg,var(--orange),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.risk-high .score-tag{color:var(--orange)}
+.risk-high{border-color:rgba(245,158,11,.2)}
+.risk-unacceptable .score-big{background:linear-gradient(135deg,var(--red),#ff0040);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.risk-unacceptable .score-tag{color:var(--red)}
+.risk-unacceptable{border-color:rgba(239,68,68,.25)}
+
+/* Fine bar */
+.fine-bar{margin:16px 24px;background:var(--bg3);border-radius:10px;padding:14px 16px}
+.fine-label{font-size:11px;color:var(--fg3);font-family:var(--mono);margin-bottom:6px;letter-spacing:.5px}
+.fine-amount{font-family:var(--mono);font-size:22px;font-weight:700}
+.fine-sub{font-size:11px;color:var(--fg3);margin-top:3px}
+.fine-bar.risk-unacceptable .fine-amount{color:var(--red)}
+.fine-bar.risk-high .fine-amount{color:var(--orange)}
+.fine-bar.risk-limited .fine-amount{color:var(--cyan)}
+.fine-bar.risk-minimal .fine-amount{color:var(--green)}
+
+/* Articles */
+.articles-section{padding:0 24px 16px}
+.articles-title{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--fg3);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.article-tag{display:inline-flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;font-family:var(--mono);font-size:11px;margin:0 4px 4px 0;color:var(--fg2)}
+.article-tag.critical{background:var(--red-dim);border-color:rgba(239,68,68,.2);color:var(--red)}
+.article-tag.important{background:var(--orange-dim);border-color:rgba(245,158,11,.2);color:var(--orange)}
+
+/* Obligations list */
+.obligations{padding:0 24px 20px}
+.ob-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--bd);font-size:13px;color:var(--fg2)}
+.ob-item:last-child{border-bottom:none}
+.ob-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+.ob-text{line-height:1.5}
+
+/* AIB protection block */
+.aib-block{margin:16px 24px 24px;background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(59,130,246,.04));border:1px solid rgba(0,212,255,.12);border-radius:10px;padding:16px}
+.aib-block-title{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.aib-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--fg2);padding:4px 0}
+.aib-item::before{content:'✓';color:var(--cyan);font-weight:700;flex-shrink:0}
+
+/* PDF / CTA buttons */
+.result-actions{padding:0 24px 24px;display:flex;flex-direction:column;gap:8px}
+.btn-pdf{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;border:none;padding:13px;border-radius:8px;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;width:100%;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-pdf:hover{opacity:.9;transform:translateY(-1px)}
+.btn-protect{background:transparent;color:var(--fg2);border:1px solid var(--bd);padding:11px;border-radius:8px;font-family:var(--mono);font-size:12px;font-weight:600;cursor:pointer;width:100%;transition:all .2s}
+.btn-protect:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Loading state */
+.loading-state{padding:48px 24px;text-align:center}
+.spinner{width:36px;height:36px;border:2px solid var(--bd);border-top-color:var(--cyan);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══ INFO SECTION ═══ */
+.info-section{padding:64px 0;border-top:1px solid var(--bd)}
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.info-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;backdrop-filter:blur(8px)}
+.info-icon{font-size:20px;margin-bottom:12px}
+.info-title{font-weight:700;font-size:14px;margin-bottom:6px}
+.info-text{font-size:12.5px;color:var(--fg3);line-height:1.6}
+
+/* CTA */
+.cta{padding:72px 0;text-align:center}
+.cta h2{font-size:28px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
+.cta h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta p{color:var(--fg2);font-size:15px;margin-bottom:28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-h{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .25s;box-shadow:0 4px 24px rgba(0,212,255,.2)}.btn-h:hover{box-shadow:0 8px 44px rgba(0,212,255,.3);transform:translateY(-2px);color:#fff}
+.btn-g{border:1px solid rgba(255,255,255,.12);color:var(--fg);padding:14px 28px;border-radius:10px;font-weight:600;font-size:14px;transition:all .2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
+
+footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hover{color:var(--cyan)!important}
+@media(max-width:768px){footer [style*="grid-template-columns"]{grid-template-columns:1fr 1fr!important;gap:24px!important}}
+
+/* Responsive */
+@media(max-width:900px){
+  .calc-layout{grid-template-columns:1fr}
+  .results-panel{position:static}
+  .hero h1{font-size:36px}
+  .info-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){
+  .hero h1{font-size:28px}
+  .chips{gap:6px}
+  .chip{font-size:12px;padding:7px 11px}
+  .vol-select{grid-template-columns:repeat(2,1fr)}
+  .score-big{font-size:44px}
+  .info-grid{grid-template-columns:1fr}
+}
+
+/* Lang */
+[data-lang]{display:none}.show{display:revert!important}
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+<nav><div class="w">
+  <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
+  <div class="nav-r">
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a><a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;<small>Source &amp; 1,094 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;<small>pip install agent-identity-bridge</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/blog">Blog<small>Articles &amp; updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a><a href="/risk">EU AI Act Calculator<small>Assess your compliance risk</small></a></div></div>
+    <div class="nav-item" style="margin-left:6px">
+      <button class="nb lang-btn" id="lang-toggle" onclick="toggleDD(this)"><span id="lang-flag">&#127468;&#127463;</span> <span id="lang-label">EN</span><svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dd" style="min-width:160px;right:0;left:auto"><a href="#" onclick="setLang('en');return false" id="opt-en" style="display:flex;align-items:center;gap:10px">&#127468;&#127463; <span>English</span></a><a href="#" onclick="setLang('fr');return false" id="opt-fr" style="display:flex;align-items:center;gap:10px">&#127467;&#127479; <span>Francais</span></a></div>
+    </div>
+    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+  </div>
+  <button class="ham" id="ham-btn" onclick="toggleMob()" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></nav>
+
+<!-- Mobile drawer -->
+<div class="mob-drawer" id="mob-drawer" onclick="closeMobIfBg(event)"><div class="mob-panel">
+  <div class="mob-head"><span style="font-weight:700;font-size:15px">AIB</span><button class="mob-close" onclick="closeMob()">&#10005;</button></div>
+  <div class="mob-section"><button class="mob-trigger" onclick="toggleMobSub(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/">Overview</a><a href="/why">Why AIB</a><a href="/dashboard">Dashboard</a><a href="/pricing">Pricing</a></div></div>
+  <div class="mob-sep"></div>
+  <div class="mob-section"><button class="mob-trigger" onclick="toggleMobSub(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/blog">Blog</a><a href="/viz">Protocol Explorer</a><a href="/frameworks">Frameworks</a><a href="/risk">EU AI Act Calculator</a><a href="/kits">Compliance Kits</a></div></div>
+  <div class="mob-sep"></div>
+  <a href="/dashboard" class="mob-cta">> Dashboard</a>
+</div></div>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="w">
+    <div class="hero-badge"><div class="dot"></div><span data-lang="en">EU AI ACT &mdash; DEADLINE AUGUST 2, 2026</span><span data-lang="fr">EU AI ACT &mdash; DEADLINE 2 AOUT 2026</span></div>
+    <h1 data-lang="en">What's your <em>AI agent risk</em><br>under the EU AI Act?</h1>
+    <h1 data-lang="fr">Quel est le <em>risque IA</em> de votre<br>agent sous l'EU AI Act?</h1>
+    <p class="hero-sub" data-lang="en">Answer 5 questions. Get your risk classification, applicable articles, potential fine, and a compliance action plan &mdash; in 30 seconds.</p>
+    <p class="hero-sub" data-lang="fr">5 questions. Obtenez votre classification de risque, les articles applicables, l'amende potentielle, et un plan d'action &mdash; en 30 secondes.</p>
+    <div class="deadline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      <span data-lang="en">121 days remaining until enforcement &mdash; August 2, 2026</span>
+      <span data-lang="fr">121 jours avant l'entree en vigueur &mdash; 2 aout 2026</span>
+    </div>
+  </div>
+</section>
+
+<!-- CALCULATOR -->
+<div class="w">
+<div class="calc-layout">
+
+<!-- LEFT: Form -->
+<div>
+
+  <!-- Section 1: Sector -->
+  <div class="form-panel" style="margin-bottom:16px">
+    <div class="form-section">
+      <div class="section-label"><div class="sn">1</div><span data-lang="en">SECTOR</span><span data-lang="fr">SECTEUR</span></div>
+      <div class="chips" id="chips-sector">
+        <div class="chip risk-high" data-val="healthcare" onclick="selectChip(this,'sector')">&#127973; Healthcare / MedTech</div>
+        <div class="chip risk-high" data-val="finance" onclick="selectChip(this,'sector')">&#127981; Financial Services</div>
+        <div class="chip risk-high" data-val="hr" onclick="selectChip(this,'sector')">&#128101; HR / Recruitment</div>
+        <div class="chip risk-high" data-val="legal" onclick="selectChip(this,'sector')">&#9878; Legal / GovTech</div>
+        <div class="chip risk-high" data-val="education" onclick="selectChip(this,'sector')">&#127979; Education</div>
+        <div class="chip" data-val="ecommerce" onclick="selectChip(this,'sector')">&#128722; E-commerce / Retail</div>
+        <div class="chip" data-val="saas" onclick="selectChip(this,'sector')">&#128187; SaaS / Dev Tools</div>
+        <div class="chip" data-val="media" onclick="selectChip(this,'sector')">&#127916; Media / Content</div>
+        <div class="chip" data-val="other" onclick="selectChip(this,'sector')">&#127775; Other</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: Use case -->
+  <div class="form-panel" style="margin-bottom:16px">
+    <div class="form-section">
+      <div class="section-label"><div class="sn">2</div><span data-lang="en">AGENT USE CASE</span><span data-lang="fr">USAGE DE L'AGENT</span></div>
+      <div class="chips" id="chips-usecase">
+        <div class="chip risk-high" data-val="credit" onclick="selectChip(this,'usecase')" data-lang="en">Credit scoring / loan decisions</div>
+        <div class="chip risk-high" data-val="credit" onclick="selectChip(this,'usecase')" data-lang="fr">Scoring credit / decisions pret</div>
+        <div class="chip risk-high" data-val="hiring" onclick="selectChip(this,'usecase')" data-lang="en">CV screening / hiring decisions</div>
+        <div class="chip risk-high" data-val="hiring" onclick="selectChip(this,'usecase')" data-lang="fr">Screening CV / decisions embauche</div>
+        <div class="chip risk-high" data-val="medical" onclick="selectChip(this,'usecase')" data-lang="en">Medical diagnosis assistance</div>
+        <div class="chip risk-high" data-val="medical" onclick="selectChip(this,'usecase')" data-lang="fr">Assistance diagnostic medical</div>
+        <div class="chip risk-medium" data-val="customer" onclick="selectChip(this,'usecase')" data-lang="en">Customer support automation</div>
+        <div class="chip risk-medium" data-val="customer" onclick="selectChip(this,'usecase')" data-lang="fr">Support client automatise</div>
+        <div class="chip risk-medium" data-val="fraud" onclick="selectChip(this,'usecase')" data-lang="en">Fraud detection</div>
+        <div class="chip risk-medium" data-val="fraud" onclick="selectChip(this,'usecase')" data-lang="fr">Detection de fraude</div>
+        <div class="chip" data-val="content" onclick="selectChip(this,'usecase')" data-lang="en">Content generation / RAG</div>
+        <div class="chip" data-val="content" onclick="selectChip(this,'usecase')" data-lang="fr">Generation de contenu / RAG</div>
+        <div class="chip" data-val="cicd" onclick="selectChip(this,'usecase')" data-lang="en">CI/CD / DevOps automation</div>
+        <div class="chip" data-val="cicd" onclick="selectChip(this,'usecase')" data-lang="fr">CI/CD / automatisation DevOps</div>
+        <div class="chip" data-val="analytics" onclick="selectChip(this,'usecase')" data-lang="en">Data analytics / reporting</div>
+        <div class="chip" data-val="analytics" onclick="selectChip(this,'usecase')" data-lang="fr">Analyse de donnees / reporting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Context toggles -->
+  <div class="form-panel" style="margin-bottom:16px">
+    <div class="form-section">
+      <div class="section-label"><div class="sn">3</div><span data-lang="en">CONTEXT</span><span data-lang="fr">CONTEXTE</span></div>
+      <div class="toggles">
+        <div class="toggle-row risk" id="tog-natural" onclick="toggleRow(this)">
+          <div class="trow-left">
+            <div class="trow-label" data-lang="en">Agent affects natural persons</div>
+            <div class="trow-label" data-lang="fr">L'agent affecte des personnes physiques</div>
+            <div class="trow-sub" data-lang="en">Decisions directly impact individuals (employees, patients, citizens)</div>
+            <div class="trow-sub" data-lang="fr">Les decisions impactent directement des individus</div>
+          </div>
+          <div class="tswitch"></div>
+        </div>
+        <div class="toggle-row risk" id="tog-autonomous" onclick="toggleRow(this)">
+          <div class="trow-left">
+            <div class="trow-label" data-lang="en">Autonomous decision-making</div>
+            <div class="trow-label" data-lang="fr">Prise de decision autonome</div>
+            <div class="trow-sub" data-lang="en">Agent acts without human review on each decision</div>
+            <div class="trow-sub" data-lang="fr">L'agent agit sans revue humaine a chaque decision</div>
+          </div>
+          <div class="tswitch"></div>
+        </div>
+        <div class="toggle-row" id="tog-audit" onclick="toggleRow(this)">
+          <div class="trow-left">
+            <div class="trow-label" data-lang="en">No audit trail currently</div>
+            <div class="trow-label" data-lang="fr">Aucun audit trail actuellement</div>
+            <div class="trow-sub" data-lang="en">Agent actions are not logged or signed</div>
+            <div class="trow-sub" data-lang="fr">Les actions de l'agent ne sont pas journalisees</div>
+          </div>
+          <div class="tswitch"></div>
+        </div>
+        <div class="toggle-row" id="tog-eu" onclick="toggleRow(this)">
+          <div class="trow-left">
+            <div class="trow-label" data-lang="en">Operating in EU / serving EU users</div>
+            <div class="trow-label" data-lang="fr">Operant dans l'UE / servant des utilisateurs UE</div>
+            <div class="trow-sub" data-lang="en">EU AI Act applies if you serve EU users, regardless of HQ location</div>
+            <div class="trow-sub" data-lang="fr">L'EU AI Act s'applique si vous servez des utilisateurs UE</div>
+          </div>
+          <div class="tswitch"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Volume -->
+  <div class="form-panel" style="margin-bottom:16px">
+    <div class="form-section">
+      <div class="section-label"><div class="sn">4</div><span data-lang="en">MONTHLY DECISIONS / ACTIONS</span><span data-lang="fr">DECISIONS / ACTIONS PAR MOIS</span></div>
+      <div class="vol-select" id="vol-select">
+        <div class="vol-opt" data-val="low" onclick="selectVol(this)"><div class="vol-num">&lt;1K</div><div class="vol-label">Low</div></div>
+        <div class="vol-opt" data-val="medium" onclick="selectVol(this)"><div class="vol-num">1K&ndash;100K</div><div class="vol-label">Medium</div></div>
+        <div class="vol-opt" data-val="high" onclick="selectVol(this)"><div class="vol-num">100K&ndash;1M</div><div class="vol-label">High</div></div>
+        <div class="vol-opt" data-val="very-high" onclick="selectVol(this)"><div class="vol-num">&gt;1M</div><div class="vol-label">Scale</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Annual revenue -->
+  <div class="form-panel" style="margin-bottom:20px">
+    <div class="form-section">
+      <div class="section-label"><div class="sn">5</div><span data-lang="en">COMPANY ANNUAL REVENUE</span><span data-lang="fr">CHIFFRE D'AFFAIRES ANNUEL</span></div>
+      <div class="chips" id="chips-revenue">
+        <div class="chip" data-val="startup" onclick="selectChip(this,'revenue')" data-lang="en">&lt;€2M &mdash; Startup / pre-revenue</div>
+        <div class="chip" data-val="startup" onclick="selectChip(this,'revenue')" data-lang="fr">&lt;2M EUR &mdash; Startup / pre-revenue</div>
+        <div class="chip" data-val="smb" onclick="selectChip(this,'revenue')" data-lang="en">€2M&ndash;€50M &mdash; SMB</div>
+        <div class="chip" data-val="smb" onclick="selectChip(this,'revenue')" data-lang="fr">2M&ndash;50M EUR &mdash; PME</div>
+        <div class="chip" data-val="mid" onclick="selectChip(this,'revenue')" data-lang="en">€50M&ndash;€500M &mdash; Mid-market</div>
+        <div class="chip" data-val="mid" onclick="selectChip(this,'revenue')" data-lang="fr">50M&ndash;500M EUR &mdash; Entreprise</div>
+        <div class="chip" data-val="enterprise" onclick="selectChip(this,'revenue')" data-lang="en">&gt;€500M &mdash; Enterprise</div>
+        <div class="chip" data-val="enterprise" onclick="selectChip(this,'revenue')" data-lang="fr">&gt;500M EUR &mdash; Grand compte</div>
+      </div>
+    </div>
+    <div style="padding:0 28px 20px">
+      <button class="calc-btn" id="calc-btn" onclick="calculate()">
+        <span data-lang="en">&#128202; CALCULATE MY RISK</span>
+        <span data-lang="fr">&#128202; CALCULER MON RISQUE</span>
+      </button>
+    </div>
+  </div>
+
+</div><!-- /left -->
+
+<!-- RIGHT: Results -->
+<div class="results-panel">
+  <div class="results-card" id="results-card">
+    <div class="empty-state" id="empty-state">
+      <div class="empty-icon">&#128202;</div>
+      <div class="empty-title" data-lang="en">Your risk assessment</div>
+      <div class="empty-title" data-lang="fr">Votre evaluation de risque</div>
+      <div class="empty-sub" data-lang="en">Fill in the 5 questions on the left and click "Calculate my risk" to get your EU AI Act compliance assessment.</div>
+      <div class="empty-sub" data-lang="fr">Remplissez les 5 questions a gauche et cliquez sur "Calculer mon risque" pour obtenir votre evaluation.</div>
+    </div>
+    <div id="loading-state" class="loading-state" style="display:none">
+      <div class="spinner"></div>
+      <div style="font-size:13px;color:var(--fg3)" data-lang="en">Analyzing your risk profile...</div>
+      <div style="font-size:13px;color:var(--fg3)" data-lang="fr">Analyse de votre profil de risque...</div>
+    </div>
+    <div id="result-content" style="display:none"></div>
+  </div>
+</div>
+
+</div><!-- /calc-layout -->
+</div><!-- /w -->
+
+<!-- INFO SECTION -->
+<section class="info-section">
+  <div class="w">
+    <div style="text-align:center;margin-bottom:40px">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase" data-lang="en">EU AI ACT &mdash; WHAT'S AT STAKE</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase" data-lang="fr">EU AI ACT &mdash; CE QUI EST EN JEU</span>
+      <h2 style="font-size:26px;font-weight:800;margin-top:10px;letter-spacing:-.5px" data-lang="en">4 risk levels, real consequences</h2>
+      <h2 style="font-size:26px;font-weight:800;margin-top:10px;letter-spacing:-.5px" data-lang="fr">4 niveaux de risque, des consequences reelles</h2>
+    </div>
+    <div class="info-grid">
+      <div class="info-card" style="border-color:rgba(239,68,68,.15)">
+        <div class="info-icon">&#128683;</div>
+        <div class="info-title" style="color:var(--red)" data-lang="en">Unacceptable Risk</div>
+        <div class="info-title" style="color:var(--red)" data-lang="fr">Risque inacceptable</div>
+        <div class="info-text" data-lang="en">Banned outright. Social scoring, real-time biometric surveillance in public spaces, cognitive manipulation. Fine: up to 7% of global turnover.</div>
+        <div class="info-text" data-lang="fr">Interdit. Notation sociale, surveillance biometrique en temps reel dans les espaces publics, manipulation cognitive. Amende: jusqu'a 7% du CA mondial.</div>
+      </div>
+      <div class="info-card" style="border-color:rgba(245,158,11,.15)">
+        <div class="info-icon">&#9888;</div>
+        <div class="info-title" style="color:var(--orange)" data-lang="en">High Risk</div>
+        <div class="info-title" style="color:var(--orange)" data-lang="fr">Risque eleve</div>
+        <div class="info-text" data-lang="en">Strict obligations. Article 12 logs, Article 14 human oversight, conformity assessments. Fine: up to 3% of global turnover.</div>
+        <div class="info-text" data-lang="fr">Obligations strictes. Journaux Article 12, supervision humaine Article 14, evaluations de conformite. Amende: jusqu'a 3% du CA mondial.</div>
+      </div>
+      <div class="info-card" style="border-color:rgba(0,212,255,.1)">
+        <div class="info-icon">&#128161;</div>
+        <div class="info-title" style="color:var(--cyan)" data-lang="en">Limited Risk</div>
+        <div class="info-title" style="color:var(--cyan)" data-lang="fr">Risque limite</div>
+        <div class="info-text" data-lang="en">Transparency obligations. Users must be informed they're interacting with an AI. Deepfakes and generated content must be labeled. Fine: up to 1.5%.</div>
+        <div class="info-text" data-lang="fr">Obligations de transparence. Les utilisateurs doivent etre informes. Les deepfakes doivent etre labellises. Amende: jusqu'a 1,5%.</div>
+      </div>
+      <div class="info-card" style="border-color:rgba(34,197,94,.1)">
+        <div class="info-icon">&#9989;</div>
+        <div class="info-title" style="color:var(--green)" data-lang="en">Minimal Risk</div>
+        <div class="info-title" style="color:var(--green)" data-lang="fr">Risque minimal</div>
+        <div class="info-text" data-lang="en">No mandatory requirements. Most spam filters, recommendation systems, AI in video games. Voluntary codes of conduct encouraged.</div>
+        <div class="info-text" data-lang="fr">Pas d'exigences obligatoires. La plupart des filtres anti-spam, systemes de recommandation. Codes de conduite volontaires encourages.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="w">
+    <h2 data-lang="en">AIB makes Article 12 <em>automatic</em></h2>
+    <h2 data-lang="fr">AIB rend l'Article 12 <em>automatique</em></h2>
+    <p data-lang="en">Every agent action generates a signed Ed25519 receipt with intent, risk level, human oversight flag, and decision rationale &mdash; out of the box.</p>
+    <p data-lang="fr">Chaque action agent genere un recu Ed25519 signe avec intention, niveau de risque, flag de supervision humaine et justification de decision &mdash; sans configuration.</p>
+    <div class="cta-btns">
+      <a href="/dashboard" class="btn-h" data-lang="en">Get protected &mdash; Free beta</a>
+      <a href="/dashboard" class="btn-h" data-lang="fr">Se proteger &mdash; Beta gratuite</a>
+      <a href="/why" class="btn-g" data-lang="en">How AIB covers Article 12</a>
+      <a href="/why" class="btn-g" data-lang="fr">Comment AIB couvre l'Article 12</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="w">
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px;padding:48px 0 36px;border-bottom:1px solid var(--bd);align-items:start">
+      <div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff;flex-shrink:0">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div><p style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p><p style="color:var(--fg3);font-size:12px;line-height:1.5">One portable identity across every protocol. Open-source, Ed25519 signed, built in Paris.</p><p style="font-weight:700;font-size:13px;margin-top:10px;color:var(--fg)">Action builds trust.</p></div>
+      <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Product</h4><a href="/dashboard" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0;transition:.15s">Dashboard</a><a href="/pricing" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Pricing</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Quickstart</a><a href="/viz" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Protocol Explorer</a></div>
+      <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Frameworks</h4><a href="/frameworks" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">All Frameworks</a><a href="/frameworks#langchain" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">LangChain</a><a href="/frameworks#crewai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CrewAI</a><a href="/frameworks#openai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">OpenAI Agents</a></div>
+      <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Resources</h4><a href="/blog" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Blog</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Documentation</a><a href="/spec" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">AIB Specification</a><a href="/risk" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Risk Calculator</a></div>
+      <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Company</h4><a href="https://github.com/tntech-consulting/agent-identity-bridge" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">GitHub &#8599;</a><a href="https://tntech.fr" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">TNTECH &#8599;</a><a href="https://founder-tntech.netlify.app" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">About the founder &#8599;</a><a href="/cgv" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CGV</a></div>
+    </div>
+    <p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris, France &mdash; Apache 2.0</p>
+  </div>
+</footer>
+</main>
+
+<script>
+// ── State ──
+var state = { sector: null, usecase: null, natural: false, autonomous: false, audit: false, eu: false, volume: null, revenue: null };
+
+// ── UI helpers ──
+function selectChip(el, group) {
+  document.querySelectorAll('#chips-' + group + ' .chip').forEach(function(c){ c.classList.remove('active'); });
+  el.classList.add('active');
+  state[group] = el.dataset.val;
+}
+function toggleRow(el) {
+  el.classList.toggle('active');
+  var id = el.id.replace('tog-', '');
+  state[id] = el.classList.contains('active');
+}
+function selectVol(el) {
+  document.querySelectorAll('#vol-select .vol-opt').forEach(function(v){ v.classList.remove('active'); });
+  el.classList.add('active');
+  state.volume = el.dataset.val;
+}
+
+// ── Risk engine ──
+var RISK_DATA = {
+  // sector weights
+  sectorRisk: { healthcare: 3, finance: 3, hr: 3, legal: 3, education: 3, ecommerce: 1, saas: 1, media: 1, other: 1 },
+  usecaseRisk: { credit: 3, hiring: 3, medical: 3, customer: 2, fraud: 2, content: 1, cicd: 1, analytics: 1 },
+
+  // Fine calculation (% of global turnover)
+  finePercent: { unacceptable: 7, high: 3, limited: 1.5, minimal: 0 },
+
+  // Revenue midpoints in millions EUR
+  revenueMid: { startup: 1, smb: 26, mid: 275, enterprise: 1000 },
+
+  articles: {
+    unacceptable: [
+      { code: 'Art. 5', severity: 'critical', en: 'Prohibited AI practice', fr: 'Pratique IA interdite' },
+      { code: 'Art. 71', severity: 'critical', en: 'Fines up to 7% global turnover', fr: 'Amendes jusqu\'a 7% du CA mondial' }
+    ],
+    high: [
+      { code: 'Art. 9', severity: 'critical', en: 'Risk management system required', fr: 'Systeme de gestion des risques requis' },
+      { code: 'Art. 10', severity: 'critical', en: 'Data governance & training data docs', fr: 'Gouvernance des donnees requise' },
+      { code: 'Art. 12', severity: 'critical', en: 'Logging & audit trail mandatory', fr: 'Journalisation et audit trail obligatoires' },
+      { code: 'Art. 13', severity: 'important', en: 'Transparency & user information', fr: 'Transparence et information utilisateur' },
+      { code: 'Art. 14', severity: 'important', en: 'Human oversight mechanisms', fr: 'Mecanismes de supervision humaine' },
+      { code: 'Art. 17', severity: 'important', en: 'Quality management system', fr: 'Systeme de management de la qualite' }
+    ],
+    limited: [
+      { code: 'Art. 50', severity: 'important', en: 'Transparency obligation for AI interactions', fr: 'Obligation de transparence pour les interactions IA' },
+      { code: 'Art. 13', severity: 'important', en: 'Clear disclosure required', fr: 'Divulgation claire requise' }
+    ],
+    minimal: [
+      { code: 'Recital 48', severity: '', en: 'Voluntary code of conduct encouraged', fr: 'Code de conduite volontaire encourage' }
+    ]
+  },
+
+  obligations: {
+    unacceptable: {
+      en: ['Immediate halt of deployment required', 'Consult legal counsel &mdash; potential criminal liability', 'Report to national AI supervisory authority'],
+      fr: ['Arret immediat du deploiement requis', 'Consulter un avocat &mdash; responsabilite penale potentielle', 'Signaler a l\'autorite nationale de surveillance IA']
+    },
+    high: {
+      en: [
+        'Implement cryptographic audit trail (Article 12)',
+        'Add human oversight mechanisms (Article 14)',
+        'Document risk management process (Article 9)',
+        'Register system in EU database (Article 51)',
+        'Conduct conformity assessment before deployment',
+        'Appoint EU authorized representative if needed'
+      ],
+      fr: [
+        'Implementer un audit trail cryptographique (Article 12)',
+        'Ajouter des mecanismes de supervision humaine (Article 14)',
+        'Documenter le processus de gestion des risques (Article 9)',
+        'Enregistrer le systeme dans la base de donnees UE (Article 51)',
+        'Realiser une evaluation de conformite avant deploiement',
+        'Nommer un representant autorise UE si necessaire'
+      ]
+    },
+    limited: {
+      en: ['Disclose AI interaction to users clearly', 'Label AI-generated content', 'Provide opt-out where possible'],
+      fr: ['Divulguer clairement l\'interaction IA aux utilisateurs', 'Labelliser le contenu genere par IA', 'Proposer une option de refus si possible']
+    },
+    minimal: {
+      en: ['No mandatory obligations', 'Consider voluntary code of conduct', 'Monitor regulatory evolution'],
+      fr: ['Aucune obligation obligatoire', 'Envisager un code de conduite volontaire', 'Surveiller l\'evolution reglementaire']
+    }
+  },
+
+  aibCovers: {
+    high: {
+      en: [
+        'Article 12: Ed25519-signed receipts on every action &mdash; automated',
+        'Article 14: Human oversight flags on every receipt',
+        'Risk level classification embedded in each receipt',
+        'Decision rationale field &mdash; tamper-proof chain of evidence',
+        'Policy engine enforces guardrails before each action'
+      ],
+      fr: [
+        'Article 12: Recus Ed25519 signes a chaque action &mdash; automatise',
+        'Article 14: Flags de supervision humaine dans chaque recu',
+        'Classification du niveau de risque dans chaque recu',
+        'Champ de justification de decision &mdash; chaine de preuves infalsifiable',
+        'Policy engine fait respecter les guardrails avant chaque action'
+      ]
+    },
+    limited: {
+      en: [
+        'Passport carries agent identity &mdash; user always knows who acts',
+        'Audit trail proves interaction type and intent',
+        'Translation receipts track cross-protocol operations'
+      ],
+      fr: [
+        'Le passeport porte l\'identite de l\'agent &mdash; l\'utilisateur sait toujours qui agit',
+        'L\'audit trail prouve le type d\'interaction et l\'intention',
+        'Les recus de traduction tracent les operations cross-protocole'
+      ]
+    },
+    minimal: {
+      en: ['AIB adds trust infrastructure even when not required'],
+      fr: ['AIB ajoute une infrastructure de confiance meme quand ce n\'est pas requis']
+    }
+  }
+};
+
+function computeRisk() {
+  var score = 0;
+  if (state.sector) score += RISK_DATA.sectorRisk[state.sector] || 1;
+  if (state.usecase) score += RISK_DATA.usecaseRisk[state.usecase] || 1;
+  if (state.natural) score += 2;
+  if (state.autonomous) score += 2;
+  if (state.audit) score += 1;
+  if (state.eu) score += 1;
+  if (state.volume === 'high') score += 1;
+  if (state.volume === 'very-high') score += 2;
+
+  if (score >= 9) return 'unacceptable';
+  if (score >= 6) return 'high';
+  if (score >= 3) return 'limited';
+  return 'minimal';
+}
+
+function computeFine(level, revenue) {
+  if (!revenue || level === 'minimal') return null;
+  var pct = RISK_DATA.finePercent[level];
+  var mid = RISK_DATA.revenueMid[revenue] || 1;
+  var fine = mid * 1000000 * (pct / 100);
+  if (fine >= 1000000000) return '&euro;' + (fine/1000000000).toFixed(1) + 'B max';
+  if (fine >= 1000000) return '&euro;' + Math.round(fine/1000000) + 'M max';
+  return '&euro;' + Math.round(fine/1000).toLocaleString() + 'K max';
+}
+
+// ── Calculate ──
+function calculate() {
+  var missing = [];
+  if (!state.sector) missing.push('sector');
+  if (!state.usecase) missing.push('use case');
+  if (!state.volume) missing.push('volume');
+  if (!state.revenue) missing.push('revenue');
+
+  if (missing.length > 0) {
+    var btn = document.getElementById('calc-btn');
+    btn.style.background = 'linear-gradient(135deg, var(--red), #ff0040)';
+    btn.textContent = 'Please fill: ' + missing.join(', ');
+    setTimeout(function(){
+      btn.style.background = '';
+      var lang = localStorage.getItem('aib-lang') || 'en';
+      btn.innerHTML = lang === 'fr'
+        ? '<span>&#128202; CALCULER MON RISQUE</span>'
+        : '<span>&#128202; CALCULATE MY RISK</span>';
+    }, 2000);
+    return;
+  }
+
+  // Show loading
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('loading-state').style.display = 'block';
+  document.getElementById('result-content').style.display = 'none';
+
+  // Simulate brief processing
+  setTimeout(function() {
+    var level = computeRisk();
+    var fine = computeFine(level, state.revenue);
+    renderResult(level, fine);
+  }, 600);
+}
+
+function renderResult(level, fine) {
+  var lang = localStorage.getItem('aib-lang') || 'en';
+  var card = document.getElementById('results-card');
+  card.className = 'results-card risk-' + level;
+
+  var LABELS = {
+    unacceptable: { score: '&#9888; BANNED', label: { en: 'Unacceptable Risk &mdash; Prohibited', fr: 'Risque inacceptable &mdash; Interdit' }, tag: 'UNACCEPTABLE RISK' },
+    high:         { score: '&#9888; HIGH', label: { en: 'High-Risk AI System', fr: 'Systeme IA a haut risque' }, tag: 'HIGH RISK' },
+    limited:      { score: '&#9675; LIMITED', label: { en: 'Limited Risk &mdash; Transparency Required', fr: 'Risque limite &mdash; Transparence requise' }, tag: 'LIMITED RISK' },
+    minimal:      { score: '&#10003; MINIMAL', label: { en: 'Minimal Risk &mdash; No Mandatory Obligations', fr: 'Risque minimal &mdash; Aucune obligation obligatoire' }, tag: 'MINIMAL RISK' }
+  };
+
+  var data = LABELS[level];
+  var articles = RISK_DATA.articles[level];
+  var obligations = RISK_DATA.obligations[level][lang];
+  var aibItems = (RISK_DATA.aibCovers[level] || RISK_DATA.aibCovers.minimal)[lang];
+
+  var ob_icons = { unacceptable: '&#128683;', high: '&#128312;', limited: '&#128161;', minimal: '&#9745;' };
+
+  var html = '';
+
+  // Score header
+  html += '<div class="score-header">';
+  html += '<span class="score-tag">' + data.tag + '</span>';
+  html += '<div class="score-big">' + data.score + '</div>';
+  html += '<div class="score-label">' + data.label[lang] + '</div>';
+  html += '</div>';
+
+  // Fine bar
+  if (fine) {
+    html += '<div class="fine-bar ' + 'risk-' + level + '">';
+    html += '<div class="fine-label">POTENTIAL FINE</div>';
+    html += '<div class="fine-amount">' + fine + '</div>';
+    html += '<div class="fine-sub">' + RISK_DATA.finePercent[level] + '% of global annual turnover</div>';
+    html += '</div>';
+  }
+
+  // Articles
+  html += '<div class="articles-section">';
+  html += '<div class="articles-title">APPLICABLE ARTICLES</div>';
+  articles.forEach(function(a) {
+    html += '<span class="article-tag ' + a.severity + '">' + a.code + ' &mdash; ' + a[lang] + '</span>';
+  });
+  html += '</div>';
+
+  // Obligations
+  html += '<div class="obligations">';
+  obligations.forEach(function(ob) {
+    html += '<div class="ob-item"><span class="ob-icon">' + ob_icons[level] + '</span><span class="ob-text">' + ob + '</span></div>';
+  });
+  html += '</div>';
+
+  // AIB block (only for non-minimal)
+  if (level !== 'minimal') {
+    html += '<div class="aib-block">';
+    html += '<div class="aib-block-title">HOW AIB COVERS THIS</div>';
+    aibItems.forEach(function(item) {
+      html += '<div class="aib-item">' + item + '</div>';
+    });
+    html += '</div>';
+  }
+
+  // Actions
+  html += '<div class="result-actions">';
+  html += '<button class="btn-pdf" onclick="downloadReport(\'' + level + '\')">&#128229; ' + (lang === 'fr' ? 'Telecharger le rapport PDF' : 'Download compliance report PDF') + '</button>';
+  if (level !== 'minimal') {
+    html += '<button class="btn-protect" onclick="window.location.href=\'/dashboard\'">' + (lang === 'fr' ? 'Proteger mes agents avec AIB' : 'Protect my agents with AIB') + '</button>';
+  }
+  html += '</div>';
+
+  document.getElementById('loading-state').style.display = 'none';
+  var content = document.getElementById('result-content');
+  content.innerHTML = html;
+  content.style.display = 'block';
+
+  // Store for PDF
+  window._lastResult = { level: level, fine: fine, lang: lang };
+
+  // Scroll to results on mobile
+  if (window.innerWidth < 900) {
+    document.getElementById('results-card').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ── PDF Report ──
+function downloadReport(level) {
+  var lang = localStorage.getItem('aib-lang') || 'en';
+  var LABELS = { unacceptable: 'Unacceptable', high: 'High', limited: 'Limited', minimal: 'Minimal' };
+  var fine = window._lastResult ? window._lastResult.fine : 'N/A';
+  var date = new Date().toISOString().split('T')[0];
+  var articles = RISK_DATA.articles[level].map(function(a){ return a.code + ': ' + a[lang]; }).join('\n  - ');
+  var obligations = RISK_DATA.obligations[level][lang].map(function(o){ return '  - ' + o; }).join('\n');
+  var aibItems = level !== 'minimal' ? (RISK_DATA.aibCovers[level] || RISK_DATA.aibCovers.minimal)[lang].map(function(i){ return '  - ' + i; }).join('\n') : '  - N/A';
+
+  var report = [
+    '========================================',
+    'EU AI ACT COMPLIANCE ASSESSMENT REPORT',
+    'Generated by AIB Risk Calculator',
+    'aib-tech.fr/risk',
+    '========================================',
+    '',
+    'Date: ' + date,
+    'Risk Level: ' + LABELS[level].toUpperCase(),
+    'Potential Fine: ' + (fine || 'N/A'),
+    '',
+    '--- INPUT PROFILE ---',
+    'Sector: ' + (state.sector || 'Not specified'),
+    'Use case: ' + (state.usecase || 'Not specified'),
+    'Affects natural persons: ' + (state.natural ? 'Yes' : 'No'),
+    'Autonomous decisions: ' + (state.autonomous ? 'Yes' : 'No'),
+    'No audit trail: ' + (state.audit ? 'Yes' : 'No'),
+    'EU operations: ' + (state.eu ? 'Yes' : 'No'),
+    'Monthly volume: ' + (state.volume || 'Not specified'),
+    'Annual revenue: ' + (state.revenue || 'Not specified'),
+    '',
+    '--- APPLICABLE ARTICLES ---',
+    '  - ' + articles,
+    '',
+    '--- REQUIRED ACTIONS ---',
+    obligations,
+    '',
+    '--- HOW AIB COVERS THIS ---',
+    aibItems,
+    '',
+    '========================================',
+    'DISCLAIMER: This assessment is indicative',
+    'and does not constitute legal advice.',
+    'Consult a qualified attorney for binding',
+    'compliance decisions.',
+    '========================================',
+    '',
+    'Powered by AIB &mdash; Agent Identity Bridge',
+    'Open-source &mdash; Apache 2.0',
+    'github.com/tntech-consulting/agent-identity-bridge',
+  ].join('\n');
+
+  var blob = new Blob([report], { type: 'text/plain' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'eu-ai-act-assessment-' + level + '-' + date + '.txt';
+  a.click();
+}
+
+// ── Nav ──
+function toggleDD(b) {
+  var o = b.classList.contains('open');
+  document.querySelectorAll('.nb').forEach(function(x){ x.classList.remove('open'); });
+  document.querySelectorAll('.dd').forEach(function(x){ x.classList.remove('open'); });
+  if (!o) { b.classList.add('open'); b.nextElementSibling.classList.add('open'); }
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-item')) {
+    document.querySelectorAll('.nb').forEach(function(b){ b.classList.remove('open'); });
+    document.querySelectorAll('.dd').forEach(function(d){ d.classList.remove('open'); });
+  }
+});
+function toggleMob(){ var d=document.getElementById('mob-drawer'),h=document.getElementById('ham-btn');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':''; }
+function closeMob(){ var d=document.getElementById('mob-drawer'),h=document.getElementById('ham-btn');d.classList.remove('open');h.classList.remove('open');document.body.style.overflow=''; }
+function closeMobIfBg(e){ if(e.target===document.getElementById('mob-drawer'))closeMob(); }
+function toggleMobSub(btn){ var sub=btn.nextElementSibling;var isOpen=sub.classList.contains('open');document.querySelectorAll('.mob-sub').forEach(function(s){s.classList.remove('open');});document.querySelectorAll('.mob-trigger').forEach(function(t){t.classList.remove('open');});if(!isOpen){sub.classList.add('open');btn.classList.add('open');} }
+
+// ── Lang ──
+var LANGS = { en: { flag: '&#127468;&#127463;', label: 'EN' }, fr: { flag: '&#127467;&#127479;', label: 'FR' } };
+function setLang(l) {
+  document.querySelectorAll('[data-lang]').forEach(function(e){ e.classList.toggle('show', e.getAttribute('data-lang') === l); });
+  var L = LANGS[l] || LANGS.en;
+  document.getElementById('lang-flag').innerHTML = L.flag;
+  document.getElementById('lang-label').textContent = L.label;
+  Object.keys(LANGS).forEach(function(k){ var o=document.getElementById('opt-'+k);if(o)o.style.color=k===l?'var(--cyan)':''; });
+  var me=document.getElementById('mob-btn-en'),mf=document.getElementById('mob-btn-fr');
+  if(me)me.classList.toggle('active',l==='en');
+  if(mf)mf.classList.toggle('active',l==='fr');
+  localStorage.setItem('aib-lang', l);
+  var btn=document.getElementById('lang-toggle');
+  if(btn){btn.classList.remove('open');var dd=btn.nextElementSibling;if(dd)dd.classList.remove('open');}
+}
+var sl = localStorage.getItem('aib-lang'); if (sl) setLang(sl);
+</script>
+</body>
+</html>
