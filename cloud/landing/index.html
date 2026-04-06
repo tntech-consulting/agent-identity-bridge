@@ -23,7 +23,7 @@
 {"@type":"Question","name":"What is Agent Identity Bridge (AIB)?","acceptedAnswer":{"@type":"Answer","text":"AIB is an open-source protocol that creates a single portable identity (Agent Passport) for AI agents operating across MCP, A2A, ANP, and AG-UI protocols. It solves identity fragmentation across AI communication protocols."}},
 {"@type":"Question","name":"Who is AIB for?","acceptedAnswer":{"@type":"Answer","text":"AIB is built for developers and platform engineers building multi-agent systems that need cross-protocol credential translation, policy enforcement, and cryptographic audit trails."}},
 {"@type":"Question","name":"How does credential translation work?","acceptedAnswer":{"@type":"Answer","text":"AIB translates between 6 credential paths (A2A Agent Cards, MCP Server Cards, AG-UI Descriptors) in under 1 millisecond. Skills become tools, capabilities become skills, with metadata tracking."}},
-{"@type":"Question","name":"Is AIB free?","acceptedAnswer":{"@type":"Answer","text":"Yes. AIB is open-source under Apache 2.0. The hosted API is free during beta with 100,000 transactions/month, 500 passports, 12 policy rule types, OIDC federation, and webhooks."}},
+{"@type":"Question","name":"Is AIB free?","acceptedAnswer":{"@type":"Answer","text":"Yes. AIB is open-source under Apache 2.0. The hosted API is free during beta with all Pro features: 2,000 transactions/month (Pro limit), 50 passports, 12 policy rule types, OIDC federation, and webhooks. All limits lifted during open beta."}},
 {"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is created by Thomas Nirennold, founder of TNTECH CONSULTING SAS, Paris, France. Open-source on GitHub with 1,094 tests, 35 Edge Functions, 12 API endpoints, and a CI/CD pipeline."}}
 ]}
 </script>
@@ -414,7 +414,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </details>
 <details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
 <summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Is AIB free?<span style="color:var(--cyan)">+</span></summary>
-<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Yes. AIB is open-source under the Apache 2.0 license. The hosted API at aib-tech.fr is free during beta with all Pro features included: 100,000 transactions/month, 500 passports, 12 policy rule types, OIDC federation, and webhooks. No credit card required.</p>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Yes. AIB is open-source under the Apache 2.0 license. The hosted API at aib-tech.fr is free during beta with all Pro features included: all limits lifted, 12 policy rule types, OIDC federation, and webhooks. No credit card required.</p>
 </details>
 <details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
 <summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">What is the audit trail?<span style="color:var(--cyan)">+</span></summary>
@@ -430,7 +430,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <section class="cta"><div class="w reveal">
 <div class="tag">GET STARTED</div>
 <h2>Start building in <em>30 seconds</em></h2>
-<p>Sign up, get an API key, and create your first Agent Passport. Free during beta — 100,000 transactions/month, all Pro features, no credit card.</p>
+<p>Sign up, get an API key, and create your first Agent Passport. Free during beta — all Pro &amp; Scale features included, no credit card.</p>
 <div class="cta-btns"><a href="/dashboard" class="btn-h">> Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Run Quickstart</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-g">GitHub</a></div>
 </div></section>
 
@@ -523,7 +523,7 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
     {t:'}',c:'g',spd:0,instant:true},
     {t:'',c:'',spd:0,pause:300},
     {t:'curl /functions/v1/usage-check -H "x-api-key: ..."',c:'c',spd:22,prompt:true},
-    {t:'  transactions: 3/100,000 | passports: 1/500 | plan: beta_pro',c:'o',spd:0,instant:true}
+    {t:'  transactions: 3/unlimited | passports: 1/unlimited | plan: beta_pro',c:'o',spd:0,instant:true}
   ];
   var out=document.getElementById('term-out');
   var running=false,tid;
