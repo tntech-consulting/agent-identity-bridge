@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
+
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#0a0a1a;--bg2:#0f1029;--bg3:#171840;
@@ -136,6 +137,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 @media(max-width:900px){.passport-explainer{grid-template-columns:1fr}.usecases{grid-template-columns:1fr 1fr}.hero h1{font-size:36px}}
 @media(max-width:480px){.hero h1{font-size:28px}.steps{flex-direction:column;align-items:center;gap:16px}.step::after{display:none}.usecases{grid-template-columns:1fr}}
 <!-- ═══ KIT BUILDER ═══ -->
+</style>
+
 <style>
 /* ── Layout ── */
 .kb-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
@@ -214,8 +217,43 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
   .kb-tpl-grid{grid-template-columns:1fr}
   .ai-mode-btn{font-size:10px;padding:8px 6px}
 }
+
 </style>
+
+<style>
+
+/* ── Conversation ── */
+.ai-thread{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;scroll-behavior:smooth}
+.ai-msg{max-width:90%;display:flex}
+.ai-msg-user{justify-content:flex-end;align-self:flex-end}
+.ai-msg-bot{justify-content:flex-start;align-self:flex-start}
+.ai-msg-content{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.ai-msg-user .ai-msg-content{background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--fg)}
+.ai-msg-bot .ai-msg-content{background:var(--bg3);border:1px solid var(--bd);color:var(--fg2)}
+.ai-act-note{margin-top:8px;font-size:11px;color:var(--orange);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:6px 10px}
+.ai-risk-badge{margin-top:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px}
+.ai-edit-hint{margin-top:8px;font-size:11px;color:var(--fg3);font-style:italic}
+.ai-input-area{border-top:1px solid var(--bd);padding-top:12px}
+.ai-compose{display:flex;gap:8px;align-items:flex-end;margin-top:10px}
+.ai-textarea{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--sans);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.2s;resize:none;line-height:1.5}
+.ai-textarea:focus{border-color:var(--purple)}
+.ai-textarea::placeholder{color:var(--fg3)}
+.ai-send-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s}
+.ai-send-btn:hover{opacity:.9;transform:translateY(-1px)}
+.ai-send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-qr-btn{background:var(--bg3);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--purple);cursor:pointer;transition:.15s;font-family:var(--sans)}
+.ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
+.ai-passport-preview{margin-top:0}
+.ai-field-row{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
+.ai-field-row:last-child{border-bottom:none}
+.ai-field-key{font-family:var(--mono);font-size:10px;color:var(--fg3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+.ai-field-val{font-family:var(--mono);font-size:11px;color:var(--cyan);text-align:right;max-width:65%}
+#ai-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 </style>
+
 </head>
 <body>
 <div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
@@ -362,164 +400,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
   </div>
 
 
-/* ── Conversation ── */
-.ai-thread{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;scroll-behavior:smooth}
-.ai-msg{max-width:90%;display:flex}
-.ai-msg-user{justify-content:flex-end;align-self:flex-end}
-.ai-msg-bot{justify-content:flex-start;align-self:flex-start}
-.ai-msg-content{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6}
-.ai-msg-user .ai-msg-content{background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--fg)}
-.ai-msg-bot .ai-msg-content{background:var(--bg3);border:1px solid var(--bd);color:var(--fg2)}
-.ai-act-note{margin-top:8px;font-size:11px;color:var(--orange);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:6px 10px}
-.ai-risk-badge{margin-top:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px}
-.ai-edit-hint{margin-top:8px;font-size:11px;color:var(--fg3);font-style:italic}
-.ai-input-area{border-top:1px solid var(--bd);padding-top:12px}
-.ai-compose{display:flex;gap:8px;align-items:flex-end;margin-top:10px}
-.ai-textarea{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--sans);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.2s;resize:none;line-height:1.5}
-.ai-textarea:focus{border-color:var(--purple)}
-.ai-textarea::placeholder{color:var(--fg3)}
-.ai-send-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s}
-.ai-send-btn:hover{opacity:.9;transform:translateY(-1px)}
-.ai-send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
-.ai-qr-btn{background:var(--bg3);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--purple);cursor:pointer;transition:.15s;font-family:var(--sans)}
-.ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
-.ai-passport-preview{margin-top:0}
-.ai-field-row{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
-.ai-field-row:last-child{border-bottom:none}
-.ai-field-key{font-family:var(--mono);font-size:10px;color:var(--fg3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
-.ai-field-val{font-family:var(--mono);font-size:11px;color:var(--cyan);text-align:right;max-width:65%}
-#ai-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-</style>
 
-<section style="padding:0 0 80px" id="kit-builder">
-<div class="w">
-<div class="sh">
-  <span class="tag">KIT BUILDER</span>
-  <h2 data-lang="en">Build your <em>Agent Passport</em></h2>
-  <h2 data-lang="fr">Construisez votre <em>Passeport Agent</em></h2>
-  <p data-lang="en">Describe your agent and Claude generates a complete, EU AI Act compliant passport configuration. Or configure manually.</p>
-  <p data-lang="fr">Decrivez votre agent et Claude genere un passeport complet et conforme EU AI Act. Ou configurez manuellement.</p>
-</div>
 
-<div class="kb-wrap">
-
-<!-- LEFT: Config -->
-<div>
-
-  <!-- Mode toggle -->
-  <div class="ai-mode-toggle">
-    <button class="ai-mode-btn active ai" id="btn-mode-ai" onclick="KB.setMode('ai')">
-      &#10024; AI &mdash; Describe your agent
-    </button>
-    <button class="ai-mode-btn" id="btn-mode-manual" onclick="KB.setMode('manual')">
-      &#9881; Manual &mdash; Pick a template
-    </button>
-  </div>
-
-  <!-- AI Mode -->
-  <div class="ai-panel show" id="ai-panel">
-    <div class="kb-card">
-      <div class="kb-label">
-        <span data-lang="en">&#129504; DESCRIBE YOUR AGENT</span>
-        <span data-lang="fr">&#129504; DECRIVEZ VOTRE AGENT</span>
-        <span style="color:var(--purple);font-size:9px">POWERED BY CLAUDE</span>
-      </div>
-      <textarea class="ai-textarea" id="ai-description" placeholder="e.g. A healthcare agent that reads patient records and books appointments. It must never approve treatments automatically and needs strict rate limiting for HIPAA compliance." rows="4"></textarea>
-      <div class="ai-examples">
-        <span class="ai-example" onclick="KB.setExample(this)">Financial agent processing transactions &gt;500 EUR</span>
-        <span class="ai-example" onclick="KB.setExample(this)">Multi-agent orchestrator for CI/CD pipelines</span>
-        <span class="ai-example" onclick="KB.setExample(this)">Customer support bot for e-commerce, EU users</span>
-        <span class="ai-example" onclick="KB.setExample(this)">HR agent screening CVs and scheduling interviews</span>
-      </div>
-      <button class="ai-generate-btn" id="ai-gen-btn" onclick="KB.generateWithAI()">
-        <div class="spinner"></div>
-        <span class="btn-text" data-lang="en">&#10024; Generate passport configuration</span>
-        <span class="btn-text" data-lang="fr">&#10024; Generer la configuration</span>
-      </button>
-
-    </div>
-
-    <!-- Agent name (AI mode) -->
-    <div class="kb-card">
-      <div class="kb-label"><span data-lang="en">AGENT SLUG</span><span data-lang="fr">SLUG DE L'AGENT</span></div>
-      <input class="kb-input" id="kb-agent-ai" placeholder="my-agent" oninput="KB.updateOutput()">
-    </div>
-  </div>
-
-  <!-- Manual Mode -->
-  <div class="manual-panel" id="manual-panel">
-    <div class="kb-card">
-      <div class="kb-label">
-        <span>&#9312; TEMPLATE</span>
-        <span id="kb-tpl-count" style="color:var(--fg3);font-weight:400">Loading...</span>
-      </div>
-      <div class="kb-tpl-grid" id="kb-tpl-grid">
-        <div style="color:var(--fg3);font-size:12px;font-family:var(--mono);padding:8px">Loading templates...</div>
-      </div>
-    </div>
-    <div class="kb-card">
-      <div class="kb-label">
-        <span>&#9313; RULES</span>
-        <button class="kb-addbtn" onclick="KB.addRule()">+ ADD RULE</button>
-      </div>
-      <div id="kb-rules-list"><div class="kb-empty">Select a template above</div></div>
-    </div>
-    <div class="kb-card">
-      <div class="kb-label"><span>&#9314; AGENT SLUG</span></div>
-      <input class="kb-input" id="kb-agent" placeholder="my-agent" oninput="KB.updateOutput()">
-    </div>
-  </div>
-
-</div><!-- /left -->
-
-<!-- RIGHT: Output -->
-<div class="kb-sticky">
-  <div class="kb-card" style="margin-bottom:0">
-    <div class="kb-label">
-      <span data-lang="en">GENERATED CODE</span>
-      <span data-lang="fr">CODE GENERE</span>
-    </div>
-    <div class="kb-output-wrap">
-      <div class="kb-tabs">
-        <button class="kb-tab active" onclick="KB.switchTab('python',this)">Python</button>
-        <button class="kb-tab" onclick="KB.switchTab('curl',this)">cURL</button>
-        <button class="kb-tab" onclick="KB.switchTab('json',this)">JSON</button>
-      </div>
-      <div class="kb-output" id="kb-output"># Select a template or describe your agent to generate the command</div>
-    </div>
-    <div class="kb-actions">
-      <button class="kb-copybtn" onclick="KB.copyOutput()">
-        <span data-lang="en">&#128203; COPY</span>
-        <span data-lang="fr">&#128203; COPIER</span>
-      </button>
-      <a href="/dashboard" class="kb-deploybtn">
-        <span data-lang="en">&#8594; DEPLOY</span>
-        <span data-lang="fr">&#8594; DEPLOYER</span>
-      </a>
-    </div>
-    <div class="kb-note">
-      <span data-lang="en">&#9888; Replace <code>aib_sk_...</code> with your key from <a href="/dashboard">Dashboard</a>. Free beta &mdash; all features included.</span>
-      <span data-lang="fr">&#9888; Remplacez <code>aib_sk_...</code> par votre cle depuis le <a href="/dashboard">Dashboard</a>. Beta gratuite &mdash; toutes fonctionnalites incluses.</span>
-    </div>
-  </div>
-
-  <!-- Portable Identity badge -->
-  <div style="margin-top:12px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.1);border-radius:10px;padding:14px 16px">
-    <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1.5px;margin-bottom:8px">PORTABLE IDENTITY INCLUDED</div>
-    <div style="font-size:12px;color:var(--fg3);line-height:1.7">
-      Every generated passport includes Ed25519 signature, embedded policies, and verifiable offline identity &mdash; automatically.
-    </div>
-  </div>
-</div>
-
-</div><!-- /left -->
-</div><!-- /kb-wrap -->
-</div><!-- /w-inner -->
-</div><!-- /w-outer -->
-</div><!-- /w-section -->
-</section>
 
 <!-- WHAT IS A PASSPORT -->
 <section style="padding:64px 0">
