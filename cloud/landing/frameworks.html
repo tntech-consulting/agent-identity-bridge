@@ -214,7 +214,7 @@ footer a:hover{color:var(--cyan)}
     <span class="fw-icon">🦜</span>
     <span class="fw-name">LangChain</span>
   </div>
-  <div class="fw-desc">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@tool</code>-decorated functions compatible with any LangChain agent — ReAct, OpenAI Functions, structured output.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@tool</code>-decorated functions compatible with any LangChain agent — ReAct, OpenAI Functions, structured output.</div><div class="fw-desc" data-lang="fr">Retourne 6 fonctions décorées <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@tool</code> compatibles avec tout agent LangChain — ReAct, OpenAI Functions, sortie structurée.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -227,9 +227,9 @@ tools = get_langchain_tools(secret_key=<span class="s">"your-key"</span>)
 agent = create_react_agent(llm, tools, prompt)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>6 tools: create, verify, revoke, list passports, translate credentials, check policy</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Compatible with ReAct, OpenAI Functions, and structured output agents</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Zero framework lock-in — works with any LangChain agent type</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">6 tools: create, verify, revoke, list passports, translate credentials, check policy</span><span data-lang="fr">6 outils : créer, vérifier, révoquer, lister les passeports, traduire les credentials, vérifier les politiques</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Compatible with ReAct, OpenAI Functions, and structured output agents</span><span data-lang="fr">Compatible avec les agents ReAct, OpenAI Functions et sortie structurée</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Zero framework lock-in — works with any LangChain agent type</span><span data-lang="fr">Zéro dépendance framework — fonctionne avec tous les types d'agents LangChain</span></div>
     </div>
   </div>
 </div>
@@ -240,7 +240,7 @@ agent = create_react_agent(llm, tools, prompt)</div>
     <span class="fw-icon">🤖</span>
     <span class="fw-name">CrewAI</span>
   </div>
-  <div class="fw-desc">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">BaseTool</code> subclasses with Pydantic input schemas, ready to assign to any CrewAI agent or crew.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">BaseTool</code> subclasses with Pydantic input schemas, ready to assign to any CrewAI agent or crew.</div><div class="fw-desc" data-lang="fr">Retourne 6 sous-classes <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">BaseTool</code> avec schémas Pydantic, prêtes à assigner à tout agent ou crew CrewAI.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -253,9 +253,9 @@ tools = get_crewai_tools(secret_key=<span class="s">"your-key"</span>)
 agent = Agent(role=<span class="s">"Identity Manager"</span>, tools=tools)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Pydantic schemas on all inputs — type-safe by default</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Works in any crew role: orchestrator, worker, or auditor</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Each action produces a signed Ed25519 receipt for the audit trail</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Pydantic schemas on all inputs — type-safe by default</span><span data-lang="fr">Schémas Pydantic sur toutes les entrées — type-safe par défaut</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Works in any crew role: orchestrator, worker, or auditor</span><span data-lang="fr">Fonctionne dans tous les rôles : orchestrateur, travailleur ou auditeur</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Each action produces a signed Ed25519 receipt for the audit trail</span><span data-lang="fr">Chaque action produit un reçu Ed25519 signé pour l'audit trail</span></div>
     </div>
   </div>
 </div>
@@ -266,7 +266,7 @@ agent = Agent(role=<span class="s">"Identity Manager"</span>, tools=tools)</div>
     <span class="fw-icon">🧠</span>
     <span class="fw-name">OpenAI Agents SDK</span>
   </div>
-  <div class="fw-desc">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@function_tool</code> functions compatible with the OpenAI Agents SDK — plug into any agent with one line.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Returns 6 <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@function_tool</code> functions compatible with the OpenAI Agents SDK — plug into any agent with one line.</div><div class="fw-desc" data-lang="fr">Retourne 6 fonctions <code style="font-family:var(--mono);font-size:13px;color:var(--cyan);background:var(--cyan-dim);padding:1px 6px;border-radius:4px">@function_tool</code> compatibles avec l'OpenAI Agents SDK — intégration en une ligne.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -279,9 +279,9 @@ tools = get_openai_agents_tools(secret_key=<span class="s">"your-key"</span>)
 agent = Agent(name=<span class="s">"Identity Manager"</span>, tools=tools)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>JSON schema auto-generated from Python type hints</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Compatible with OpenAI swarm multi-agent handoffs</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Policy enforcement runs before every tool call returns</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">JSON schema auto-generated from Python type hints</span><span data-lang="fr">Schéma JSON généré automatiquement depuis les type hints Python</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Compatible with OpenAI swarm multi-agent handoffs</span><span data-lang="fr">Compatible avec les handoffs multi-agents OpenAI Swarm</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Policy enforcement runs before every tool call returns</span><span data-lang="fr">Les politiques sont vérifiées avant chaque retour d'appel outil</span></div>
     </div>
   </div>
 </div>
@@ -293,7 +293,7 @@ agent = Agent(name=<span class="s">"Identity Manager"</span>, tools=tools)</div>
     <span class="fw-name">LangGraph</span>
     <span class="fw-badge stars-cyan">28K ★</span>
   </div>
-  <div class="fw-desc">Stateful multi-agent workflows as directed graphs. Used in production by Klarna, Replit, and Elastic. AIB enforces passport verification and policy at every node — with checkpointing and human-in-the-loop support.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Stateful multi-agent workflows as directed graphs. Used in production by Klarna, Replit, and Elastic. AIB enforces passport verification and policy at every node — with checkpointing and human-in-the-loop support.</div><div class="fw-desc" data-lang="fr">Workflows multi-agents avec état sous forme de graphes dirigés. Utilisé en production par Klarna, Replit et Elastic. AIB vérifie les passeports et les politiques à chaque nœud — avec checkpointing et supervision humaine.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -307,9 +307,9 @@ graph = StateGraph(AgentState)
 graph.add_node(<span class="s">"identity"</span>, tools.passport_node)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Passport node binds to any graph node — persistent across checkpoints</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Human-in-the-loop: AIB blocks execution if human oversight flag is required</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Full invocation chain traced across all nodes in the graph</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Passport node binds to any graph node — persistent across checkpoints</span><span data-lang="fr">Le nœud passeport se lie à tout nœud du graphe — persistant entre les checkpoints</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Human-in-the-loop: AIB blocks execution if human oversight flag is required</span><span data-lang="fr">Supervision humaine : AIB bloque l'exécution si le flag de contrôle humain est requis</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Full invocation chain traced across all nodes in the graph</span><span data-lang="fr">Chaîne d'invocation complète tracée sur tous les nœuds du graphe</span></div>
     </div>
   </div>
 </div>
@@ -322,7 +322,7 @@ graph.add_node(<span class="s">"identity"</span>, tools.passport_node)</div>
     <span class="fw-badge stars-blue">15K ★</span>
     <span class="fw-badge tag-a2a">A2A native</span>
   </div>
-  <div class="fw-desc">Google Agent Development Kit — model-agnostic, deployment-agnostic, with native A2A protocol support. AIB translates credentials between A2A, MCP, and AG-UI, making cross-framework agent communication seamless.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Google Agent Development Kit — model-agnostic, deployment-agnostic, with native A2A protocol support. AIB translates credentials between A2A, MCP, and AG-UI, making cross-framework agent communication seamless.</div><div class="fw-desc" data-lang="fr">Google Agent Development Kit — agnostique du modèle et du déploiement, avec support natif du protocole A2A. AIB traduit les credentials entre A2A, MCP et AG-UI pour une communication cross-framework transparente.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -336,9 +336,9 @@ agent = Agent(name=<span class="s">"identity-agent"</span>, tools=tools)
 agent.run()</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>A2A Agent Cards auto-translated to MCP Server Cards in under 1ms</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>AIB DID:web resolves Google ADK agent identities cross-org</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>EU AI Act receipt generated for every A2A handoff</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">A2A Agent Cards auto-translated to MCP Server Cards in under 1ms</span><span data-lang="fr">A2A Agent Cards traduites automatiquement en MCP Server Cards en moins d'1ms</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">AIB DID:web resolves Google ADK agent identities cross-org</span><span data-lang="fr">AIB DID:web résout les identités des agents Google ADK entre organisations</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">EU AI Act receipt generated for every A2A handoff</span><span data-lang="fr">Reçu EU AI Act généré pour chaque handoff A2A</span></div>
     </div>
   </div>
 </div>
@@ -350,7 +350,7 @@ agent.run()</div>
     <span class="fw-name">Microsoft Agent Framework</span>
     <span class="fw-badge tag-preview">Public Preview</span>
   </div>
-  <div class="fw-desc">Successor to AutoGen + Semantic Kernel. Graph workflows, MCP + A2A support, and human-in-the-loop. AIB adds Ed25519 passport signing and EU AI Act compliance across all Microsoft agent deployments.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Successor to AutoGen + Semantic Kernel. Graph workflows, MCP + A2A support, and human-in-the-loop. AIB adds Ed25519 passport signing and EU AI Act compliance across all Microsoft agent deployments.</div><div class="fw-desc" data-lang="fr">Successeur d'AutoGen + Semantic Kernel. Workflows en graphe, support MCP + A2A et supervision humaine. AIB ajoute la signature Ed25519 et la conformité EU AI Act sur tous les déploiements d'agents Microsoft.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -364,9 +364,9 @@ af = AgentFramework()
 af.register_tools(tools)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>MCP + A2A dual-mode: AIB translates between both natively</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Integrates with Azure Entra ID via OIDC federation</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Compatible with Semantic Kernel plugin architecture</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">MCP + A2A dual-mode: AIB translates between both natively</span><span data-lang="fr">Mode dual MCP + A2A : AIB traduit entre les deux nativement</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Integrates with Azure Entra ID via OIDC federation</span><span data-lang="fr">Intégration avec Azure Entra ID via fédération OIDC</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Compatible with Semantic Kernel plugin architecture</span><span data-lang="fr">Compatible avec l'architecture de plugins Semantic Kernel</span></div>
     </div>
   </div>
 </div>
@@ -378,7 +378,7 @@ af.register_tools(tools)</div>
     <span class="fw-name">OpenClaw</span>
     <span class="fw-badge stars-green">210K ★</span>
   </div>
-  <div class="fw-desc">AgentSkills-compatible CLI skill. Pre-action guardrails, Ed25519 identity, EU AI Act governance, and cross-protocol translation — enforced automatically before every tool call. No code changes required.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">AgentSkills-compatible CLI skill. Pre-action guardrails, Ed25519 identity, EU AI Act governance, and cross-protocol translation — enforced automatically before every tool call. No code changes required.</div><div class="fw-desc" data-lang="fr">Skill CLI compatible AgentSkills. Guardrails pré-action, identité Ed25519, gouvernance EU AI Act et traduction cross-protocole — appliqués automatiquement avant chaque appel outil. Aucune modification de code requise.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Shell</span></div>
@@ -394,9 +394,9 @@ af.register_tools(tools)</div>
     --params <span class="s">'{"command":"ls"}'</span></div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Zero code changes — installs as an AgentSkill, guards all tool calls automatically</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Exit code protocol: 0 = ALLOW, 1 = DENY, 2 = ESCALATE for human review</span></div>
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span>Ed25519 signed receipt generated for every guarded call</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Zero code changes — installs as an AgentSkill, guards all tool calls automatically</span><span data-lang="fr">Zéro modification de code — s'installe comme AgentSkill, protège tous les appels automatiquement</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Exit code protocol: 0 = ALLOW, 1 = DENY, 2 = ESCALATE for human review</span><span data-lang="fr">Code de sortie : 0 = AUTORISER, 1 = REFUSER, 2 = ESCALADER pour révision humaine</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Ed25519 signed receipt generated for every guarded call</span><span data-lang="fr">Reçu signé Ed25519 généré pour chaque appel protégé</span></div>
     </div>
   </div>
 </div>
@@ -405,8 +405,10 @@ af.register_tools(tools)</div>
 
 <!-- TOOLS SECTION -->
 <div class="tools-section">
-  <h2>Available tools in every integration</h2>
-  <p>All 6 tools are available across all Python framework integrations.</p>
+  <h2 data-lang="en" style="display:block">Available tools in every integration</h2>
+  <h2 data-lang="fr">Outils disponibles dans chaque intégration</h2>
+  <p data-lang="en" style="display:block">All 6 tools are available across all Python framework integrations.</p>
+  <p data-lang="fr">Les 6 outils sont disponibles dans toutes les intégrations Python.</p>
   <div class="tools-grid">
     <div class="tool-item"><span class="tool-name">aib_create_passport</span><span class="tool-args">&nbsp;(org, agent, protocols, capabilities)</span></div>
     <div class="tool-item"><span class="tool-name">aib_verify_passport</span><span class="tool-args">&nbsp;(token)</span></div>
@@ -419,8 +421,10 @@ af.register_tools(tools)</div>
 
 <!-- INSTALL SECTION -->
 <div class="install-section">
-  <h2>Install</h2>
-  <p>v2.16.0 · 1,094 tests · Apache 2.0 · Framework dependencies are optional.</p>
+  <h2 data-lang="en" style="display:block">Install</h2>
+  <h2 data-lang="fr">Installation</h2>
+  <p data-lang="en" style="display:block">v2.16.0 · 1,094 tests · Apache 2.0 · Framework dependencies are optional.</p>
+  <p data-lang="fr">v2.16.0 · 1 094 tests · Apache 2.0 · Les dépendances framework sont optionnelles.</p>
   <div class="install-grid">
     <div class="install-box">
       <div class="install-label">Python SDK</div>
