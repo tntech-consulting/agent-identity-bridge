@@ -393,8 +393,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
     <!-- Agent slug -->
     <div class="kb-card">
-      <div class="kb-label"><span data-lang="en">AGENT SLUG</span><span data-lang="fr">SLUG DE L'AGENT</span></div>
-      <input class="kb-input" id="kb-agent-ai" placeholder="my-agent" oninput="KB.updateOutput()">
+      <div class="kb-label"><span data-lang="en">AGENT IDENTIFIER</span><span data-lang="fr">IDENTIFIANT DE L'AGENT</span></div>
+      <input class="kb-input" id="kb-agent-ai" placeholder="ex: my-agent" oninput="KB.updateOutput()">
     </div>
 
   </div>
@@ -402,6 +402,94 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
 
 
+
+<!-- MANUAL PANEL -->
+    <div class="ai-panel" id="manual-panel">
+
+      <!-- Template selector -->
+      <div class="kb-card">
+        <div class="kb-label">
+          <span data-lang="en" class="show">&#127912; PASSPORT TEMPLATES</span>
+          <span data-lang="fr">&#127912; MODELES DE PASSEPORT</span>
+          <span id="kb-tpl-count" style="font-size:11px;color:var(--fg3);margin-left:auto"></span>
+        </div>
+        <div id="kb-tpl-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:8px">
+          <div style="color:var(--fg3);font-size:12px;padding:12px">
+            <span data-lang="en" class="show">Loading templates...</span>
+            <span data-lang="fr">Chargement...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manual form fields -->
+      <div class="kb-card" id="manual-form-card" style="display:none">
+        <div class="kb-label">
+          <span data-lang="en" class="show">&#9999; AGENT CONFIGURATION</span>
+          <span data-lang="fr">&#9999; CONFIGURATION DE L'AGENT</span>
+        </div>
+
+        <!-- Agent name / identifier -->
+        <div class="kb-field">
+          <div class="kb-label">
+            <span data-lang="en" class="show">AGENT IDENTIFIER</span>
+            <span data-lang="fr">IDENTIFIANT DE L'AGENT</span>
+          </div>
+          <input class="kb-input" id="kb-agent-manual"
+            placeholder="ex: invoice-processor"
+            oninput="KB.updateOutput()"
+            style="font-family:var(--mono)">
+          <div style="font-size:11px;color:var(--fg3);margin-top:4px">
+            <span data-lang="en" class="show">Lowercase letters, numbers and hyphens only. Will become part of your agent's unique ID: <code>urn:aib:agent:your-org:<b>identifier</b></code></span>
+            <span data-lang="fr">Lettres minuscules, chiffres et tirets uniquement. Constituera l'ID unique de l'agent : <code>urn:aib:agent:votre-org:<b>identifiant</b></code></span>
+          </div>
+        </div>
+
+        <!-- Display name -->
+        <div class="kb-field">
+          <div class="kb-label">
+            <span data-lang="en" class="show">DISPLAY NAME</span>
+            <span data-lang="fr">NOM AFFICHE</span>
+          </div>
+          <input class="kb-input" id="kb-name-manual"
+            placeholder="ex: Invoice Processing Agent"
+            oninput="KB.updateOutput()">
+        </div>
+
+        <!-- Policy rules -->
+        <div class="kb-field">
+          <div class="kb-label" style="display:flex;justify-content:space-between;align-items:center">
+            <span>
+              <span data-lang="en" class="show">SECURITY RULES</span>
+              <span data-lang="fr">REGLES DE SECURITE</span>
+            </span>
+            <button class="kb-btn-sm" onclick="KB.addRule()" style="font-size:10px;padding:3px 10px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:5px;cursor:pointer;font-family:var(--mono)">
+              + <span data-lang="en" class="show">ADD RULE</span><span data-lang="fr">AJOUTER</span>
+            </button>
+          </div>
+          <div id="kb-rules-list" style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
+            <div class="kb-empty" style="color:var(--fg3);font-size:12px;padding:10px;text-align:center;border:1px dashed var(--bd);border-radius:6px">
+              <span data-lang="en" class="show">Select a template above to get started</span>
+              <span data-lang="fr">Selectionnez un modele ci-dessus pour commencer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Output preview -->
+      <div class="kb-card">
+        <div class="kb-label">
+          <span data-lang="en" class="show">&#128196; PASSPORT PREVIEW</span>
+          <span data-lang="fr">&#128196; APERCU DU PASSEPORT</span>
+        </div>
+        <pre id="kb-output" class="kb-pre" style="font-size:11px;max-height:280px;overflow-y:auto"># <span data-lang="en" class="show">Select a template to generate configuration</span><span data-lang="fr">Selectionnez un modele pour voir la configuration</span></pre>
+        <button class="kb-copy" onclick="KB.copyOutput()" style="margin-top:8px;width:100%;padding:8px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:11px">
+          <span data-lang="en" class="show">&#128203; COPY CONFIGURATION</span>
+          <span data-lang="fr">&#128203; COPIER LA CONFIGURATION</span>
+        </button>
+      </div>
+
+    </div>
+    <!-- /MANUAL PANEL -->
 
 <!-- WHAT IS A PASSPORT -->
 <section style="padding:64px 0">
