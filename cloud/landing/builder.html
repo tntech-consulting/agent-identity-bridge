@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AIB Passport Builder &mdash; Create AI Agent Passports</title>
+<meta name="description" content="Build a complete, EU AI Act compliant AI agent passport in 2 minutes. Describe your agent and Claude generates the full configuration &mdash; protocols, capabilities, policies.">
+<link rel="canonical" href="https://aib-tech.fr/builder">
+<meta property="og:title" content="AIB Passport Builder">
+<meta property="og:description" content="Describe your AI agent and Claude generates a complete EU AI Act compliant passport. Works for AI agents, RPA robots, chatbots, CI/CD agents.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a1a;--bg2:#0f1029;--bg3:#171840;
+  --fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);
+  --blue:#3b82f6;--blue-dim:rgba(59,130,246,.06);
+  --purple:#8b5cf6;--purple-dim:rgba(139,92,246,.06);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.06);
+  --red:#ef4444;--orange:#f59e0b;
+  --bd:rgba(255,255,255,.06);
+  --glass:rgba(15,16,41,.6);
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.75}
+a{color:var(--cyan);text-decoration:none;transition:all .2s}a:hover{color:#fff}
+.w{max-width:1120px;margin:0 auto;padding:0 28px}
+button{font-family:inherit}
+[data-lang]{display:none}.show{display:revert!important}
+
+/* BG */
+.bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 20s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:rgba(139,92,246,.07);top:-15%;left:-8%;animation-delay:0s}
+.orb-2{width:500px;height:500px;background:rgba(0,212,255,.05);bottom:5%;right:-8%;animation-delay:-7s}
+.orb-3{width:400px;height:400px;background:rgba(59,130,246,.04);top:40%;left:50%;animation-delay:-13s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-20px) scale(1.05)}50%{transform:translate(-20px,30px) scale(.95)}75%{transform:translate(20px,10px) scale(1.02)}}
+main{position:relative;z-index:2}
+
+/* NAV */
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .w{display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.logo-text{font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-r{display:flex;gap:3px;align-items:center}
+.nav-item{position:relative}
+.nb{background:none;border:none;color:var(--fg2);font-family:var(--sans);font-size:13.5px;font-weight:500;padding:7px 12px;cursor:pointer;display:flex;align-items:center;gap:5px;border-radius:7px;transition:all .15s}
+.nb:hover,.nb.open{color:#fff;background:rgba(255,255,255,.04)}
+.nb svg{width:10px;height:10px;transition:transform .2s}.nb.open svg{transform:rotate(180deg)}
+.dd{position:absolute;top:calc(100% + 8px);left:-8px;background:rgba(15,16,41,.95);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:8px;min-width:240px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .25s cubic-bezier(.16,1,.3,1);box-shadow:0 24px 64px rgba(0,0,0,.4);backdrop-filter:blur(16px)}
+.dd.open{opacity:1;visibility:visible;transform:translateY(0)}
+.dd a{display:block;padding:10px 14px;border-radius:8px;color:var(--fg);font-size:13.5px;font-weight:500;transition:all .12s}.dd a:hover{background:rgba(0,212,255,.06);color:var(--cyan)}
+.dd a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px;font-weight:400}
+.dd .sep{height:1px;background:var(--bd);margin:4px 12px}
+.btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:700;padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-family:var(--mono);transition:all .2s}.btn-cta:hover{opacity:.9;transform:translateY(-1px);color:#fff}
+.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:8px}
+.ham span{display:block;height:2px;background:var(--fg2);border-radius:2px;transition:all .3s}
+.mob-drawer{display:none;position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.mob-drawer.open{display:block}
+.mob-panel{position:absolute;top:0;right:0;width:min(320px,85vw);height:100%;background:#0f1029;border-left:1px solid var(--bd);padding:20px 0;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.mob-drawer.open .mob-panel{transform:translateX(0)}
+.mob-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+.mob-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;padding:4px;line-height:1}
+.mob-trigger{width:100%;background:none;border:none;color:var(--fg);font-family:var(--sans);font-size:14px;font-weight:600;padding:13px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.15s}
+.mob-trigger:hover{background:rgba(255,255,255,.03);color:var(--cyan)}
+.mob-sub{display:none;padding:0 0 8px}.mob-sub.open{display:block}
+.mob-sub a{display:block;padding:9px 20px 9px 32px;color:var(--fg2);font-size:13px;transition:.15s}.mob-sub a:hover{color:var(--cyan)}
+.mob-sep{height:1px;background:var(--bd);margin:8px 20px}
+.mob-cta{margin:12px 20px 0;display:block;padding:13px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;border-radius:10px;font-weight:700;font-size:13px;font-family:var(--mono);text-align:center}
+@media(max-width:768px){.nav-r{display:none}.ham{display:flex}}
+
+/* HERO */
+.hero{padding:72px 0 56px;text-align:center;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);padding:6px 16px;border-radius:20px;margin-bottom:28px}
+.hero-badge span{font-family:var(--mono);font-size:12px;color:var(--purple);font-weight:600;letter-spacing:1.5px}
+.hero h1{font-size:54px;font-weight:800;line-height:1.1;margin-bottom:18px;letter-spacing:-2px}
+.hero h1 em{font-style:normal;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--fg2);font-size:17px;line-height:1.7;max-width:580px;margin:0 auto 36px}
+
+/* Steps */
+.steps{display:flex;gap:0;justify-content:center;margin-bottom:48px;max-width:700px;margin-left:auto;margin-right:auto}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative}
+.step:not(:last-child)::after{content:'';position:absolute;top:22px;left:calc(50% + 22px);right:calc(-50% + 22px);height:1px;background:linear-gradient(90deg,var(--purple),var(--cyan));opacity:.3}
+.step-num{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:16px;font-weight:700;flex-shrink:0}
+.step-1 .step-num{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:var(--purple)}
+.step-2 .step-num{background:rgba(0,212,255,.08);border:1px solid var(--cyan-glow);color:var(--cyan)}
+.step-3 .step-num{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);color:var(--green)}
+.step-label{font-size:12px;color:var(--fg3);text-align:center;line-height:1.4;font-weight:500}
+
+/* What is a passport */
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;color:var(--cyan);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding:4px 12px;border:1px solid var(--cyan-glow);border-radius:4px;background:var(--cyan-dim)}
+.sh{text-align:center;margin-bottom:40px}
+.sh h2{font-size:30px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}.sh h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sh p{color:var(--fg2);font-size:15px;max-width:520px;margin:0 auto}
+
+.passport-explainer{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:80px}
+.pe-card{background:var(--glass);border:1px solid var(--bd);border-radius:14px;padding:24px;backdrop-filter:blur(8px);position:relative;overflow:hidden;transition:all .3s}
+.pe-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.7}
+.pe-card.identity::before{background:linear-gradient(90deg,var(--purple),var(--cyan))}
+.pe-card.policies::before{background:linear-gradient(90deg,var(--cyan),var(--blue))}
+.pe-card.portable::before{background:linear-gradient(90deg,var(--green),var(--cyan))}
+.pe-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.2)}
+.pe-icon{font-size:28px;margin-bottom:14px}
+.pe-title{font-weight:700;font-size:16px;margin-bottom:8px}
+.pe-text{font-size:13.5px;color:var(--fg3);line-height:1.6}
+.pe-code{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:8px 12px;font-family:var(--mono);font-size:11px;color:var(--cyan);margin-top:12px;line-height:1.6}
+
+/* Use cases */
+.usecases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:80px}
+.uc{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;transition:all .25s;backdrop-filter:blur(6px)}
+.uc:hover{border-color:rgba(0,212,255,.12);transform:translateY(-2px)}
+.uc-icon{font-size:22px;margin-bottom:10px}
+.uc-title{font-weight:700;font-size:14px;margin-bottom:6px}
+.uc-text{font-size:12.5px;color:var(--fg3);line-height:1.55}
+.uc-tag{display:inline-block;margin-top:10px;font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:4px;font-weight:700}
+.uc-tag.high{background:rgba(245,158,11,.08);color:var(--orange);border:1px solid rgba(245,158,11,.2)}
+.uc-tag.medium{background:var(--cyan-dim);color:var(--cyan);border:1px solid var(--cyan-glow)}
+.uc-tag.low{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+
+/* CTA */
+.cta{padding:64px 0;text-align:center;border-top:1px solid var(--bd)}
+.cta h2{font-size:28px;font-weight:800;margin-bottom:10px;letter-spacing:-.5px}
+.cta h2 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cta p{color:var(--fg2);font-size:15px;margin-bottom:28px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-h{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;padding:14px 32px;border-radius:10px;font-weight:700;font-size:14px;font-family:var(--mono);transition:all .25s;box-shadow:0 4px 24px rgba(0,212,255,.2)}.btn-h:hover{opacity:.9;transform:translateY(-2px);color:#fff}
+.btn-g{border:1px solid rgba(255,255,255,.12);color:var(--fg);padding:14px 28px;border-radius:10px;font-weight:600;font-size:14px;transition:all .2s}.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
+
+footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hover{color:var(--cyan)!important}
+@media(max-width:768px){footer [style*="grid-template-columns"]{grid-template-columns:1fr 1fr!important;gap:24px!important}}
+@media(max-width:900px){.passport-explainer{grid-template-columns:1fr}.usecases{grid-template-columns:1fr 1fr}.hero h1{font-size:36px}}
+@media(max-width:480px){.hero h1{font-size:28px}.steps{flex-direction:column;align-items:center;gap:16px}.step::after{display:none}.usecases{grid-template-columns:1fr}}
+<!-- ═══ KIT BUILDER ═══ -->
+<style>
+/* ── Layout ── */
+.kb-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.kb-card{background:var(--bg2);border:1px solid var(--bd);border-radius:12px;padding:20px;margin-bottom:16px}
+.kb-card:last-child{margin-bottom:0}
+.kb-label{font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.kb-tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kb-tpl{text-align:left;background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;cursor:pointer;transition:.15s;width:100%;font-family:inherit}
+.kb-tpl:hover,.kb-tpl.active{border-color:var(--cyan)}
+.kb-tpl.active{background:rgba(0,212,255,.08)}
+.kb-tpl-icon{font-size:14px;margin-bottom:4px}
+.kb-tpl-name{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--fg)}
+.kb-tpl.active .kb-tpl-name{color:var(--cyan)}
+.kb-tpl-proto{font-size:9px;color:var(--fg3);margin-top:2px}
+.kb-rule{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.kb-rule-type{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan)}
+.kb-rule-cfg{font-family:var(--mono);font-size:9px;color:var(--fg3);margin-top:2px}
+.kb-rule-del{background:none;border:none;color:var(--fg3);font-size:16px;cursor:pointer;padding:0 4px;line-height:1;transition:.15s}
+.kb-rule-del:hover{color:#ef4444}
+.kb-empty{color:var(--fg3);font-size:12px;font-family:var(--mono);padding:14px;text-align:center;border:1px dashed var(--bd);border-radius:8px}
+.kb-addbtn{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 12px;border-radius:5px;cursor:pointer;transition:.15s}
+.kb-addbtn:hover{background:rgba(0,212,255,.18)}
+.kb-input{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--mono);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.15s;box-sizing:border-box}
+.kb-input:focus{border-color:var(--cyan)}
+.kb-output-wrap{background:var(--bg);border:1px solid rgba(0,212,255,.15);border-radius:12px;overflow:hidden}
+.kb-tabs{display:flex;border-bottom:1px solid var(--bd);background:var(--bg2)}
+.kb-tab{flex:1;background:none;border:none;color:var(--fg3);font-family:var(--mono);font-size:11px;font-weight:700;padding:10px 4px;cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
+.kb-tab.active{color:var(--cyan);border-bottom-color:var(--cyan)}
+.kb-output{padding:16px;font-family:var(--mono);font-size:11px;line-height:1.85;min-height:180px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;color:var(--fg2)}
+.kb-actions{padding:12px 16px;border-top:1px solid var(--bd);display:flex;gap:8px}
+.kb-copybtn{flex:1;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:700;padding:9px;border-radius:7px;cursor:pointer;transition:.15s}
+.kb-copybtn:hover{background:rgba(0,212,255,.18)}
+.kb-deploybtn{flex:1;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#0a0a1a;font-family:var(--mono);font-size:11px;font-weight:700;padding:9px;border-radius:7px;text-align:center;text-decoration:none;display:block;transition:.15s}
+.kb-deploybtn:hover{opacity:.85;color:#0a0a1a}
+.kb-note{margin-top:10px;padding:10px 14px;background:rgba(255,170,0,.04);border:1px solid rgba(255,170,0,.12);border-radius:8px;font-size:11px;color:var(--fg3);font-family:var(--mono)}
+.kb-sticky{position:sticky;top:80px}
+
+/* ── AI Mode ── */
+.ai-mode-toggle{display:flex;background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:3px;margin-bottom:20px;gap:3px}
+.ai-mode-btn{flex:1;padding:9px 10px;border:none;border-radius:7px;font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;background:none;color:var(--fg3);letter-spacing:.3px}
+.ai-mode-btn.active{background:var(--bg2);color:var(--cyan);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.ai-mode-btn.active.ai{background:linear-gradient(135deg,rgba(139,92,246,.15),rgba(0,212,255,.08));color:var(--purple)}
+.ai-panel{display:none}.ai-panel.show{display:block}
+.manual-panel{display:none}.manual-panel.show{display:block}
+
+.ai-textarea{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--sans);font-size:13.5px;padding:14px 16px;border-radius:10px;outline:none;transition:.2s;box-sizing:border-box;resize:vertical;min-height:100px;line-height:1.6}
+.ai-textarea:focus{border-color:var(--purple);box-shadow:0 0 0 2px rgba(139,92,246,.08)}
+.ai-textarea::placeholder{color:var(--fg3)}
+
+.ai-generate-btn{width:100%;margin-top:10px;padding:13px;background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;border:none;border-radius:9px;font-family:var(--mono);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;letter-spacing:.3px}
+.ai-generate-btn:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 24px rgba(139,92,246,.25)}
+.ai-generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ai-generate-btn .spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.ai-generate-btn.loading .spinner{display:block}
+.ai-generate-btn.loading .btn-text{display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.ai-examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-example{background:var(--bg3);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;font-size:11px;color:var(--fg3);cursor:pointer;transition:.15s;font-family:var(--sans)}
+.ai-example:hover{border-color:var(--purple);color:var(--purple)}
+
+.ai-result-banner{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(0,212,255,.05));border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:14px 16px;margin-top:12px;display:none}
+.ai-result-banner.show{display:block}
+.ai-result-title{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--purple);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px}
+.ai-result-line{font-size:12px;color:var(--fg2);display:flex;align-items:center;gap:8px;padding:3px 0}
+.ai-result-line::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--cyan);flex-shrink:0}
+.ai-rationale{font-size:11.5px;color:var(--fg3);line-height:1.6;margin-top:10px;padding-top:10px;border-top:1px solid var(--bd);font-style:italic}
+
+@media(max-width:768px){
+  .kb-wrap{grid-template-columns:1fr}
+  .kb-sticky{position:static}
+  .kb-tpl-grid{grid-template-columns:1fr 1fr}
+  .kb-output{font-size:10px;min-height:140px}
+}
+@media(max-width:480px){
+  .kb-tpl-grid{grid-template-columns:1fr}
+  .ai-mode-btn{font-size:10px;padding:8px 6px}
+}
+</style>
+</style>
+</head>
+<body>
+<div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+
+<nav><div class="w">
+  <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
+  <div class="nav-r">
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a><a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;<small>Source &amp; 1,094 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;<small>pip install agent-identity-bridge</small></a></div></div>
+    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/builder">&#127903; Passport Builder<small>Build your passport with AI</small></a><a href="/blog">Blog<small>Articles &amp; updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a><a href="/risk">EU AI Act Calculator<small>Assess your compliance risk</small></a></div></div>
+    <div class="nav-item" style="margin-left:6px">
+      <button class="nb" id="lang-toggle" onclick="toggleDD(this)"><span id="lang-flag">&#127468;&#127463;</span> <span id="lang-label">EN</span><svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dd" style="min-width:160px;right:0;left:auto"><a href="#" onclick="setLang('en');return false" id="opt-en" style="display:flex;align-items:center;gap:10px">&#127468;&#127463; <span>English</span></a><a href="#" onclick="setLang('fr');return false" id="opt-fr" style="display:flex;align-items:center;gap:10px">&#127467;&#127479; <span>Francais</span></a></div>
+    </div>
+    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+  </div>
+  <button class="ham" id="ham-btn" onclick="toggleMob()"><span></span><span></span><span></span></button>
+</div></nav>
+
+<div class="mob-drawer" id="mob-drawer" onclick="closeMobIfBg(event)"><div class="mob-panel">
+  <div class="mob-head"><span style="font-weight:700">AIB</span><button class="mob-close" onclick="closeMob()">&#10005;</button></div>
+  <div><button class="mob-trigger" onclick="toggleMobSub(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/">Overview</a><a href="/why">Why AIB</a><a href="/dashboard">Dashboard</a><a href="/pricing">Pricing</a></div></div>
+  <div class="mob-sep"></div>
+  <div><button class="mob-trigger" onclick="toggleMobSub(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/builder">&#127903; Passport Builder</a><a href="/risk">EU AI Act Calculator</a><a href="/kits">Compliance Kits</a><a href="/viz">Protocol Explorer</a></div></div>
+  <div class="mob-sep"></div>
+  <a href="/dashboard" class="mob-cta">> Dashboard</a>
+</div></div>
+
+<main>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="w">
+    <div class="hero-badge"><span data-lang="en" class="show">&#10024; AI PASSPORT BUILDER &mdash; POWERED BY CLAUDE</span><span data-lang="fr">&#10024; AI PASSPORT BUILDER &mdash; PROPULSE PAR CLAUDE</span></div>
+    <h1 data-lang="en" class="show">Your <em>agent passport</em><br>in 2 minutes</h1>
+    <h1 data-lang="fr">Votre <em>passeport agent</em><br>en 2 minutes</h1>
+    <p class="hero-sub" data-lang="en" class="show">Describe your agent in plain language. Claude generates a complete, EU AI Act compliant passport &mdash; protocols, capabilities, policies, Ed25519 signature.</p>
+    <p class="hero-sub" data-lang="fr">Decrivez votre agent en langage naturel. Claude genere un passeport complet et conforme EU AI Act &mdash; protocoles, capacites, politiques, signature Ed25519.</p>
+
+    <!-- 3 steps -->
+    <div class="steps">
+      <div class="step step-1">
+        <div class="step-num">1</div>
+        <div class="step-label" data-lang="en" class="show">Describe<br>your agent</div>
+        <div class="step-label" data-lang="fr">Decrivez<br>votre agent</div>
+      </div>
+      <div class="step step-2">
+        <div class="step-num">2</div>
+        <div class="step-label" data-lang="en" class="show">Claude generates<br>the config</div>
+        <div class="step-label" data-lang="fr">Claude genere<br>la config</div>
+      </div>
+      <div class="step step-3">
+        <div class="step-num">3</div>
+        <div class="step-label" data-lang="en" class="show">Deploy with<br>your API key</div>
+        <div class="step-label" data-lang="fr">Deployez avec<br>votre cle API</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BUILDER (réutilisé depuis kits.html) -->
+<section style="padding:0 0 80px" id="kit-builder">
+<div class="w">
+<div class="sh">
+  <span class="tag">KIT BUILDER</span>
+  <h2 data-lang="en">Build your <em>Agent Passport</em></h2>
+  <h2 data-lang="fr">Construisez votre <em>Passeport Agent</em></h2>
+  <p data-lang="en">Describe your agent and Claude generates a complete, EU AI Act compliant passport configuration. Or configure manually.</p>
+  <p data-lang="fr">Decrivez votre agent et Claude genere un passeport complet et conforme EU AI Act. Ou configurez manuellement.</p>
+</div>
+
+<div class="kb-wrap">
+
+<!-- LEFT: Config -->
+<div>
+
+  <!-- Mode toggle -->
+  <div class="ai-mode-toggle">
+    <button class="ai-mode-btn active ai" id="btn-mode-ai" onclick="KB.setMode('ai')">
+      &#10024; AI &mdash; Describe your agent
+    </button>
+    <button class="ai-mode-btn" id="btn-mode-manual" onclick="KB.setMode('manual')">
+      &#9881; Manual &mdash; Pick a template
+    </button>
+  </div>
+
+  <!-- AI Mode -->
+  <div class="ai-panel show" id="ai-panel">
+
+    <!-- Conversation thread -->
+    <div class="kb-card" id="ai-chat-card">
+      <div class="kb-label">
+        <span>&#129504; AI PASSPORT BUILDER</span>
+        <span style="color:var(--purple);font-size:9px">POWERED BY CLAUDE</span>
+      </div>
+
+      <!-- Messages thread -->
+      <div class="ai-thread" id="ai-thread">
+        <div class="ai-msg ai-msg-bot" id="ai-welcome">
+          <div class="ai-msg-content">
+            <span data-lang="en">Describe your AI agent and I'll build a complete, EU AI Act compliant passport for it. What does your agent do?</span>
+            <span data-lang="fr">Decrivez votre agent IA et je construirai un passeport complet et conforme EU AI Act. Que fait votre agent?</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Input area -->
+      <div class="ai-input-area" id="ai-input-area">
+        <!-- Quick examples (shown only at start) -->
+        <div class="ai-examples" id="ai-examples">
+          <span class="ai-example" onclick="KB.setExample(this)">Financial agent processing transactions &gt;500 EUR</span>
+          <span class="ai-example" onclick="KB.setExample(this)">Healthcare agent reading patient records</span>
+          <span class="ai-example" onclick="KB.setExample(this)">HR agent screening CVs and scheduling interviews</span>
+          <span class="ai-example" onclick="KB.setExample(this)">Multi-agent CI/CD orchestrator</span>
+        </div>
+        <div class="ai-compose">
+          <textarea class="ai-textarea" id="ai-input" placeholder="Describe your agent..." rows="2" onkeydown="KB.handleKey(event)"></textarea>
+          <button class="ai-send-btn" id="ai-send-btn" onclick="KB.sendMessage()">
+            <div class="spinner" id="ai-spinner"></div>
+            <span id="ai-send-icon">&#10148;</span>
+          </button>
+        </div>
+        <!-- Quick-reply buttons (shown when Claude asks a question) -->
+        <div class="ai-quick-replies" id="ai-quick-replies"></div>
+      </div>
+    </div>
+
+    <!-- Passport preview (shown once config is ready) -->
+    <div class="kb-card ai-passport-preview" id="ai-passport-preview" style="display:none">
+      <div class="kb-label">
+        <span>&#127903; PASSPORT PREVIEW</span>
+        <button class="kb-addbtn" onclick="KB.editPassport()" style="color:var(--orange);border-color:rgba(245,158,11,.3)">&#9998; EDIT</button>
+      </div>
+      <div id="ai-passport-fields"></div>
+      <div id="ai-policies-preview" style="margin-top:12px"></div>
+    </div>
+
+    <!-- Agent slug -->
+    <div class="kb-card">
+      <div class="kb-label"><span data-lang="en">AGENT SLUG</span><span data-lang="fr">SLUG DE L'AGENT</span></div>
+      <input class="kb-input" id="kb-agent-ai" placeholder="my-agent" oninput="KB.updateOutput()">
+    </div>
+
+  </div>
+
+
+/* ── Conversation ── */
+.ai-thread{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;scroll-behavior:smooth}
+.ai-msg{max-width:90%;display:flex}
+.ai-msg-user{justify-content:flex-end;align-self:flex-end}
+.ai-msg-bot{justify-content:flex-start;align-self:flex-start}
+.ai-msg-content{padding:10px 14px;border-radius:10px;font-size:13px;line-height:1.6}
+.ai-msg-user .ai-msg-content{background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--fg)}
+.ai-msg-bot .ai-msg-content{background:var(--bg3);border:1px solid var(--bd);color:var(--fg2)}
+.ai-act-note{margin-top:8px;font-size:11px;color:var(--orange);background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.15);border-radius:6px;padding:6px 10px}
+.ai-risk-badge{margin-top:6px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1px}
+.ai-edit-hint{margin-top:8px;font-size:11px;color:var(--fg3);font-style:italic}
+.ai-input-area{border-top:1px solid var(--bd);padding-top:12px}
+.ai-compose{display:flex;gap:8px;align-items:flex-end;margin-top:10px}
+.ai-textarea{flex:1;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--sans);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.2s;resize:none;line-height:1.5}
+.ai-textarea:focus{border-color:var(--purple)}
+.ai-textarea::placeholder{color:var(--fg3)}
+.ai-send-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s}
+.ai-send-btn:hover{opacity:.9;transform:translateY(-1px)}
+.ai-send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-qr-btn{background:var(--bg3);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--purple);cursor:pointer;transition:.15s;font-family:var(--sans)}
+.ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
+.ai-passport-preview{margin-top:0}
+.ai-field-row{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
+.ai-field-row:last-child{border-bottom:none}
+.ai-field-key{font-family:var(--mono);font-size:10px;color:var(--fg3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;flex-shrink:0}
+.ai-field-val{font-family:var(--mono);font-size:11px;color:var(--cyan);text-align:right;max-width:65%}
+#ai-spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+
+<section style="padding:0 0 80px" id="kit-builder">
+<div class="w">
+<div class="sh">
+  <span class="tag">KIT BUILDER</span>
+  <h2 data-lang="en">Build your <em>Agent Passport</em></h2>
+  <h2 data-lang="fr">Construisez votre <em>Passeport Agent</em></h2>
+  <p data-lang="en">Describe your agent and Claude generates a complete, EU AI Act compliant passport configuration. Or configure manually.</p>
+  <p data-lang="fr">Decrivez votre agent et Claude genere un passeport complet et conforme EU AI Act. Ou configurez manuellement.</p>
+</div>
+
+<div class="kb-wrap">
+
+<!-- LEFT: Config -->
+<div>
+
+  <!-- Mode toggle -->
+  <div class="ai-mode-toggle">
+    <button class="ai-mode-btn active ai" id="btn-mode-ai" onclick="KB.setMode('ai')">
+      &#10024; AI &mdash; Describe your agent
+    </button>
+    <button class="ai-mode-btn" id="btn-mode-manual" onclick="KB.setMode('manual')">
+      &#9881; Manual &mdash; Pick a template
+    </button>
+  </div>
+
+  <!-- AI Mode -->
+  <div class="ai-panel show" id="ai-panel">
+    <div class="kb-card">
+      <div class="kb-label">
+        <span data-lang="en">&#129504; DESCRIBE YOUR AGENT</span>
+        <span data-lang="fr">&#129504; DECRIVEZ VOTRE AGENT</span>
+        <span style="color:var(--purple);font-size:9px">POWERED BY CLAUDE</span>
+      </div>
+      <textarea class="ai-textarea" id="ai-description" placeholder="e.g. A healthcare agent that reads patient records and books appointments. It must never approve treatments automatically and needs strict rate limiting for HIPAA compliance." rows="4"></textarea>
+      <div class="ai-examples">
+        <span class="ai-example" onclick="KB.setExample(this)">Financial agent processing transactions &gt;500 EUR</span>
+        <span class="ai-example" onclick="KB.setExample(this)">Multi-agent orchestrator for CI/CD pipelines</span>
+        <span class="ai-example" onclick="KB.setExample(this)">Customer support bot for e-commerce, EU users</span>
+        <span class="ai-example" onclick="KB.setExample(this)">HR agent screening CVs and scheduling interviews</span>
+      </div>
+      <button class="ai-generate-btn" id="ai-gen-btn" onclick="KB.generateWithAI()">
+        <div class="spinner"></div>
+        <span class="btn-text" data-lang="en">&#10024; Generate passport configuration</span>
+        <span class="btn-text" data-lang="fr">&#10024; Generer la configuration</span>
+      </button>
+
+    </div>
+
+    <!-- Agent name (AI mode) -->
+    <div class="kb-card">
+      <div class="kb-label"><span data-lang="en">AGENT SLUG</span><span data-lang="fr">SLUG DE L'AGENT</span></div>
+      <input class="kb-input" id="kb-agent-ai" placeholder="my-agent" oninput="KB.updateOutput()">
+    </div>
+  </div>
+
+  <!-- Manual Mode -->
+  <div class="manual-panel" id="manual-panel">
+    <div class="kb-card">
+      <div class="kb-label">
+        <span>&#9312; TEMPLATE</span>
+        <span id="kb-tpl-count" style="color:var(--fg3);font-weight:400">Loading...</span>
+      </div>
+      <div class="kb-tpl-grid" id="kb-tpl-grid">
+        <div style="color:var(--fg3);font-size:12px;font-family:var(--mono);padding:8px">Loading templates...</div>
+      </div>
+    </div>
+    <div class="kb-card">
+      <div class="kb-label">
+        <span>&#9313; RULES</span>
+        <button class="kb-addbtn" onclick="KB.addRule()">+ ADD RULE</button>
+      </div>
+      <div id="kb-rules-list"><div class="kb-empty">Select a template above</div></div>
+    </div>
+    <div class="kb-card">
+      <div class="kb-label"><span>&#9314; AGENT SLUG</span></div>
+      <input class="kb-input" id="kb-agent" placeholder="my-agent" oninput="KB.updateOutput()">
+    </div>
+  </div>
+
+</div><!-- /left -->
+
+<!-- RIGHT: Output -->
+<div class="kb-sticky">
+  <div class="kb-card" style="margin-bottom:0">
+    <div class="kb-label">
+      <span data-lang="en">GENERATED CODE</span>
+      <span data-lang="fr">CODE GENERE</span>
+    </div>
+    <div class="kb-output-wrap">
+      <div class="kb-tabs">
+        <button class="kb-tab active" onclick="KB.switchTab('python',this)">Python</button>
+        <button class="kb-tab" onclick="KB.switchTab('curl',this)">cURL</button>
+        <button class="kb-tab" onclick="KB.switchTab('json',this)">JSON</button>
+      </div>
+      <div class="kb-output" id="kb-output"># Select a template or describe your agent to generate the command</div>
+    </div>
+    <div class="kb-actions">
+      <button class="kb-copybtn" onclick="KB.copyOutput()">
+        <span data-lang="en">&#128203; COPY</span>
+        <span data-lang="fr">&#128203; COPIER</span>
+      </button>
+      <a href="/dashboard" class="kb-deploybtn">
+        <span data-lang="en">&#8594; DEPLOY</span>
+        <span data-lang="fr">&#8594; DEPLOYER</span>
+      </a>
+    </div>
+    <div class="kb-note">
+      <span data-lang="en">&#9888; Replace <code>aib_sk_...</code> with your key from <a href="/dashboard">Dashboard</a>. Free beta &mdash; all features included.</span>
+      <span data-lang="fr">&#9888; Remplacez <code>aib_sk_...</code> par votre cle depuis le <a href="/dashboard">Dashboard</a>. Beta gratuite &mdash; toutes fonctionnalites incluses.</span>
+    </div>
+  </div>
+
+  <!-- Portable Identity badge -->
+  <div style="margin-top:12px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.1);border-radius:10px;padding:14px 16px">
+    <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:1.5px;margin-bottom:8px">PORTABLE IDENTITY INCLUDED</div>
+    <div style="font-size:12px;color:var(--fg3);line-height:1.7">
+      Every generated passport includes Ed25519 signature, embedded policies, and verifiable offline identity &mdash; automatically.
+    </div>
+  </div>
+</div>
+
+</div><!-- /left -->
+</div><!-- /kb-wrap -->
+</div><!-- /w-inner -->
+</div><!-- /w-outer -->
+</div><!-- /w-section -->
+</section>
+
+<!-- WHAT IS A PASSPORT -->
+<section style="padding:64px 0">
+<div class="w">
+  <div class="sh">
+    <span class="tag" data-lang="en" class="show">WHAT IS A PASSPORT?</span>
+    <span class="tag" data-lang="fr">QU'EST-CE QU'UN PASSEPORT?</span>
+    <h2 data-lang="en" class="show">The <em>identity layer</em> your agents are missing</h2>
+    <h2 data-lang="fr">La <em>couche d'identite</em> qui manque a vos agents</h2>
+    <p data-lang="en" class="show">Without a passport, your agent is anonymous. Nobody knows what it can do, what it's allowed to do, or what it actually did. AIB fixes that.</p>
+    <p data-lang="fr">Sans passeport, votre agent est anonyme. Personne ne sait ce qu'il peut faire, ce qu'il est autorise a faire, ni ce qu'il a fait. AIB resout ca.</p>
+  </div>
+
+  <div class="passport-explainer">
+    <div class="pe-card identity">
+      <div class="pe-icon">&#127903;</div>
+      <div class="pe-title" data-lang="en" class="show">Cryptographic Identity</div>
+      <div class="pe-title" data-lang="fr">Identite cryptographique</div>
+      <div class="pe-text" data-lang="en" class="show">Every agent gets a unique URN and an Ed25519 key pair. Its identity is verifiable by any third party without calling your API &mdash; offline, forever.</div>
+      <div class="pe-text" data-lang="fr">Chaque agent obtient un URN unique et une paire de cles Ed25519. Son identite est verifiable par tout tiers sans appeler votre API &mdash; hors ligne, pour toujours.</div>
+      <div class="pe-code">urn:aib:agent:acme:invoice-bot<br>signed_by: 314eff...aa9a<br>tier: permanent</div>
+    </div>
+    <div class="pe-card policies">
+      <div class="pe-icon">&#9878;</div>
+      <div class="pe-title" data-lang="en" class="show">Embedded Policies</div>
+      <div class="pe-title" data-lang="fr">Politiques embarquees</div>
+      <div class="pe-text" data-lang="en" class="show">Policies travel with the passport &mdash; signed and tamper-proof. Rate limits, capability restrictions, approval gates: enforced before every action, not as an afterthought.</div>
+      <div class="pe-text" data-lang="fr">Les politiques voyagent avec le passeport &mdash; signees et inviolables. Limites de debit, restrictions de capacites, validations: appliquees avant chaque action.</div>
+      <div class="pe-code">rate_limit: 100/hour &#x2713;<br>deliverable_gate: &gt;500EUR &#x2713;<br>separation_of_duties &#x2713;</div>
+    </div>
+    <div class="pe-card portable">
+      <div class="pe-icon">&#9989;</div>
+      <div class="pe-title" data-lang="en" class="show">Portable &amp; Auditable</div>
+      <div class="pe-title" data-lang="fr">Portable et auditable</div>
+      <div class="pe-text" data-lang="en" class="show">Every action generates a signed receipt: who acted, what was done, when, on which data, with what authorization. Article 12 EU AI Act compliant out of the box.</div>
+      <div class="pe-text" data-lang="fr">Chaque action genere un recu signe: qui a agi, quoi, quand, sur quelles donnees, avec quelle autorisation. Conforme Article 12 EU AI Act sans configuration.</div>
+      <div class="pe-code">receipt: ed25519:7f3c9a...<br>intent: invoice_validation<br>risk_level: medium</div>
+    </div>
+  </div>
+
+  <!-- USE CASES -->
+  <div class="sh">
+    <span class="tag" data-lang="en" class="show">USE CASES</span>
+    <span class="tag" data-lang="fr">CAS D'USAGE</span>
+    <h2 data-lang="en" class="show">Any agent that <em>acts autonomously</em> needs a passport</h2>
+    <h2 data-lang="fr">Tout agent qui <em>agit de facon autonome</em> a besoin d'un passeport</h2>
+    <p data-lang="en" class="show">AI agents, RPA robots, CI/CD pipelines, chatbots &mdash; if it makes decisions, it needs an identity.</p>
+    <p data-lang="fr">Agents IA, robots RPA, pipelines CI/CD, chatbots &mdash; s'il prend des decisions, il a besoin d'une identite.</p>
+  </div>
+
+  <div class="usecases">
+    <div class="uc">
+      <div class="uc-icon">&#129504;</div>
+      <div class="uc-title" data-lang="en" class="show">AI Agents</div>
+      <div class="uc-title" data-lang="fr">Agents IA</div>
+      <div class="uc-text" data-lang="en" class="show">LangChain, CrewAI, OpenAI Agents SDK, Google ADK. Multi-agent pipelines where agents delegate to each other &mdash; every hop is traced.</div>
+      <div class="uc-text" data-lang="fr">LangChain, CrewAI, OpenAI Agents SDK, Google ADK. Pipelines multi-agents ou les agents se deleguent les taches &mdash; chaque etape est tracee.</div>
+      <span class="uc-tag medium">MCP + A2A</span>
+    </div>
+    <div class="uc">
+      <div class="uc-icon">&#129302;</div>
+      <div class="uc-title" data-lang="en" class="show">RPA Robots</div>
+      <div class="uc-title" data-lang="fr">Robots RPA</div>
+      <div class="uc-text" data-lang="en" class="show">UiPath, Automation Anywhere, Blue Prism, Power Automate. Your bots validate invoices, process HR requests, approve payments &mdash; without a verifiable identity, you can't prove what they did.</div>
+      <div class="uc-text" data-lang="fr">UiPath, Automation Anywhere, Blue Prism, Power Automate. Vos bots valident des factures, traitent des dossiers RH &mdash; sans identite verifiable, impossible de prouver ce qu'ils ont fait.</div>
+      <span class="uc-tag high">Article 12 required</span>
+    </div>
+    <div class="uc">
+      <div class="uc-icon">&#128295;</div>
+      <div class="uc-title" data-lang="en" class="show">CI/CD Agents</div>
+      <div class="uc-title" data-lang="fr">Agents CI/CD</div>
+      <div class="uc-text" data-lang="en" class="show">GitHub Actions, Jenkins, ArgoCD. Agents that deploy to production, run tests, modify infrastructure. Policy gates ensure no agent deploys without approval.</div>
+      <div class="uc-text" data-lang="fr">GitHub Actions, Jenkins, ArgoCD. Agents qui deploient en production, executent des tests, modifient l'infrastructure. Les gates de politique garantissent qu'aucun agent ne deploie sans approbation.</div>
+      <span class="uc-tag medium">separation_of_duties</span>
+    </div>
+    <div class="uc">
+      <div class="uc-icon">&#128172;</div>
+      <div class="uc-title" data-lang="en" class="show">Chatbots &amp; Copilots</div>
+      <div class="uc-title" data-lang="fr">Chatbots &amp; Copilots</div>
+      <div class="uc-text" data-lang="en" class="show">Customer-facing agents, internal copilots, support bots. If they access personal data or take actions on behalf of users, EU AI Act transparency obligations apply.</div>
+      <div class="uc-text" data-lang="fr">Agents client-facing, copilotes internes, bots de support. S'ils accdent a des donnees personnelles ou agissent pour des utilisateurs, les obligations EU AI Act s'appliquent.</div>
+      <span class="uc-tag low">Limited risk</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="w">
+    <h2 data-lang="en" class="show">Ready to <em>deploy your passport</em>?</h2>
+    <h2 data-lang="fr">Pret a <em>deployer votre passeport</em>?</h2>
+    <p data-lang="en" class="show">Get your free API key and deploy your first passport in under 2 minutes. Free during beta &mdash; no credit card required.</p>
+    <p data-lang="fr">Obtenez votre cle API gratuite et deployez votre premier passeport en moins de 2 minutes. Gratuit en beta &mdash; sans carte bancaire.</p>
+    <div class="cta-btns">
+      <a href="/dashboard" class="btn-h" data-lang="en" class="show">Get your API key &mdash; Free</a>
+      <a href="/dashboard" class="btn-h" data-lang="fr">Obtenir ma cle API &mdash; Gratuit</a>
+      <a href="/spec" class="btn-g" data-lang="en" class="show">Read the spec</a>
+      <a href="/spec" class="btn-g" data-lang="fr">Lire la specification</a>
+    </div>
+  </div>
+</section>
+
+<footer><div class="w">
+  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px;padding:48px 0 36px;border-bottom:1px solid var(--bd);align-items:start">
+    <div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div><p style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p><p style="font-weight:700;font-size:13px;margin-top:10px;color:var(--fg)">Action builds trust.</p></div>
+    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Product</h4><a href="/dashboard" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Dashboard</a><a href="/pricing" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Pricing</a><a href="/builder" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Passport Builder</a><a href="/viz" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Protocol Explorer</a></div>
+    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Frameworks</h4><a href="/frameworks" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">All Frameworks</a><a href="/frameworks#langchain" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">LangChain</a><a href="/frameworks#crewai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CrewAI</a><a href="/frameworks#openai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">OpenAI Agents</a></div>
+    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Resources</h4><a href="/blog" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Blog</a><a href="/risk" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Risk Calculator</a><a href="/spec" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">AIB Specification</a><a href="/kits" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Compliance Kits</a></div>
+    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Company</h4><a href="https://github.com/tntech-consulting/agent-identity-bridge" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">GitHub &#8599;</a><a href="https://tntech.fr" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">TNTECH &#8599;</a><a href="https://founder-tntech.netlify.app" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">About the founder &#8599;</a><a href="/cgv" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CGV</a></div>
+  </div>
+  <p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris, France &mdash; Apache 2.0</p>
+</div></footer>
+
+</main>
+<script>
+var KB = (function(){
+  var SUPA = 'https://vempwtzknixfnvysmiwo.supabase.co';
+  var ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlbXB3dHprbml4Zm52eXNtaXdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM1MTI1MjAsImV4cCI6MjA1OTA4ODUyMH0.Bkj6mCb1vu3Ei7CfV5DPClzQOMCVTzxVHpnVkFKDbuw';
+  var ICONS = {'customer-facing':'💬','internal':'⚙️','orchestration':'🔀','compliance':'⚖️','healthcare':'🏥','devops':'🔧','rag':'📚','ecommerce':'🛒'};
+  var RULE_DEFS = {
+    rate_limit:{label:'Rate Limit',cfg:{max_per_hour:100}},
+    capability_required:{label:'Capability Required',cfg:{capabilities:'data_read'}},
+    capability_limit:{label:'Capability Limit',cfg:{max_capabilities:5}},
+    deliverable_gate:{label:'Deliverable Gate',cfg:{requires_approval_above_eur:500}},
+    separation_of_duties:{label:'Separation of Duties',cfg:{no_self_approve:true}},
+    domain_block:{label:'Domain Block',cfg:{domains:'*.external.com'}},
+    domain_allow:{label:'Domain Allow',cfg:{domains:'*.company.eu'}},
+    attestation_required:{label:'Attestation Required',cfg:{all_actions:true}},
+    time_restrict:{label:'Time Restrict',cfg:{hours_utc:'08:00-18:00'}},
+    tier_restrict:{label:'Tier Restrict',cfg:{allowed_tiers:'permanent'}},
+    action_block:{label:'Action Block',cfg:{actions:'auto_deploy'}},
+    protocol_restrict:{label:'Protocol Restrict',cfg:{blocked_protocols:'anp'}}
+  };
+
+  var state = {
+    templates:[], selected:null, rules:[], tab:'python', mode:'ai',
+    // Conversation state
+    messages: [],          // [{role:'user'|'assistant', content:str}]
+    config: null,          // config générée
+    questionsLeft: [],     // questions en attente
+    conversationDone: false
+  };
+
+  // ───────────────────────────────────────────────
+  // Mode switch
+  // ───────────────────────────────────────────────
+  function setMode(m) {
+    state.mode = m;
+    document.getElementById('ai-panel').classList.toggle('show', m === 'ai');
+    document.getElementById('manual-panel').classList.toggle('show', m === 'manual');
+    document.getElementById('btn-mode-ai').classList.toggle('active', m === 'ai');
+    document.getElementById('btn-mode-ai').classList.toggle('ai', m === 'ai');
+    document.getElementById('btn-mode-manual').classList.toggle('active', m === 'manual');
+    updateOutput();
+  }
+
+  // ───────────────────────────────────────────────
+  // AI conversational mode
+  // ───────────────────────────────────────────────
+
+  var SYSTEM_PROMPT = `You are an expert AIB (Agent Identity Bridge) passport configuration assistant. Your job is to guide users through creating a complete, EU AI Act compliant agent passport through natural conversation.
+
+## Your process
+1. Understand what the agent does from the user's description
+2. If critical information is missing, ask ONE focused question at a time (never multiple at once)
+3. Once you have enough info, generate the complete configuration
+
+## Critical information you need
+- What does the agent DO exactly (actions it takes)
+- Does it affect real people directly (patients, employees, customers)?
+- Does it make autonomous decisions without human review?
+- What sector (healthcare, finance, HR, legal, e-commerce, dev tools, other)?
+- Is it operating in the EU or serving EU users?
+
+## When asking questions, ALWAYS provide 2-4 pre-filled answer options as a JSON array
+Format your response as JSON:
+{
+  "type": "question",
+  "message": "Your question here",
+  "options": ["Option A", "Option B", "Option C"]
+}
+
+## When you have enough information, generate the config:
+{
+  "type": "config",
+  "message": "Brief explanation of why these choices",
+  "config": {
+    "agent_slug": "kebab-case-name",
+    "protocols": ["mcp", "a2a"],
+    "capabilities": ["cap1", "cap2"],
+    "tier": "permanent",
+    "ttl_days": 365,
+    "policies": [
+      {"rule_type": "rate_limit", "config": {"max_per_hour": 100}, "severity": "block", "reason": "why"}
+    ]
+  },
+  "eu_ai_act": "Which articles apply and why",
+  "risk_level": "low|medium|high|critical",
+  "missing_fields": []
+}
+
+## If config is generated but user wants to modify something:
+{
+  "type": "update",
+  "message": "What changed and why",
+  "config": { ...updated full config... }
+}
+
+Available protocols: mcp, a2a, anp, ag-ui
+Available tiers: permanent, session, ephemeral
+Available rule_types: rate_limit, capability_required, capability_limit, deliverable_gate, separation_of_duties, domain_block, domain_allow, attestation_required, time_restrict, tier_restrict, action_block, protocol_restrict
+
+EU AI Act implications to detect automatically:
+- Healthcare/medical decisions → high risk → Art. 12 mandatory, Art. 14 human oversight
+- Credit/finance decisions on people → high risk → attestation_required, deliverable_gate
+- HR/hiring decisions → high risk → separation_of_duties
+- Any agent affecting natural persons autonomously → Art. 14 human oversight flag
+- EU operations → EU AI Act applies fully
+
+ALWAYS respond with valid JSON only. No markdown. No preamble.`;
+
+  function appendMessage(role, content, options) {
+    var thread = document.getElementById('ai-thread');
+    var div = document.createElement('div');
+    div.className = 'ai-msg ai-msg-' + role;
+    var inner = '<div class="ai-msg-content">' + content + '</div>';
+    div.innerHTML = inner;
+    thread.appendChild(div);
+    thread.scrollTop = thread.scrollHeight;
+  }
+
+  function setLoading(on) {
+    var btn = document.getElementById('ai-send-btn');
+    var spinner = document.getElementById('ai-spinner');
+    var icon = document.getElementById('ai-send-icon');
+    btn.disabled = on;
+    spinner.style.display = on ? 'block' : 'none';
+    icon.style.display = on ? 'none' : 'block';
+  }
+
+  function setQuickReplies(options) {
+    var container = document.getElementById('ai-quick-replies');
+    container.innerHTML = '';
+    if (!options || !options.length) return;
+    options.forEach(function(opt) {
+      var btn = document.createElement('button');
+      btn.className = 'ai-qr-btn';
+      btn.textContent = opt;
+      btn.onclick = function() {
+        document.getElementById('ai-input').value = opt;
+        sendMessage();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function setExample(el) {
+    document.getElementById('ai-input').value = el.textContent.trim();
+    document.getElementById('ai-input').focus();
+    // Hide examples after selection
+    document.getElementById('ai-examples').style.display = 'none';
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  async function sendMessage() {
+    var inputEl = document.getElementById('ai-input');
+    var text = inputEl.value.trim();
+    if (!text) return;
+
+    // Hide examples permanently
+    document.getElementById('ai-examples').style.display = 'none';
+    // Clear quick replies
+    setQuickReplies([]);
+
+    // Show user message
+    appendMessage('user', text);
+    inputEl.value = '';
+
+    // Add to history
+    state.messages.push({role: 'user', content: text});
+
+    setLoading(true);
+
+    try {
+      // Build messages for Claude
+      var msgs = state.messages.slice();
+
+      // If config exists, add it as context for modifications
+      var systemExtra = '';
+      if (state.config) {
+        systemExtra = '\n\nCurrent passport config: ' + JSON.stringify(state.config);
+      }
+
+      var resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT + systemExtra,
+          messages: msgs
+        })
+      });
+
+      var data = await resp.json();
+      var raw = data.content && data.content[0] && data.content[0].text || '{}';
+      var clean = raw.replace(/```json|```/g, '').trim();
+      var parsed = JSON.parse(clean);
+
+      // Store assistant response in history
+      state.messages.push({role: 'assistant', content: raw});
+
+      if (parsed.type === 'question') {
+        // Claude needs more info
+        appendMessage('bot', parsed.message);
+        setQuickReplies(parsed.options || []);
+
+      } else if (parsed.type === 'config' || parsed.type === 'update') {
+        // Config ready or updated
+        state.config = parsed.config;
+        state.selected = {
+          slug: parsed.config.agent_slug,
+          protocols: parsed.config.protocols || ['mcp', 'a2a'],
+          capabilities: parsed.config.capabilities || [],
+          tier: parsed.config.tier || 'permanent',
+          ttl_days: parsed.config.ttl_days || 365
+        };
+        state.rules = (parsed.config.policies || []).map(function(p) {
+          return {type: p.rule_type, cfg: p.config, severity: p.severity || 'block', reason: p.reason || ''};
+        });
+
+        // Set slug
+        var slugEl = document.getElementById('kb-agent-ai');
+        if (slugEl && !slugEl.value) slugEl.value = parsed.config.agent_slug || 'my-agent';
+
+        // Show confirmation + EU AI Act info
+        var msgHtml = parsed.message;
+        if (parsed.eu_ai_act) {
+          msgHtml += '<div class="ai-act-note">&#9878; ' + parsed.eu_ai_act + '</div>';
+        }
+        if (parsed.risk_level) {
+          var riskColors = {low:'var(--green)',medium:'var(--cyan)',high:'var(--orange)',critical:'var(--red)'};
+          var riskColor = riskColors[parsed.risk_level] || 'var(--fg2)';
+          msgHtml += '<div class="ai-risk-badge" style="color:' + riskColor + '">Risk: ' + parsed.risk_level.toUpperCase() + '</div>';
+        }
+        msgHtml += '<div class="ai-edit-hint">You can ask me to modify anything -- "add a stricter rate limit", "make it session-based", "add domain restriction".</div>';
+        appendMessage('bot', msgHtml);
+
+        // Render passport preview
+        renderPassportPreview(parsed.config);
+        updateOutput();
+
+      } else {
+        // Fallback -- just show message
+        appendMessage('bot', parsed.message || raw);
+      }
+
+    } catch(e) {
+      console.error('AI error:', e);
+      appendMessage('bot', 'Sorry, something went wrong. Try rephrasing your description.');
+    }
+
+    setLoading(false);
+  }
+
+  function renderPassportPreview(cfg) {
+    var preview = document.getElementById('ai-passport-preview');
+    var fields = document.getElementById('ai-passport-fields');
+    var policies = document.getElementById('ai-policies-preview');
+
+    fields.innerHTML = [
+      {k:'slug', v:cfg.agent_slug},
+      {k:'protocols', v:(cfg.protocols||[]).join(', ')},
+      {k:'capabilities', v:(cfg.capabilities||[]).join(', ')},
+      {k:'tier', v:cfg.tier},
+      {k:'ttl', v:(cfg.ttl_days||365) + ' days'}
+    ].map(function(f){
+      return '<div class="ai-field-row">' +
+        '<span class="ai-field-key">' + f.k + '</span>' +
+        '<span class="ai-field-val">' + f.v + '</span>' +
+        '</div>';
+    }).join('');
+
+    if (cfg.policies && cfg.policies.length) {
+      policies.innerHTML = '<div style="font-family:var(--mono);font-size:9px;color:var(--fg3);letter-spacing:1px;margin-bottom:8px">POLICIES (' + cfg.policies.length + ')</div>' +
+        cfg.policies.map(function(p){
+          var def = RULE_DEFS[p.rule_type] || {label:p.rule_type};
+          return '<div class="kb-rule" style="margin-bottom:6px">' +
+            '<div><div class="kb-rule-type">' + def.label + '</div>' +
+            (p.reason ? '<div class="kb-rule-cfg">' + p.reason + '</div>' : '') + '</div>' +
+            '<span style="font-family:var(--mono);font-size:9px;color:var(--' + (p.severity==='block'?'red':'orange') + ')">' + (p.severity||'block') + '</span>' +
+            '</div>';
+        }).join('');
+    }
+
+    preview.style.display = 'block';
+  }
+
+  function editPassport() {
+    // Allow user to request modifications via chat
+    document.getElementById('ai-input').value = '';
+    document.getElementById('ai-input').placeholder = 'e.g. "Change tier to session", "Add stricter rate limiting", "Remove domain restriction"...';
+    document.getElementById('ai-input').focus();
+  }
+
+  // ───────────────────────────────────────────────
+  // Manual mode
+  // ───────────────────────────────────────────────
+  function renderTemplates() {
+    var html = state.templates.map(function(t){
+      var active = state.selected && state.selected.slug === t.slug;
+      var icon = ICONS[t.category] || '📦';
+      return '<button class="kb-tpl' + (active?' active':'') + '" onclick="KB.selectTpl(this)" data-slug="' + t.slug + '">' +
+        '<div class="kb-tpl-icon">' + icon + '</div>' +
+        '<div class="kb-tpl-name">' + t.name + '</div>' +
+        '<div class="kb-tpl-proto">' + (t.protocols||[]).join(' · ') + '</div>' +
+        '</button>';
+    }).join('');
+    var el = document.getElementById('kb-tpl-grid');
+    if (el) el.innerHTML = html || '<div style="color:var(--fg3);font-size:12px">No templates</div>';
+    var ct = document.getElementById('kb-tpl-count');
+    if (ct) ct.textContent = state.templates.length + ' templates';
+  }
+
+  function selectTpl(btn) {
+    document.querySelectorAll('.kb-tpl').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var slug = btn.dataset.slug;
+    state.selected = state.templates.find(function(t){ return t.slug === slug; });
+    state.rules = (state.selected && state.selected.suggested_policies || []).map(function(p){
+      return {type:p.rule_type, cfg:p.config||{}, severity:p.severity||'block'};
+    });
+    renderRules();
+    updateOutput();
+  }
+
+  function renderRules() {
+    var el = document.getElementById('kb-rules-list');
+    if (!el) return;
+    if (!state.rules.length) {
+      el.innerHTML = '<div class="kb-empty">' + (state.selected ? 'No rules -- click ADD RULE' : 'Select a template above') + '</div>';
+      return;
+    }
+    el.innerHTML = state.rules.map(function(r, i){
+      var def = RULE_DEFS[r.type] || {label:r.type};
+      var cfg = Object.entries(r.cfg).map(function(e){ return e[0]+': '+e[1]; }).join(', ');
+      return '<div class="kb-rule">' +
+        '<div><div class="kb-rule-type">' + def.label + (r.reason?' <span style="color:var(--fg3);font-weight:400">-- '+r.reason+'</span>':'') + '</div>' +
+        '<div class="kb-rule-cfg">' + cfg + '</div></div>' +
+        '<button class="kb-rule-del" onclick="KB.removeRule('+i+')">&times;</button></div>';
+    }).join('');
+  }
+
+  function addRule() {
+    if (!state.selected) { alert('Select a template first'); return; }
+    var types = Object.keys(RULE_DEFS);
+    var existing = state.rules.map(function(r){ return r.type; });
+    var next = types.find(function(t){ return !existing.includes(t); }) || types[0];
+    state.rules.push({type:next, cfg:RULE_DEFS[next].cfg, severity:'block'});
+    renderRules();
+    updateOutput();
+  }
+
+  function removeRule(i) {
+    state.rules.splice(i, 1);
+    renderRules();
+    updateOutput();
+  }
+
+  // ───────────────────────────────────────────────
+  // Output
+  // ───────────────────────────────────────────────
+  function getSlug() {
+    var id = state.mode === 'ai' ? 'kb-agent-ai' : 'kb-agent';
+    return (document.getElementById(id)||{value:'my-agent'}).value || 'my-agent';
+  }
+
+  function buildOutputs() {
+    if (!state.selected) return null;
+    var slug = getSlug();
+    var protocols = state.selected.protocols || ['mcp','a2a'];
+    var capabilities = state.selected.capabilities || [];
+    var tier = state.selected.tier || 'permanent';
+    var ttl = state.selected.ttl_days || 365;
+    var base = SUPA + '/functions/v1';
+
+    var py = [
+      'from aib import AIBCloud',
+      '',
+      '# pip install agent-identity-bridge',
+      '# Get your API key at aib-tech.fr/dashboard',
+      '',
+      'client = AIBCloud(api_key="aib_sk_...")',
+      '',
+      '# 1. Create agent passport (portable identity -- Ed25519 signed)',
+      'passport = client.create_passport(',
+      '    agent_slug="' + slug + '",',
+      '    protocols=' + JSON.stringify(protocols) + ',',
+      '    capabilities=' + JSON.stringify(capabilities) + ',',
+      '    tier="' + tier + '"',
+      ')',
+      'pid = passport["passport_id"]',
+      '# passport["portable_identity"]["passport_signature"]  # Ed25519 proof',
+      'print("Passport:", pid)',
+      ''
+    ];
+    if (state.rules.length) {
+      py.push('# 2. Apply policy rules (linked to passport -- portable identity level 1)');
+      state.rules.forEach(function(r){
+        py.push('client.create_policy(');
+        py.push('    rule_type="' + r.type + '",');
+        py.push('    config=' + JSON.stringify(r.cfg) + ',');
+        py.push('    passport_id=pid,');
+        py.push('    severity="' + (r.severity||'block') + '"');
+        py.push(')');
+      });
+      py.push('');
+    }
+    py.push('# 3. Verify');
+    py.push('passports = client.list_passports()');
+    py.push('print("Active passports:", passports["count"])');
+
+    var curl = [
+      '# 1. Create passport',
+      'curl -s -X POST \\',
+      '  ' + base + '/passport-create \\',
+      '  -H "x-api-key: aib_sk_..." \\',
+      '  -H "Content-Type: application/json" \\',
+      '  -d \'{"agent_slug":"'+slug+'","protocols":'+JSON.stringify(protocols)+',"capabilities":'+JSON.stringify(capabilities)+',"tier":"'+tier+'","ttl_days":'+ttl+'}\'',
+      ''
+    ];
+    state.rules.forEach(function(r,i){
+      var def = RULE_DEFS[r.type]||{label:r.type};
+      curl.push('# '+(i+2)+'. '+def.label);
+      curl.push('curl -s -X POST \\');
+      curl.push('  ' + base + '/policy-manage \\');
+      curl.push('  -H "x-api-key: aib_sk_..." \\');
+      curl.push('  -H "Content-Type: application/json" \\');
+      curl.push('  -d \'{"action":"create","rule_type":"'+r.type+'","config":'+JSON.stringify(r.cfg)+',"passport_id":"<pid>","severity":"'+(r.severity||'block')+'"}\'');
+      curl.push('');
+    });
+
+    var jsonOut = JSON.stringify({
+      agent_slug:slug, protocols:protocols, capabilities:capabilities, tier:tier, ttl_days:ttl,
+      policies: state.rules.map(function(r){ return {rule_type:r.type, config:r.cfg, severity:r.severity||'block'}; })
+    }, null, 2);
+
+    return {python:py.join('\n'), curl:curl.join('\n'), json:jsonOut};
+  }
+
+  function updateOutput() {
+    var out = buildOutputs();
+    var el = document.getElementById('kb-output');
+    if (!el) return;
+    if (!out) {
+      el.textContent = state.mode === 'ai'
+        ? '# Describe your agent above to generate configuration'
+        : '# Select a template to generate the command';
+      return;
+    }
+    el.textContent = state.tab === 'python' ? out.python : state.tab === 'curl' ? out.curl : out.json;
+  }
+
+  function switchTab(tab, btn) {
+    state.tab = tab;
+    document.querySelectorAll('.kb-tab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    updateOutput();
+  }
+
+  function copyOutput() {
+    var text = document.getElementById('kb-output').textContent;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){
+        var btn = document.querySelector('.kb-copybtn');
+        var orig = btn.innerHTML;
+        btn.innerHTML = '&#10003; COPIED';
+        btn.style.color = 'var(--green)';
+        setTimeout(function(){ btn.innerHTML = orig; btn.style.color = ''; }, 1500);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+  }
+
+  // ───────────────────────────────────────────────
+  // Init
+  // ───────────────────────────────────────────────
+  function init() {
+    fetch(SUPA + '/functions/v1/template-list', {headers:{'Authorization':'Bearer '+ANON}})
+      .then(function(r){ return r.json(); })
+      .then(function(data){ state.templates = data.templates || []; renderTemplates(); })
+      .catch(function(e){ console.error('Templates failed', e); });
+  }
+
+  return {
+    init:init, setMode:setMode, selectTpl:selectTpl, addRule:addRule, removeRule:removeRule,
+    switchTab:switchTab, copyOutput:copyOutput, updateOutput:updateOutput,
+    sendMessage:sendMessage, handleKey:handleKey, setExample:setExample, editPassport:editPassport
+  };
+})();
+
+document.addEventListener('DOMContentLoaded', KB.init);
+</script>
+<script>
+function toggleDD(b){var o=b.classList.contains('open');document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('open')});document.querySelectorAll('.dd').forEach(function(x){x.classList.remove('open')});if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open')}}
+document.addEventListener('click',function(e){if(!e.target.closest('.nav-item')){document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('open')});document.querySelectorAll('.dd').forEach(function(d){d.classList.remove('open')})}});
+function toggleMob(){var d=document.getElementById('mob-drawer'),h=document.getElementById('ham-btn');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function closeMob(){var d=document.getElementById('mob-drawer'),h=document.getElementById('ham-btn');d.classList.remove('open');h.classList.remove('open');document.body.style.overflow='';}
+function closeMobIfBg(e){if(e.target===document.getElementById('mob-drawer'))closeMob();}
+function toggleMobSub(btn){var sub=btn.nextElementSibling;var isOpen=sub.classList.contains('open');document.querySelectorAll('.mob-sub').forEach(function(s){s.classList.remove('open')});document.querySelectorAll('.mob-trigger').forEach(function(t){t.classList.remove('open')});if(!isOpen){sub.classList.add('open');btn.classList.add('open');}}
+var LANGS={en:{flag:'&#127468;&#127463;',label:'EN'},fr:{flag:'&#127467;&#127479;',label:'FR'}};
+function setLang(l){document.querySelectorAll('[data-lang]').forEach(function(e){e.classList.toggle('show',e.getAttribute('data-lang')===l)});var L=LANGS[l]||LANGS.en;document.getElementById('lang-flag').innerHTML=L.flag;document.getElementById('lang-label').textContent=L.label;Object.keys(LANGS).forEach(function(k){var o=document.getElementById('opt-'+k);if(o)o.style.color=k===l?'var(--cyan)':''});localStorage.setItem('aib-lang',l);var btn=document.getElementById('lang-toggle');if(btn){btn.classList.remove('open');var dd=btn.nextElementSibling;if(dd)dd.classList.remove('open')}}
+var sl=localStorage.getItem('aib-lang');if(sl)setLang(sl);
+</script>
+</body>
+</html>
