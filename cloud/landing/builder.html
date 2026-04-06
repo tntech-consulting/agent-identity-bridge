@@ -281,12 +281,12 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 .ai-send-btn{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:all .15s}
 .ai-send-btn:hover{opacity:.9;transform:translateY(-1px)}
 .ai-send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
 .ai-qr-btn{background:var(--bg3);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--purple);cursor:pointer;transition:.15s;font-family:var(--sans)}
 .ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
 .ai-qr-initial{background:var(--bg2);border:1px solid rgba(0,212,255,.15);color:var(--fg2);font-size:12px;padding:8px 14px;text-align:left;width:100%}
 .ai-qr-initial:hover{border-color:var(--cyan);color:var(--fg);background:var(--cyan-dim)}
-.ai-quick-replies:has(.ai-qr-initial){flex-direction:column;gap:6px;margin-top:14px}
+.ai-quick-replies:has(.ai-qr-initial){flex-direction:column;gap:6px;margin-bottom:14px}
 .ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
 .ai-passport-preview{margin-top:0}
 .ai-field-row{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
@@ -391,7 +391,10 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
     <div class="kb-card" id="ai-chat-card">
       <div class="kb-label">
         <span>&#129504; AI PASSPORT BUILDER</span>
-        <span style="color:var(--purple);font-size:9px">POWERED BY CLAUDE</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button id="ai-reset-btn" onclick="KB.resetChat()" title="Restart" style="display:none;background:none;border:1px solid var(--bd);color:var(--fg3);font-family:var(--mono);font-size:9px;padding:2px 8px;border-radius:4px;cursor:pointer;transition:.15s" onmouseover="this.style.borderColor='var(--cyan)';this.style.color='var(--cyan)'" onmouseout="this.style.borderColor='var(--bd)';this.style.color='var(--fg3)'">&#8635; RESTART</button>
+          <span style="color:var(--purple);font-size:9px">POWERED BY CLAUDE</span>
+        </div>
       </div>
 
       <!-- Messages thread -->
@@ -406,13 +409,9 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
       <!-- Input area -->
       <div class="ai-input-area" id="ai-input-area">
-        <!-- Quick examples (shown only at start) -->
-        <div class="ai-examples" id="ai-examples">
-          <span class="ai-example" onclick="KB.setExample(this)">Financial agent processing transactions &gt;500 EUR</span>
-          <span class="ai-example" onclick="KB.setExample(this)">Healthcare agent reading patient records</span>
-          <span class="ai-example" onclick="KB.setExample(this)">HR agent screening CVs and scheduling interviews</span>
-          <span class="ai-example" onclick="KB.setExample(this)">Multi-agent CI/CD orchestrator</span>
-        </div>
+        <!-- Suggestions initiales et quick-replies (au-dessus du textarea) -->
+        <div id="ai-quick-replies" class="ai-quick-replies"></div>
+        <!-- Textarea + send -->
         <div class="ai-compose">
           <textarea class="ai-textarea" id="ai-input" placeholder="Describe your agent..." rows="2" onkeydown="KB.handleKey(event)"></textarea>
           <button class="ai-send-btn" id="ai-send-btn" onclick="KB.sendMessage()">
@@ -420,8 +419,6 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
             <span id="ai-send-icon">&#10148;</span>
           </button>
         </div>
-        <!-- Quick-reply buttons (shown when Claude asks a question) -->
-        <div class="ai-quick-replies" id="ai-quick-replies"></div>
       </div>
     </div>
 
@@ -846,6 +843,10 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     // Add to history
     state.messages.push({role: 'user', content: text});
 
+    // Afficher le bouton reset apres le premier message
+    var resetBtn = document.getElementById('ai-reset-btn');
+    if (resetBtn && state.messages.length === 1) resetBtn.style.display = 'inline-flex';
+
     setLoading(true);
 
     try {
@@ -1223,10 +1224,65 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     }
   }
 
+  function resetChat() {
+    // Remettre l'état initial
+    state.messages = [];
+    state.config = null;
+    state.selected = null;
+    state.rules = [];
+
+    // Vider le thread et remettre le message de bienvenue
+    var thread = document.getElementById('ai-thread');
+    if (thread) {
+      thread.innerHTML = '<div class="ai-msg ai-msg-bot"><div class="ai-msg-content"><span data-lang="en" class="show">Describe your AI agent and I'll build a complete, EU AI Act compliant passport for it. What does your agent do?</span><span data-lang="fr">Decrivez votre agent IA et je construirai un passeport complet et conforme EU AI Act. Que fait votre agent?</span></div></div>';
+    }
+
+    // Cacher le passport preview
+    var preview = document.getElementById('ai-passport-preview');
+    if (preview) preview.style.display = 'none';
+    var slugCard = document.getElementById('kb-agent-ai');
+    if (slugCard) { slugCard.value = ''; slugCard.closest('.kb-card').style.display = 'block'; }
+
+    // Cacher le bouton reset
+    var resetBtn = document.getElementById('ai-reset-btn');
+    if (resetBtn) resetBtn.style.display = 'none';
+
+    // Remettre les suggestions initiales
+    var container = document.getElementById('ai-quick-replies');
+    if (container) {
+      container.innerHTML = '';
+      var initialSuggestions = [
+        { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
+        { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
+        { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
+        { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
+        { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
+        { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
+      ];
+      initialSuggestions.forEach(function(s) {
+        var btn = document.createElement('button');
+        btn.className = 'ai-qr-btn ai-qr-initial';
+        btn.innerHTML = s.label;
+        btn.onclick = function() {
+          document.getElementById('ai-input').value = s.value;
+          sendMessage();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    // Focus textarea
+    var input = document.getElementById('ai-input');
+    if (input) { input.value = ''; input.focus(); }
+
+    updateOutput();
+  }
+
   return {
     init:init, setMode:setMode, selectTpl:selectTpl, addRule:addRule, removeRule:removeRule,
     switchTab:switchTab, copyOutput:copyOutput, updateOutput:updateOutput,
-    sendMessage:sendMessage, handleKey:handleKey, setExample:setExample, editPassport:editPassport
+    sendMessage:sendMessage, handleKey:handleKey, setExample:setExample, editPassport:editPassport,
+    resetChat:resetChat
   };
 })();
 
