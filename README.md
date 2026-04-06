@@ -2,18 +2,18 @@
 
 **One identity. Every protocol. Full audit trail.**
 
-[![Tests](https://img.shields.io/badge/tests-1054%20passed-brightgreen)](https://github.com/tntech-consulting/agent-identity-bridge/actions)
+[![Tests](https://img.shields.io/github/actions/workflow/status/tntech-consulting/agent-identity-bridge/ci.yml?label=tests)](https://github.com/tntech-consulting/agent-identity-bridge/actions)
 [![Python](https://img.shields.io/pypi/pyversions/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
 [![License](https://img.shields.io/pypi/l/agent-identity-bridge)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
-[![Edge Functions](https://img.shields.io/badge/edge%20functions-19%20active-green)]()
+[![Edge Functions](https://img.shields.io/badge/edge%20functions-35%20deployed-green)]()
 [![Version](https://img.shields.io/pypi/v/agent-identity-bridge?label=version)](https://pypi.org/project/agent-identity-bridge/)
 
-AIB is an open-source protocol that gives AI agents a **single portable identity** across MCP (Anthropic), A2A (Google), ANP, and AG-UI — with W3C DID v1.1, Verifiable Credentials, and EU AI Act compliance built in.
+AIB is an open-source protocol that gives AI agents a **single portable identity** across MCP (Anthropic) and A2A (Google) — with Ed25519 cryptographic signing, W3C DID and Verifiable Credentials support (in development), and EU AI Act compliance built in.
 
 ## The problem
 
-Each AI protocol invented its own identity system. An agent operating across MCP + A2A + AG-UI has three separate identities with zero link between them. Cross-protocol auditing is impossible, credential management is painful, and EU AI Act compliance is a nightmare.
+Each AI protocol invented its own identity system. An agent operating across MCP and A2A has separate identities with zero link between them. Cross-protocol auditing is impossible, credential management is painful, and EU AI Act compliance is a nightmare.
 
 ## Quick start
 
@@ -36,7 +36,7 @@ from aib.cloud import AIBCloud
 
 client = AIBCloud("aib_sk_live_...")
 
-passport = client.create_passport("my-bot", protocols=["mcp", "a2a", "ag_ui"])
+passport = client.create_passport("my-bot", protocols=["mcp", "a2a"])
 mcp_card = client.translate(a2a_card, "a2a_agent_card", "mcp_server_card")
 client.create_policy("deliverable_gate", {"required_capabilities": ["tests_passed"]})
 client.create_webhook("https://your-app.com/hooks", events=["passport.created"])
@@ -58,30 +58,29 @@ passport, token = svc.create_passport(
 ### Framework integrations
 
 ```python
-from aib.integrations import get_langchain_tools   # LangChain
-from aib.integrations import get_crewai_tools       # CrewAI
+from aib.integrations import get_langchain_tools    # LangChain
+from aib.integrations import get_crewai_tools        # CrewAI
 from aib.integrations import get_openai_agents_tools # OpenAI Agents SDK
 ```
 
 ## Key features
 
-- **Portable identity**: One passport, valid on MCP, A2A, ANP, AG-UI
-- **Credential translation**: 6 paths across 4 formats (< 1ms)
-- **W3C DID v1.1**: did:web + did:key, resolvable by any Universal Resolver
-- **W3C Verifiable Credentials**: Ed25519Signature2020 proof, StatusList2021 revocation
-- **EU AI Act compliance**: 7 structured fields (intent, risk_level, human_oversight, etc.) in every signed receipt
-- **Policy engine**: 12 rule types — deliverable gates, separation of duties, capability enforcement
+- **Portable identity**: One passport, valid on MCP and A2A
+- **Credential translation**: Cross-protocol format conversion (MCP ↔ A2A)
+- **Ed25519 signing**: Cryptographic signatures on passports and receipts
+- **W3C DID support**: DID resolution in development
+- **W3C Verifiable Credentials**: VC issuance in development
+- **EU AI Act compliance**: Structured fields (intent, risk_level, human_oversight, etc.) in every signed receipt — covers Art. 12, 13, 14, 16
+- **Policy engine**: capability_required, deliverable_gate, attestation_required, domain_block, protocol_restrict, rate_limit
 - **Ed25519 audit trail**: Signed receipts with SHA-256 hash chaining, AES-256 encrypted keys
-- **OIDC federation**: Google, Microsoft Entra, Okta, Auth0 — bring your own IdP
-- **Webhooks**: 4 event types, HMAC-SHA256 signed payloads
-- **Rate limiting**: 30 req/min per IP (HTTP) + policy-based per org
-- **Intent inference**: LLM-powered analysis of agent behavior patterns
-- **Delegation chains**: Parent → child with scope narrowing enforcement
+- **OIDC federation**: Bring your own IdP (Google, Microsoft Entra, Okta, Auth0)
+- **Webhooks**: HMAC-SHA256 signed payloads
+- **ISO/IEC 42001:2023 alignment**: Designed in alignment with the AI Management System standard
 - **Framework integrations**: LangChain, CrewAI, OpenAI Agents SDK
 
 ## AIB Cloud — Managed SaaS
 
-19 Edge Functions, 13 API endpoints, 17 tables with RLS.
+35 Edge Functions, 13 API endpoints, 40+ tables with RLS.
 
 | Feature | Community | Pro (990€/mo) | Enterprise |
 |---------|:-:|:-:|:-:|
@@ -100,12 +99,12 @@ from aib.integrations import get_openai_agents_tools # OpenAI Agents SDK
 
 AIB is a **standard, not a product**. It bridges protocols, it doesn't compete with IAM vendors.
 
-- **MCP** connects agents to tools. AIB connects agents to *all protocols*.
-- **A2A** coordinates agents. AIB gives each agent an identity usable everywhere.
+- **MCP** connects agents to tools. AIB gives agents a portable identity usable across protocols.
+- **A2A** coordinates agents. AIB provides the cryptographic identity layer each agent carries.
 - **Okta/Entra** authenticates humans. AIB bridges their tokens to agent passports via OIDC federation.
 - **SailPoint** discovers and governs agents. AIB gives them portable identities across protocols.
 
-No European competitor exists for cross-protocol agent identity + DID + VCs + EU AI Act compliance. See [aib-tech.fr/why](https://aib-tech.fr/why) for full positioning.
+See [aib-tech.fr/why](https://aib-tech.fr/why) for full positioning.
 
 ## Contributing
 
@@ -115,7 +114,7 @@ Apache 2.0 licensed. Contributions welcome.
 git clone https://github.com/tntech-consulting/agent-identity-bridge.git
 cd agent-identity-bridge
 pip install -e ".[dev]"
-pytest  # 1,054 tests
+pytest
 ```
 
 ## Author
