@@ -76,6 +76,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 @media(max-width:768px){
   .nav-r{display:none}
   .ham{display:flex}
+  
   .hero{padding:32px 0 24px}
   .hero h1{font-size:36px;letter-spacing:-1px}
   .hero-sub{font-size:14px}
@@ -826,7 +827,7 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     }
   }
 
-  async async function sendMessage() {
+  async function sendMessage() {
     var inputEl = document.getElementById('ai-input');
     var text = inputEl.value.trim();
     if (!text) return;
