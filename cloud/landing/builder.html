@@ -1153,7 +1153,7 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
   // Init
   // ───────────────────────────────────────────────
   function init() {
-    fetch(SUPA + '/functions/v1/template-list', {headers:{'Authorization':'Bearer '+ANON}})
+    fetch(SUPA + '/functions/v1/template-list')
       .then(function(r){ return r.json(); })
       .then(function(data){ state.templates = data.templates || []; renderTemplates(); })
       .catch(function(e){ console.error('Templates failed', e); });
