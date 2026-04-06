@@ -854,25 +854,20 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
         systemExtra = '\n\nCurrent passport config: ' + JSON.stringify(state.config);
       }
 
-      var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      // Appel via Edge Function (clé Anthropic côté serveur)
+      var resp = await fetch(SUPA + '/functions/v1/passport-builder', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1000,
-          system: SYSTEM_PROMPT + systemExtra,
-          messages: msgs
+          messages: msgs,
+          system_extra: systemExtra || undefined
         })
       });
 
       var data = await resp.json();
-      var raw = data.content && data.content[0] && data.content[0].text || '{}';
-      var clean = raw.replace(/```json|```/g, '').trim();
-      var parsed = JSON.parse(clean);
+      if (data.error) throw new Error(data.error);
+      var parsed = data.parsed;
+      var raw = data.raw || JSON.stringify(parsed);
 
       // Store assistant response in history
       state.messages.push({role: 'assistant', content: raw});
