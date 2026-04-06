@@ -709,6 +709,7 @@ var KB = (function(){
     document.getElementById('btn-mode-ai').classList.toggle('ai', m === 'ai');
     document.getElementById('btn-mode-manual').classList.toggle('active', m === 'manual');
     if (m === 'manual') { renderTemplates(); }
+    if (m === 'ai' && state.messages.length === 0) { showInitialSuggestions(); }
     updateOutput();
   }
 
@@ -1192,36 +1193,39 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
   // ───────────────────────────────────────────────
   // Init
   // ───────────────────────────────────────────────
+  var INITIAL_SUGGESTIONS = [
+    { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
+    { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
+    { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
+    { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
+    { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
+    { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
+  ];
+
+  function showInitialSuggestions() {
+    var container = document.getElementById('ai-quick-replies');
+    if (!container) return;
+    container.innerHTML = '';
+    INITIAL_SUGGESTIONS.forEach(function(s) {
+      var btn = document.createElement('button');
+      btn.className = 'ai-qr-btn ai-qr-initial';
+      btn.innerHTML = s.label;
+      btn.onclick = function() {
+        document.getElementById('ai-input').value = s.value;
+        sendMessage();
+      };
+      container.appendChild(btn);
+    });
+  }
+
   function init() {
     // Charger les templates pour le mode manuel
     fetch(SUPA + '/functions/v1/template-list')
       .then(function(r){ return r.json(); })
       .then(function(data){ state.templates = data.templates || []; renderTemplates(); })
       .catch(function(e){ console.error('Templates failed', e); });
-
-    // Suggestions initiales affichees avant le premier message
-    var container = document.getElementById('ai-quick-replies');
-    if (container) {
-      container.innerHTML = '';
-      var initialSuggestions = [
-        { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
-        { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
-        { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
-        { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
-        { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
-        { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
-      ];
-      initialSuggestions.forEach(function(s) {
-        var btn = document.createElement('button');
-        btn.className = 'ai-qr-btn ai-qr-initial';
-        btn.innerHTML = s.label;
-        btn.onclick = function() {
-          document.getElementById('ai-input').value = s.value;
-          sendMessage();
-        };
-        container.appendChild(btn);
-      });
-    }
+    // Suggestions initiales
+    showInitialSuggestions();
   }
 
   function resetChat() {
@@ -1248,28 +1252,7 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     if (resetBtn) resetBtn.style.display = 'none';
 
     // Remettre les suggestions initiales
-    var container = document.getElementById('ai-quick-replies');
-    if (container) {
-      container.innerHTML = '';
-      var initialSuggestions = [
-        { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
-        { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
-        { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
-        { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
-        { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
-        { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
-      ];
-      initialSuggestions.forEach(function(s) {
-        var btn = document.createElement('button');
-        btn.className = 'ai-qr-btn ai-qr-initial';
-        btn.innerHTML = s.label;
-        btn.onclick = function() {
-          document.getElementById('ai-input').value = s.value;
-          sendMessage();
-        };
-        container.appendChild(btn);
-      });
-    }
+    showInitialSuggestions();
 
     // Focus textarea
     var input = document.getElementById('ai-input');
