@@ -408,84 +408,106 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 
       <!-- Template selector -->
       <div class="kb-card">
-        <div class="kb-label">
-          <span data-lang="en" class="show">&#127912; PASSPORT TEMPLATES</span>
-          <span data-lang="fr">&#127912; MODELES DE PASSEPORT</span>
-          <span id="kb-tpl-count" style="font-size:11px;color:var(--fg3);margin-left:auto"></span>
+        <div class="kb-label" style="display:flex;align-items:center;gap:8px">
+          <span data-lang="en" class="show">&#127912; CHOOSE A TEMPLATE</span>
+          <span data-lang="fr">&#127912; CHOISISSEZ UN MODELE</span>
+          <span id="kb-tpl-count" style="font-size:10px;color:var(--fg3);margin-left:auto;font-family:var(--mono)"></span>
         </div>
-        <div id="kb-tpl-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:8px">
-          <div style="color:var(--fg3);font-size:12px;padding:12px">
+        <div id="kb-tpl-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;margin-top:10px">
+          <div style="color:var(--fg3);font-size:12px;padding:12px;grid-column:1/-1;text-align:center">
             <span data-lang="en" class="show">Loading templates...</span>
             <span data-lang="fr">Chargement...</span>
           </div>
         </div>
       </div>
 
-      <!-- Manual form fields -->
+      <!-- Template detail (shown after selection) -->
+      <div id="tpl-detail-card" class="kb-card" style="display:none;border-color:rgba(0,212,255,.15)">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px">
+          <p id="tpl-selected-desc" style="font-size:13px;color:var(--fg2);line-height:1.55;margin:0"></p>
+          <span id="tpl-eu-badge" style="display:none;font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);white-space:nowrap;flex-shrink:0"></span>
+        </div>
+        <!-- Quick start code -->
+        <div style="margin-top:6px">
+          <div style="font-size:10px;color:var(--fg3);font-family:var(--mono);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">
+            <span data-lang="en" class="show">Quick start</span>
+            <span data-lang="fr">Demarrage rapide</span>
+          </div>
+          <pre id="tpl-code-snippet" style="background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:10px;font-size:11px;color:var(--cyan);overflow-x:auto;margin:0"></pre>
+        </div>
+      </div>
+
+      <!-- Agent config form (shown after selection) -->
       <div class="kb-card" id="manual-form-card" style="display:none">
         <div class="kb-label">
-          <span data-lang="en" class="show">&#9999; AGENT CONFIGURATION</span>
-          <span data-lang="fr">&#9999; CONFIGURATION DE L'AGENT</span>
+          <span data-lang="en" class="show">&#9999; CONFIGURE YOUR AGENT</span>
+          <span data-lang="fr">&#9999; CONFIGUREZ VOTRE AGENT</span>
         </div>
 
-        <!-- Agent name / identifier -->
+        <!-- Agent identifier -->
         <div class="kb-field">
           <div class="kb-label">
             <span data-lang="en" class="show">AGENT IDENTIFIER</span>
             <span data-lang="fr">IDENTIFIANT DE L'AGENT</span>
           </div>
           <input class="kb-input" id="kb-agent-manual"
-            placeholder="ex: invoice-processor"
+            placeholder="ex: my-invoice-agent"
             oninput="KB.updateOutput()"
             style="font-family:var(--mono)">
           <div style="font-size:11px;color:var(--fg3);margin-top:4px">
-            <span data-lang="en" class="show">Lowercase letters, numbers and hyphens only. Will become part of your agent's unique ID: <code>urn:aib:agent:your-org:<b>identifier</b></code></span>
-            <span data-lang="fr">Lettres minuscules, chiffres et tirets uniquement. Constituera l'ID unique de l'agent : <code>urn:aib:agent:votre-org:<b>identifiant</b></code></span>
+            <span data-lang="en" class="show">Lowercase, numbers, hyphens. Creates: <code style="color:var(--cyan)">urn:aib:agent:your-org:<b>identifier</b></code></span>
+            <span data-lang="fr">Minuscules, chiffres, tirets. Cree : <code style="color:var(--cyan)">urn:aib:agent:votre-org:<b>identifiant</b></code></span>
           </div>
         </div>
 
         <!-- Display name -->
-        <div class="kb-field">
+        <div class="kb-field" style="margin-top:10px">
           <div class="kb-label">
-            <span data-lang="en" class="show">DISPLAY NAME</span>
-            <span data-lang="fr">NOM AFFICHE</span>
+            <span data-lang="en" class="show">DISPLAY NAME <span style="color:var(--fg3);font-weight:400">(optional)</span></span>
+            <span data-lang="fr">NOM AFFICHE <span style="color:var(--fg3);font-weight:400">(optionnel)</span></span>
           </div>
           <input class="kb-input" id="kb-name-manual"
             placeholder="ex: Invoice Processing Agent"
             oninput="KB.updateOutput()">
         </div>
 
-        <!-- Policy rules -->
-        <div class="kb-field">
+        <!-- Security rules from template -->
+        <div class="kb-field" style="margin-top:10px">
           <div class="kb-label" style="display:flex;justify-content:space-between;align-items:center">
             <span>
               <span data-lang="en" class="show">SECURITY RULES</span>
               <span data-lang="fr">REGLES DE SECURITE</span>
             </span>
-            <button class="kb-btn-sm" onclick="KB.addRule()" style="font-size:10px;padding:3px 10px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:5px;cursor:pointer;font-family:var(--mono)">
-              + <span data-lang="en" class="show">ADD RULE</span><span data-lang="fr">AJOUTER</span>
+            <button onclick="KB.addRule()" style="font-size:10px;padding:3px 10px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:5px;cursor:pointer;font-family:var(--mono)">
+              + <span data-lang="en" class="show">ADD</span><span data-lang="fr">AJOUTER</span>
             </button>
           </div>
           <div id="kb-rules-list" style="display:flex;flex-direction:column;gap:6px;margin-top:6px">
-            <div class="kb-empty" style="color:var(--fg3);font-size:12px;padding:10px;text-align:center;border:1px dashed var(--bd);border-radius:6px">
-              <span data-lang="en" class="show">Select a template above to get started</span>
-              <span data-lang="fr">Selectionnez un modele ci-dessus pour commencer</span>
+            <div style="color:var(--fg3);font-size:12px;padding:10px;text-align:center;border:1px dashed var(--bd);border-radius:6px">
+              <span data-lang="en" class="show">Select a template above to load suggested rules</span>
+              <span data-lang="fr">Selectionnez un modele pour charger les regles suggeres</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Output preview -->
+      <!-- Passport output preview -->
       <div class="kb-card">
         <div class="kb-label">
           <span data-lang="en" class="show">&#128196; PASSPORT PREVIEW</span>
           <span data-lang="fr">&#128196; APERCU DU PASSEPORT</span>
         </div>
-        <pre id="kb-output" class="kb-pre" style="font-size:11px;max-height:280px;overflow-y:auto"># <span data-lang="en" class="show">Select a template to generate configuration</span><span data-lang="fr">Selectionnez un modele pour voir la configuration</span></pre>
-        <button class="kb-copy" onclick="KB.copyOutput()" style="margin-top:8px;width:100%;padding:8px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:11px">
-          <span data-lang="en" class="show">&#128203; COPY CONFIGURATION</span>
-          <span data-lang="fr">&#128203; COPIER LA CONFIGURATION</span>
-        </button>
+        <pre id="kb-output" class="kb-pre" style="font-size:11px;max-height:300px;overflow-y:auto;white-space:pre-wrap"># <span data-lang="en" class="show">Select a template above to generate your passport configuration</span><span data-lang="fr">Selectionnez un modele ci-dessus pour generer votre configuration</span></pre>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button onclick="KB.copyOutput()" style="flex:1;padding:8px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:11px">
+            <span data-lang="en" class="show">&#128203; COPY</span>
+            <span data-lang="fr">&#128203; COPIER</span>
+          </button>
+          <a href="/dashboard" style="flex:1;padding:8px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;border-radius:6px;font-family:var(--mono);font-size:11px;text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:600">
+            <span data-lang="en" class="show">&#9654; DEPLOY</span>
+            <span data-lang="fr">&#9654; DEPLOYER</span>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -645,6 +667,7 @@ var KB = (function(){
     document.getElementById('btn-mode-ai').classList.toggle('active', m === 'ai');
     document.getElementById('btn-mode-ai').classList.toggle('ai', m === 'ai');
     document.getElementById('btn-mode-manual').classList.toggle('active', m === 'manual');
+    if (m === 'manual') { renderTemplates(); }
     updateOutput();
   }
 
@@ -931,11 +954,48 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     btn.classList.add('active');
     var slug = btn.dataset.slug;
     state.selected = state.templates.find(function(t){ return t.slug === slug; });
-    state.rules = (state.selected && state.selected.suggested_policies || []).map(function(p){
+    // Charger les policy_presets (pas suggested_policies)
+    state.rules = (state.selected && (state.selected.policy_presets || state.selected.suggested_policies) || []).map(function(p){
       return {type:p.rule_type, cfg:p.config||{}, severity:p.severity||'block'};
     });
+    // Afficher le formulaire de config
+    var formCard = document.getElementById('manual-form-card');
+    if (formCard) formCard.style.display = 'block';
+    // Pré-remplir l'identifiant avec le slug du template
+    var agentInput = document.getElementById('kb-agent-manual');
+    if (agentInput && !agentInput.value) agentInput.value = slug;
+    // Afficher les détails du template sélectionné
+    renderTemplateDetail();
     renderRules();
     updateOutput();
+  }
+
+  function renderTemplateDetail() {
+    var t = state.selected;
+    if (!t) return;
+    // Afficher la carte de détail
+    var detailCard = document.getElementById('tpl-detail-card');
+    if (detailCard) detailCard.style.display = 'block';
+    // Formulaire de config
+    var formCard = document.getElementById('manual-form-card');
+    if (formCard) formCard.style.display = 'block';
+    // Badge EU AI Act
+    var badge = document.getElementById('tpl-eu-badge');
+    if (badge) {
+      var risk = t.eu_ai_act_risk || 'minimal';
+      var colors = {minimal:'#22c55e', limited:'#f59e0b', high:'#ef4444'};
+      badge.textContent = 'EU AI Act: ' + risk.toUpperCase();
+      badge.style.color = colors[risk] || '#22c55e';
+      badge.style.borderColor = colors[risk] ? colors[risk]+'33' : '';
+      badge.style.background = colors[risk] ? colors[risk]+'11' : '';
+      badge.style.display = 'inline-flex';
+    }
+    // Description
+    var desc = document.getElementById('tpl-selected-desc');
+    if (desc) desc.textContent = t.description || '';
+    // Code snippet
+    var snip = document.getElementById('tpl-code-snippet');
+    if (snip) snip.textContent = t.code_snippet || 'aib.passport_get_or_create("' + (t.slug||'my-agent') + '")';
   }
 
   function renderRules() {
