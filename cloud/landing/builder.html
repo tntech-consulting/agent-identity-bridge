@@ -284,6 +284,10 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 .ai-quick-replies{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .ai-qr-btn{background:var(--bg3);border:1px solid rgba(139,92,246,.25);border-radius:6px;padding:6px 12px;font-size:12px;color:var(--purple);cursor:pointer;transition:.15s;font-family:var(--sans)}
 .ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
+.ai-qr-initial{background:var(--bg2);border:1px solid rgba(0,212,255,.15);color:var(--fg2);font-size:12px;padding:8px 14px;text-align:left;width:100%}
+.ai-qr-initial:hover{border-color:var(--cyan);color:var(--fg);background:var(--cyan-dim)}
+.ai-quick-replies:has(.ai-qr-initial){flex-direction:column;gap:6px;margin-top:14px}
+.ai-qr-btn:hover{background:rgba(139,92,246,.1);border-color:var(--purple)}
 .ai-passport-preview{margin-top:0}
 .ai-field-row{display:flex;align-items:baseline;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--bd);font-size:12.5px}
 .ai-field-row:last-child{border-bottom:none}
@@ -1188,10 +1192,35 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
   // Init
   // ───────────────────────────────────────────────
   function init() {
+    // Charger les templates pour le mode manuel
     fetch(SUPA + '/functions/v1/template-list')
       .then(function(r){ return r.json(); })
       .then(function(data){ state.templates = data.templates || []; renderTemplates(); })
       .catch(function(e){ console.error('Templates failed', e); });
+
+    // Suggestions initiales affichees avant le premier message
+    var container = document.getElementById('ai-quick-replies');
+    if (container) {
+      container.innerHTML = '';
+      var initialSuggestions = [
+        { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
+        { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
+        { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
+        { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
+        { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
+        { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
+      ];
+      initialSuggestions.forEach(function(s) {
+        var btn = document.createElement('button');
+        btn.className = 'ai-qr-btn ai-qr-initial';
+        btn.innerHTML = s.label;
+        btn.onclick = function() {
+          document.getElementById('ai-input').value = s.value;
+          sendMessage();
+        };
+        container.appendChild(btn);
+      });
+    }
   }
 
   return {
