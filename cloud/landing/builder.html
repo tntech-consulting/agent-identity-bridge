@@ -27,7 +27,7 @@
   --mono:'JetBrains Mono',monospace;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.75}
+body{overflow-x:hidden;font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.75}
 a{color:var(--cyan);text-decoration:none;transition:all .2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 24px}
 button{font-family:inherit}
@@ -169,13 +169,13 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 .kb-tpl-proto{font-size:9px;color:var(--fg3);margin-top:2px}
 .kb-rule{background:var(--bg);border:1px solid var(--bd);border-radius:8px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .kb-rule-type{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--cyan)}
-.kb-rule-cfg{font-family:var(--mono);font-size:9px;color:var(--fg3);margin-top:2px}
+.kb-rule-cfg{font-family:var(--mono);font-size:9px;color:var(--fg3);margin-top:2px;word-break:break-all;overflow:hidden}
 .kb-rule-del{background:none;border:none;color:var(--fg3);font-size:16px;cursor:pointer;padding:0 4px;line-height:1;transition:.15s}
 .kb-rule-del:hover{color:#ef4444}
 .kb-empty{color:var(--fg3);font-size:12px;font-family:var(--mono);padding:14px;text-align:center;border:1px dashed var(--bd);border-radius:8px}
 .kb-addbtn{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);color:var(--cyan);font-family:var(--mono);font-size:10px;font-weight:700;padding:5px 12px;border-radius:5px;cursor:pointer;transition:.15s}
 .kb-addbtn:hover{background:rgba(0,212,255,.18)}
-.kb-input{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--mono);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.15s;box-sizing:border-box}
+.kb-input{width:100%;background:var(--bg);border:1px solid var(--bd);color:var(--fg);font-family:var(--mono);font-size:13px;padding:10px 14px;border-radius:8px;outline:none;transition:.15s;box-sizing:border-box;max-width:100%}
 .kb-input:focus{border-color:var(--cyan)}
 .kb-output-wrap{background:var(--bg);border:1px solid rgba(0,212,255,.15);border-radius:12px;overflow:hidden}
 .kb-tabs{display:flex;border-bottom:1px solid var(--bd);background:var(--bg2)}
@@ -348,7 +348,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </section>
 
 <!-- BUILDER (réutilisé depuis kits.html) -->
-<section style="padding:0 0 80px" id="kit-builder">
+<section style="padding:0 0 80px;overflow:hidden" id="kit-builder">
 <div class="w">
 <div class="sh">
   <span class="tag">KIT BUILDER</span>
@@ -466,7 +466,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
             <span data-lang="en" class="show">Quick start</span>
             <span data-lang="fr">Demarrage rapide</span>
           </div>
-          <pre id="tpl-code-snippet" style="background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:10px;font-size:11px;color:var(--cyan);overflow-x:auto;margin:0"></pre>
+          <pre id="tpl-code-snippet" style="background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:10px;font-size:11px;color:var(--cyan);overflow-x:hidden;white-space:pre-wrap;word-break:break-all;margin:0;max-width:100%"></pre>
         </div>
       </div>
 
@@ -488,8 +488,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
             oninput="KB.updateOutput()"
             style="font-family:var(--mono)">
           <div style="font-size:11px;color:var(--fg3);margin-top:4px">
-            <span data-lang="en" class="show">Lowercase, numbers, hyphens. Creates: <code style="color:var(--cyan)">urn:aib:agent:your-org:<b>identifier</b></code></span>
-            <span data-lang="fr">Minuscules, chiffres, tirets. Cree : <code style="color:var(--cyan)">urn:aib:agent:votre-org:<b>identifiant</b></code></span>
+            <span data-lang="en" class="show">Lowercase, numbers, hyphens.<br><code style="color:var(--cyan);font-size:10px;word-break:break-all">urn:aib:agent:your-org:<b>identifier</b></code></span>
+            <span data-lang="fr">Minuscules, chiffres, tirets.<br><code style="color:var(--cyan);font-size:10px;word-break:break-all">urn:aib:agent:votre-org:<b>identifiant</b></code></span>
           </div>
         </div>
 
@@ -530,7 +530,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
           <span data-lang="en" class="show">&#128196; PASSPORT PREVIEW</span>
           <span data-lang="fr">&#128196; APERCU DU PASSEPORT</span>
         </div>
-        <pre id="kb-output" class="kb-pre" style="font-size:11px;max-height:300px;overflow-y:auto;white-space:pre-wrap"># <span data-lang="en" class="show">Select a template above to generate your passport configuration</span><span data-lang="fr">Selectionnez un modele ci-dessus pour generer votre configuration</span></pre>
+        <pre id="kb-output" class="kb-pre" style="font-size:11px;max-height:300px;overflow-y:auto;overflow-x:hidden;white-space:pre-wrap;word-break:break-all"># <span data-lang="en" class="show">Select a template above to generate your passport configuration</span><span data-lang="fr">Selectionnez un modele ci-dessus pour generer votre configuration</span></pre>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button onclick="KB.copyOutput()" style="flex:1;padding:8px;background:var(--cyan-dim);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:6px;cursor:pointer;font-family:var(--mono);font-size:11px">
             <span data-lang="en" class="show">&#128203; COPY</span>
