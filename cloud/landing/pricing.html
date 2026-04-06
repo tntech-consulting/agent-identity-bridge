@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AIB — Pricing | Agent Identity Bridge</title>
+<title>AIB &mdash; Pricing | Agent Identity Bridge</title>
 <link rel="canonical" href="https://aib-tech.fr/pricing">
-<meta property="og:title" content="AIB Pricing — Community, Pro & Enterprise">
-<meta property="og:description" content="Agent Identity Bridge pricing. Free Community plan, Pro with 100K transactions/month, Enterprise with custom SLA. All features included during beta.">
+<meta property="og:title" content="AIB Pricing &mdash; Community, Pro & Enterprise">
+<meta property="og:description" content="AIB pricing: Community (free), Pro (EUR199/mo), Scale (EUR699/mo), Enterprise. EU AI Act compliance built-in. All plans free during beta.">
 <meta property="og:url" content="https://aib-tech.fr/pricing">
 <meta property="og:type" content="website">
-<meta name="description" content="AIB pricing: Community (free), Pro, and Enterprise plans. 100,000 transactions/month free during beta.">
+<meta name="description" content="AIB pricing: Community (free), Pro, and Enterprise plans. 2,000 transactions/month on Pro, 20,000 on Scale. All free during beta.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -39,7 +39,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .page-head h1{font-size:40px;font-weight:800;margin-bottom:10px;letter-spacing:-1.5px}
 .page-head h1 em{font-style:normal;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .page-head p{color:var(--fg2);font-size:17px;max-width:500px;margin:0 auto}
-.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding-bottom:100px}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding-bottom:100px}
 .plan{background:var(--glass);border:1px solid var(--bd);border-radius:16px;padding:32px 28px;backdrop-filter:blur(8px);transition:.3s;position:relative}
 .plan:hover{border-color:rgba(0,212,255,.12);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
 .plan.featured{border-color:var(--cyan-glow);box-shadow:0 0 30px rgba(0,212,255,.06)}
@@ -54,7 +54,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .plan-btn.secondary{border:1px solid var(--bd);color:var(--fg)}.plan-btn.secondary:hover{border-color:var(--cyan);color:var(--cyan)}
 .beta-banner{background:var(--cyan-dim);border:1px solid var(--cyan-glow);border-radius:10px;padding:16px 24px;text-align:center;margin-bottom:40px;font-size:14px;color:var(--cyan)}
 footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;background:rgba(10,10,26,.5)}footer p{font-size:11px;color:var(--fg3)}footer a{color:var(--fg2)}footer a:hover{color:var(--cyan)!important}
-@media(max-width:768px){.plans{grid-template-columns:1fr!important}.page-head h1{font-size:28px}}
+@media(max-width:900px){.plans{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:480px){.plans{grid-template-columns:1fr!important}}.page-head h1{font-size:28px}}
 /* ═══ HAMBURGER & MOBILE DRAWER ═══ */
 .ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:8px;transition:.2s;flex-shrink:0}
 .ham span{display:block;height:2px;background:var(--fg2);border-radius:2px;transition:all .3s}
@@ -279,54 +279,109 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="beta-banner show" data-lang="en">🎉 <strong>Beta is live!</strong> All Pro features are free during the beta period. No credit card required.</div>
 <div class="beta-banner" data-lang="fr">🎉 <strong>La beta est ouverte !</strong> Toutes les fonctionnalités Pro sont gratuites pendant la beta. Sans carte bancaire.</div>
 
-<div class="plans">
+<div class="plans" style="grid-template-columns:repeat(4,1fr)">
+
+<!-- COMMUNITY -->
 <div class="plan">
 <div class="plan-name">Community</div>
-<div data-lang="en" class="show"><div class="plan-price">Free <span>forever</span></div><div class="plan-desc">For individual developers exploring agent identity.</div></div>
-<div data-lang="fr"><div class="plan-price">Gratuit <span>pour toujours</span></div><div class="plan-desc">Pour les développeurs individuels qui découvrent l'identité des agents IA.</div></div>
+<div data-lang="en" class="show"><div class="plan-price">Free <span>forever</span></div><div class="plan-desc">For developers exploring agent identity. No credit card.</div></div>
+<div data-lang="fr"><div class="plan-price">Gratuit <span>toujours</span></div><div class="plan-desc">Pour les developpeurs qui explorent. Sans carte bancaire.</div></div>
 <ul class="plan-features">
-<li>1 000 transactions / <span data-lang="en" class="show">month</span><span data-lang="fr">mois</span></li>
-<li>10 passports</li>
-<li><span data-lang="en" class="show">3 policy rules</span><span data-lang="fr">3 règles de politique</span></li>
-<li>4 protocols (MCP, A2A, ANP, AG-UI)</li>
-<li><span data-lang="en" class="show">Ed25519 audit trail</span><span data-lang="fr">Audit Ed25519</span></li>
+<li>5 <span data-lang="en" class="show">active passports</span><span data-lang="fr">passeports actifs</span></li>
+<li>200 <span data-lang="en" class="show">transactions / month</span><span data-lang="fr">transactions / mois</span></li>
+<li>50 <span data-lang="en" class="show">credential translations / month</span><span data-lang="fr">traductions / mois</span></li>
+<li>2 webhooks</li>
+<li><span data-lang="en" class="show">7-day audit trail</span><span data-lang="fr">Audit trail 7 jours</span></li>
 <li>Python SDK</li>
+<li style="color:var(--fg3)"><span data-lang="en" class="show">Manual builder only</span><span data-lang="fr">Builder manuel uniquement</span></li>
 </ul>
 <div data-lang="en" class="show"><a href="/dashboard" class="plan-btn secondary">Get Started</a></div>
 <div data-lang="fr"><a href="/dashboard" class="plan-btn secondary">Commencer</a></div>
 </div>
 
+<!-- PRO -->
 <div class="plan featured">
 <div class="plan-name">Pro <span style="background:var(--cyan);color:var(--bg);padding:2px 8px;border-radius:10px;font-size:10px;margin-left:6px;vertical-align:middle">FREE BETA</span></div>
-<div data-lang="en" class="show"><div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">$49/mo</span> Free</div><div class="plan-desc">All Pro features included during beta. No credit card required.</div></div>
-<div data-lang="fr"><div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">49€/mois</span> Gratuit</div><div class="plan-desc">Toutes les fonctionnalités Pro incluses pendant la beta. Sans carte bancaire.</div></div>
+<div data-lang="en" class="show">
+  <div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">&#8364;199/mo</span> Free</div>
+  <div class="plan-desc">For teams with agents in production. All features during beta.</div>
+</div>
+<div data-lang="fr">
+  <div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">199&#8364;/mois</span> Gratuit</div>
+  <div class="plan-desc">Pour les equipes avec des agents en production. Toutes les fonctionnalites en beta.</div>
+</div>
 <ul class="plan-features">
-<li>100 000 transactions / <span data-lang="en" class="show">month</span><span data-lang="fr">mois</span></li>
-<li>500 passports</li>
-<li><span data-lang="en" class="show">12 policy rule types</span><span data-lang="fr">12 types de règles</span></li>
-<li><span data-lang="en" class="show">OIDC Federation</span><span data-lang="fr">Fédération OIDC</span></li>
-<li>Webhooks (HMAC-SHA256)</li>
-<li><span data-lang="en" class="show">Priority email support</span><span data-lang="fr">Support email prioritaire</span></li>
+<li>50 <span data-lang="en" class="show">active passports</span><span data-lang="fr">passeports actifs</span></li>
+<li>1 000 <span data-lang="en" class="show">transactions / month</span><span data-lang="fr">transactions / mois</span></li>
+<li>500 <span data-lang="en" class="show">translations / month</span><span data-lang="fr">traductions / mois</span></li>
+<li>5 webhooks</li>
+<li><span data-lang="en" class="show">12 policy rule types</span><span data-lang="fr">12 types de regles</span></li>
+<li><span data-lang="en" class="show">90-day audit trail</span><span data-lang="fr">Audit trail 90 jours</span></li>
+<li><span data-lang="en" class="show">&#10024; AI Passport Builder</span><span data-lang="fr">&#10024; AI Passport Builder</span></li>
+<li>OIDC Federation</li>
+<li><span data-lang="en" class="show">Email support</span><span data-lang="fr">Support email</span></li>
 </ul>
-<div data-lang="en" class="show"><a href="/dashboard" class="plan-btn primary">Start Free Beta →</a></div>
-<div data-lang="fr"><a href="/dashboard" class="plan-btn primary">Démarrer la Beta →</a></div>
+<div data-lang="en" class="show"><a href="/dashboard" class="plan-btn primary">Start Free Beta &#8594;</a></div>
+<div data-lang="fr"><a href="/dashboard" class="plan-btn primary">Demarrer la Beta &#8594;</a></div>
 </div>
 
+<!-- SCALE -->
+<div class="plan">
+<div class="plan-name">Scale <span style="background:var(--purple);color:#fff;padding:2px 8px;border-radius:10px;font-size:10px;margin-left:6px;vertical-align:middle">FREE BETA</span></div>
+<div data-lang="en" class="show">
+  <div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">&#8364;699/mo</span> Free</div>
+  <div class="plan-desc">For scaling platforms with high-volume agent operations.</div>
+</div>
+<div data-lang="fr">
+  <div class="plan-price"><span style="text-decoration:line-through;color:var(--fg3);font-size:20px">699&#8364;/mois</span> Gratuit</div>
+  <div class="plan-desc">Pour les plateformes a fort volume d'operations agents.</div>
+</div>
+<ul class="plan-features">
+<li>500 <span data-lang="en" class="show">active passports</span><span data-lang="fr">passeports actifs</span></li>
+<li>20 000 <span data-lang="en" class="show">transactions / month</span><span data-lang="fr">transactions / mois</span></li>
+<li>2 000 <span data-lang="en" class="show">translations / month</span><span data-lang="fr">traductions / mois</span></li>
+<li>20 webhooks</li>
+<li><span data-lang="en" class="show">365-day audit trail</span><span data-lang="fr">Audit trail 365 jours</span></li>
+<li><span data-lang="en" class="show">&#10024; AI Passport Builder</span><span data-lang="fr">&#10024; AI Passport Builder</span></li>
+<li><span data-lang="en" class="show">&#129504; AI Policy Suggestions</span><span data-lang="fr">&#129504; Suggestions IA de policies</span></li>
+<li>20 <span data-lang="en" class="show">team members</span><span data-lang="fr">membres d'equipe</span></li>
+<li><span data-lang="en" class="show">Priority support</span><span data-lang="fr">Support prioritaire</span></li>
+</ul>
+<div data-lang="en" class="show"><a href="/dashboard" class="plan-btn secondary">Start Free Beta &#8594;</a></div>
+<div data-lang="fr"><a href="/dashboard" class="plan-btn secondary">Demarrer la Beta &#8594;</a></div>
+</div>
+
+<!-- ENTERPRISE -->
 <div class="plan">
 <div class="plan-name">Enterprise</div>
-<div data-lang="en" class="show"><div class="plan-price">Custom</div><div class="plan-desc">For organizations with compliance and SLA requirements.</div></div>
-<div data-lang="fr"><div class="plan-price">Sur devis</div><div class="plan-desc">Pour les organisations avec des exigences de conformité et SLA.</div></div>
+<div data-lang="en" class="show"><div class="plan-price">Custom</div><div class="plan-desc">Sovereign hosting, SLA, dedicated compliance support for large organisations.</div></div>
+<div data-lang="fr"><div class="plan-price">Sur devis</div><div class="plan-desc">Hosting souverain, SLA, support conformite dedie pour grands comptes.</div></div>
 <ul class="plan-features">
-<li data-lang="en" class="show">Unlimited transactions</li><li data-lang="fr">Transactions illimitées</li>
-<li data-lang="en" class="show">Unlimited passports</li><li data-lang="fr">Passeports illimités</li>
+<li data-lang="en" class="show">Unlimited passports &amp; transactions</li><li data-lang="fr">Passeports &amp; transactions illimites</li>
+<li data-lang="en" class="show">OVHcloud / SecNumCloud hosting</li><li data-lang="fr">Hosting OVHcloud / SecNumCloud</li>
 <li data-lang="en" class="show">Guaranteed SLA</li><li data-lang="fr">SLA garanti</li>
-<li data-lang="en" class="show">Dedicated support</li><li data-lang="fr">Support dédié</li>
-<li data-lang="en" class="show">On-premise deployment</li><li data-lang="fr">Déploiement on-premise</li>
-<li data-lang="en" class="show">EU AI Act compliance</li><li data-lang="fr">Conformité AI Act UE</li>
+<li data-lang="en" class="show">730-day audit trail</li><li data-lang="fr">Audit trail 730 jours</li>
+<li data-lang="en" class="show">&#10024; AI Passport Builder + Policy Gen</li><li data-lang="fr">&#10024; AI Builder + Generation de policies</li>
+<li data-lang="en" class="show">EU AI Act dedicated support</li><li data-lang="fr">Support EU AI Act dedie</li>
+<li data-lang="en" class="show">Custom MSA &amp; DPA</li><li data-lang="fr">MSA &amp; DPA sur mesure</li>
+<li data-lang="en" class="show">Dedicated onboarding</li><li data-lang="fr">Onboarding dedie</li>
 </ul>
-<div data-lang="en" class="show"><a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contact Sales</a></div>
-<div data-lang="fr"><a href="mailto:contact@tntech.fr" class="plan-btn secondary">Contacter l'équipe</a></div>
+<div data-lang="en" class="show"><a href="mailto:contact@aib-tech.fr" class="plan-btn secondary">Contact Sales</a></div>
+<div data-lang="fr"><a href="mailto:contact@aib-tech.fr" class="plan-btn secondary">Contacter l'equipe</a></div>
 </div>
+
+</div>
+
+<!-- Webhook explanation -->
+<div style="margin-top:32px;padding:20px 24px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.08);border-radius:12px;max-width:780px;margin-left:auto;margin-right:auto">
+  <div style="font-family:var(--mono);font-size:10px;color:var(--cyan);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px">
+    <span data-lang="en" class="show">&#9889; WHAT ARE WEBHOOKS?</span>
+    <span data-lang="fr">&#9889; QU'EST-CE QU'UN WEBHOOK?</span>
+  </div>
+  <p style="font-size:13.5px;color:var(--fg2);line-height:1.7">
+    <span data-lang="en" class="show">A webhook is a URL you configure in AIB. When an event occurs &mdash; passport created, policy violated, credential translated &mdash; AIB instantly sends a signed HTTP POST to that URL. Your systems receive real-time alerts without polling the API. Example: route <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px">policy.violation</code> events to Slack or PagerDuty and be notified the moment an agent exceeds its guardrails.</span>
+    <span data-lang="fr">Un webhook est une URL que vous configurez dans AIB. Quand un evenement se produit &mdash; passport cree, policy violee, credential traduit &mdash; AIB envoie instantanement un POST HTTP signe vers cette URL. Vos systemes recoivent des alertes en temps reel sans interroger l'API. Exemple: routez les evenements <code style="background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:12px">policy.violation</code> vers Slack ou PagerDuty.</span>
+  </p>
 </div>
 </div>
 
@@ -373,7 +428,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <a href="/cgv" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CGV</a>
 </div>
 </div>
-<p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS — Paris, France — Apache 2.0</p>
+<p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris, France &mdash; Apache 2.0</p>
 </div>
 </footer>
 <script>
