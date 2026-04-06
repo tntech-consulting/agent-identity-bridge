@@ -199,13 +199,15 @@ Contact : contact@tntech.fr</p>
 <h2>Article 2 — Objet</h2>
 <p>Les présentes Conditions Générales de Vente et d'Utilisation (ci-après « CGV ») définissent les modalités d'accès et d'utilisation de la Plateforme AIB, qui fournit :</p>
 <ul>
-<li>Un service de création et gestion d'identités portables pour agents IA (« Agent Passports »)</li>
+<li>Un service de création et gestion d'identités portables pour agents IA (« Agent Passports ») signés Ed25519</li>
 <li>Un service de traduction de credentials entre les protocoles MCP, A2A, ANP et AG-UI</li>
-<li>Un moteur de règles de politique (12 types) pour le contrôle d'accès des agents</li>
-<li>Un système d'audit cryptographique basé sur Ed25519 (RFC 8032)</li>
+<li>Un moteur de règles de politique standard (12 types) et un moteur de policies déclaratives personnalisées (plans Scale et Enterprise)</li>
+<li>Un système d'audit cryptographique basé sur Ed25519 (RFC 8032) conforme EU AI Act</li>
 <li>Un système de fédération OIDC pour l'authentification via des fournisseurs d'identité tiers</li>
-<li>Un système de webhooks pour les notifications en temps réel</li>
-<li>Un SDK Python publié sur PyPI sous licence Apache 2.0</li>
+<li>Un système de webhooks HMAC pour les notifications en temps réel</li>
+<li>Un SDK Python publié sur PyPI (<code>agent-identity-bridge</code>) sous licence Apache 2.0</li>
+<li>Un endpoint de simulation de policies (<code>/policy-dryrun</code>) permettant de tester les règles avant activation</li>
+<li>Une flotte de 14 agents autonomes assurant la supervision, la génération de contenu et la sécurité de la Plateforme</li>
 </ul>
 
 <h2>Article 3 — Acceptation des CGV</h2>
@@ -231,16 +233,19 @@ Contact : contact@tntech.fr</p>
 <h2>Article 5 — Plans et tarification</h2>
 
 <h3>5.1 Plan Community (gratuit)</h3>
-<p>Le plan Community offre un accès limité à la Plateforme avec : 1 000 transactions/mois, 10 passeports, 3 règles de politique. Ce plan est fourni sans garantie de disponibilité.</p>
+<p>Le plan Community offre un accès limité à la Plateforme avec : 1 000 transactions/mois, 5 passeports, 3 règles de politique standard. Ce plan est fourni sans garantie de disponibilité et sans accès aux policies personnalisées.</p>
 
 <h3>5.2 Plan Pro</h3>
-<p>Le plan Pro offre : 100 000 transactions/mois, 500 passeports, 12 types de règles, fédération OIDC, webhooks, et support par email. Le tarif est indiqué sur la page de tarification à l'adresse aib-tech.fr/pricing.</p>
+<p>Le plan Pro offre : 25 passeports, 1 000 transactions/mois, 5 webhooks, 1 fédération OIDC, policies standard uniquement. Le tarif est indiqué sur la page de tarification (aib-tech.fr/pricing). <strong>Si l'Utilisateur Pro utilise AIB pour traiter des données personnelles de tiers, il est tenu de contacter TNTECH CONSULTING SAS pour conclure un Accord de Traitement des Données (ATD/DPA) préalablement à cet usage.</strong></p>
 
-<h3>5.3 Plan Enterprise</h3>
-<p>Le plan Enterprise est proposé sur devis et inclut : transactions illimitées, passeports illimités, SLA garanti, support dédié, et déploiement on-premise possible.</p>
+<h3>5.3 Plan Scale</h3>
+<p>Le plan Scale offre : 200 passeports, 4 000 transactions/mois, 20 webhooks, policies personnalisées déclaratives (maximum 10 actives), endpoint de dry-run, support prioritaire. <strong>L'activation du plan Scale est conditionnée à l'acceptation préalable de l'Accord de Traitement des Données (ATD/DPA) disponible à l'adresse aib-tech.fr/dpa.</strong></p>
 
-<h3>5.4 Beta</h3>
-<p>Pendant la période de beta, toutes les fonctionnalités du plan Pro sont accessibles gratuitement. TNTECH CONSULTING SAS se réserve le droit de mettre fin à la période de beta avec un préavis de 30 jours.</p>
+<h3>5.4 Plan Enterprise</h3>
+<p>Le plan Enterprise est proposé sur devis et inclut : transactions et passeports selon contrat, policies personnalisées (maximum 50 actives), SLA garanti, support dédié, hébergement souverain possible (OVHcloud SecNumCloud), et déploiement on-premise. <strong>Un ATD/DPA négocié et signé est obligatoire avant tout accès au plan Enterprise.</strong></p>
+
+<h3>5.5 Période Beta</h3>
+<p>Pendant la période de beta, les fonctionnalités des plans supérieurs sont accessibles à titre expérimental. TNTECH CONSULTING SAS se réserve le droit de mettre fin à la période de beta avec un préavis de 30 jours par email.</p>
 
 <h2>Article 6 — Inscription et compte utilisateur</h2>
 <p>L'inscription se fait via l'endpoint <code>/auth</code> avec un email et un mot de passe. Un compte organisation est automatiquement créé avec une première clé API. L'Utilisateur est responsable de la confidentialité de ses clés API. Les clés sont stockées sous forme de hash SHA-256 — la clé en clair n'est affichée qu'une seule fois à la création.</p>
@@ -268,20 +273,49 @@ Contact : contact@tntech.fr</p>
 <h3>8.3 Données utilisateur</h3>
 <p>Les données créées par l'Utilisateur (passeports, règles de politique, webhooks) restent la propriété de l'Utilisateur. TNTECH CONSULTING SAS s'engage à ne pas exploiter commercialement ces données.</p>
 
-<h2>Article 9 — Protection des données personnelles</h2>
-<p>TNTECH CONSULTING SAS collecte et traite les données personnelles suivantes :</p>
+<h2>Article 9 — Protection des données personnelles et Accord de Traitement des Données</h2>
+
+<h3>9.1 Données collectées par TNTECH CONSULTING SAS</h3>
+<p>TNTECH CONSULTING SAS collecte et traite en qualité de responsable de traitement les données personnelles suivantes pour les besoins propres de la Plateforme :</p>
 <ul>
-<li>Adresse email (inscription)</li>
-<li>Identifiants d'organisation et d'agent</li>
-<li>Logs d'utilisation de l'API (timestamps, actions, IP)</li>
+<li>Adresse email et identifiants de compte (inscription, authentification)</li>
+<li>Identifiants d'organisation et d'agent (URN, org_slug)</li>
+<li>Logs d'utilisation de l'API (timestamps, actions, hash IP anonymisée)</li>
 <li>Données de fédération OIDC (issuer, subject, audience)</li>
+<li>Données d'acceptation du DPA (date, version, email acceptant, IP — plans Scale et Enterprise)</li>
 </ul>
-<p>Ces données sont hébergées sur l'infrastructure Supabase (région eu-west-1, Irlande) conforme au RGPD. L'Utilisateur dispose d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition conformément au Règlement (UE) 2016/679 (RGPD). Contact : contact@tntech.fr.</p>
+<p>L'Utilisateur dispose d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition conformément au RGPD. Contact DPO : <strong>contact@aib-tech.fr</strong>.</p>
 
-<h2>Article 10 — Disponibilité et maintenance</h2>
-<p>TNTECH CONSULTING SAS s'efforce d'assurer une disponibilité maximale de la Plateforme. Toutefois, aucune garantie de disponibilité n'est fournie pour les plans Community et Pro. Le plan Enterprise peut inclure un SLA contractuel. La Plateforme peut être temporairement indisponible pour maintenance, mise à jour, ou force majeure.</p>
+<h3>9.2 Traitement pour le compte du Client (sous-traitance)</h3>
+<p>Lorsque l'Utilisateur déploie des agents IA traitant des données personnelles de tiers via la Plateforme AIB, TNTECH CONSULTING SAS agit en qualité de <strong>sous-traitant</strong> au sens de l'Article 28 du RGPD. Dans ce cas :</p>
+<ul>
+<li><strong>Plans Scale et Enterprise :</strong> la conclusion préalable d'un Accord de Traitement des Données (ATD/DPA v1.0) est <strong>obligatoire et constitue une condition d'accès au service</strong>. L'acceptation électronique est requise avant tout paiement.</li>
+<li><strong>Plan Pro :</strong> si l'Utilisateur traite des données personnelles de tiers, il est tenu de contacter TNTECH CONSULTING SAS à contact@aib-tech.fr pour conclure un ATD/DPA avant cet usage. L'utilisation de la Plateforme Pro sur des données de tiers sans ATD engage exclusivement la responsabilité de l'Utilisateur.</li>
+<li><strong>Plan Community :</strong> non éligible au traitement de données personnelles de tiers en production.</li>
+</ul>
 
-<h2>Article 11 — Limitation de responsabilité</h2>
+<h3>9.3 Responsabilité de la configuration des policies personnalisées</h3>
+<p>Pour les plans Scale et Enterprise, les policies déclaratives personnalisées sont configurées par l'Utilisateur sous sa seule responsabilité. TNTECH CONSULTING SAS fournit le moteur d'évaluation technique sans valider la conformité réglementaire du contenu métier des policies. <strong>L'Utilisateur est seul responsable de s'assurer que les policies qu'il définit sont conformes à la réglementation applicable à son secteur</strong> (RGPD, MAR, MDR, EU AI Act, etc.).</p>
+
+<h3>9.4 Sous-traitants ultérieurs</h3>
+<p>TNTECH CONSULTING SAS recourt aux sous-traitants ultérieurs suivants dans la fourniture du service : Supabase Inc. (infrastructure BDD, eu-west-1 Frankfurt), Resend Inc. (emails transactionnels), Anthropic PBC (IA générative pour agents autonomes AIB), Netlify Inc. (hébergement frontend), GitHub/Microsoft (dépôt de code). Ces sous-traitants sont encadrés par des Clauses Contractuelles Types (SCCs) conformément à l'Article 46(2)(c) RGPD. La liste complète figure dans le DPA disponible sur demande.</p>
+
+<h3>9.5 Hébergement et transferts</h3>
+<p>Les données sont stockées principalement dans la région AWS eu-west-1 (Frankfurt, Allemagne) via Supabase. Les transferts vers des sous-traitants établis aux États-Unis sont encadrés par des SCCs (Décision 2021/914/UE). La Plateforme est conforme aux exigences de la CNIL et du Comité Européen de la Protection des Données (CEPD).</p>
+
+<h2>Article 10 — Conformité EU AI Act</h2>
+<p>La Plateforme AIB intègre nativement les mécanismes de conformité requis par le Règlement (UE) 2024/1689 sur l'Intelligence Artificielle (EU AI Act) :</p>
+<ul>
+<li><strong>Article 12 (Journalisation) :</strong> chaque action d'agent est enregistrée avec timestamp, signature Ed25519 et hash SHA-256 dans un journal d'audit immuable</li>
+<li><strong>Article 13 (Transparence) :</strong> les champs <code>intent</code>, <code>decision_rationale</code> et <code>data_accessed</code> permettent de documenter les décisions automatisées</li>
+<li><strong>Article 14 (Supervision humaine) :</strong> le champ <code>human_oversight</code> dans chaque passeport trace la supervision humaine déclarée</li>
+</ul>
+<p>L'Utilisateur reste seul responsable de la classification de ses agents IA (Annexe I, II ou III EU AI Act) et de la complétude des informations déclarées dans les champs libres de l'API.</p>
+
+<h2>Article 11 — Disponibilité et maintenance</h2>
+<p>TNTECH CONSULTING SAS s'efforce d'assurer une disponibilité maximale de la Plateforme. Toutefois, aucune garantie de disponibilité n'est fournie pour les plans Community et Pro. Le plan Enterprise peut inclure un SLA contractuel. La Plateforme peut être temporairement indisponible pour maintenance, mise à jour, ou force majeure. Un système de monitoring automatisé (14 agents autonomes) surveille en continu la disponibilité de l'infrastructure.</p>
+
+<h2>Article 12 — Limitation de responsabilité</h2>
 <p>TNTECH CONSULTING SAS ne pourra être tenue responsable :</p>
 <ul>
 <li>Des dommages indirects, y compris perte de données, perte de chiffre d'affaires, ou préjudice d'image</li>
@@ -289,23 +323,28 @@ Contact : contact@tntech.fr</p>
 <li>Des décisions prises par les agents IA identifiés via AIB</li>
 <li>De l'indisponibilité de l'infrastructure Supabase ou Netlify</li>
 <li>De la compromission de clés API due à une négligence de l'Utilisateur</li>
+<li>D'une mauvaise configuration des policies personnalisées par l'Utilisateur (plans Scale et Enterprise)</li>
+<li>Des données illicites ou non conformes insérées par l'Utilisateur dans les champs libres de l'API (<code>intent</code>, <code>data_accessed</code>, <code>decision_rationale</code>)</li>
 </ul>
 <p>La responsabilité totale de TNTECH CONSULTING SAS est limitée au montant des sommes effectivement perçues de l'Utilisateur au cours des 12 derniers mois.</p>
 
-<h2>Article 12 — Résiliation</h2>
-<p>L'Utilisateur peut résilier son compte à tout moment en contactant contact@tntech.fr. TNTECH CONSULTING SAS peut suspendre ou résilier un compte en cas de violation des présentes CGV, avec un préavis de 15 jours sauf en cas de violation grave.</p>
-<p>En cas de résiliation, les données de l'Utilisateur sont conservées pendant 90 jours puis supprimées définitivement.</p>
+<h2>Article 13 — Résiliation</h2>
+<p>L'Utilisateur peut résilier son compte à tout moment en contactant contact@aib-tech.fr. TNTECH CONSULTING SAS peut suspendre ou résilier un compte en cas de violation des présentes CGV, avec un préavis de 15 jours sauf en cas de violation grave.</p>
+<p>En cas de résiliation, les données de l'Utilisateur sont mises à disposition pendant 30 jours (export JSON disponible sur demande) puis supprimées définitivement, à l'exception des journaux d'audit requis par l'EU AI Act pour les systèmes à haut risque (conservation 10 ans).</p>
 
-<h2>Article 13 — Modifications des CGV</h2>
-<p>TNTECH CONSULTING SAS se réserve le droit de modifier les présentes CGV. Les modifications prennent effet 30 jours après notification par email ou publication sur la Plateforme.</p>
+<h2>Article 14 — Modifications des CGV</h2>
+<p>TNTECH CONSULTING SAS se réserve le droit de modifier les présentes CGV. Les modifications prennent effet 30 jours après notification par email ou publication sur la Plateforme. En cas de modification substantielle de l'ATD/DPA, les Utilisateurs Scale et Enterprise seront invités à re-accepter le nouveau document avant expiration du délai de 30 jours.</p>
 
-<h2>Article 14 — Droit applicable et juridiction</h2>
-<p>Les présentes CGV sont soumises au droit français. En cas de litige, les parties s'engagent à rechercher une solution amiable. À défaut, les tribunaux compétents de Paris seront seuls compétents.</p>
+<h2>Article 15 — Droit applicable et juridiction</h2>
+<p>Les présentes CGV sont soumises au droit français. En cas de litige, les parties s'engagent à rechercher une solution amiable. À défaut, les tribunaux compétents de Paris seront seuls compétents. Pour toute question relative aux données personnelles, l'Utilisateur peut saisir la CNIL (www.cnil.fr).</p>
 
-<h2>Article 15 — Contact</h2>
+<h2>Article 16 — Contact</h2>
 <p><strong>TNTECH CONSULTING SAS</strong><br>
-Email : contact@tntech.fr<br>
-Site : tntech.fr<br>
+SIREN : 993 811 157 — NAF : 70.22Z<br>
+Siège social : 6 rue d'Armaille, 75017 Paris<br>
+Email : contact@aib-tech.fr<br>
+DPA/ATD : contact@aib-tech.fr (objet : « Demande DPA »)<br>
+Site : aib-tech.fr<br>
 GitHub : github.com/tntech-consulting</p>
 
 </div>
