@@ -817,7 +817,6 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     document.getElementById('ai-input').value = el.textContent.trim();
     document.getElementById('ai-input').focus();
     // Hide examples after selection
-    document.getElementById('ai-examples').style.display = 'none';
   }
 
   function handleKey(e) {
@@ -832,9 +831,7 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     var text = inputEl.value.trim();
     if (!text) return;
 
-    // Hide examples permanently
-    document.getElementById('ai-examples').style.display = 'none';
-    // Clear quick replies
+    // Effacer les suggestions initiales
     setQuickReplies([]);
 
     // Show user message
@@ -1194,12 +1191,12 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
   // Init
   // ───────────────────────────────────────────────
   var INITIAL_SUGGESTIONS = [
-    { label: '&#128181; Financial agent processing transactions', value: 'Financial agent that processes transactions autonomously' },
-    { label: '&#127973; Healthcare agent reading patient records', value: 'Healthcare agent that reads and processes patient medical records' },
-    { label: '&#128101; HR agent screening CVs automatically', value: 'HR agent that screens CVs and ranks candidates automatically' },
-    { label: '&#9881; CI/CD deployment & monitoring agent', value: 'CI/CD agent that deploys code and monitors infrastructure' },
-    { label: '&#128172; Customer support chatbot', value: 'Customer-facing chatbot that handles support requests' },
-    { label: '&#128202; Data analytics & reporting agent', value: 'Data agent that generates reports and analytics dashboards' }
+    {label:'&#128181; Financial agent processing transactions', value:'Financial agent that processes transactions autonomously'},
+    {label:'&#127973; Healthcare agent reading patient records', value:'Healthcare agent that reads and processes patient medical records'},
+    {label:'&#128101; HR agent screening CVs automatically', value:'HR agent that screens CVs and ranks candidates automatically'},
+    {label:'&#9881; CI/CD deployment & monitoring agent', value:'CI/CD agent that deploys code and monitors infrastructure'},
+    {label:'&#128172; Customer support chatbot', value:'Customer-facing chatbot that handles support requests'},
+    {label:'&#128202; Data analytics & reporting agent', value:'Data agent that generates reports and analytics dashboards'}
   ];
 
   function showInitialSuggestions() {
@@ -1219,12 +1216,10 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
   }
 
   function init() {
-    // Charger les templates pour le mode manuel
     fetch(SUPA + '/functions/v1/template-list')
       .then(function(r){ return r.json(); })
       .then(function(data){ state.templates = data.templates || []; renderTemplates(); })
-      .catch(function(e){ console.error('Templates failed', e); });
-    // Suggestions initiales
+      .catch(function(e){ console.error('Templates:', e); });
     showInitialSuggestions();
   }
 
