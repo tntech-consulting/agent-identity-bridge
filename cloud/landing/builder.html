@@ -826,7 +826,7 @@ ALWAYS respond with valid JSON only. No markdown. No preamble.`;
     }
   }
 
-  async function sendMessage() {
+  async async function sendMessage() {
     var inputEl = document.getElementById('ai-input');
     var text = inputEl.value.trim();
     if (!text) return;
