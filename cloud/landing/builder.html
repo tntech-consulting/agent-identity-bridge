@@ -306,23 +306,86 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="bg-orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 
 <nav><div class="w">
-  <a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
-  <div class="nav-r">
-    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a><a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a></div></div>
-    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;<small>Source &amp; 1,094 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;<small>pip install agent-identity-bridge</small></a></div></div>
-    <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/builder">&#127903; Passport Builder<small>Build your passport with AI</small></a><a href="/blog">Blog<small>Articles &amp; updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What's next</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a><a href="/risk">EU AI Act Calculator<small>Assess your compliance risk</small></a></div></div>
-    <div class="nav-item" style="margin-left:6px">
-      <button class="nb" id="lang-toggle" onclick="toggleDD(this)"><span id="lang-flag">&#127468;&#127463;</span> <span id="lang-label">EN</span><svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
-      <div class="dd" style="min-width:160px;right:0;left:auto"><a href="#" onclick="setLang('en');return false" id="opt-en" style="display:flex;align-items:center;gap:10px">&#127468;&#127463; <span>English</span></a><a href="#" onclick="setLang('fr');return false" id="opt-fr" style="display:flex;align-items:center;gap:10px">&#127467;&#127479; <span>Francais</span></a></div>
-    </div>
-    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
-  </div>
-  <button class="ham" id="ham-btn" onclick="toggleMob()"><span></span><span></span><span></span></button>
-</div></nav>
+<a href="/" class="logo"><div class="logo-mark">AIB</div><span class="logo-text">Agent Identity Bridge</span></a>
+<div class="nav-r">
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/usecases">Use Cases<small>Finance, health, DevOps &amp; more</small></a><a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a><a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;<small>Source &amp; 1,094 tests</small></a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;<small>pip install agent-identity-bridge</small></a></div></div>
+<div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/builder">&#127903; Passport Builder<small>Build your passport with AI</small></a><a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a><a href="/compliance">Compliance Guide<small>Finance, health &amp; legal sectors</small></a><div class="sep"></div><a href="/blog">Blog<small>Articles &amp; updates</small></a><a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a><a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a><a href="/roadmap">Roadmap<small>What&#8217;s next</small></a><a href="/status">Status<small>Platform &amp; agent health</small></a></div></div>
+<div class="nav-item" style="margin-left:6px">
+<button class="nb lang-btn" id="lang-toggle" onclick="toggleDD(this)">
+<span id="lang-flag">&#127468;&#127463;</span> <span id="lang-label">EN</span>
+<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+</button>
+<div class="dd" style="min-width:160px;right:0;left:auto">
+<a href="#" onclick="setLang('en');return false" id="opt-en" style="display:flex;align-items:center;gap:10px">&#127468;&#127463; <span>English</span></a>
+<a href="#" onclick="setLang('fr');return false" id="opt-fr" style="display:flex;align-items:center;gap:10px">&#127467;&#127479; <span>Fran&ccedil;ais</span></a>
+</div>
+</div>
+<a href="/dashboard" class="btn-cta" style="margin-left:8px">&gt; Dashboard</a>
+</div>
+<button class="ham" id="ham-btn" onclick="toggleMob()" aria-label="Menu">
+<span></span><span></span><span></span>
+</button>
+</div></div></nav>
 
-<div class="mob-drawer" id="mob-drawer" onclick="closeMobIfBg(event)"><div class="mob-panel">
-  <div class="mob-head"><span style="font-weight:700">AIB</span><button class="mob-close" onclick="closeMob()">&#10005;</button></div>
-  <div><button class="mob-trigger" onclick="toggleMobSub(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/">Overview</a><a href="/why">Why AIB</a><a href="/dashboard">Dashboard</a><a href="/pricing">Pricing</a></div></div>
+<div class="mob-drawer" id="mob-drawer" onclick="closeMobIfBg(event)">
+<div class="mob-panel">
+<div class="mob-head">
+<span style="font-family:var(--mono);font-size:12px;color:var(--cyan);font-weight:700;letter-spacing:1px">MENU</span>
+<button class="mob-close" onclick="closeMob()">&#10005;</button>
+</div>
+
+<div class="mob-section">
+<button class="mob-trigger" onclick="toggleMobSub(this)">Product <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+<div class="mob-sub">
+<a href="/">Overview<small>Platform overview</small></a>
+<a href="/why">Why AIB<small>Strengths &amp; positioning</small></a>
+<a href="/usecases">Use Cases<small>Finance, health, DevOps &amp; more</small></a>
+<a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a>
+<a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a>
+</div>
+</div>
+
+<div class="mob-sep"></div>
+
+<div class="mob-section">
+<button class="mob-trigger" onclick="toggleMobSub(this)">Developers <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+<div class="mob-sub">
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a>
+<a href="/spec">AIB Specification<small>Agent Identity Bridge standard</small></a>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;<small>Source &amp; 1,094 tests</small></a>
+<a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;<small>pip install agent-identity-bridge</small></a>
+</div>
+</div>
+
+<div class="mob-sep"></div>
+
+<div class="mob-section">
+<button class="mob-trigger" onclick="toggleMobSub(this)">Resources <svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+<div class="mob-sub">
+<a href="/builder">&#127903; Passport Builder<small>Build your passport with AI</small></a>
+<a href="/kits">Compliance Kits<small>Pre-built policy templates</small></a>
+<a href="/compliance">Compliance Guide<small>Finance, health &amp; legal</small></a>
+<a href="/blog">Blog<small>Articles &amp; updates</small></a>
+<a href="/viz">Protocol Explorer<small>Interactive diagrams</small></a>
+<a href="/frameworks">Frameworks<small>LangChain, CrewAI, OpenAI</small></a>
+<a href="/roadmap">Roadmap<small>What&#8217;s next</small></a>
+<a href="/status">Status<small>Platform &amp; agent health</small></a>
+</div>
+</div>
+
+<div class="mob-sep"></div>
+
+<div class="mob-lang">
+<button class="mob-lang-btn active" id="mob-btn-en" onclick="setLang('en')">&#127468;&#127463; EN</button>
+<button class="mob-lang-btn" id="mob-btn-fr" onclick="setLang('fr')">&#127467;&#127479; FR</button>
+</div>
+
+<a href="/dashboard" class="mob-cta">&gt; Dashboard</a>
+</div>
+</div>
+
   <div class="mob-sep"></div>
   <div><button class="mob-trigger" onclick="toggleMobSub(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/builder">&#127903; Passport Builder</a><a href="/risk">EU AI Act Calculator</a><a href="/kits">Compliance Kits</a><a href="/viz">Protocol Explorer</a></div></div>
   <div class="mob-sep"></div>
@@ -660,16 +723,56 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
   </div>
 </section>
 
-<footer><div class="w">
-  <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px;padding:48px 0 36px;border-bottom:1px solid var(--bd);align-items:start">
-    <div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div><p style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p><p style="font-weight:700;font-size:13px;margin-top:10px;color:var(--fg)">Action builds trust.</p></div>
-    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Product</h4><a href="/dashboard" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Dashboard</a><a href="/pricing" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Pricing</a><a href="/builder" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Passport Builder</a><a href="/viz" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Protocol Explorer</a></div>
-    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Frameworks</h4><a href="/frameworks" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">All Frameworks</a><a href="/frameworks#langchain" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">LangChain</a><a href="/frameworks#crewai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CrewAI</a><a href="/frameworks#openai" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">OpenAI Agents</a></div>
-    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Resources</h4><a href="/blog" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Blog</a><a href="/risk" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Risk Calculator</a><a href="/spec" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">AIB Specification</a><a href="/kits" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Compliance Kits</a></div>
-    <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Company</h4><a href="https://github.com/tntech-consulting/agent-identity-bridge" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">GitHub &#8599;</a><a href="https://tntech.fr" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">TNTECH &#8599;</a><a href="https://founder-tntech.netlify.app" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">About the founder &#8599;</a><a href="/cgv" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CGV</a></div>
-  </div>
-  <p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris, France &mdash; Apache 2.0</p>
-</div></footer>
+<footer>
+<div class="w">
+<div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px;padding:48px 0 36px;border-bottom:1px solid var(--bd);align-items:start">
+<div>
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff;flex-shrink:0">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div>
+<p style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p>
+<p style="color:var(--fg3);font-size:12px;line-height:1.5">One portable identity across every protocol. Open-source, Ed25519 signed, built in Paris.</p>
+<p style="font-weight:700;font-size:13px;margin-top:10px;color:var(--fg)">Action builds trust.</p>
+<div style="display:flex;gap:12px;margin-top:16px">
+<a href="https://github.com/tntech-consulting/agent-identity-bridge" style="color:var(--fg3);transition:.15s" title="GitHub">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+</a>
+</div>
+</div>
+<div>
+<h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Product</h4>
+<a href="/dashboard" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0;transition:.15s">Dashboard</a>
+<a href="/pricing" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Pricing</a>
+<a href="/usecases" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Use Cases</a>
+<a href="/why" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Why AIB</a>
+<a href="/status" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Status</a>
+</div>
+<div>
+<h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Developers</h4>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Quickstart</a>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Documentation &#8599;</a>
+<a href="/spec" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">AIB Specification</a>
+<a href="/frameworks" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Frameworks</a>
+<a href="https://pypi.org/project/agent-identity-bridge/" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">PyPI &#8599;</a>
+</div>
+<div>
+<h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Resources</h4>
+<a href="/builder" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Passport Builder</a>
+<a href="/kits" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Compliance Kits</a>
+<a href="/compliance" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Compliance Guide</a>
+<a href="/blog" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Blog</a>
+<a href="/roadmap" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Roadmap</a>
+<a href="/viz" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Protocol Explorer</a>
+</div>
+<div>
+<h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Company</h4>
+<a href="https://github.com/tntech-consulting/agent-identity-bridge" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">GitHub &#8599;</a>
+<a href="https://tntech.fr" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">TNTECH &#8599;</a>
+<a href="https://founder-tntech.netlify.app" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">About the founder &#8599;</a>
+<a href="/cgv" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">CGV</a>
+</div>
+</div>
+<p style="padding:20px 0;font-size:11px;color:var(--fg3);text-align:center">&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris, France &mdash; Apache 2.0</p>
+</div>
+</footer>
 
 </main>
 <script>
