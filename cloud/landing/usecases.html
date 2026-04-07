@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AIB Use Cases &mdash; Agent Identity Bridge in Production</title>
-<meta name="description" content="See how BNP Paribas, Verizon, Ramsay Health and Airbus use AIB to secure their AI agents in production &mdash; real policies, real enforcement, real audit trails.">
+<title>AIB Use Cases — Agent Identity Bridge in Production</title>
+<meta name="description" content="See how organizations across finance, healthcare, telecom and aerospace use AIB to secure their AI agents in production.">
 <link rel="canonical" href="https://aib-tech.fr/usecases">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -16,8 +16,8 @@
   --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.12);
   --blue:#3b82f6;--purple:#8b5cf6;--green:#22c55e;--amber:#f59e0b;--red:#ef4444;
   --bd:rgba(255,255,255,.05);
-  --mono:'IBM Plex Mono',monospace;
-  --sans:'Syne',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
 }
 html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
@@ -26,7 +26,7 @@ button{font-family:inherit;cursor:pointer}
 .w{max-width:1200px;margin:0 auto;padding:0 28px}
 [data-lang]{display:none}.show{display:revert!important}
 
-/* ── NAV ── */
+/* NAV */
 nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--bd)}
 nav .w{display:flex;justify-content:space-between;align-items:center}
 .logo{display:flex;align-items:center;gap:10px}
@@ -45,7 +45,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .btn-cta{background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;font-size:12px;font-weight:600;padding:8px 18px;border-radius:8px;border:none;font-family:var(--mono);transition:.2s;letter-spacing:.5px}
 .btn-cta:hover{opacity:.88;transform:translateY(-1px);color:#fff}
 
-/* ── HERO ── */
+/* HERO */
 .hero{padding:80px 0 56px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;pointer-events:none}
 .hero-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,212,255,.06) 0%,transparent 70%)}
@@ -61,7 +61,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .stat-n{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--cyan)}
 .stat-l{font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px}
 
-/* ── TABS ── */
+/* TABS */
 .tabs-section{padding:0 0 80px}
 .tabs-nav{display:flex;gap:0;border-bottom:1px solid var(--bd);margin-bottom:0;overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none}
 .tabs-nav::-webkit-scrollbar{display:none}
@@ -71,7 +71,7 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .tab-btn .sector-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .tab-panel{display:none}.tab-panel.active{display:block}
 
-/* ── USE CASE LAYOUT ── */
+/* USE CASE LAYOUT */
 .usecase{display:grid;grid-template-columns:1fr 1fr;gap:24px;padding:32px 0;align-items:start}
 .uc-info{padding-right:16px}
 .company-header{display:flex;align-items:center;gap:14px;margin-bottom:20px}
@@ -84,15 +84,8 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .constraint-icon{font-size:14px;flex-shrink:0;margin-top:1px}
 .constraint-text{font-size:12.5px;color:var(--fg2);line-height:1.5}
 .constraint-text strong{color:var(--fg);font-weight:600}
-.agents-list{display:flex;flex-direction:column;gap:6px}
-.agent-pill{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--bg3);border:1px solid var(--bd);border-radius:6px;font-family:var(--mono);font-size:11px}
-.agent-pill .agent-name{color:var(--fg2)}
-.agent-pill .agent-risk{padding:2px 8px;border-radius:3px;font-size:10px;font-weight:700;letter-spacing:.5px}
-.risk-high{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
-.risk-medium{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.15)}
-.risk-low{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.15)}
 
-/* ── TERMINAL ── */
+/* TERMINAL */
 .terminal{background:#050510;border:1px solid var(--bd);border-radius:14px;overflow:hidden;font-family:var(--mono)}
 .terminal-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
 .term-dot{width:10px;height:10px;border-radius:50%}
@@ -107,40 +100,25 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 .term-body::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:2px}
 .log-line{margin-bottom:3px;opacity:0;animation:fadeInLine .3s ease forwards}
 @keyframes fadeInLine{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
-.log-ts{color:var(--fg3)}
-.log-info{color:var(--fg2)}
-.log-ok{color:var(--green)}
-.log-warn{color:var(--amber)}
-.log-block{color:#ef4444}
-.log-key{color:var(--cyan)}
-.log-val{color:#a78bfa}
-.log-sig{color:var(--blue)}
-.log-separator{color:var(--fg3);margin:8px 0}
+.log-ts{color:var(--fg3)}.log-info{color:var(--fg2)}.log-ok{color:var(--green)}.log-warn{color:var(--amber)}.log-block{color:#ef4444}.log-key{color:var(--cyan)}.log-val{color:#a78bfa}.log-sig{color:var(--blue)}.log-separator{color:var(--fg3);margin:8px 0}
 
-/* POLICY ENFORCEMENT BADGE */
-.enforce-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;letter-spacing:.5px;margin-top:4px}
-.enforce-ok{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
-.enforce-block{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.25)}
-.enforce-warn{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2)}
-
-/* METRICS ROW */
+/* METRICS */
 .metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
 .metric-card{background:var(--bg3);border:1px solid var(--bd);border-radius:10px;padding:14px;text-align:center}
 .metric-n{font-family:var(--mono);font-size:20px;font-weight:600;margin-bottom:4px}
 .metric-l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px}
 
-/* REPLAY BUTTON */
+/* REPLAY */
 .replay-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(0,212,255,.06);border:1px solid var(--cyan-glow);color:var(--cyan);border-radius:8px;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;transition:.2s;margin-top:12px;letter-spacing:.5px}
 .replay-btn:hover{background:rgba(0,212,255,.1);color:var(--fg)}
 
-/* POLICY CHIP */
+/* POLICY CHIPS */
 .policies-active{margin-top:16px}
 .policies-active-label{font-family:var(--mono);font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
 .policy-chips{display:flex;flex-wrap:wrap;gap:6px}
 .policy-chip{font-family:var(--mono);font-size:10px;padding:3px 10px;border-radius:4px;border:1px solid;letter-spacing:.3px}
 .chip-block{color:#ef4444;border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.06)}
 .chip-warn{color:var(--amber);border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.04)}
-.chip-log{color:var(--fg3);border-color:var(--bd);background:var(--bg3)}
 
 /* CTA */
 .cta-section{padding:80px 0;text-align:center;border-top:1px solid var(--bd);position:relative}
@@ -157,9 +135,68 @@ nav .w{display:flex;justify-content:space-between;align-items:center}
 /* FOOTER */
 footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
 
+/* HAMBURGER */
+.ham{display:none;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;background:none;border:1px solid var(--bd);border-radius:8px;cursor:pointer;padding:8px;transition:.2s;flex-shrink:0}
+.ham span{display:block;height:2px;background:var(--fg2);border-radius:2px;transition:all .3s}
+.ham.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.ham.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.ham.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mob-drawer{display:none;position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.mob-drawer.open{display:block}
+.mob-panel{position:absolute;top:0;right:0;width:min(320px,85vw);height:100%;background:#0f1029;border-left:1px solid var(--bd);padding:20px 0;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.16,1,.3,1)}
+.mob-drawer.open .mob-panel{transform:translateX(0)}
+.mob-head{display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--bd);margin-bottom:8px}
+.mob-close{background:none;border:none;color:var(--fg3);font-size:20px;cursor:pointer;padding:4px;line-height:1}
+.mob-trigger{width:100%;background:none;border:none;color:var(--fg);font-family:var(--sans);font-size:14px;font-weight:600;padding:13px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:.15s}
+.mob-trigger:hover{background:rgba(255,255,255,.03);color:var(--cyan)}
+.mob-trigger svg{width:10px;height:10px;transition:transform .25s;flex-shrink:0}
+.mob-trigger.open svg{transform:rotate(180deg)}
+.mob-sub{display:none;padding:0 0 8px}
+.mob-sub.open{display:block}
+.mob-sub a{display:block;padding:9px 20px 9px 32px;color:var(--fg2);font-size:13px;transition:.15s}
+.mob-sub a:hover{color:var(--cyan);background:rgba(0,212,255,.04)}
+.mob-sub a small{display:block;color:var(--fg3);font-size:11px;margin-top:1px}
+.mob-sep{height:1px;background:var(--bd);margin:8px 20px}
+.mob-lang{display:flex;gap:8px;padding:12px 20px}
+.mob-lang-btn{flex:1;padding:9px;border:1px solid var(--bd);border-radius:8px;background:none;color:var(--fg2);font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.mob-lang-btn:hover,.mob-lang-btn.active{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-dim)}
+.mob-cta{margin:12px 20px 0;display:block;padding:13px;background:linear-gradient(135deg,var(--cyan),var(--blue));color:#fff;border-radius:10px;font-weight:700;font-size:13px;font-family:var(--mono);text-align:center}
+
 /* RESPONSIVE */
-@media(max-width:900px){.usecase{grid-template-columns:1fr}.uc-info{padding-right:0}.metrics-row{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:600px){.hero-stats{gap:20px}.metrics-row{grid-template-columns:repeat(2,1fr)}.tab-btn{padding:14px 16px;font-size:12px}}
+@media(max-width:768px){
+  .nav-r{display:none}
+  .ham{display:flex}
+  footer [style*="grid-template-columns"]{grid-template-columns:1fr 1fr!important;gap:24px!important}
+}
+@media(max-width:900px){
+  .usecase{grid-template-columns:1fr}
+  .uc-info{padding-right:0}
+  .hero h1{font-size:36px;letter-spacing:-1px}
+  .hero{padding:56px 0 40px}
+  .hero-sub{font-size:13px}
+}
+@media(max-width:600px){
+  .hero-stats{gap:16px}
+  .metrics-row{grid-template-columns:repeat(2,1fr)}
+  .tab-btn{padding:12px 14px;font-size:11px;gap:6px}
+  .tab-btn .sector-dot{width:6px;height:6px}
+  .hero h1{font-size:28px;letter-spacing:-.5px}
+  .hero-sub{font-size:12px}
+  .w{padding:0 16px}
+  .term-body{font-size:11px;min-height:240px;max-height:320px;padding:12px}
+  .company-meta h2{font-size:18px}
+  .company-icon{width:42px;height:42px;font-size:10px}
+  .constraint{padding:8px 10px}
+  .constraint-text{font-size:11.5px}
+  .cta-section{padding:56px 0}
+  .cta-btns{flex-direction:column;align-items:stretch}
+  .btn-p,.btn-s{text-align:center}
+  .policy-chips{gap:4px}
+  .policy-chip{font-size:9px;padding:2px 8px}
+  .stat-n{font-size:20px}
+  .stat-l{font-size:10px}
+  .replay-btn{font-size:10px;padding:6px 12px}
+}
 </style>
 </head>
 <body>
@@ -170,52 +207,76 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
     <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/">Overview<small>Platform overview</small></a><a href="/why">Why AIB<small>Strengths &amp; positioning</small></a><a href="/dashboard">Dashboard<small>Manage passports &amp; policies</small></a><a href="/pricing">Pricing<small>Community, Pro &amp; Enterprise</small></a></div></div>
     <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart<small>Get running in 2 minutes</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/API_REFERENCE.md" target="_blank">Documentation &#8599;<small>API reference &amp; guides</small></a><div class="sep"></div><a href="/spec">AIB Specification<small>Protocol standard</small></a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;</a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;</a></div></div>
     <div class="nav-item"><button class="nb" onclick="toggleDD(this)">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="dd"><a href="/builder">&#127903; Passport Builder<small>Build your passport with AI</small></a><a href="/usecases">&#127942; Use Cases<small>Real deployments</small></a><a href="/blog">Blog</a><a href="/viz">Protocol Explorer</a><a href="/kits">Compliance Kits</a><a href="/risk">EU AI Act Calculator</a></div></div>
-    <a href="/dashboard" class="btn-cta" style="margin-left:8px">> Dashboard</a>
+    <div class="nav-item" style="margin-left:6px">
+      <button class="nb lang-btn" id="lang-toggle" onclick="toggleDD(this)"><span id="lang-flag">&#127468;&#127463;</span> <span id="lang-label">EN</span><svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button>
+      <div class="dd" style="min-width:160px;right:0;left:auto">
+        <a href="#" onclick="setLang('en');return false" id="opt-en" style="display:flex;align-items:center;gap:10px">&#127468;&#127463; <span>English</span></a>
+        <a href="#" onclick="setLang('fr');return false" id="opt-fr" style="display:flex;align-items:center;gap:10px">&#127467;&#127479; <span>Fran&#231;ais</span></a>
+      </div>
+    </div>
+    <a href="/dashboard" class="btn-cta" style="margin-left:8px">&gt; Dashboard</a>
   </div>
+  <button class="ham" onclick="document.getElementById('mob').classList.add('open');this.classList.add('open')" aria-label="Menu"><span></span><span></span><span></span></button>
 </div></nav>
+
+<div class="mob-drawer" id="mob" onclick="if(event.target===this){this.classList.remove('open');document.querySelector('.ham').classList.remove('open')}">
+<div class="mob-panel">
+  <div class="mob-head"><span style="font-family:var(--mono);font-size:12px;color:var(--cyan);font-weight:600;letter-spacing:1px">MENU</span><button class="mob-close" onclick="document.getElementById('mob').classList.remove('open');document.querySelector('.ham').classList.remove('open')">&times;</button></div>
+  <div><button class="mob-trigger" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Product<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/">Overview</a><a href="/why">Why AIB</a><a href="/dashboard">Dashboard</a><a href="/pricing">Pricing</a></div></div>
+  <div><button class="mob-trigger" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Developers<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/QUICKSTART.md" target="_blank">Quickstart</a><a href="/spec">Specification</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" target="_blank">GitHub &#8599;</a><a href="https://pypi.org/project/agent-identity-bridge/" target="_blank">PyPI &#8599;</a></div></div>
+  <div><button class="mob-trigger" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">Resources<svg viewBox="0 0 10 10"><path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></button><div class="mob-sub"><a href="/builder">Passport Builder</a><a href="/usecases">Use Cases</a><a href="/blog">Blog</a><a href="/viz">Protocol Explorer</a><a href="/kits">Compliance Kits</a><a href="/risk">EU AI Act Calculator</a></div></div>
+  <div class="mob-sep"></div>
+  <div class="mob-lang">
+    <button class="mob-lang-btn active" id="mob-btn-en" onclick="setLang('en')">&#127468;&#127463; EN</button>
+    <button class="mob-lang-btn" id="mob-btn-fr" onclick="setLang('fr')">&#127467;&#127479; FR</button>
+  </div>
+  <a href="/dashboard" class="mob-cta">&gt; Dashboard</a>
+</div>
+</div>
 
 <main>
 
-<!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-bg"><div class="grid-overlay"></div></div>
   <div class="w">
-    <div class="hero-tag">Live Deployments</div>
-    <h1>Four industries.<br><em>One identity layer.</em></h1>
-    <p class="hero-sub">// Real constraints. Real policies. Real enforcement.<br>See how organizations across finance, healthcare, telecom &amp; aerospace use AIB to govern their AI agent fleets.</p>
-    <div class="hero-stats">
+    <div class="hero-tag show" data-lang="en">Live Deployments</div>
+    <div class="hero-tag" data-lang="fr">Cas concrets</div>
+    <h1 data-lang="en" class="show">Four industries.<br><em>One identity layer.</em></h1>
+    <h1 data-lang="fr">Quatre secteurs.<br><em>Une couche d&#8217;identit&eacute;.</em></h1>
+    <p class="hero-sub show" data-lang="en">// Real constraints. Real policies. Real enforcement.<br>See how organizations across finance, healthcare, telecom &amp; aerospace use AIB to govern their AI agent fleets.</p>
+    <p class="hero-sub" data-lang="fr">// Contraintes r&eacute;elles. Policies r&eacute;elles. Enforcement r&eacute;el.<br>D&eacute;couvrez comment des organisations en finance, sant&eacute;, t&eacute;l&eacute;com et a&eacute;rospatiale utilisent AIB pour gouverner leurs flottes d&#8217;agents IA.</p>
+    <div class="hero-stats show" data-lang="en">
       <div class="stat"><span class="stat-n">4</span><span class="stat-l">Industries</span></div>
       <div class="stat"><span class="stat-n">16+</span><span class="stat-l">Custom Policies</span></div>
       <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Declarative</span></div>
-      <div class="stat"><span class="stat-n">0</span><span class="stat-l">Admin Code Changes</span></div>
+      <div class="stat"><span class="stat-n">0</span><span class="stat-l">Code Changes</span></div>
+    </div>
+    <div class="hero-stats" data-lang="fr">
+      <div class="stat"><span class="stat-n">4</span><span class="stat-l">Secteurs</span></div>
+      <div class="stat"><span class="stat-n">16+</span><span class="stat-l">Policies sur mesure</span></div>
+      <div class="stat"><span class="stat-n">100%</span><span class="stat-l">D&eacute;claratif</span></div>
+      <div class="stat"><span class="stat-n">0</span><span class="stat-l">Changement de code</span></div>
     </div>
   </div>
 </section>
 
-<!-- ── TABS ── -->
 <section class="tabs-section">
 <div class="w">
 
-<nav class="tabs-nav">
-  <button class="tab-btn active" onclick="switchTab('finance')">
-    <span class="sector-dot" style="background:#3b82f6"></span>
-    Finance &amp; Banking
-  </button>
-  <button class="tab-btn" onclick="switchTab('health')">
-    <span class="sector-dot" style="background:#22c55e"></span>
-    Healthcare
-  </button>
-  <button class="tab-btn" onclick="switchTab('telecom')">
-    <span class="sector-dot" style="background:#8b5cf6"></span>
-    Telecom &amp; Networks
-  </button>
-  <button class="tab-btn" onclick="switchTab('aerospace')">
-    <span class="sector-dot" style="background:#f59e0b"></span>
-    Aerospace &amp; Defence
-  </button>
+<nav class="tabs-nav show" data-lang="en">
+  <button class="tab-btn active" onclick="switchTab('finance')"><span class="sector-dot" style="background:#3b82f6"></span>Finance &amp; Banking</button>
+  <button class="tab-btn" onclick="switchTab('health')"><span class="sector-dot" style="background:#22c55e"></span>Healthcare</button>
+  <button class="tab-btn" onclick="switchTab('telecom')"><span class="sector-dot" style="background:#8b5cf6"></span>Telecom &amp; Networks</button>
+  <button class="tab-btn" onclick="switchTab('aerospace')"><span class="sector-dot" style="background:#f59e0b"></span>Aerospace &amp; Defence</button>
+</nav>
+<nav class="tabs-nav" data-lang="fr">
+  <button class="tab-btn active" onclick="switchTab('finance')"><span class="sector-dot" style="background:#3b82f6"></span>Finance &amp; Banque</button>
+  <button class="tab-btn" onclick="switchTab('health')"><span class="sector-dot" style="background:#22c55e"></span>Sant&eacute;</button>
+  <button class="tab-btn" onclick="switchTab('telecom')"><span class="sector-dot" style="background:#8b5cf6"></span>T&eacute;l&eacute;com &amp; R&eacute;seaux</button>
+  <button class="tab-btn" onclick="switchTab('aerospace')"><span class="sector-dot" style="background:#f59e0b"></span>A&eacute;rospatiale &amp; D&eacute;fense</button>
 </nav>
 
-<!-- ═══ FINANCE ═══ -->
+<!-- FINANCE -->
 <div class="tab-panel active" id="tab-finance">
 <div class="usecase">
   <div class="uc-info">
@@ -223,50 +284,51 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
       <div class="company-icon" style="background:linear-gradient(135deg,#1e3a6e,#3b82f6);color:#93c5fd">BK</div>
       <div class="company-meta">
         <h2>Berkmont Capital Group</h2>
-        <div class="company-type">Investment Bank &middot; &euro;240B AUM &middot; Paris / London</div>
+        <div class="company-type show" data-lang="en">Investment Bank &middot; &euro;240B AUM &middot; Paris / London</div>
+        <div class="company-type" data-lang="fr">Banque d&#8217;investissement &middot; &euro;240Mds AUM &middot; Paris / Londres</div>
       </div>
     </div>
-    <p class="uc-desc">Berkmont operates 23 RPA agents across its securities settlement and compliance functions, processing &euro;4.2B in daily transaction volume. With MiFID II, EMIR and MAR obligations, every automated action must be traceable, timestamped, and signed &mdash; with zero tolerance for conflicts of interest between detection and reporting functions.</p>
+    <p class="uc-desc show" data-lang="en">Berkmont operates 23 RPA agents across its securities settlement and compliance functions, processing &euro;4.2B in daily transaction volume. With MiFID II, EMIR and MAR obligations, every automated action must be traceable, timestamped, and signed &mdash; with zero tolerance for conflicts of interest between detection and reporting functions.</p>
+    <p class="uc-desc" data-lang="fr">Berkmont op&egrave;re 23 agents RPA sur ses fonctions de r&egrave;glement titres et de conformit&eacute;, traitant &euro;4,2Mds de volume quotidien. Avec les obligations MiFID II, EMIR et MAR, chaque action automatis&eacute;e doit &ecirc;tre tra&ccedil;able, horodat&eacute;e et sign&eacute;e &mdash; avec z&eacute;ro tol&eacute;rance pour les conflits d&#8217;int&eacute;r&ecirc;ts.</p>
 
-    <div class="constraints">
-      <div class="constraint"><span class="constraint-icon">&#9201;</span><div class="constraint-text"><strong>T2S Market Hours</strong> &mdash; Settlement instructions blocked outside 07:00&ndash;18:00 UTC. Post-market automation freezes to prevent cascading settlement failures.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#9878;</span><div class="constraint-text"><strong>MAR Separation of Duties</strong> &mdash; No single agent can both screen for suspicious patterns AND generate regulatory reports. Article 16 MiFID II compliance.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128202;</span><div class="constraint-text"><strong>Basel III Volume Control</strong> &mdash; Max 3 automated settlement initiations per 10 minutes per agent. Excess requires human sign-off.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128274;</span><div class="constraint-text"><strong>ESMA Permanent Tier Only</strong> &mdash; Regulatory submissions (EMIR, SFTR) restricted to permanent-tier agents with verified Ed25519 identities.</div></div>
+    <div class="constraints show" data-lang="en">
+      <div class="constraint"><span class="constraint-icon">&#9201;</span><div class="constraint-text"><strong>T2S Market Hours</strong> &mdash; Settlement instructions blocked outside 07:00-18:00 UTC.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#9878;</span><div class="constraint-text"><strong>MAR Separation of Duties</strong> &mdash; No single agent can both screen for suspicious patterns AND generate regulatory reports. Article 16 MiFID II.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128202;</span><div class="constraint-text"><strong>Basel III Volume Control</strong> &mdash; Max 3 automated settlement initiations per 10 minutes per agent.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128274;</span><div class="constraint-text"><strong>ESMA Permanent Tier Only</strong> &mdash; Regulatory submissions restricted to permanent-tier agents with verified Ed25519 identities.</div></div>
+    </div>
+    <div class="constraints" data-lang="fr">
+      <div class="constraint"><span class="constraint-icon">&#9201;</span><div class="constraint-text"><strong>Horaires march&eacute; T2S</strong> &mdash; Instructions de r&egrave;glement bloqu&eacute;es hors 07h00-18h00 UTC.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#9878;</span><div class="constraint-text"><strong>S&eacute;paration MAR</strong> &mdash; Aucun agent ne peut &agrave; la fois d&eacute;tecter des patterns suspects ET g&eacute;n&eacute;rer des rapports r&eacute;glementaires. Article 16 MiFID II.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128202;</span><div class="constraint-text"><strong>Contr&ocirc;le volume B&acirc;le III</strong> &mdash; Max 3 initiations de r&egrave;glement par 10 minutes par agent.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128274;</span><div class="constraint-text"><strong>ESMA Tier Permanent</strong> &mdash; Soumissions r&eacute;glementaires r&eacute;serv&eacute;es aux agents permanents avec identit&eacute; Ed25519 v&eacute;rifi&eacute;e.</div></div>
     </div>
 
     <div class="policies-active">
-      <div class="policies-active-label">Active Custom Policies</div>
-      <div class="policy-chips">
-        <span class="policy-chip chip-block">settlement_market_hours_only</span>
-        <span class="policy-chip chip-block">mar_screening_report_separation</span>
-        <span class="policy-chip chip-block">settlement_volume_control</span>
-        <span class="policy-chip chip-block">esma_submission_permanent_only</span>
-      </div>
+      <div class="policies-active-label show" data-lang="en">Active Custom Policies</div>
+      <div class="policies-active-label" data-lang="fr">Policies actives</div>
+      <div class="policy-chips"><span class="policy-chip chip-block">settlement_market_hours_only</span><span class="policy-chip chip-block">mar_screening_report_separation</span><span class="policy-chip chip-block">settlement_volume_control</span><span class="policy-chip chip-block">esma_submission_permanent_only</span></div>
     </div>
 
-    <div class="metrics-row">
+    <div class="metrics-row show" data-lang="en">
       <div class="metric-card"><div class="metric-n" style="color:var(--blue)">23</div><div class="metric-l">Active Agents</div></div>
       <div class="metric-card"><div class="metric-n" style="color:#ef4444">147</div><div class="metric-l">Blocks / Month</div></div>
       <div class="metric-card"><div class="metric-n" style="color:var(--green)">100%</div><div class="metric-l">Audit Coverage</div></div>
     </div>
-  </div>
-
-  <div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
-        <span class="term-title">aib-passport-engine &mdash; BERKMONT CAPITAL</span>
-        <span class="term-status">LIVE</span>
-      </div>
-      <div class="term-body" id="term-finance"></div>
+    <div class="metrics-row" data-lang="fr">
+      <div class="metric-card"><div class="metric-n" style="color:var(--blue)">23</div><div class="metric-l">Agents actifs</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:#ef4444">147</div><div class="metric-l">Blocages / mois</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:var(--green)">100%</div><div class="metric-l">Couverture audit</div></div>
     </div>
+  </div>
+  <div>
+    <div class="terminal"><div class="terminal-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div><span class="term-title">aib-passport-engine &mdash; BERKMONT CAPITAL</span><span class="term-status">LIVE</span></div><div class="term-body" id="term-finance"></div></div>
     <button class="replay-btn" onclick="runScenario('finance')">&#9654; Replay scenario</button>
   </div>
 </div>
 </div>
 
-<!-- ═══ HEALTHCARE ═══ -->
+<!-- HEALTHCARE -->
 <div class="tab-panel" id="tab-health">
 <div class="usecase">
   <div class="uc-info">
@@ -274,50 +336,51 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
       <div class="company-icon" style="background:linear-gradient(135deg,#064e3b,#22c55e);color:#86efac">RH</div>
       <div class="company-meta">
         <h2>Rydell Health Systems</h2>
-        <div class="company-type">Hospital Group &middot; 47 Clinics &middot; Germany / Netherlands</div>
+        <div class="company-type show" data-lang="en">Hospital Group &middot; 47 Clinics &middot; Germany / Netherlands</div>
+        <div class="company-type" data-lang="fr">Groupe hospitalier &middot; 47 cliniques &middot; Allemagne / Pays-Bas</div>
       </div>
     </div>
-    <p class="uc-desc">Rydell deploys AI agents for clinical documentation, patient triage assistance and pharmaceutical ordering. Operating under GDPR, HDS (Hébergeur de Données de Santé), and MDR (Medical Device Regulation), their agents must never access patient data without explicit consent tracing, and diagnostic assistance agents are strictly prohibited from autonomous prescription decisions.</p>
+    <p class="uc-desc show" data-lang="en">Rydell deploys AI agents for clinical documentation, patient triage assistance and pharmaceutical ordering. Under GDPR, HDS and MDR, agents must never access patient data without consent tracing, and diagnostic agents are prohibited from autonomous prescription decisions.</p>
+    <p class="uc-desc" data-lang="fr">Rydell d&eacute;ploie des agents IA pour la documentation clinique, l&#8217;assistance au triage et les commandes pharmaceutiques. Sous RGPD, HDS et MDR, les agents ne doivent jamais acc&eacute;der aux donn&eacute;es patients sans tra&ccedil;abilit&eacute; de consentement, et les agents d&#8217;aide au diagnostic n&#8217;ont pas le droit de prescrire de mani&egrave;re autonome.</p>
 
-    <div class="constraints">
-      <div class="constraint"><span class="constraint-icon">&#128101;</span><div class="constraint-text"><strong>Patient Data Isolation</strong> &mdash; Agents accessing PHI (Protected Health Information) are scoped to a single patient session. Cross-patient data access is hard-blocked at the passport level.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128138;</span><div class="constraint-text"><strong>No Autonomous Prescriptions</strong> &mdash; Any agent with <code>diagnostic_assist</code> capability is blocked from <code>prescription_create</code>. MDR Annex I safety requirement.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128336;</span><div class="constraint-text"><strong>Night-mode Restrictions</strong> &mdash; Non-emergency automated patient contact (reminders, surveys) is blocked between 22:00&ndash;07:00 local. GDPR recital 47.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#9203;</span><div class="constraint-text"><strong>Consent Verification Gate</strong> &mdash; Every PHI access requires a signed consent attestation in the receipt. Missing consent = action denied with Article 9 GDPR flag.</div></div>
+    <div class="constraints show" data-lang="en">
+      <div class="constraint"><span class="constraint-icon">&#128101;</span><div class="constraint-text"><strong>Patient Data Isolation</strong> &mdash; Agents accessing PHI are scoped to a single patient session. Cross-patient access is hard-blocked.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128138;</span><div class="constraint-text"><strong>No Autonomous Prescriptions</strong> &mdash; Any agent with <code>diagnostic_assist</code> is blocked from <code>prescription_create</code>. MDR Annex I.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128336;</span><div class="constraint-text"><strong>Night-mode Restrictions</strong> &mdash; Non-emergency patient contact blocked 22:00-07:00 local. GDPR recital 47.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#9203;</span><div class="constraint-text"><strong>Consent Verification Gate</strong> &mdash; Every PHI access requires a signed consent attestation. Missing = denied with Article 9 GDPR flag.</div></div>
+    </div>
+    <div class="constraints" data-lang="fr">
+      <div class="constraint"><span class="constraint-icon">&#128101;</span><div class="constraint-text"><strong>Isolation donn&eacute;es patient</strong> &mdash; Agents acc&eacute;dant aux DMP limit&eacute;s &agrave; une session patient. Acc&egrave;s inter-patients bloqu&eacute;.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128138;</span><div class="constraint-text"><strong>Pas de prescription autonome</strong> &mdash; Tout agent avec <code>diagnostic_assist</code> est bloqu&eacute; pour <code>prescription_create</code>. MDR Annexe I.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128336;</span><div class="constraint-text"><strong>Restrictions nocturnes</strong> &mdash; Contact patient non urgent bloqu&eacute; 22h00-07h00. RGPD consid&eacute;rant 47.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#9203;</span><div class="constraint-text"><strong>Gate de consentement</strong> &mdash; Chaque acc&egrave;s DMP requiert une attestation sign&eacute;e. Absent = refus avec flag Article 9 RGPD.</div></div>
     </div>
 
     <div class="policies-active">
-      <div class="policies-active-label">Active Custom Policies</div>
-      <div class="policy-chips">
-        <span class="policy-chip chip-block">phi_cross_patient_isolation</span>
-        <span class="policy-chip chip-block">diagnostic_prescription_separation</span>
-        <span class="policy-chip chip-block">patient_contact_night_restriction</span>
-        <span class="policy-chip chip-warn">phi_consent_attestation_gate</span>
-      </div>
+      <div class="policies-active-label show" data-lang="en">Active Custom Policies</div>
+      <div class="policies-active-label" data-lang="fr">Policies actives</div>
+      <div class="policy-chips"><span class="policy-chip chip-block">phi_cross_patient_isolation</span><span class="policy-chip chip-block">diagnostic_prescription_separation</span><span class="policy-chip chip-block">patient_contact_night_restriction</span><span class="policy-chip chip-warn">phi_consent_attestation_gate</span></div>
     </div>
 
-    <div class="metrics-row">
+    <div class="metrics-row show" data-lang="en">
       <div class="metric-card"><div class="metric-n" style="color:var(--green)">31</div><div class="metric-l">Clinical Agents</div></div>
       <div class="metric-card"><div class="metric-n" style="color:#ef4444">89</div><div class="metric-l">Blocks / Month</div></div>
       <div class="metric-card"><div class="metric-n" style="color:var(--green)">0</div><div class="metric-l">GDPR Violations</div></div>
     </div>
-  </div>
-
-  <div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
-        <span class="term-title">aib-passport-engine &mdash; RYDELL HEALTH</span>
-        <span class="term-status">LIVE</span>
-      </div>
-      <div class="term-body" id="term-health"></div>
+    <div class="metrics-row" data-lang="fr">
+      <div class="metric-card"><div class="metric-n" style="color:var(--green)">31</div><div class="metric-l">Agents cliniques</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:#ef4444">89</div><div class="metric-l">Blocages / mois</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:var(--green)">0</div><div class="metric-l">Violations RGPD</div></div>
     </div>
+  </div>
+  <div>
+    <div class="terminal"><div class="terminal-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div><span class="term-title">aib-passport-engine &mdash; RYDELL HEALTH</span><span class="term-status">LIVE</span></div><div class="term-body" id="term-health"></div></div>
     <button class="replay-btn" onclick="runScenario('health')">&#9654; Replay scenario</button>
   </div>
 </div>
 </div>
 
-<!-- ═══ TELECOM ═══ -->
+<!-- TELECOM -->
 <div class="tab-panel" id="tab-telecom">
 <div class="usecase">
   <div class="uc-info">
@@ -325,50 +388,51 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
       <div class="company-icon" style="background:linear-gradient(135deg,#2e1065,#8b5cf6);color:#c4b5fd">NX</div>
       <div class="company-meta">
         <h2>Nexara Networks</h2>
-        <div class="company-type">Telco Operator &middot; 18M Subscribers &middot; Europe</div>
+        <div class="company-type show" data-lang="en">Telco Operator &middot; 18M Subscribers &middot; Europe</div>
+        <div class="company-type" data-lang="fr">Op&eacute;rateur T&eacute;l&eacute;com &middot; 18M Abonn&eacute;s &middot; Europe</div>
       </div>
     </div>
-    <p class="uc-desc">Nexara runs AI agents for network anomaly detection, customer churn prediction, and automated billing dispute resolution. Their AI Act classification places churn prediction in &ldquo;limited risk&rdquo; (transparency obligations) and network security agents in &ldquo;high risk&rdquo; (Article 12 logging). Automated customer contact agents must respect GDPR opt-out lists and DSP2 authentication rules.</p>
+    <p class="uc-desc show" data-lang="en">Nexara runs AI agents for network anomaly detection, customer churn prediction, and automated billing dispute resolution. Churn prediction is classified &ldquo;limited risk&rdquo; and network security agents &ldquo;high risk&rdquo; under the EU AI Act (Article 12 logging).</p>
+    <p class="uc-desc" data-lang="fr">Nexara utilise des agents IA pour la d&eacute;tection d&#8217;anomalies r&eacute;seau, la pr&eacute;diction de churn et la r&eacute;solution de litiges de facturation. La pr&eacute;diction de churn est class&eacute;e &laquo; risque limit&eacute; &raquo; et les agents s&eacute;curit&eacute; r&eacute;seau &laquo; haut risque &raquo; sous l&#8217;EU AI Act (Article 12).</p>
 
-    <div class="constraints">
-      <div class="constraint"><span class="constraint-icon">&#128240;</span><div class="constraint-text"><strong>Churn Contact Throttle</strong> &mdash; Customer outreach agents max 50 automated contacts/hour. Above this threshold, a human queue manager must review. GDPR Article 21 (right to object).</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128275;</span><div class="constraint-text"><strong>Network Agent Isolation</strong> &mdash; Security scanning agents cannot access billing or CRM data. Capability chain validation prevents lateral access escalation.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128221;</span><div class="constraint-text"><strong>Dispute Resolution Limit</strong> &mdash; Automated billing refunds capped at &euro;500 per session per agent. Above this, mandatory human escalation via <code>deliverable_gate</code>.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#8987;</span><div class="constraint-text"><strong>EU AI Act Transparency</strong> &mdash; Churn prediction outputs must include a signed explanation receipt identifying which data points triggered the prediction. Article 13 obligation.</div></div>
+    <div class="constraints show" data-lang="en">
+      <div class="constraint"><span class="constraint-icon">&#128240;</span><div class="constraint-text"><strong>Churn Contact Throttle</strong> &mdash; Max 50 automated contacts/hour. Above threshold, human review required. GDPR Article 21.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128275;</span><div class="constraint-text"><strong>Network Agent Isolation</strong> &mdash; Security scanning agents cannot access billing or CRM data.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128221;</span><div class="constraint-text"><strong>Dispute Resolution Limit</strong> &mdash; Automated refunds capped at &euro;500 per session per agent.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#8987;</span><div class="constraint-text"><strong>EU AI Act Transparency</strong> &mdash; Churn predictions must include a signed explanation receipt. Article 13.</div></div>
+    </div>
+    <div class="constraints" data-lang="fr">
+      <div class="constraint"><span class="constraint-icon">&#128240;</span><div class="constraint-text"><strong>Limitation contact churn</strong> &mdash; Max 50 contacts automatis&eacute;s/heure. Au-del&agrave;, revue humaine requise. RGPD Article 21.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128275;</span><div class="constraint-text"><strong>Isolation agents r&eacute;seau</strong> &mdash; Les agents de scan s&eacute;curit&eacute; ne peuvent pas acc&eacute;der aux donn&eacute;es facturation ou CRM.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128221;</span><div class="constraint-text"><strong>Limite litiges</strong> &mdash; Remboursements automatis&eacute;s plafonn&eacute;s &agrave; &euro;500 par session par agent.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#8987;</span><div class="constraint-text"><strong>Transparence EU AI Act</strong> &mdash; Les pr&eacute;dictions de churn doivent inclure un re&ccedil;u d&#8217;explication sign&eacute;. Article 13.</div></div>
     </div>
 
     <div class="policies-active">
-      <div class="policies-active-label">Active Custom Policies</div>
-      <div class="policy-chips">
-        <span class="policy-chip chip-block">customer_contact_throttle</span>
-        <span class="policy-chip chip-block">network_billing_capability_isolation</span>
-        <span class="policy-chip chip-block">dispute_amount_gate</span>
-        <span class="policy-chip chip-warn">churn_prediction_transparency_log</span>
-      </div>
+      <div class="policies-active-label show" data-lang="en">Active Custom Policies</div>
+      <div class="policies-active-label" data-lang="fr">Policies actives</div>
+      <div class="policy-chips"><span class="policy-chip chip-block">customer_contact_throttle</span><span class="policy-chip chip-block">network_billing_capability_isolation</span><span class="policy-chip chip-block">dispute_amount_gate</span><span class="policy-chip chip-warn">churn_prediction_transparency_log</span></div>
     </div>
 
-    <div class="metrics-row">
+    <div class="metrics-row show" data-lang="en">
       <div class="metric-card"><div class="metric-n" style="color:var(--purple)">41</div><div class="metric-l">Active Agents</div></div>
       <div class="metric-card"><div class="metric-n" style="color:var(--amber)">312</div><div class="metric-l">Throttles / Month</div></div>
       <div class="metric-card"><div class="metric-n" style="color:var(--green)">Article 13</div><div class="metric-l">Compliant</div></div>
     </div>
-  </div>
-
-  <div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
-        <span class="term-title">aib-passport-engine &mdash; NEXARA NETWORKS</span>
-        <span class="term-status">LIVE</span>
-      </div>
-      <div class="term-body" id="term-telecom"></div>
+    <div class="metrics-row" data-lang="fr">
+      <div class="metric-card"><div class="metric-n" style="color:var(--purple)">41</div><div class="metric-l">Agents actifs</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:var(--amber)">312</div><div class="metric-l">Limitations / mois</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:var(--green)">Article 13</div><div class="metric-l">Conforme</div></div>
     </div>
+  </div>
+  <div>
+    <div class="terminal"><div class="terminal-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div><span class="term-title">aib-passport-engine &mdash; NEXARA NETWORKS</span><span class="term-status">LIVE</span></div><div class="term-body" id="term-telecom"></div></div>
     <button class="replay-btn" onclick="runScenario('telecom')">&#9654; Replay scenario</button>
   </div>
 </div>
 </div>
 
-<!-- ═══ AEROSPACE ═══ -->
+<!-- AEROSPACE -->
 <div class="tab-panel" id="tab-aerospace">
 <div class="usecase">
   <div class="uc-info">
@@ -376,67 +440,73 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
       <div class="company-icon" style="background:linear-gradient(135deg,#451a03,#f59e0b);color:#fde68a">OA</div>
       <div class="company-meta">
         <h2>Orbital Aerostructures</h2>
-        <div class="company-type">Aerospace MRO &middot; Defence Certified &middot; Toulouse</div>
+        <div class="company-type show" data-lang="en">Aerospace MRO &middot; Defence Certified &middot; Toulouse</div>
+        <div class="company-type" data-lang="fr">MRO A&eacute;rospatiale &middot; Certifi&eacute; D&eacute;fense &middot; Toulouse</div>
       </div>
     </div>
-    <p class="uc-desc">Orbital uses AI agents across MRO (Maintenance, Repair &amp; Overhaul) documentation, supply chain ordering, and technical compliance checking for Airworthiness Directives. Operating under EASA Part-M, DO-326A cyber, and NATO STANAG 4671, their agents must never sign airworthiness documents autonomously &mdash; human co-signature is mandatory. Export-controlled data (ITAR/EAR) requires agent identity verification before any technical document access.</p>
+    <p class="uc-desc show" data-lang="en">Orbital uses AI agents across MRO documentation, supply chain ordering, and airworthiness compliance checking. Under EASA Part-M, DO-326A and NATO STANAG 4671, agents must never sign airworthiness documents autonomously &mdash; human co-signature is mandatory.</p>
+    <p class="uc-desc" data-lang="fr">Orbital utilise des agents IA pour la documentation MRO, les commandes supply chain et la v&eacute;rification de navigabilit&eacute;. Sous EASA Part-M, DO-326A et NATO STANAG 4671, les agents ne doivent jamais signer de documents de navigabilit&eacute; de mani&egrave;re autonome &mdash; co-signature humaine obligatoire.</p>
 
-    <div class="constraints">
-      <div class="constraint"><span class="constraint-icon">&#128736;</span><div class="constraint-text"><strong>No Autonomous Airworthiness Sign-off</strong> &mdash; Agents with <code>mro_document_generate</code> are permanently blocked from <code>airworthiness_sign</code>. EASA Part-M requires licensed engineer co-signature.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#127988;</span><div class="constraint-text"><strong>ITAR Export Control Gate</strong> &mdash; Technical documentation agents must present a valid export license attestation in their passport before accessing ITAR-classified drawings. Session agents blocked entirely.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#127381;</span><div class="constraint-text"><strong>Change-freeze Windows</strong> &mdash; During scheduled maintenance windows (Sat 02:00&ndash;06:00 UTC), all supply chain ordering agents are frozen. DO-326A change management.</div></div>
-      <div class="constraint"><span class="constraint-icon">&#128203;</span><div class="constraint-text"><strong>Traceability Chain</strong> &mdash; Every action on a work order must include the full invocation chain (human > orchestrator > agent). Broken chains are denied with STANAG 4671 flag.</div></div>
+    <div class="constraints show" data-lang="en">
+      <div class="constraint"><span class="constraint-icon">&#128736;</span><div class="constraint-text"><strong>No Autonomous Airworthiness Sign-off</strong> &mdash; Agents with <code>mro_document_generate</code> are blocked from <code>airworthiness_sign</code>. EASA Part-M.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#127988;</span><div class="constraint-text"><strong>ITAR Export Control Gate</strong> &mdash; Valid export license attestation required before accessing ITAR-classified drawings.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#127381;</span><div class="constraint-text"><strong>Change-freeze Windows</strong> &mdash; Supply chain agents frozen Sat 02:00-06:00 UTC. DO-326A change management.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128203;</span><div class="constraint-text"><strong>Traceability Chain</strong> &mdash; Every work order action must include full invocation chain (human &gt; orchestrator &gt; agent).</div></div>
+    </div>
+    <div class="constraints" data-lang="fr">
+      <div class="constraint"><span class="constraint-icon">&#128736;</span><div class="constraint-text"><strong>Pas de signature navigabilit&eacute; autonome</strong> &mdash; Agents avec <code>mro_document_generate</code> bloqu&eacute;s pour <code>airworthiness_sign</code>. EASA Part-M.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#127988;</span><div class="constraint-text"><strong>Gate contr&ocirc;le export ITAR</strong> &mdash; Attestation de licence d&#8217;export valide requise avant acc&egrave;s aux plans ITAR.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#127381;</span><div class="constraint-text"><strong>Fen&ecirc;tres de gel</strong> &mdash; Agents supply chain gel&eacute;s Sam 02h00-06h00 UTC. Gestion de changement DO-326A.</div></div>
+      <div class="constraint"><span class="constraint-icon">&#128203;</span><div class="constraint-text"><strong>Cha&icirc;ne de tra&ccedil;abilit&eacute;</strong> &mdash; Chaque action sur un ordre de travail doit inclure la cha&icirc;ne compl&egrave;te (humain &gt; orchestrateur &gt; agent).</div></div>
     </div>
 
     <div class="policies-active">
-      <div class="policies-active-label">Active Custom Policies</div>
-      <div class="policy-chips">
-        <span class="policy-chip chip-block">mro_airworthiness_human_gate</span>
-        <span class="policy-chip chip-block">itar_export_control_attestation</span>
-        <span class="policy-chip chip-block">maintenance_window_freeze</span>
-        <span class="policy-chip chip-warn">stanag_invocation_chain_required</span>
-      </div>
+      <div class="policies-active-label show" data-lang="en">Active Custom Policies</div>
+      <div class="policies-active-label" data-lang="fr">Policies actives</div>
+      <div class="policy-chips"><span class="policy-chip chip-block">mro_airworthiness_human_gate</span><span class="policy-chip chip-block">itar_export_control_attestation</span><span class="policy-chip chip-block">maintenance_window_freeze</span><span class="policy-chip chip-warn">stanag_invocation_chain_required</span></div>
     </div>
 
-    <div class="metrics-row">
+    <div class="metrics-row show" data-lang="en">
       <div class="metric-card"><div class="metric-n" style="color:var(--amber)">18</div><div class="metric-l">Certified Agents</div></div>
       <div class="metric-card"><div class="metric-n" style="color:#ef4444">0</div><div class="metric-l">Unauthorized Signs</div></div>
       <div class="metric-card"><div class="metric-n" style="color:var(--green)">EASA</div><div class="metric-l">Compliant</div></div>
     </div>
-  </div>
-
-  <div>
-    <div class="terminal">
-      <div class="terminal-bar">
-        <div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div>
-        <span class="term-title">aib-passport-engine &mdash; ORBITAL AEROSTRUCTURES</span>
-        <span class="term-status">LIVE</span>
-      </div>
-      <div class="term-body" id="term-aerospace"></div>
+    <div class="metrics-row" data-lang="fr">
+      <div class="metric-card"><div class="metric-n" style="color:var(--amber)">18</div><div class="metric-l">Agents certifi&eacute;s</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:#ef4444">0</div><div class="metric-l">Signatures non autoris&eacute;es</div></div>
+      <div class="metric-card"><div class="metric-n" style="color:var(--green)">EASA</div><div class="metric-l">Conforme</div></div>
     </div>
+  </div>
+  <div>
+    <div class="terminal"><div class="terminal-bar"><div class="term-dot"></div><div class="term-dot"></div><div class="term-dot"></div><span class="term-title">aib-passport-engine &mdash; ORBITAL AEROSTRUCTURES</span><span class="term-status">LIVE</span></div><div class="term-body" id="term-aerospace"></div></div>
     <button class="replay-btn" onclick="runScenario('aerospace')">&#9654; Replay scenario</button>
   </div>
 </div>
 </div>
 
-</div><!-- /w -->
-</section>
+</div></section>
 
-<!-- ── CTA ── -->
+<!-- CTA -->
 <section class="cta-section">
   <div class="w">
-    <h2>Your industry.<br><em>Your constraints.</em></h2>
-    <p>// Describe your agents in plain language. Claude generates the policies. Your team activates them. No code changes required.</p>
-    <div class="cta-btns">
+    <h2 class="show" data-lang="en">Your industry.<br><em>Your constraints.</em></h2>
+    <h2 data-lang="fr">Votre secteur.<br><em>Vos contraintes.</em></h2>
+    <p class="show" data-lang="en">// Describe your agents in plain language. Claude generates the policies. Your team activates them. No code changes required.</p>
+    <p data-lang="fr">// D&eacute;crivez vos agents en langage naturel. Claude g&eacute;n&egrave;re les policies. Votre &eacute;quipe les active. Aucun changement de code requis.</p>
+    <div class="cta-btns show" data-lang="en">
       <a href="/builder" class="btn-p">Build your passport &rarr;</a>
       <a href="/pricing" class="btn-s">See pricing</a>
+    </div>
+    <div class="cta-btns" data-lang="fr">
+      <a href="/builder" class="btn-p">Cr&eacute;er votre passeport &rarr;</a>
+      <a href="/pricing" class="btn-s">Voir les tarifs</a>
     </div>
   </div>
 </section>
 
 <footer><div class="w">
   <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:32px;padding:48px 0 36px;border-bottom:1px solid var(--bd);align-items:start">
-    <div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div><p style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p><p style="font-weight:700;font-size:13px;color:var(--fg)">Action builds trust.</p></div>
+    <div><div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><div style="width:32px;height:32px;border-radius:6px;background:linear-gradient(135deg,#00d4ff,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;font-weight:700;color:#fff">AIB</div><span style="font-weight:700;font-size:16px">AIB</span></div><p class="show" data-lang="en" style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Identity infrastructure for the AI agent economy.</p><p data-lang="fr" style="color:var(--fg3);font-size:13px;line-height:1.6;margin-bottom:12px">Infrastructure d&#8217;identit&eacute; pour l&#8217;&eacute;conomie des agents IA.</p><p style="font-weight:700;font-size:13px;color:var(--fg)">Action builds trust.</p></div>
     <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Product</h4><a href="/dashboard" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Dashboard</a><a href="/pricing" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Pricing</a><a href="/builder" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Passport Builder</a><a href="/usecases" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Use Cases</a></div>
     <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Developers</h4><a href="/spec" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Specification</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">GitHub</a><a href="https://pypi.org/project/agent-identity-bridge/" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">PyPI SDK</a></div>
     <div><h4 style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px">Resources</h4><a href="/blog" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Blog</a><a href="/risk" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Risk Calculator</a><a href="/kits" style="display:block;color:var(--fg2);font-size:13px;padding:4px 0">Compliance Kits</a></div>
@@ -448,208 +518,206 @@ footer{border-top:1px solid var(--bd);background:rgba(5,5,16,.8)}
 </main>
 
 <script>
-// ── TAB LOGIC ──
-function switchTab(id) {
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  event.currentTarget.classList.add('active');
-  // Auto-run scenario on tab switch
-  setTimeout(() => runScenario(id), 150);
+var LANGS={en:{flag:'\u{1F1EC}\u{1F1E7}',label:'EN'},fr:{flag:'\u{1F1EB}\u{1F1F7}',label:'FR'}};
+function setLang(l){
+  document.querySelectorAll('[data-lang]').forEach(function(e){e.classList.toggle('show',e.getAttribute('data-lang')===l)});
+  var L=LANGS[l]||LANGS.en;
+  document.getElementById('lang-flag').textContent=L.flag;
+  document.getElementById('lang-label').textContent=L.label;
+  Object.keys(LANGS).forEach(function(k){var o=document.getElementById('opt-'+k);if(o)o.style.color=k===l?'var(--cyan)':'';});
+  var me=document.getElementById('mob-btn-en'),mf=document.getElementById('mob-btn-fr');
+  if(me)me.classList.toggle('active',l==='en');
+  if(mf)mf.classList.toggle('active',l==='fr');
+  localStorage.setItem('aib-lang',l);
+  // Sync tab active states across lang navs
+  var sectors=['finance','health','telecom','aerospace'];
+  var activeIdx=0;
+  document.querySelectorAll('.tabs-nav').forEach(function(nav){
+    nav.querySelectorAll('.tab-btn').forEach(function(b,i){if(b.classList.contains('active'))activeIdx=i;});
+  });
+  document.querySelectorAll('.tabs-nav').forEach(function(nav){
+    nav.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===activeIdx);});
+  });
+  var btn=document.getElementById('lang-toggle');if(btn){btn.classList.remove('open');var dd=btn.nextElementSibling;if(dd)dd.classList.remove('open');}
+}
+(function(){var l=localStorage.getItem('aib-lang')||'en';setLang(l);})();
+
+function switchTab(id){
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+  document.getElementById('tab-'+id).classList.add('active');
+  var sectors=['finance','health','telecom','aerospace'];
+  var idx=sectors.indexOf(id);
+  document.querySelectorAll('.tabs-nav').forEach(function(nav){
+    nav.querySelectorAll('.tab-btn').forEach(function(b,i){b.classList.toggle('active',i===idx);});
+  });
+  setTimeout(function(){runScenario(id)},150);
 }
 
-// ── TERMINAL SCENARIOS ──
-const SCENARIOS = {
-  finance: [
-    {d:0,    t:'07:14:22', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:berkmont:settlement-bot-v3'},
-    {d:200,  t:'07:14:22', cls:'log-sig',   msg:'  ed25519: 7678e98b0ed9db15...  [VERIFIED]'},
-    {d:400,  t:'07:14:22', cls:'log-info',  msg:'  capabilities: settlement_initiate, swift_message_send'},
-    {d:600,  t:'07:14:22', cls:'log-info',  msg:'  tier: permanent | risk: HIGH | human_oversight: true'},
-    {d:800,  t:'07:14:23', cls:'log-info',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:1000, t:'07:14:23', cls:'log-ok',    msg:'  settlement_market_hours_only ........ PASS (UTC 07:14, T2S open)'},
-    {d:1200, t:'07:14:23', cls:'log-ok',    msg:'  settlement_volume_control ........... PASS (0/3 in window)'},
-    {d:1400, t:'07:14:23', cls:'log-ok',    msg:'[RECEIPT] Action signed Ed25519 | hash: 5bb08e72...'},
-    {d:1600, t:'07:14:23', cls:'log-ok',    msg:'[OK] Settlement initiated -> CREST T2S queue'},
-    {d:2000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:2200, t:'07:14:51', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:berkmont:mar-combined-attempt'},
-    {d:2400, t:'07:14:51', cls:'log-sig',   msg:'  ed25519: a7f3c2e1...  [VERIFIED]'},
-    {d:2600, t:'07:14:51', cls:'log-info',  msg:'  capabilities: mar_screening, suspicious_pattern_detect,'},
-    {d:2700, t:'07:14:51', cls:'log-info',  msg:'                regulatory_report_generate, report_submit_esma'},
-    {d:2900, t:'07:14:51', cls:'log-warn',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:3100, t:'07:14:52', cls:'log-block', msg:'  mar_screening_report_separation ...... BLOCK'},
-    {d:3200, t:'07:14:52', cls:'log-block', msg:'    REASON: intersects_all_of([mar_screening,report_submit_esma])'},
-    {d:3400, t:'07:14:52', cls:'log-block', msg:'    REG: MAR Article 16 | MiFID II Article 26'},
-    {d:3600, t:'07:14:52', cls:'log-block', msg:'[DENIED] HTTP 403 | receipt_hash: bb232ea8... [SIGNED]'},
-    {d:4000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:4200, t:'07:31:05', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:berkmont:temp-esma-reporter'},
-    {d:4400, t:'07:31:05', cls:'log-info',  msg:'  capabilities: emir_report_generate, report_submit_esma'},
-    {d:4600, t:'07:31:05', cls:'log-info',  msg:'  tier: SESSION  <-- non-permanent'},
-    {d:4800, t:'07:31:06', cls:'log-block', msg:'  esma_submission_permanent_only ........ BLOCK'},
-    {d:5000, t:'07:31:06', cls:'log-block', msg:'    REASON: tier(session) != "permanent"'},
-    {d:5200, t:'07:31:06', cls:'log-block', msg:'    REG: EMIR Article 9 | SFTR Article 4'},
-    {d:5400, t:'07:31:06', cls:'log-block', msg:'[DENIED] HTTP 403 | receipt_hash: 031b9432... [SIGNED]'},
+var SEP='\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500';
+var SCENARIOS={
+  finance:[
+    {d:0,t:'07:14:22',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:berkmont:settlement-bot-v3'},
+    {d:200,t:'07:14:22',cls:'log-sig',msg:'  ed25519: 7678e98b0ed9db15...  [VERIFIED]'},
+    {d:400,t:'07:14:22',cls:'log-info',msg:'  capabilities: settlement_initiate, swift_message_send'},
+    {d:600,t:'07:14:22',cls:'log-info',msg:'  tier: permanent | risk: HIGH | human_oversight: true'},
+    {d:800,t:'07:14:23',cls:'log-info',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:1000,t:'07:14:23',cls:'log-ok',msg:'  settlement_market_hours_only ........ PASS (UTC 07:14, T2S open)'},
+    {d:1200,t:'07:14:23',cls:'log-ok',msg:'  settlement_volume_control ........... PASS (0/3 in window)'},
+    {d:1400,t:'07:14:23',cls:'log-ok',msg:'[RECEIPT] Action signed Ed25519 | hash: 5bb08e72...'},
+    {d:1600,t:'07:14:23',cls:'log-ok',msg:'[OK] Settlement initiated -> CREST T2S queue'},
+    {d:2000,t:'',cls:'log-separator',msg:SEP},
+    {d:2200,t:'07:14:51',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:berkmont:mar-combined-attempt'},
+    {d:2400,t:'07:14:51',cls:'log-sig',msg:'  ed25519: a7f3c2e1...  [VERIFIED]'},
+    {d:2600,t:'07:14:51',cls:'log-info',msg:'  capabilities: mar_screening, suspicious_pattern_detect,'},
+    {d:2700,t:'07:14:51',cls:'log-info',msg:'                regulatory_report_generate, report_submit_esma'},
+    {d:2900,t:'07:14:51',cls:'log-warn',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:3100,t:'07:14:52',cls:'log-block',msg:'  mar_screening_report_separation ...... BLOCK'},
+    {d:3200,t:'07:14:52',cls:'log-block',msg:'    REASON: intersects_all_of([mar_screening,report_submit_esma])'},
+    {d:3400,t:'07:14:52',cls:'log-block',msg:'    REG: MAR Article 16 | MiFID II Article 26'},
+    {d:3600,t:'07:14:52',cls:'log-block',msg:'[DENIED] HTTP 403 | receipt_hash: bb232ea8... [SIGNED]'},
+    {d:4000,t:'',cls:'log-separator',msg:SEP},
+    {d:4200,t:'07:31:05',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:berkmont:temp-esma-reporter'},
+    {d:4400,t:'07:31:05',cls:'log-info',msg:'  capabilities: emir_report_generate, report_submit_esma'},
+    {d:4600,t:'07:31:05',cls:'log-info',msg:'  tier: SESSION  <-- non-permanent'},
+    {d:4800,t:'07:31:06',cls:'log-block',msg:'  esma_submission_permanent_only ........ BLOCK'},
+    {d:5000,t:'07:31:06',cls:'log-block',msg:'    REASON: tier(session) != "permanent"'},
+    {d:5200,t:'07:31:06',cls:'log-block',msg:'    REG: EMIR Article 9 | SFTR Article 4'},
+    {d:5400,t:'07:31:06',cls:'log-block',msg:'[DENIED] HTTP 403 | receipt_hash: 031b9432... [SIGNED]'}
   ],
-
-  health: [
-    {d:0,    t:'09:03:11', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:rydell:triage-assistant-v2'},
-    {d:200,  t:'09:03:11', cls:'log-sig',   msg:'  ed25519: 3a8f7b2c...  [VERIFIED]'},
-    {d:400,  t:'09:03:11', cls:'log-info',  msg:'  capabilities: patient_intake, diagnostic_assist, ehr_read'},
-    {d:600,  t:'09:03:11', cls:'log-info',  msg:'  risk: HIGH | human_oversight: true | hds_certified: true'},
-    {d:800,  t:'09:03:12', cls:'log-info',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:1000, t:'09:03:12', cls:'log-ok',    msg:'  phi_consent_attestation_gate ........ PASS (consent: signed)'},
-    {d:1200, t:'09:03:12', cls:'log-ok',    msg:'  patient_contact_night_restriction ... PASS (UTC 09:03)'},
-    {d:1400, t:'09:03:12', cls:'log-ok',    msg:'[RECEIPT] session_id: P-004821 | data: ehr_read [SIGNED]'},
-    {d:1600, t:'09:03:12', cls:'log-ok',    msg:'[OK] Triage intake completed. Routed to cardiology queue.'},
-    {d:2000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:2200, t:'09:14:33', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:rydell:pharma-ordering-bot'},
-    {d:2400, t:'09:14:33', cls:'log-info',  msg:'  capabilities: diagnostic_assist, prescription_create'},
-    {d:2600, t:'09:14:33', cls:'log-warn',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:2800, t:'09:14:34', cls:'log-block', msg:'  diagnostic_prescription_separation .... BLOCK'},
-    {d:3000, t:'09:14:34', cls:'log-block', msg:'    REASON: intersects_all_of([diagnostic_assist, prescription_create])'},
-    {d:3200, t:'09:14:34', cls:'log-block', msg:'    REG: MDR Annex I | EU AI Act Article 6 (high-risk)'},
-    {d:3400, t:'09:14:34', cls:'log-block', msg:'[DENIED] HTTP 403 | AUTONOMOUS PRESCRIPTION BLOCKED'},
-    {d:3600, t:'09:14:34', cls:'log-warn',  msg:'[ESCALATE] Case routed to Dr. Hoffmann for manual review'},
-    {d:4000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:4200, t:'22:47:18', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:rydell:patient-reminder-bot'},
-    {d:4400, t:'22:47:18', cls:'log-info',  msg:'  intent: Send appointment reminder (SMS)'},
-    {d:4600, t:'22:47:18', cls:'log-block', msg:'  patient_contact_night_restriction .... BLOCK'},
-    {d:4800, t:'22:47:18', cls:'log-block', msg:'    REASON: current_utc_hour(22) not_in [7..21]'},
-    {d:5000, t:'22:47:18', cls:'log-block', msg:'    REG: GDPR Recital 47 | Patient dignity guidelines'},
-    {d:5200, t:'22:47:18', cls:'log-ok',    msg:'[QUEUED] Reminder rescheduled for 08:00 UTC tomorrow'},
+  health:[
+    {d:0,t:'09:03:11',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:rydell:triage-assistant-v2'},
+    {d:200,t:'09:03:11',cls:'log-sig',msg:'  ed25519: 3a8f7b2c...  [VERIFIED]'},
+    {d:400,t:'09:03:11',cls:'log-info',msg:'  capabilities: patient_intake, diagnostic_assist, ehr_read'},
+    {d:600,t:'09:03:11',cls:'log-info',msg:'  risk: HIGH | human_oversight: true | hds_certified: true'},
+    {d:800,t:'09:03:12',cls:'log-info',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:1000,t:'09:03:12',cls:'log-ok',msg:'  phi_consent_attestation_gate ........ PASS (consent: signed)'},
+    {d:1200,t:'09:03:12',cls:'log-ok',msg:'  patient_contact_night_restriction ... PASS (UTC 09:03)'},
+    {d:1400,t:'09:03:12',cls:'log-ok',msg:'[RECEIPT] session_id: P-004821 | data: ehr_read [SIGNED]'},
+    {d:1600,t:'09:03:12',cls:'log-ok',msg:'[OK] Triage intake completed. Routed to cardiology queue.'},
+    {d:2000,t:'',cls:'log-separator',msg:SEP},
+    {d:2200,t:'09:14:33',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:rydell:pharma-ordering-bot'},
+    {d:2400,t:'09:14:33',cls:'log-info',msg:'  capabilities: diagnostic_assist, prescription_create'},
+    {d:2600,t:'09:14:33',cls:'log-warn',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:2800,t:'09:14:34',cls:'log-block',msg:'  diagnostic_prescription_separation .... BLOCK'},
+    {d:3000,t:'09:14:34',cls:'log-block',msg:'    REASON: intersects_all_of([diagnostic_assist, prescription_create])'},
+    {d:3200,t:'09:14:34',cls:'log-block',msg:'    REG: MDR Annex I | EU AI Act Article 6 (high-risk)'},
+    {d:3400,t:'09:14:34',cls:'log-block',msg:'[DENIED] HTTP 403 | AUTONOMOUS PRESCRIPTION BLOCKED'},
+    {d:3600,t:'09:14:34',cls:'log-warn',msg:'[ESCALATE] Case routed to Dr. Hoffmann for manual review'},
+    {d:4000,t:'',cls:'log-separator',msg:SEP},
+    {d:4200,t:'22:47:18',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:rydell:patient-reminder-bot'},
+    {d:4400,t:'22:47:18',cls:'log-info',msg:'  intent: Send appointment reminder (SMS)'},
+    {d:4600,t:'22:47:18',cls:'log-block',msg:'  patient_contact_night_restriction .... BLOCK'},
+    {d:4800,t:'22:47:18',cls:'log-block',msg:'    REASON: current_utc_hour(22) not_in [7..21]'},
+    {d:5000,t:'22:47:18',cls:'log-block',msg:'    REG: GDPR Recital 47 | Patient dignity guidelines'},
+    {d:5200,t:'22:47:18',cls:'log-ok',msg:'[QUEUED] Reminder rescheduled for 08:00 UTC tomorrow'}
   ],
-
-  telecom: [
-    {d:0,    t:'11:22:04', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:nexara:churn-predictor-eu'},
-    {d:200,  t:'11:22:04', cls:'log-sig',   msg:'  ed25519: 9c3d5f1a...  [VERIFIED]'},
-    {d:400,  t:'11:22:04', cls:'log-info',  msg:'  capabilities: churn_predict, customer_outreach, crm_update'},
-    {d:600,  t:'11:22:04', cls:'log-info',  msg:'  risk: LIMITED | transparency_required: true'},
-    {d:800,  t:'11:22:05', cls:'log-info',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:1000, t:'11:22:05', cls:'log-ok',    msg:'  customer_contact_throttle ........... PASS (31/50 this hour)'},
-    {d:1200, t:'11:22:05', cls:'log-ok',    msg:'  network_billing_isolation ........... PASS (no net_scan cap)'},
-    {d:1400, t:'11:22:05', cls:'log-warn',  msg:'[TRANSPARENCY] Generating signed explanation receipt...'},
-    {d:1600, t:'11:22:05', cls:'log-val',   msg:'  prediction_basis: contract_age=34m, nps_score=3, data_usage=-18%'},
-    {d:1800, t:'11:22:05', cls:'log-ok',    msg:'[RECEIPT] EU AI Act Art.13 | explanation_hash: 7e4a1f... [SIGNED]'},
-    {d:2000, t:'11:22:05', cls:'log-ok',    msg:'[OK] Retention offer queued for customer NX-18842713'},
-    {d:2400, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:2600, t:'11:59:51', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:nexara:churn-predictor-eu'},
-    {d:2800, t:'11:59:51', cls:'log-warn',  msg:'[POLICY] Evaluating customer_contact_throttle...'},
-    {d:3000, t:'11:59:51', cls:'log-block', msg:'  customer_contact_throttle ........... BLOCK (50/50 hit)'},
-    {d:3200, t:'11:59:51', cls:'log-block', msg:'    REASON: receipts(50) >= threshold(50) in last 60min'},
-    {d:3400, t:'11:59:51', cls:'log-block', msg:'    REG: GDPR Article 21 | opt-out rate spike detected'},
-    {d:3600, t:'11:59:51', cls:'log-warn',  msg:'[QUEUE] 127 pending outreach moved to human review queue'},
-    {d:4000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:4200, t:'12:03:17', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:nexara:net-security-scanner'},
-    {d:4400, t:'12:03:17', cls:'log-info',  msg:'  capabilities: network_scan, anomaly_detect, billing_read'},
-    {d:4600, t:'12:03:18', cls:'log-block', msg:'  network_billing_capability_isolation .. BLOCK'},
-    {d:4800, t:'12:03:18', cls:'log-block', msg:'    REASON: intersects_all_of([network_scan, billing_read])'},
-    {d:5000, t:'12:03:18', cls:'log-block', msg:'    Security perimeter breach prevented'},
-    {d:5200, t:'12:03:18', cls:'log-warn',  msg:'[ALERT] Security team notified via webhook (HMAC signed)'},
+  telecom:[
+    {d:0,t:'11:22:04',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:nexara:churn-predictor-eu'},
+    {d:200,t:'11:22:04',cls:'log-sig',msg:'  ed25519: 9c3d5f1a...  [VERIFIED]'},
+    {d:400,t:'11:22:04',cls:'log-info',msg:'  capabilities: churn_predict, customer_outreach, crm_update'},
+    {d:600,t:'11:22:04',cls:'log-info',msg:'  risk: LIMITED | transparency_required: true'},
+    {d:800,t:'11:22:05',cls:'log-info',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:1000,t:'11:22:05',cls:'log-ok',msg:'  customer_contact_throttle ........... PASS (31/50 this hour)'},
+    {d:1200,t:'11:22:05',cls:'log-ok',msg:'  network_billing_isolation ........... PASS (no net_scan cap)'},
+    {d:1400,t:'11:22:05',cls:'log-warn',msg:'[TRANSPARENCY] Generating signed explanation receipt...'},
+    {d:1600,t:'11:22:05',cls:'log-val',msg:'  prediction_basis: contract_age=34m, nps_score=3, data_usage=-18%'},
+    {d:1800,t:'11:22:05',cls:'log-ok',msg:'[RECEIPT] EU AI Act Art.13 | explanation_hash: 7e4a1f... [SIGNED]'},
+    {d:2000,t:'11:22:05',cls:'log-ok',msg:'[OK] Retention offer queued for customer NX-18842713'},
+    {d:2400,t:'',cls:'log-separator',msg:SEP},
+    {d:2600,t:'11:59:51',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:nexara:churn-predictor-eu'},
+    {d:2800,t:'11:59:51',cls:'log-warn',msg:'[POLICY] Evaluating customer_contact_throttle...'},
+    {d:3000,t:'11:59:51',cls:'log-block',msg:'  customer_contact_throttle ........... BLOCK (50/50 hit)'},
+    {d:3200,t:'11:59:51',cls:'log-block',msg:'    REASON: receipts(50) >= threshold(50) in last 60min'},
+    {d:3400,t:'11:59:51',cls:'log-block',msg:'    REG: GDPR Article 21 | opt-out rate spike detected'},
+    {d:3600,t:'11:59:51',cls:'log-warn',msg:'[QUEUE] 127 pending outreach moved to human review queue'},
+    {d:4000,t:'',cls:'log-separator',msg:SEP},
+    {d:4200,t:'12:03:17',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:nexara:net-security-scanner'},
+    {d:4400,t:'12:03:17',cls:'log-info',msg:'  capabilities: network_scan, anomaly_detect, billing_read'},
+    {d:4600,t:'12:03:18',cls:'log-block',msg:'  network_billing_capability_isolation .. BLOCK'},
+    {d:4800,t:'12:03:18',cls:'log-block',msg:'    REASON: intersects_all_of([network_scan, billing_read])'},
+    {d:5000,t:'12:03:18',cls:'log-block',msg:'    Security perimeter breach prevented'},
+    {d:5200,t:'12:03:18',cls:'log-warn',msg:'[ALERT] Security team notified via webhook (HMAC signed)'}
   ],
-
-  aerospace: [
-    {d:0,    t:'06:11:42', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:orbital:mro-doc-generator'},
-    {d:200,  t:'06:11:42', cls:'log-sig',   msg:'  ed25519: f2a8d4c9...  [VERIFIED]'},
-    {d:400,  t:'06:11:42', cls:'log-info',  msg:'  capabilities: mro_document_generate, ad_compliance_check'},
-    {d:600,  t:'06:11:42', cls:'log-info',  msg:'  tier: permanent | invocation_chain: [eng-portal > orchestrator > agent]'},
-    {d:800,  t:'06:11:43', cls:'log-info',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:1000, t:'06:11:43', cls:'log-ok',    msg:'  maintenance_window_freeze ........... PASS (Mon 06:11 UTC)'},
-    {d:1200, t:'06:11:43', cls:'log-ok',    msg:'  stanag_invocation_chain_required .... PASS (chain verified)'},
-    {d:1400, t:'06:11:43', cls:'log-ok',    msg:'  itar_export_control_attestation ..... PASS (license: EAR99)'},
-    {d:1600, t:'06:11:43', cls:'log-ok',    msg:'[RECEIPT] work_order: WO-A320-2241 | chain_hash: 4b9e... [SIGNED]'},
-    {d:1800, t:'06:11:43', cls:'log-ok',    msg:'[OK] MRO document WO-A320-2241 generated. Awaiting engineer sign.'},
-    {d:2200, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:2400, t:'06:18:09', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:orbital:mro-doc-generator'},
-    {d:2600, t:'06:18:09', cls:'log-info',  msg:'  capabilities: mro_document_generate, airworthiness_sign'},
-    {d:2800, t:'06:18:09', cls:'log-warn',  msg:'[POLICY] Evaluating 4 declarative rules...'},
-    {d:3000, t:'06:18:10', cls:'log-block', msg:'  mro_airworthiness_human_gate ......... BLOCK'},
-    {d:3200, t:'06:18:10', cls:'log-block', msg:'    REASON: intersects_all_of([mro_document_generate, airworthiness_sign])'},
-    {d:3400, t:'06:18:10', cls:'log-block', msg:'    REG: EASA Part-M | DO-178C | Licensed engineer required'},
-    {d:3600, t:'06:18:10', cls:'log-block', msg:'[DENIED] AUTONOMOUS AIRWORTHINESS SIGN PREVENTED'},
-    {d:4000, t:'',          cls:'log-separator', msg:'─────────────────────────────────────────────────'},
-    {d:4200, t:'02:03:14', cls:'log-key',   msg:'[PASSPORT] urn:aib:agent:orbital:supply-chain-bot'},
-    {d:4400, t:'02:03:14', cls:'log-info',  msg:'  intent: Reorder titanium fasteners (P/N: AN-3-10A)'},
-    {d:4600, t:'02:03:14', cls:'log-block', msg:'  maintenance_window_freeze ............. BLOCK'},
-    {d:4800, t:'02:03:14', cls:'log-block', msg:'    REASON: current_utc_hour(2) not_in [6..1] Sat 02:00-06:00 UTC'},
-    {d:5000, t:'02:03:14', cls:'log-block', msg:'    REG: DO-326A Change Management | freeze window active'},
-    {d:5200, t:'02:03:14', cls:'log-ok',    msg:'[QUEUED] Order queued. Will execute Monday 06:00 UTC.'},
+  aerospace:[
+    {d:0,t:'06:11:42',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:orbital:mro-doc-generator'},
+    {d:200,t:'06:11:42',cls:'log-sig',msg:'  ed25519: f2a8d4c9...  [VERIFIED]'},
+    {d:400,t:'06:11:42',cls:'log-info',msg:'  capabilities: mro_document_generate, ad_compliance_check'},
+    {d:600,t:'06:11:42',cls:'log-info',msg:'  tier: permanent | invocation_chain: [eng-portal > orchestrator > agent]'},
+    {d:800,t:'06:11:43',cls:'log-info',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:1000,t:'06:11:43',cls:'log-ok',msg:'  maintenance_window_freeze ........... PASS (Mon 06:11 UTC)'},
+    {d:1200,t:'06:11:43',cls:'log-ok',msg:'  stanag_invocation_chain_required .... PASS (chain verified)'},
+    {d:1400,t:'06:11:43',cls:'log-ok',msg:'  itar_export_control_attestation ..... PASS (license: EAR99)'},
+    {d:1600,t:'06:11:43',cls:'log-ok',msg:'[RECEIPT] work_order: WO-A320-2241 | chain_hash: 4b9e... [SIGNED]'},
+    {d:1800,t:'06:11:43',cls:'log-ok',msg:'[OK] MRO document WO-A320-2241 generated. Awaiting engineer sign.'},
+    {d:2200,t:'',cls:'log-separator',msg:SEP},
+    {d:2400,t:'06:18:09',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:orbital:mro-doc-generator'},
+    {d:2600,t:'06:18:09',cls:'log-info',msg:'  capabilities: mro_document_generate, airworthiness_sign'},
+    {d:2800,t:'06:18:09',cls:'log-warn',msg:'[POLICY] Evaluating 4 declarative rules...'},
+    {d:3000,t:'06:18:10',cls:'log-block',msg:'  mro_airworthiness_human_gate ......... BLOCK'},
+    {d:3200,t:'06:18:10',cls:'log-block',msg:'    REASON: intersects_all_of([mro_document_generate, airworthiness_sign])'},
+    {d:3400,t:'06:18:10',cls:'log-block',msg:'    REG: EASA Part-M | DO-178C | Licensed engineer required'},
+    {d:3600,t:'06:18:10',cls:'log-block',msg:'[DENIED] AUTONOMOUS AIRWORTHINESS SIGN PREVENTED'},
+    {d:4000,t:'',cls:'log-separator',msg:SEP},
+    {d:4200,t:'02:03:14',cls:'log-key',msg:'[PASSPORT] urn:aib:agent:orbital:supply-chain-bot'},
+    {d:4400,t:'02:03:14',cls:'log-info',msg:'  intent: Reorder titanium fasteners (P/N: AN-3-10A)'},
+    {d:4600,t:'02:03:14',cls:'log-block',msg:'  maintenance_window_freeze ............. BLOCK'},
+    {d:4800,t:'02:03:14',cls:'log-block',msg:'    REASON: current_utc_hour(2) not_in [6..1] Sat 02:00-06:00 UTC'},
+    {d:5000,t:'02:03:14',cls:'log-block',msg:'    REG: DO-326A Change Management | freeze window active'},
+    {d:5200,t:'02:03:14',cls:'log-ok',msg:'[QUEUED] Order queued. Will execute Monday 06:00 UTC.'}
   ]
 };
 
-let activeTimers = {};
-
-function runScenario(sector) {
-  const el = document.getElementById('term-' + sector);
-  if (!el) return;
-  // Clear previous
-  if (activeTimers[sector]) activeTimers[sector].forEach(clearTimeout);
-  activeTimers[sector] = [];
-  el.innerHTML = '';
-
-  const lines = SCENARIOS[sector];
-  lines.forEach((line, i) => {
-    const t = setTimeout(() => {
-      const div = document.createElement('div');
-      div.className = 'log-line';
-      div.style.animationDelay = '0ms';
-
-      if (line.cls === 'log-separator') {
-        div.innerHTML = `<span class="log-separator">${line.msg}</span>`;
-      } else {
-        const ts = line.t ? `<span class="log-ts">${line.t}</span>  ` : '';
-        div.innerHTML = `${ts}<span class="${line.cls}">${line.msg}</span>`;
-      }
-
+var activeTimers={};
+function runScenario(sector){
+  var el=document.getElementById('term-'+sector);
+  if(!el)return;
+  if(activeTimers[sector])activeTimers[sector].forEach(clearTimeout);
+  activeTimers[sector]=[];
+  el.innerHTML='';
+  SCENARIOS[sector].forEach(function(line){
+    var t=setTimeout(function(){
+      var div=document.createElement('div');
+      div.className='log-line';
+      div.style.animationDelay='0ms';
+      if(line.cls==='log-separator'){div.innerHTML='<span class="log-separator">'+line.msg+'</span>';}
+      else{var ts=line.t?'<span class="log-ts">'+line.t+'</span>  ':'';div.innerHTML=ts+'<span class="'+line.cls+'">'+line.msg+'</span>';}
       el.appendChild(div);
-      el.scrollTop = el.scrollHeight;
-    }, line.d);
+      el.scrollTop=el.scrollHeight;
+    },line.d);
     activeTimers[sector].push(t);
   });
 }
 
-// Auto-start finance on load
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => runScenario('finance'), 600);
-});
+window.addEventListener('DOMContentLoaded',function(){setTimeout(function(){runScenario('finance')},600);});
 
-// ── NAV ──
-function toggleDD(b) {
-  const o = b.classList.contains('open');
-  document.querySelectorAll('.nb').forEach(x => x.classList.remove('open'));
-  document.querySelectorAll('.dd').forEach(x => x.classList.remove('open'));
-  if (!o) { b.classList.add('open'); b.nextElementSibling.classList.add('open'); }
+function toggleDD(b){
+  var o=b.classList.contains('open');
+  document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('open')});
+  document.querySelectorAll('.dd').forEach(function(x){x.classList.remove('open')});
+  if(!o){b.classList.add('open');b.nextElementSibling.classList.add('open');}
 }
-document.addEventListener('click', e => {
-  if (!e.target.closest('.nav-item')) {
-    document.querySelectorAll('.nb').forEach(b => b.classList.remove('open'));
-    document.querySelectorAll('.dd').forEach(d => d.classList.remove('open'));
+document.addEventListener('click',function(e){
+  if(!e.target.closest('.nav-item')){
+    document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('open')});
+    document.querySelectorAll('.dd').forEach(function(d){d.classList.remove('open')});
   }
 });
 
-// ── INTERSECTION OBSERVER pour les métriques ──
-const counters = document.querySelectorAll('.metric-n');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const el = entry.target;
-      const text = el.textContent;
-      const num = parseInt(text);
-      if (!isNaN(num) && num > 0 && num < 1000) {
-        let start = 0;
-        const dur = 800;
-        const step = (timestamp) => {
-          if (!start) start = timestamp;
-          const progress = Math.min((timestamp - start) / dur, 1);
-          el.textContent = Math.floor(progress * num);
-          if (progress < 1) requestAnimationFrame(step);
-          else el.textContent = text;
-        };
+var counters=document.querySelectorAll('.metric-n');
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var el=entry.target;var text=el.textContent;var num=parseInt(text);
+      if(!isNaN(num)&&num>0&&num<1000){
+        var start=0,dur=800;
+        var step=function(ts){if(!start)start=ts;var p=Math.min((ts-start)/dur,1);el.textContent=Math.floor(p*num);if(p<1)requestAnimationFrame(step);else el.textContent=text;};
         requestAnimationFrame(step);
       }
       obs.unobserve(el);
     }
   });
-}, { threshold: 0.5 });
-counters.forEach(c => obs.observe(c));
+},{threshold:0.5});
+counters.forEach(function(c){obs.observe(c)});
 </script>
 </body>
 </html>
