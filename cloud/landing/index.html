@@ -222,38 +222,42 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 @media(max-width:768px){.ep-grid{grid-template-columns:1fr!important}.fg{grid-template-columns:1fr!important}.stats-row{gap:24px}.stat .n{font-size:24px}section{padding:56px 0}.sh h2{font-size:24px}}
 /* ═══ DOGFOOD — AIB secures AIB ═══ */
-.dogfood{position:relative}
-.dogfood::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:500px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan-glow),transparent)}
+.dogfood{position:relative;padding-top:100px;padding-bottom:80px}
+.dogfood::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:700px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan-glow),transparent)}
+.dogfood::after{content:'';position:absolute;top:60px;left:50%;transform:translateX(-50%);width:440px;height:440px;background:radial-gradient(circle,rgba(0,212,255,.03) 0%,transparent 70%);pointer-events:none;z-index:0}
+.dogfood .w{position:relative;z-index:1}
 .section-tag-green{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
 .section-tag-green::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s infinite}
-.dogfood-sub{color:var(--fg2);font-size:15px;line-height:1.7;max-width:640px;margin-bottom:40px}
-.agent-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
-.ag-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;transition:all .3s;backdrop-filter:blur(8px)}
-.ag-card:hover{border-color:rgba(0,212,255,.12);transform:translateY(-2px)}
-.ag-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.ag-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
-.ag-name{font-family:var(--mono);font-size:12px;font-weight:600}
-.ag-desc{font-size:12px;color:var(--fg3);line-height:1.5}
-.live-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
-.live-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(8px);transition:all .3s}
-.live-card:hover{border-color:rgba(0,212,255,.1);transform:translateY(-2px)}
+.dogfood-sub{color:var(--fg2);font-size:16px;line-height:1.8;max-width:620px;margin-bottom:56px}
+.agent-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px}
+.ag-card{background:rgba(15,16,41,.45);border:1px solid var(--bd);border-radius:14px;padding:24px 22px;transition:all .4s cubic-bezier(.4,0,.2,1);backdrop-filter:blur(12px);position:relative;overflow:hidden}
+.ag-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),transparent);opacity:.4;transition:opacity .4s}
+.ag-card:hover{border-color:rgba(0,212,255,.18);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3),0 0 20px rgba(0,212,255,.04)}
+.ag-card:hover::before{opacity:1}
+.ag-top{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ag-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);flex-shrink:0;animation:blink 3s infinite}
+.ag-name{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.5px}
+.ag-desc{font-size:13px;color:var(--fg3);line-height:1.65}
+.live-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:40px}
+.live-card{background:rgba(15,16,41,.45);border:1px solid var(--bd);border-radius:14px;padding:28px 20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(12px);transition:all .4s cubic-bezier(.4,0,.2,1)}
+.live-card:hover{border-color:rgba(0,212,255,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
 .live-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
 .live-card.lc-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
 .live-card.lc-cyan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
 .live-card.lc-amber::before{background:linear-gradient(90deg,transparent,rgba(245,158,11,.6),transparent)}
 .live-card.lc-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
-.live-n{font-family:var(--mono);font-size:28px;font-weight:700;margin-bottom:4px}
-.live-l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px}
-.live-detail{font-family:var(--mono);font-size:10px;color:var(--fg3);margin-top:6px}
-.dog-term{background:#050510;border:1px solid var(--bd);border-radius:14px;overflow:hidden;font-family:var(--mono);margin-bottom:24px}
-.dog-term-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
-.dog-term-title{font-size:11px;color:var(--fg3);margin-left:8px;letter-spacing:1px}
-.dog-term-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--green)}.dog-term-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-.dog-term-body{padding:16px;max-height:400px;overflow-y:auto;font-size:12px;line-height:1.7;scrollbar-width:thin;scrollbar-color:var(--fg3) transparent}
+.live-n{font-family:var(--mono);font-size:36px;font-weight:800;margin-bottom:8px;letter-spacing:-1px}
+.live-l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.live-detail{font-family:var(--mono);font-size:11px;color:var(--fg3);margin-top:10px;opacity:.7}
+.dog-term{background:linear-gradient(180deg,#050510,#08081e);border:1px solid var(--bd);border-radius:16px;overflow:hidden;font-family:var(--mono);margin-bottom:32px;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.dog-term-bar{display:flex;align-items:center;gap:8px;padding:12px 18px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
+.dog-term-title{font-size:12px;color:var(--fg3);margin-left:8px;letter-spacing:1.5px;font-weight:500}
+.dog-term-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--green);font-weight:700;letter-spacing:1px}.dog-term-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+.dog-term-body{padding:20px 24px;max-height:420px;overflow-y:auto;font-size:12.5px;line-height:1.8;scrollbar-width:thin;scrollbar-color:var(--fg3) transparent}
 .dog-term-body::-webkit-scrollbar{width:4px}
 .dog-term-body::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:2px}
-.dt-ts{color:var(--fg3)}.dt-ok{color:var(--green)}.dt-warn{color:var(--amber)}.dt-key{color:var(--cyan)}.dt-info{color:var(--fg2)}.dt-sig{color:var(--blue)}.dt-sep{color:var(--fg3);display:block;margin:6px 0}
-.dogfood-note{font-family:var(--mono);font-size:12px;color:var(--fg3);line-height:1.7;max-width:600px;padding:16px 20px;background:var(--glass);border:1px solid var(--bd);border-radius:10px;border-left:3px solid var(--cyan);backdrop-filter:blur(8px)}
+.dt-ts{color:var(--fg3)}.dt-ok{color:var(--green)}.dt-warn{color:var(--amber)}.dt-key{color:var(--cyan);font-weight:700}.dt-info{color:var(--fg2)}.dt-sig{color:var(--blue)}.dt-sep{color:var(--fg3);display:block;margin:8px 0;opacity:.4}
+.dogfood-note{font-family:var(--mono);font-size:13px;color:var(--fg3);line-height:1.8;max-width:640px;padding:20px 24px;background:rgba(15,16,41,.45);border:1px solid var(--bd);border-radius:12px;border-left:3px solid var(--cyan);backdrop-filter:blur(12px)}
 @media(max-width:900px){.agent-grid-4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:768px){.live-metrics{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:480px){.agent-grid-4{grid-template-columns:1fr}.dog-term-body{font-size:11px}}
@@ -426,9 +430,9 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <section class="dogfood"><div class="w">
 <div class="section-tag-green show" data-lang="en">Live production data</div>
 <div class="section-tag-green" data-lang="fr">Donn&eacute;es de production live</div>
-<div class="sh" style="text-align:left;margin-bottom:40px">
-<h2 style="font-size:32px" data-lang="en" class="show">AIB secures <em>its own agents.</em></h2>
-<h2 style="font-size:32px" data-lang="fr">AIB s&eacute;curise <em>ses propres agents.</em></h2>
+<div class="sh" style="text-align:left;margin-bottom:56px">
+<h2 style="font-size:clamp(28px,4vw,42px);line-height:1.15;margin-bottom:20px" data-lang="en" class="show">AIB secures <em>its own agents.</em></h2>
+<h2 style="font-size:clamp(28px,4vw,42px);line-height:1.15;margin-bottom:20px" data-lang="fr">AIB s&eacute;curise <em>ses propres agents.</em></h2>
 <p class="dogfood-sub show" data-lang="en">No fictional companies. No mock data. We run autonomous agents in production, governed by the same protocol we ship to you. Every action is signed. Every policy is enforced.</p>
 <p class="dogfood-sub" data-lang="fr">Pas d'entreprises fictives. Pas de donn&eacute;es simul&eacute;es. Nous faisons tourner des agents autonomes en production, gouvern&eacute;s par le m&ecirc;me protocole que nous vous fournissons. Chaque action est sign&eacute;e. Chaque policy est appliqu&eacute;e.</p>
 </div>
