@@ -77,7 +77,11 @@ class TestPassportLifecycle(unittest.TestCase):
         self.assertIn("passport_id", result)
         self.assertIn(self.slug, result["passport_id"])
         self.assertEqual(result["tier"], "permanent")
-        self.assertIn("signature", result)
+        # API returns passport_signature (field name in DB)
+        self.assertTrue(
+            "signature" in result or "passport_signature" in result,
+            f"No signature field found in result: {list(result.keys())}"
+        )
         self.assertTrue(result["policies_checked"])
 
     def test_create_then_list(self):
