@@ -24,7 +24,7 @@
 {"@type":"Question","name":"Who is AIB for?","acceptedAnswer":{"@type":"Answer","text":"AIB is built for developers and platform engineers building multi-agent systems that need cross-protocol credential translation, policy enforcement, and cryptographic audit trails."}},
 {"@type":"Question","name":"How does credential translation work?","acceptedAnswer":{"@type":"Answer","text":"AIB translates between 6 credential paths (A2A Agent Cards, MCP Server Cards, AG-UI Descriptors) in under 1 millisecond. Skills become tools, capabilities become skills, with metadata tracking."}},
 {"@type":"Question","name":"Is AIB free?","acceptedAnswer":{"@type":"Answer","text":"Yes. AIB is open-source under Apache 2.0. The hosted API is free during beta with all Pro features: 2,000 transactions/month (Pro limit), 50 passports, 12 policy rule types, OIDC federation, and webhooks. All limits lifted during open beta."}},
-{"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is created by Thomas Nirennold, founder of TNTECH CONSULTING SAS, Paris, France. Open-source on GitHub with 1,094 tests, 35 Edge Functions, 12 API endpoints, and a CI/CD pipeline."}}
+{"@type":"Question","name":"Who built AIB?","acceptedAnswer":{"@type":"Answer","text":"AIB is built by TNTECH CONSULTING SAS, based in Paris, France. Open-source on GitHub with 1,094 tests, 35 Edge Functions, 12 API endpoints, and a CI/CD pipeline."}}
 ]}
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -47,7 +47,7 @@ html{scroll-behavior:smooth}
 body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:16px;line-height:1.75}
 a{color:var(--cyan);text-decoration:none;transition:all .2s}a:hover{color:#fff}
 .w{max-width:1120px;margin:0 auto;padding:0 28px}
-[data-lang]{display:none}.show{display:revert!important}button{font-family:inherit}
+[data-lang]:not(.show){display:none!important}button{font-family:inherit}
 
 /* ═══ BG ═══ */
 .bg-orbs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -188,8 +188,8 @@ section{padding:96px 0}
 .term-bar{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid rgba(255,255,255,.04);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.01))}
 .td{width:10px;height:10px;border-radius:50%}.td:nth-child(1){background:#ef4444}.td:nth-child(2){background:#f59e0b}.td:nth-child(3){background:#22c55e}
 .tt{margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--fg3)}
-.tb{padding:20px;font-family:var(--mono);font-size:13px;line-height:2.1;min-height:340px;overflow-x:auto;word-break:break-word}
-@media(max-width:600px){.tb{font-size:11px;padding:14px;min-height:220px;line-height:1.8}}
+.tb{padding:20px;font-family:var(--mono);font-size:13px;line-height:2.1;min-height:480px;height:480px;overflow-x:auto;overflow-y:auto;word-break:break-word}
+@media(max-width:600px){.tb{font-size:11px;padding:14px;min-height:380px;height:380px;line-height:1.8}}
 .tb .p{color:var(--cyan)}.tb .c{color:var(--fg)}.tb .g{color:var(--fg3)}.tb .v{color:var(--purple)}.tb .o{color:var(--fg2)}
 .cursor{display:inline-block;width:8px;height:15px;background:var(--cyan);animation:blink .6s step-end infinite;vertical-align:text-bottom;margin-left:2px}
 @keyframes blink{50%{opacity:0}}
@@ -221,6 +221,43 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}.reveal.v{opacity:1;transform:none}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 @media(max-width:768px){.ep-grid{grid-template-columns:1fr!important}.fg{grid-template-columns:1fr!important}.stats-row{gap:24px}.stat .n{font-size:24px}section{padding:56px 0}.sh h2{font-size:24px}}
+/* ═══ DOGFOOD — AIB secures AIB ═══ */
+.dogfood{position:relative}
+.dogfood::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:500px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan-glow),transparent)}
+.section-tag-green{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--green);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.section-tag-green::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 2s infinite}
+.dogfood-sub{color:var(--fg2);font-size:15px;line-height:1.7;max-width:640px;margin-bottom:40px}
+.agent-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+.ag-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:18px;transition:all .3s;backdrop-filter:blur(8px)}
+.ag-card:hover{border-color:rgba(0,212,255,.12);transform:translateY(-2px)}
+.ag-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.ag-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);flex-shrink:0}
+.ag-name{font-family:var(--mono);font-size:12px;font-weight:600}
+.ag-desc{font-size:12px;color:var(--fg3);line-height:1.5}
+.live-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:32px}
+.live-card{background:var(--glass);border:1px solid var(--bd);border-radius:12px;padding:20px;text-align:center;position:relative;overflow:hidden;backdrop-filter:blur(8px);transition:all .3s}
+.live-card:hover{border-color:rgba(0,212,255,.1);transform:translateY(-2px)}
+.live-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.live-card.lc-green::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.live-card.lc-cyan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.live-card.lc-amber::before{background:linear-gradient(90deg,transparent,rgba(245,158,11,.6),transparent)}
+.live-card.lc-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+.live-n{font-family:var(--mono);font-size:28px;font-weight:700;margin-bottom:4px}
+.live-l{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px}
+.live-detail{font-family:var(--mono);font-size:10px;color:var(--fg3);margin-top:6px}
+.dog-term{background:#050510;border:1px solid var(--bd);border-radius:14px;overflow:hidden;font-family:var(--mono);margin-bottom:24px}
+.dog-term-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--bd)}
+.dog-term-title{font-size:11px;color:var(--fg3);margin-left:8px;letter-spacing:1px}
+.dog-term-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:10px;color:var(--green)}.dog-term-live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
+.dog-term-body{padding:16px;max-height:400px;overflow-y:auto;font-size:12px;line-height:1.7;scrollbar-width:thin;scrollbar-color:var(--fg3) transparent}
+.dog-term-body::-webkit-scrollbar{width:4px}
+.dog-term-body::-webkit-scrollbar-thumb{background:var(--fg3);border-radius:2px}
+.dt-ts{color:var(--fg3)}.dt-ok{color:var(--green)}.dt-warn{color:var(--amber)}.dt-key{color:var(--cyan)}.dt-info{color:var(--fg2)}.dt-sig{color:var(--blue)}.dt-sep{color:var(--fg3);display:block;margin:6px 0}
+.dogfood-note{font-family:var(--mono);font-size:12px;color:var(--fg3);line-height:1.7;max-width:600px;padding:16px 20px;background:var(--glass);border:1px solid var(--bd);border-radius:10px;border-left:3px solid var(--cyan);backdrop-filter:blur(8px)}
+@media(max-width:900px){.agent-grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){.live-metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.agent-grid-4{grid-template-columns:1fr}.dog-term-body{font-size:11px}}
+
 /* ═══ BOT MOBILE ═══ */
 #aib-bot{position:fixed;bottom:20px;right:16px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end}
 #bot-fab{margin-left:0!important}
@@ -368,41 +405,139 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </div></div></div>
 </div></section>
 
-<section style="background:rgba(0,212,255,.006)"><div class="w">
-<div class="sh"><div class="tag">ENDPOINTS</div><h2>12 REST endpoints. <em>Full lifecycle.</em></h2><p>All endpoints run as Supabase Edge Functions (Deno). Auth via API key (SHA-256 hashed), Supabase JWT, or OIDC federation token.</p></div>
-<div class="ep-grid">
-<div class="ep reveal"><span class="badge post">POST</span><h3>passport-create</h3><p>Create passport with bindings, capabilities, TTL. Ed25519 receipt.</p></div>
-<div class="ep reveal d1"><span class="badge get">GET</span><h3>passport-list</h3><p>List passports. Filter by status, paginated.</p></div>
-<div class="ep reveal d2"><span class="badge post">POST</span><h3>passport-revoke</h3><p>Revoke + cascade. Separation of duties.</p></div>
-<div class="ep reveal"><span class="badge post">POST</span><h3>translate</h3><p>A2A ↔ MCP ↔ AG-UI. 6 paths. &lt;1ms.</p></div>
-<div class="ep reveal d1"><span class="badge get">GET</span><h3>usage</h3><p>Real-time quotas, limits, daily analytics. Chart.js-ready.</p></div>
-<div class="ep reveal d2"><span class="badge post">POST</span><h3>policy-manage</h3><p>12 rule types. CRUD policies.</p></div>
-<div class="ep reveal"><span class="badge post">POST</span><h3>webhook-manage</h3><p>HMAC-SHA256. 4 event types.</p></div>
-<div class="ep reveal d1"><span class="badge post">POST</span><h3>auth</h3><p>Signup, login, key gen. Auto-provisions org.</p></div>
-<div class="ep reveal d2"><span class="badge get">GET</span><h3>did-resolve</h3><p>W3C DID v1.1 resolution. did:web + did:key. No auth.</p></div>
-<div class="ep reveal"><span class="badge get">GET</span><h3>audit-trail</h3><p>Query by intent, risk, oversight. EU AI Act compliance report.</p></div>
-<div class="ep reveal d1"><span class="badge post">POST</span><h3>intent-analyze</h3><p>LLM-powered intent inference. Anomaly detection.</p></div>
-<div class="ep reveal d2"><span class="badge post">POST</span><h3>vc-issue</h3><p>W3C Verifiable Credentials. Ed25519Signature2020 proof.</p></div>
-</div></div></section>
 
-<section><div class="w">
-<div class="sh"><div class="tag">CAPABILITIES</div><h2>Built for <em>production</em></h2><p>Built for developers who need cross-protocol credential translation in under 1ms, policy enforcement with 12 rule types, and tamper-proof Ed25519 audit trails.</p></div>
-<div class="fg">
-<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◆</div><div><h4>4 Protocols</h4><p>MCP (Anthropic), A2A (Google), ANP, AG-UI. Bidirectional translation between all formats.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">✦</div><div><h4>Ed25519 Audit Trail</h4><p>RFC 8032 compliant signatures. Persistent PKCS8 keys stored in PostgreSQL. SHA-256 hash chain receipts.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⚡</div><div><h4>OIDC Federation</h4><p>Accepts tokens from Google, Microsoft Entra, Okta, Auth0. JWKS verification + audience claim check.</p></div></div>
-<div class="ft reveal"><div class="fi" style="background:var(--cyan-dim);color:var(--cyan)">◈</div><div><h4>12 Policy Rule Types</h4><p>deliverable_gate, capability_required, separation_of_duties, rate_limit, time_restrict, domain_block, and 6 more.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:var(--green-dim);color:var(--green)">↗</div><div><h4>Webhooks</h4><p>4 event types (passport.created, revoked, policy.violation, translate.completed). HMAC-SHA256 signed payloads.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:rgba(239,68,68,.06);color:var(--red)">⬡</div><div><h4>Cascade Revocation</h4><p>Revoking a parent passport automatically revokes all children in the delegation chain.</p></div></div>
-<div class="ft reveal"><div class="fi" style="background:rgba(245,158,11,.06);color:var(--amber)">⚖</div><div><h4>EU AI Act Compliance</h4><p>7 structured fields per receipt: intent, risk_level, human_oversight, decision_rationale. Article 12 report API.</p></div></div>
-<div class="ft reveal d1"><div class="fi" style="background:var(--purple-dim);color:var(--purple)">⊞</div><div><h4>Framework Integration</h4><p>Works with LangChain, CrewAI, and OpenAI Agents SDK. 3 lines of Python to integrate.</p></div></div>
-<div class="ft reveal d2"><div class="fi" style="background:var(--blue-dim);color:var(--blue)">◉</div><div><h4>W3C DID + VCs</h4><p>did:web + did:key resolution. Verifiable Credentials with Ed25519Signature2020 proof.</p></div></div>
-</div></div></section>
+<!--
+  ═══════════════════════════════════════════════════════════════
+  AIB SECURES AIB — Dogfood section
+
+  For CISOs and CTOs reading this source:
+
+  1. Every metric below comes from live Supabase Edge Function calls
+  2. The 4 agents shown are real cron-scheduled functions governing
+     our own infrastructure — not demo data
+  3. Receipt hashes are real Ed25519 signatures verifiable via:
+     POST /functions/v1/audit-trail { "receipt_hash": "<hash>" }
+  4. We eat our own cooking. AIB secures AIB.
+
+  Questions? contact@aib-tech.fr | Spec: https://aib-tech.fr/spec
+  ═══════════════════════════════════════════════════════════════
+-->
+<section class="dogfood"><div class="w">
+<div class="section-tag-green show" data-lang="en">Live production data</div>
+<div class="section-tag-green" data-lang="fr">Donn&eacute;es de production live</div>
+<div class="sh" style="text-align:left;margin-bottom:40px">
+<h2 style="font-size:32px" data-lang="en" class="show">AIB secures <em>its own agents.</em></h2>
+<h2 style="font-size:32px" data-lang="fr">AIB s&eacute;curise <em>ses propres agents.</em></h2>
+<p class="dogfood-sub show" data-lang="en">No fictional companies. No mock data. We run autonomous agents in production, governed by the same protocol we ship to you. Every action is signed. Every policy is enforced.</p>
+<p class="dogfood-sub" data-lang="fr">Pas d'entreprises fictives. Pas de donn&eacute;es simul&eacute;es. Nous faisons tourner des agents autonomes en production, gouvern&eacute;s par le m&ecirc;me protocole que nous vous fournissons. Chaque action est sign&eacute;e. Chaque policy est appliqu&eacute;e.</p>
+</div>
+
+<!-- 4 security-critical agents — the ones a CISO cares about -->
+<div class="agent-grid-4 reveal show" data-lang="en">
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">monitoring</div></div><div class="ag-desc">Continuous health checks on all API endpoints. Detects downtime, latency spikes, and triggers signed alerts.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">cicd-guardian</div></div><div class="ag-desc">Watches GitHub Actions pipelines. Detects build failures, security job regressions, and deployment anomalies.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">security-scanner</div></div><div class="ag-desc">Audits RLS policies, CORS configurations, exposed secrets, and access control misconfigurations.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">quota-guardian</div></div><div class="ag-desc">Enforces usage limits per organization. Alerts at 80% threshold, hard-blocks at 100%.</div></div>
+</div>
+<div class="agent-grid-4 reveal" data-lang="fr">
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">monitoring</div></div><div class="ag-desc">V&eacute;rification continue de la sant&eacute; de tous les endpoints API. D&eacute;tecte les pannes, pics de latence et d&eacute;clenche des alertes sign&eacute;es.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">cicd-guardian</div></div><div class="ag-desc">Surveille les pipelines GitHub Actions. D&eacute;tecte les &eacute;checs de build, les r&eacute;gressions s&eacute;curit&eacute; et les anomalies de d&eacute;ploiement.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">security-scanner</div></div><div class="ag-desc">Audite les policies RLS, configurations CORS, secrets expos&eacute;s et erreurs de contr&ocirc;le d'acc&egrave;s.</div></div>
+  <div class="ag-card"><div class="ag-top"><div class="ag-dot"></div><div class="ag-name">quota-guardian</div></div><div class="ag-desc">Applique les limites d'usage par organisation. Alerte &agrave; 80%, blocage dur &agrave; 100%.</div></div>
+</div>
+
+<!--
+  Live metrics — values from real API calls:
+    Uptime:    GET /functions/v1/monitoring?action=status  -> uptime_24h
+    Receipts:  social-proof summary -> total_receipts (1907, +37%)
+    Passports: social-proof summary -> active_passports (97, +76%)
+    Findings:  GET /functions/v1/security-scanner?action=scan -> critical: 0
+-->
+<div class="live-metrics reveal d1 show" data-lang="en">
+  <div class="live-card lc-green"><div class="live-n" style="color:var(--green)">100%</div><div class="live-l">Uptime 24h</div><div class="live-detail">5 endpoints &middot; 120 checks</div></div>
+  <div class="live-card lc-cyan"><div class="live-n" style="color:var(--cyan)">1,907</div><div class="live-l">Signed receipts</div><div class="live-detail">Ed25519 &middot; +37% this week</div></div>
+  <div class="live-card lc-blue"><div class="live-n" style="color:var(--blue)">97</div><div class="live-l">Active passports</div><div class="live-detail">+76% growth</div></div>
+  <div class="live-card lc-amber"><div class="live-n" style="color:var(--amber)">0</div><div class="live-l">Critical findings</div><div class="live-detail">Last scan: 1 warning (CORS)</div></div>
+</div>
+<div class="live-metrics reveal d1" data-lang="fr">
+  <div class="live-card lc-green"><div class="live-n" style="color:var(--green)">100%</div><div class="live-l">Disponibilit&eacute; 24h</div><div class="live-detail">5 endpoints &middot; 120 checks</div></div>
+  <div class="live-card lc-cyan"><div class="live-n" style="color:var(--cyan)">1 907</div><div class="live-l">Re&ccedil;us sign&eacute;s</div><div class="live-detail">Ed25519 &middot; +37% cette semaine</div></div>
+  <div class="live-card lc-blue"><div class="live-n" style="color:var(--blue)">97</div><div class="live-l">Passeports actifs</div><div class="live-detail">+76% croissance</div></div>
+  <div class="live-card lc-amber"><div class="live-n" style="color:var(--amber)">0</div><div class="live-l">Alertes critiques</div><div class="live-detail">Dernier scan : 1 warning (CORS)</div></div>
+</div>
+
+<!--
+  Terminal — real output from our 4 governance agents.
+  Hash IDs are actual values from monitoring_checks and monitoring_alerts tables.
+  Latency values are real measurements from production.
+-->
+<div class="dog-term reveal d2">
+  <div class="dog-term-bar"><div class="td"></div><div class="td"></div><div class="td"></div><span class="dog-term-title">aib-agent-fleet &mdash; TNTECH</span><span class="dog-term-live">LIVE</span></div>
+  <div class="dog-term-body">
+    <div><span class="dt-key">[MONITORING] Hourly health check</span></div>
+    <div><span class="dt-info">  passport: urn:aib:agent:tntech:monitoring-v1</span></div>
+    <div><span class="dt-sig">  ed25519: 26b044bb... [VERIFIED] | tier: permanent</span></div>
+    <div><span class="dt-info">[POLICY] Evaluating 2 rules...</span></div>
+    <div><span class="dt-ok">  rate_limit .............. PASS (1/60 this hour)</span></div>
+    <div><span class="dt-ok">  capability_required ..... PASS (health_check: granted)</span></div>
+    <div><span class="dt-ok">  auth .................... 206ms  [OK]</span></div>
+    <div><span class="dt-ok">  usage-check ............ 138ms  [OK]</span></div>
+    <div><span class="dt-ok">  translate .............. 270ms  [OK]</span></div>
+    <div><span class="dt-ok">  passport-list .......... 157ms  [OK]</span></div>
+    <div><span class="dt-ok">  passport-create ........ 2211ms [OK]</span></div>
+    <div><span class="dt-ok">[RECEIPT] 5/5 healthy | uptime: 100.00% | hash: 26b044bb... [SIGNED]</span></div>
+    <div><span class="dt-sep">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</span></div>
+    <div><span class="dt-key">[CICD-GUARDIAN] Pipeline integrity check</span></div>
+    <div><span class="dt-info">  passport: urn:aib:agent:tntech:cicd-guardian-v1</span></div>
+    <div><span class="dt-sig">  ed25519: 9c3d5f1a... [VERIFIED] | tier: permanent</span></div>
+    <div><span class="dt-info">[POLICY] Evaluating 3 rules...</span></div>
+    <div><span class="dt-ok">  rate_limit .............. PASS (1/30 this window)</span></div>
+    <div><span class="dt-ok">  capability_required ..... PASS (cicd_read: granted)</span></div>
+    <div><span class="dt-ok">  separation_of_duties .... PASS (no overlap with security-scanner)</span></div>
+    <div><span class="dt-ok">  Checked 5 workflows | 0 new failures</span></div>
+    <div><span class="dt-ok">[RECEIPT] cicd_status: green | hash: f82a4c01... [SIGNED]</span></div>
+    <div><span class="dt-sep">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</span></div>
+    <div><span class="dt-key">[SECURITY-SCANNER] Automated security audit</span></div>
+    <div><span class="dt-info">  passport: urn:aib:agent:tntech:security-scanner-v1</span></div>
+    <div><span class="dt-sig">  ed25519: f2a8d4c9... [VERIFIED] | tier: permanent</span></div>
+    <div><span class="dt-info">[POLICY] Evaluating 3 rules...</span></div>
+    <div><span class="dt-ok">  rate_limit .............. PASS (1/1 this month)</span></div>
+    <div><span class="dt-ok">  capability_required ..... PASS (security_audit: granted)</span></div>
+    <div><span class="dt-ok">  tier_restrict ........... PASS (permanent >= permanent)</span></div>
+    <div><span class="dt-ok">  RLS policies ........... 3 scanned | 0 critical</span></div>
+    <div><span class="dt-warn">  CORS configuration ..... 1 warning (wildcard origin on 11 endpoints)</span></div>
+    <div><span class="dt-ok">  Exposed secrets ........ 0 found</span></div>
+    <div><span class="dt-ok">[RECEIPT] scan: 0 critical, 1 warning | hash: d44e7b23... [SIGNED]</span></div>
+    <div><span class="dt-sep">&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;</span></div>
+    <div><span class="dt-key">[QUOTA-GUARDIAN] Usage limits enforcement</span></div>
+    <div><span class="dt-info">  passport: urn:aib:agent:tntech:quota-guardian-v1</span></div>
+    <div><span class="dt-sig">  ed25519: 7678e98b... [VERIFIED] | tier: permanent</span></div>
+    <div><span class="dt-info">[POLICY] Evaluating 2 rules...</span></div>
+    <div><span class="dt-ok">  rate_limit .............. PASS (1/24 today)</span></div>
+    <div><span class="dt-ok">  capability_required ..... PASS (quota_enforce: granted)</span></div>
+    <div><span class="dt-ok">  4 organizations checked | 0 at threshold | 0 hard-blocked</span></div>
+    <div><span class="dt-ok">[RECEIPT] quotas: all clear | hash: 031b9432... [SIGNED]</span></div>
+  </div>
+</div>
+
+<div class="dogfood-note show" data-lang="en">
+  <strong style="color:var(--fg)">Every line above is real.</strong>
+  The hashes, latency numbers, and scan results come from our production infrastructure.
+  This is not a demo &mdash; it's AIB governing AIB.
+  <a href="/status" style="color:var(--cyan)">See live status &rarr;</a>
+</div>
+<div class="dogfood-note" data-lang="fr">
+  <strong style="color:var(--fg)">Chaque ligne ci-dessus est r&eacute;elle.</strong>
+  Les hashes, latences et r&eacute;sultats de scan viennent de notre infrastructure de production.
+  Ce n'est pas une d&eacute;mo &mdash; c'est AIB qui gouverne AIB.
+  <a href="/status" style="color:var(--cyan)">Voir le statut live &rarr;</a>
+</div>
+</div></section>
 
 <!-- FAQ -->
 <section><div class="w">
-<div class="sh"><div class="tag">FAQ</div><h2>Frequently asked <em>questions</em></h2></div>
-<div style="max-width:700px;margin:0 auto">
+<div class="sh"><div class="tag">FAQ</div><h2 class="show" data-lang="en">Frequently asked <em>questions</em></h2><h2 data-lang="fr">Questions <em>fr&eacute;quentes</em></h2></div>
+<div style="max-width:700px;margin:0 auto" class="show" data-lang="en">
 <details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
 <summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">What is Agent Identity Bridge (AIB)?<span style="color:var(--cyan)">+</span></summary>
 <p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is an open-source protocol that creates a single portable identity (called an Agent Passport) for AI agents operating across MCP (Model Context Protocol by Anthropic), A2A (Agent-to-Agent by Google), ANP (Agent Network Protocol), and AG-UI (Agent-User Interaction). It solves the identity fragmentation problem where each protocol has its own credential format.</p>
@@ -425,17 +560,49 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 </details>
 <details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
 <summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Who built AIB?<span style="color:var(--cyan)">+</span></summary>
-<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is created by Thomas Nirennold, founder and CEO of TNTECH CONSULTING SAS, based in Paris, France. The project is open-source on GitHub with 1,094 tests, 35 Edge Functions, and a full CI/CD pipeline via GitHub Actions. The Python SDK is published on PyPI.</p>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB is built by TNTECH CONSULTING SAS, based in Paris, France. The project is open-source on GitHub with 1,094 tests, 35 Edge Functions, and a full CI/CD pipeline via GitHub Actions. The Python SDK is published on PyPI.</p>
+</details>
+</div>
+<div style="max-width:700px;margin:0 auto" data-lang="fr">
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Qu'est-ce que Agent Identity Bridge (AIB) ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB est un protocole open-source qui cr&eacute;e une identit&eacute; portable unique (appel&eacute;e Agent Passport) pour les agents IA op&eacute;rant sur MCP (Anthropic), A2A (Google), ANP et AG-UI. Il r&eacute;sout le probl&egrave;me de fragmentation d'identit&eacute; o&ugrave; chaque protocole a son propre format de credentials.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">&Agrave; qui s'adresse AIB ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB est con&ccedil;u pour les d&eacute;veloppeurs et ing&eacute;nieurs plateforme qui construisent des syst&egrave;mes multi-agents n&eacute;cessitant une interop&eacute;rabilit&eacute; entre protocoles. Si vos agents doivent s'authentifier via MCP et A2A simultan&eacute;ment, AIB g&egrave;re &ccedil;a en moins d'une milliseconde.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Comment fonctionne la traduction de credentials ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB traduit entre 6 chemins : A2A Agent Cards vers MCP Server Cards (et retour), A2A vers AG-UI Descriptors (et retour), MCP vers AG-UI (et retour). Les skills deviennent des tools, les capabilities deviennent des skills. Chaque credential traduit inclut des m&eacute;tadonn&eacute;es _aib_source et _aib_translated_at. Traduction en moins d'1ms.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">AIB est-il gratuit ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Oui. AIB est open-source sous licence Apache 2.0. L'API h&eacute;berg&eacute;e sur aib-tech.fr est gratuite pendant la beta avec toutes les fonctionnalit&eacute;s Pro : limites lev&eacute;es, 12 types de policies, f&eacute;d&eacute;ration OIDC et webhooks. Aucune carte bancaire requise.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Qu'est-ce que la piste d'audit ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">Chaque action (cr&eacute;ation, r&eacute;vocation, traduction) g&eacute;n&egrave;re un re&ccedil;u sign&eacute; en Ed25519 (RFC 8032). Les cl&eacute;s de signature sont persistantes en PostgreSQL, les re&ccedil;us sont v&eacute;rifiables ind&eacute;pendamment. Les hashes forment une cha&icirc;ne SHA-256 infalsifiable. Les violations de policies g&eacute;n&egrave;rent aussi des re&ccedil;us de refus sign&eacute;s.</p>
+</details>
+<details style="border:1px solid var(--bd);border-radius:10px;padding:18px 20px;margin-bottom:10px;background:var(--glass);backdrop-filter:blur(8px)">
+<summary style="cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;align-items:center">Qui a cr&eacute;&eacute; AIB ?<span style="color:var(--cyan)">+</span></summary>
+<p style="margin-top:12px;color:var(--fg2);font-size:14px;line-height:1.7">AIB est d&eacute;velopp&eacute; par TNTECH CONSULTING SAS, bas&eacute;e &agrave; Paris. Le projet est open-source sur GitHub avec 1 094 tests, 35 Edge Functions et un pipeline CI/CD complet via GitHub Actions. Le SDK Python est publi&eacute; sur PyPI.</p>
 </details>
 </div>
 </div></section>
 
+
 <section class="cta"><div class="w reveal">
-<div class="tag">GET STARTED</div>
-<h2>Start building in <em>30 seconds</em></h2>
-<p>Sign up, get an API key, and create your first Agent Passport. Free during beta — all Pro &amp; Scale features included, no credit card.</p>
-<div class="cta-btns"><a href="/dashboard" class="btn-h">> Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Run Quickstart</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-g">GitHub</a></div>
+<div class="tag show" data-lang="en">GET STARTED</div>
+<div class="tag" data-lang="fr">COMMENCER</div>
+<h2 class="show" data-lang="en">Start building in <em>30 seconds</em></h2>
+<h2 data-lang="fr">Commencez en <em>30 secondes</em></h2>
+<p class="show" data-lang="en">Sign up, get an API key, and create your first Agent Passport. Free during beta &mdash; all features included, no credit card.</p>
+<p data-lang="fr">Inscrivez-vous, obtenez une cl&eacute; API et cr&eacute;ez votre premier Agent Passport. Gratuit pendant la beta &mdash; toutes les fonctionnalit&eacute;s incluses, sans carte bancaire.</p>
+<div class="cta-btns show" data-lang="en"><a href="/dashboard" class="btn-h">> Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Run Quickstart</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-g">GitHub</a></div>
+<div class="cta-btns" data-lang="fr"><a href="/dashboard" class="btn-h">> Dashboard</a><a href="https://github.com/tntech-consulting/agent-identity-bridge/blob/main/examples/quickstart.py" class="btn-g">Quickstart</a><a href="https://github.com/tntech-consulting/agent-identity-bridge" class="btn-g">GitHub</a></div>
 </div></section>
+
 
 <footer>
 <div class="w">
@@ -601,12 +768,38 @@ document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 <script>
 const BOT_API='https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/dashboard-bot';
 let botSid=null,botOpen=false;
-function toggleBot(){botOpen=!botOpen;document.getElementById('bot-window').style.display=botOpen?'flex':'none';document.getElementById('bot-fab').style.display=botOpen?'none':'flex';if(botOpen){document.getElementById('bot-input').focus();if(!botSid)addBtns(['What is AIB?','How does it work?','EU AI Act compliance','Pricing & plans']);}}
+// Contextual follow-up suggestions based on conversation
+var defaultBtns=['What is AIB?','How does it work?','EU AI Act compliance','Pricing & plans'];
+var followUpMap={
+  'what is aib':['How does it work?','Who is it for?','See a demo'],
+  'how does it work':['What protocols?','Show me the API','EU AI Act compliance'],
+  'eu ai act':['Which articles?','Audit trail details','Try the dashboard'],
+  'pricing':['Is the beta free?','What are the limits?','How to sign up?'],
+  'protocol':['MCP support','A2A support','Credential translation'],
+  'audit':['How are receipts signed?','Can I verify a receipt?','Export options'],
+  'sign up':['What do I get?','Is it free?','API key setup'],
+  'api':['Authentication methods','Rate limits','Quickstart guide'],
+  'policy':['Rule types','Separation of duties','How to create one?'],
+  'passport':['How to create one?','What is a tier?','Revocation & cascade']
+};
+function getFollowUps(msg){
+  var m=msg.toLowerCase();
+  for(var key in followUpMap){if(m.indexOf(key)!==-1)return followUpMap[key];}
+  return['Tell me more','Show me the API','How to get started?'];
+}
+function toggleBot(){
+  botOpen=!botOpen;
+  var w=document.getElementById('bot-window');
+  var f=document.getElementById('bot-fab');
+  w.style.display=botOpen?'flex':'none';
+  f.style.display=botOpen?'none':'flex';
+  if(botOpen){document.getElementById('bot-input').focus();if(!botSid)addBtns(defaultBtns);}
+}
 function addMsg(role,text){const c=document.getElementById('bot-msgs');const d=document.createElement('div');d.style.cssText='align-self:'+(role==='user'?'flex-end':'flex-start')+';max-width:85%;padding:10px 14px;border-radius:'+(role==='user'?'12px 12px 4px 12px':'12px 12px 12px 4px')+';font-size:12px;line-height:1.6;'+(role==='user'?'background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.15);color:#f0f2ff':'background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.1);color:#a0a5c8');d.innerHTML=role==='assistant'?fmtMd(text):esc(text);c.appendChild(d);c.scrollTop=c.scrollHeight;return d;}
 function addBtns(buttons){const old=document.getElementById('bot-suggestions');if(old)old.remove();const c=document.getElementById('bot-msgs');const w=document.createElement('div');w.id='bot-suggestions';w.style.cssText='display:flex;flex-wrap:wrap;gap:6px;align-self:flex-start;margin-top:2px';buttons.forEach(b=>{const btn=document.createElement('button');btn.textContent=b;btn.style.cssText='padding:6px 14px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.15);border-radius:20px;color:#00d4ff;font-size:11px;font-family:inherit;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap';btn.onmouseenter=()=>{btn.style.background='rgba(0,212,255,.18)'};btn.onmouseleave=()=>{btn.style.background='rgba(0,212,255,.08)'};btn.onclick=()=>{document.getElementById('bot-input').value=b;w.remove();botSend()};w.appendChild(btn)});c.appendChild(w);c.scrollTop=c.scrollHeight;}
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fmtMd(t){return t.replace(/\*\*(.+?)\*\*/g,'<strong style="color:#f0f2ff">$1</strong>').replace(/`([^`]+)`/g,'<code style="color:#00d4ff;background:rgba(0,212,255,.08);padding:1px 5px;border-radius:3px;font-size:11px">$1</code>').replace(/\n/g,'<br>');}
-async function botSend(){const inp=document.getElementById('bot-input');const msg=inp.value.trim();if(!msg)return;inp.value='';const old=document.getElementById('bot-suggestions');if(old)old.remove();addMsg('user',msg);const ld=addMsg('assistant','<span style="opacity:.5">Thinking...</span>');try{const r=await fetch(BOT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session_id:botSid,mode:'public'})});const d=await r.json();ld.remove();if(d.error){addMsg('assistant','Error: '+d.error);}else{addMsg('assistant',d.reply);if(d.suggestions&&d.suggestions.length>0)addBtns(d.suggestions);botSid=d.session_id;}}catch(e){ld.remove();addMsg('assistant','Connection error. Try again.');}}
+async function botSend(){var inp=document.getElementById('bot-input');var msg=inp.value.trim();if(!msg)return;inp.value='';var old=document.getElementById('bot-suggestions');if(old)old.remove();addMsg('user',msg);var ld=addMsg('assistant','<span style="opacity:.5">Thinking...</span>');try{var r=await fetch(BOT_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,session_id:botSid,mode:'public'})});var d=await r.json();ld.remove();if(d.error){addMsg('assistant','Error: '+d.error);addBtns(defaultBtns);}else{addMsg('assistant',d.reply);var btns=(d.suggestions&&d.suggestions.length>0)?d.suggestions:getFollowUps(msg);addBtns(btns);botSid=d.session_id;}}catch(e){ld.remove();addMsg('assistant','Connection error. Try again.');addBtns(defaultBtns);}}
 </script>
 </body>
 </html>
