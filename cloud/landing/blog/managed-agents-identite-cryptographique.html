@@ -3,142 +3,525 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Managed Agents : pourquoi les agents en production ont besoin d'identité cryptographique — AIB Blog</title>
-  <meta name="description" content="Anthropic lance Claude Managed Agents. Cette avancée majeure pour le déploiement d'agents IA en production soulève une question critique : comment identifier et vérifier ces agents ? AIB apporte la réponse.">
-  <meta property="og:title" content="Claude Managed Agents : pourquoi les agents en production ont besoin d'identité cryptographique">
-  <meta property="og:description" content="Anthropic lance Claude Managed Agents. Pourquoi l'identité cryptographique des agents devient incontournable.">
+  <title>Claude Managed Agents : pourquoi les agents en production ont besoin d'identite cryptographique — AIB Blog</title>
+  <meta name="description" content="Anthropic lance Claude Managed Agents. Cette avancee majeure pour le deploiement d'agents IA en production souleve une question critique : comment identifier et verifier ces agents ?">
+  <meta property="og:title" content="Claude Managed Agents : pourquoi les agents en production ont besoin d'identite cryptographique">
+  <meta property="og:description" content="Anthropic lance Claude Managed Agents. Pourquoi l'identite cryptographique des agents devient incontournable.">
   <meta property="og:type" content="article">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0a0a0f;
-      --text: #e0e0e0;
+      --bg: #06060c;
+      --bg-surface: #0d0d18;
+      --bg-elevated: #141422;
+      --text: #c8ccd4;
+      --text-bright: #e8ecf4;
+      --text-dim: #6b7084;
       --green: #00ff88;
-      --green-dim: #00cc6a;
-      --card-bg: #12121a;
+      --green-glow: rgba(0, 255, 136, 0.15);
+      --green-subtle: rgba(0, 255, 136, 0.08);
+      --cyan: #00d4ff;
       --border: #1a1a2e;
+      --border-light: #252540;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-mono: 'Space Mono', 'JetBrains Mono', monospace;
+      --font-code: 'JetBrains Mono', monospace;
+      --max-width: 720px;
+      --reading-width: 680px;
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
-      line-height: 1.8;
-      padding: 2rem;
+      font-family: var(--font-body);
+      line-height: 1.85;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    .article-container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem 0;
+
+    /* === Reading progress bar === */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--cyan));
+      z-index: 1000;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 12px var(--green-glow);
     }
-    .back-link {
+
+    /* === Top nav === */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      background: rgba(6, 6, 12, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar a {
       color: var(--green);
       text-decoration: none;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.9rem;
-      display: inline-block;
-      margin-bottom: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: opacity 0.2s;
     }
-    .back-link:hover { text-decoration: underline; }
-    h1 {
-      font-family: 'Space Mono', monospace;
+    .top-bar a:hover { opacity: 0.7; }
+    .top-bar .logo {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-bright);
+      letter-spacing: 0.08em;
+    }
+
+    /* === Hero === */
+    .hero {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 4rem 2rem 3rem;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, var(--green-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero-category {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
       color: var(--green);
-      font-size: 1.8rem;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero h1 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      color: var(--text-bright);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+      max-width: var(--reading-width);
+    }
+    .hero-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-meta .author {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-meta .author-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--green), var(--cyan));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--bg);
+    }
+    .hero-meta .separator { color: var(--border-light); }
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-tags .tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.25rem 0.7rem;
+      border-radius: 100px;
+      background: var(--green-subtle);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 136, 0.12);
+      letter-spacing: 0.02em;
+    }
+
+    /* === Layout === */
+    .article-layout {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 4rem;
+    }
+
+    /* === TOC sidebar === */
+    .toc {
+      position: sticky;
+      top: 5rem;
+      align-self: start;
+      padding-top: 0.5rem;
+    }
+    .toc-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
       margin-bottom: 1rem;
+    }
+    .toc a {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.35rem 0 0.35rem 1rem;
+      border-left: 2px solid var(--border);
+      transition: all 0.2s ease;
+      line-height: 1.4;
+    }
+    .toc a:hover {
+      color: var(--text);
+      border-left-color: var(--border-light);
+    }
+    .toc a.active {
+      color: var(--green);
+      border-left-color: var(--green);
+    }
+
+    /* === Article content === */
+    .article-content {
+      max-width: var(--reading-width);
+    }
+    .article-content p {
+      margin-bottom: 1.4rem;
+      color: var(--text);
+    }
+    .article-content strong {
+      color: var(--text-bright);
+      font-weight: 600;
+    }
+    .article-content h2 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      color: var(--text-bright);
+      font-size: 1.45rem;
+      margin: 3rem 0 1.2rem;
+      padding-top: 1rem;
       line-height: 1.3;
+      scroll-margin-top: 5rem;
     }
-    .meta {
-      color: #888;
-      font-size: 0.9rem;
-      margin-bottom: 0.5rem;
-      font-family: 'Space Mono', monospace;
+    .article-content h2::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), transparent);
+      margin-bottom: 0.8rem;
+      border-radius: 2px;
     }
-    .tags { margin-bottom: 2rem; }
-    .tag {
-      display: inline-block;
-      background: rgba(0, 255, 136, 0.1);
+    .article-content h3 {
+      font-family: var(--font-body);
+      font-weight: 600;
+      color: var(--text-bright);
+      font-size: 1.15rem;
+      margin: 2rem 0 0.8rem;
+      scroll-margin-top: 5rem;
+    }
+    .article-content a {
       color: var(--green);
-      border: 1px solid rgba(0, 255, 136, 0.2);
-      border-radius: 4px;
-      padding: 2px 8px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-color: rgba(0, 255, 136, 0.3);
+      transition: text-decoration-color 0.2s;
+    }
+    .article-content a:hover {
+      text-decoration-color: var(--green);
+    }
+    .article-content ul, .article-content ol {
+      margin: 1rem 0 1.6rem;
+      padding-left: 0;
+      list-style: none;
+    }
+    .article-content ul li, .article-content ol li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+    .article-content ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.65em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      opacity: 0.6;
+    }
+    .article-content ol { counter-reset: ol-counter; }
+    .article-content ol li { counter-increment: ol-counter; }
+    .article-content ol li::before {
+      content: counter(ol-counter);
+      position: absolute;
+      left: 0;
+      font-family: var(--font-mono);
       font-size: 0.8rem;
-      font-family: 'Space Mono', monospace;
-      margin-right: 0.5rem;
-    }
-    .content h2 {
-      font-family: 'Space Mono', monospace;
       color: var(--green);
-      font-size: 1.4rem;
-      margin: 2rem 0 1rem;
+      font-weight: 700;
     }
-    .content h3 {
-      font-family: 'Space Mono', monospace;
+    .article-content code {
+      font-family: var(--font-code);
+      font-size: 0.88em;
+      background: var(--bg-elevated);
+      padding: 0.15em 0.45em;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--cyan);
+    }
+    .article-content pre {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.2rem 1.5rem;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      position: relative;
+    }
+    .article-content pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* === Blockquote / pull quote === */
+    .article-content blockquote {
+      position: relative;
+      margin: 2.5rem 0;
+      padding: 1.8rem 2rem;
+      background: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--green);
+      font-style: italic;
+      color: var(--text);
+    }
+    .article-content blockquote::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.15rem;
+      left: 1rem;
+      font-size: 3rem;
       color: var(--green);
-      font-size: 1.1rem;
-      margin: 1.5rem 0 0.8rem;
+      opacity: 0.2;
+      font-style: normal;
+      line-height: 1;
     }
-    .content p { margin-bottom: 1rem; }
-    .content a { color: var(--green); }
-    .content code {
-      background: rgba(0, 255, 136, 0.1);
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.9em;
+    .article-content blockquote strong {
+      color: var(--green);
+      font-style: normal;
     }
-    .content pre {
-      background: var(--card-bg);
+
+    /* === CTA box === */
+    .cta-box {
+      margin: 3rem 0;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(0, 255, 136, 0.06), rgba(0, 212, 255, 0.04));
+      border: 1px solid rgba(0, 255, 136, 0.15);
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--green-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box strong { color: var(--green); }
+    .cta-box p { margin-bottom: 1rem; position: relative; }
+    .cta-box p:last-child { margin-bottom: 0; }
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.5rem;
+      background: var(--green);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .cta-link:hover {
+      box-shadow: 0 0 24px var(--green-glow);
+      transform: translateY(-1px);
+    }
+
+    /* === Share section === */
+    .share-section {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .share-label {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .share-buttons {
+      display: flex;
+      gap: 0.6rem;
+    }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 1rem;
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1rem;
-      overflow-x: auto;
-      margin: 1rem 0;
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      transition: all 0.2s;
     }
-    .content pre code {
-      background: none;
-      padding: 0;
+    .share-btn:hover {
+      border-color: var(--green);
+      color: var(--green);
     }
-    .content ul, .content ol {
-      margin: 1rem 0 1rem 2rem;
+
+    /* === Footer === */
+    .article-footer {
+      max-width: 900px;
+      margin: 4rem auto 0;
+      padding: 2rem;
+      text-align: center;
     }
-    .content li { margin-bottom: 0.5rem; }
-    .content blockquote {
-      border-left: 3px solid var(--green);
-      padding-left: 1rem;
-      margin: 1rem 0;
-      color: #aaa;
-      font-style: italic;
+    .article-footer p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
     }
-    .highlight-box {
-      background: rgba(0, 255, 136, 0.05);
-      border: 1px solid rgba(0, 255, 136, 0.2);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
+    .article-footer a {
+      color: var(--green);
+      text-decoration: none;
     }
-    .highlight-box strong { color: var(--green); }
+
+    /* === Responsive === */
+    @media (max-width: 860px) {
+      .article-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .toc { display: none; }
+      .hero { padding: 3rem 1.2rem 2rem; }
+      .article-layout { padding: 0 1.2rem; }
+      body { font-size: 16px; }
+      .hero h1 { font-size: 1.6rem; }
+    }
+
+    /* === Animations === */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-category { animation: fadeInUp 0.5s ease both; }
+    .hero h1 { animation: fadeInUp 0.5s ease 0.1s both; }
+    .hero-meta { animation: fadeInUp 0.5s ease 0.2s both; }
+    .hero-tags { animation: fadeInUp 0.5s ease 0.3s both; }
+    .article-content { animation: fadeInUp 0.6s ease 0.4s both; }
   </style>
 </head>
 <body>
-  <article class="article-container">
-    <a href="/blog.html" class="back-link">&larr; Retour au Blog</a>
+
+  <div class="progress-bar" id="progressBar"></div>
+
+  <nav class="top-bar">
+    <a href="/blog.html">&larr; Blog</a>
+    <span class="logo">AIB</span>
+    <a href="/">aib-tech.fr</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-category">Agent Identity</div>
     <h1>Claude Managed Agents : pourquoi les agents en production ont besoin d'identite cryptographique</h1>
-    <p class="meta">9 avril 2026 &middot; AIB Team</p>
-    <div class="tags">
+    <div class="hero-meta">
+      <span class="author">
+        <span class="author-avatar">AT</span>
+        AIB Team
+      </span>
+      <span class="separator">|</span>
+      <span>9 avril 2026</span>
+      <span class="separator">|</span>
+      <span>6 min de lecture</span>
+    </div>
+    <div class="hero-tags">
       <span class="tag">managed-agents</span>
       <span class="tag">anthropic</span>
       <span class="tag">identite-agent</span>
       <span class="tag">EU AI Act</span>
       <span class="tag">MCP</span>
     </div>
-    <div class="content">
+  </header>
+
+  <main class="article-layout">
+    <article class="article-content">
 
       <p>Anthropic vient de lancer <strong>Claude Managed Agents</strong> en beta publique. Ce service permet aux entreprises de deployer des agents IA autonomes sur l'infrastructure d'Anthropic, sans gerer le provisioning, la gestion d'etat ou la recuperation d'erreurs. Notion, Rakuten, Asana et Sentry font partie des premiers utilisateurs.</p>
 
       <p>C'est une etape majeure pour l'ecosysteme agentique. Mais cette avancee souleve une question que personne ne pose encore assez fort : <strong>comment identifier, verifier et auditer ces agents une fois en production ?</strong></p>
 
-      <h2>Ce que Managed Agents resout</h2>
+      <h2 id="ce-que-managed-agents-resout">Ce que Managed Agents resout</h2>
 
       <p>Jusqu'ici, deployer un agent en production necessitait des mois de travail d'infrastructure : sandbox securise, gestion de contexte, orchestration d'outils, permissions, reprise sur erreur. Managed Agents encapsule tout cela dans une API.</p>
 
@@ -146,7 +529,7 @@
 
       <p>Le pricing est transparent : tokens Claude standard + 0.08$/heure de runtime actif.</p>
 
-      <h2>Ce que Managed Agents ne resout pas</h2>
+      <h2 id="ce-que-managed-agents-ne-resout-pas">Ce que Managed Agents ne resout pas</h2>
 
       <p>Managed Agents est une <strong>plateforme d'execution</strong>. Elle repond au "comment faire tourner un agent". Mais elle ne repond pas aux questions suivantes :</p>
 
@@ -157,11 +540,11 @@
         <li><strong>Conformite reglementaire</strong> &mdash; Comment satisfaire les exigences de l'EU AI Act (Articles 9, 12, 13, 14) en matiere de tracabilite, transparence et supervision humaine des systemes d'IA a haut risque ?</li>
       </ul>
 
-      <div class="highlight-box">
+      <blockquote>
         <strong>Le parallele historique :</strong> quand les conteneurs Docker ont democratise le deploiement d'applications, personne ne s'est demande "qui est ce conteneur ?" pendant les deux premieres annees. Puis sont arrivees les failles de supply chain, et soudain l'identite, la signature et la verification sont devenues critiques. Les agents IA suivent exactement la meme trajectoire &mdash; en accelere.
-      </div>
+      </blockquote>
 
-      <h2>La couche manquante : l'identite cryptographique des agents</h2>
+      <h2 id="couche-manquante">La couche manquante : l'identite cryptographique des agents</h2>
 
       <p>C'est exactement le probleme qu'adresse le protocole <strong>AIB (Agent Identity Bridge)</strong>. AIB n'est pas une plateforme d'execution concurrente de Managed Agents &mdash; c'est la <strong>couche d'identite</strong> qui se branche dessus.</p>
 
@@ -175,7 +558,7 @@
         <li><strong>La conformite EU AI Act by design</strong> &mdash; tracabilite, transparence et supervision integrees au protocole</li>
       </ul>
 
-      <h2>Comment AIB s'integre avec Managed Agents</h2>
+      <h2 id="integration-managed-agents">Comment AIB s'integre avec Managed Agents</h2>
 
       <p>Managed Agents supporte MCP pour l'orchestration d'outils. AIB expose un <strong>MCP Server</strong> qui permet a tout agent manage d'obtenir et verifier des identites cryptographiques directement depuis son flux d'execution.</p>
 
@@ -190,7 +573,7 @@
 
       <p>L'integration est naturelle : pas de refonte, pas de migration. AIB s'ajoute comme un outil MCP supplementaire dans la configuration de l'agent.</p>
 
-      <h2>Pourquoi c'est urgent</h2>
+      <h2 id="pourquoi-urgent">Pourquoi c'est urgent</h2>
 
       <p>Le lancement de Managed Agents va accelerer massivement le nombre d'agents en production. Anthropic n'est pas seul &mdash; Salesforce avec AgentForce, Microsoft avec Copilot Studio, Google avec Gemini Cloud poussent dans la meme direction.</p>
 
@@ -198,9 +581,9 @@
 
       <p><strong>Il manque une couche d'identite ouverte, portable et verifiable.</strong> C'est exactement le role d'un protocole comme AIB &mdash; neutre vis-a-vis des plateformes, interoperable par design, et auditable cryptographiquement.</p>
 
-      <h2>Ce que cela signifie pour les entreprises</h2>
+      <h2 id="pour-les-entreprises">Ce que cela signifie pour les entreprises</h2>
 
-      <p>Si vous deployer des agents en production &mdash; que ce soit sur Managed Agents, sur votre propre infrastructure, ou en multi-cloud &mdash; posez-vous ces questions :</p>
+      <p>Si vous deployez des agents en production &mdash; que ce soit sur Managed Agents, sur votre propre infrastructure, ou en multi-cloud &mdash; posez-vous ces questions :</p>
 
       <ul>
         <li>Pouvez-vous prouver quel agent a fait quoi, et quand ?</li>
@@ -211,11 +594,60 @@
 
       <p>Si la reponse a l'une de ces questions est "non" ou "je ne sais pas", il est temps d'explorer une couche d'identite cryptographique pour vos agents.</p>
 
-      <div class="highlight-box">
-        <strong>AIB est en open beta.</strong> Le protocole est ouvert, le SDK Python est disponible sur PyPI (<code>pip install agent-identity-bridge</code>), et l'integration MCP permet un branchement immediat avec Managed Agents et toute plateforme compatible. <a href="https://aib-tech.fr" style="color: var(--green);">En savoir plus &rarr;</a>
+      <div class="cta-box">
+        <p><strong>AIB est en open beta.</strong> Le protocole est ouvert, le SDK Python est disponible sur PyPI, et l'integration MCP permet un branchement immediat avec Managed Agents et toute plateforme compatible.</p>
+        <pre><code>pip install agent-identity-bridge</code></pre>
+        <p style="margin-top: 1.2rem;"><a href="https://aib-tech.fr" class="cta-link">Decouvrir AIB &rarr;</a></p>
       </div>
 
-    </div>
-  </article>
+      <div class="share-section">
+        <span class="share-label">Partager</span>
+        <div class="share-buttons">
+          <a class="share-btn" href="https://www.linkedin.com/sharing/share-offsite/?url=https://aib-tech.fr/blog/managed-agents-identite-cryptographique.html" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="share-btn" href="https://twitter.com/intent/tweet?url=https://aib-tech.fr/blog/managed-agents-identite-cryptographique.html&text=Pourquoi%20les%20agents%20en%20production%20ont%20besoin%20d%27identit%C3%A9%20cryptographique" target="_blank" rel="noopener">X / Twitter</a>
+          <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href).then(()=>this.textContent='Copie !')">Copier le lien</button>
+        </div>
+      </div>
+
+    </article>
+
+    <aside class="toc">
+      <div class="toc-title">Sommaire</div>
+      <a href="#ce-que-managed-agents-resout">Ce que Managed Agents resout</a>
+      <a href="#ce-que-managed-agents-ne-resout-pas">Ce qu'il ne resout pas</a>
+      <a href="#couche-manquante">La couche manquante</a>
+      <a href="#integration-managed-agents">Integration avec Managed Agents</a>
+      <a href="#pourquoi-urgent">Pourquoi c'est urgent</a>
+      <a href="#pour-les-entreprises">Pour les entreprises</a>
+    </aside>
+  </main>
+
+  <footer class="article-footer">
+    <p>&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris &mdash; <a href="/">AIB</a> &middot; <a href="/cgv.html">Terms</a> &middot; Apache 2.0</p>
+  </footer>
+
+  <script>
+    // Reading progress bar
+    window.addEventListener('scroll', () => {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      document.getElementById('progressBar').style.width = pct + '%';
+    });
+
+    // TOC active state
+    const tocLinks = document.querySelectorAll('.toc a');
+    const headings = document.querySelectorAll('.article-content h2[id]');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector('.toc a[href="#' + entry.target.id + '"]');
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px' });
+    headings.forEach(h => observer.observe(h));
+  </script>
+
 </body>
 </html>
