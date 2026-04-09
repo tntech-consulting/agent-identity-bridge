@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Managed Agents : pourquoi les agents en production ont besoin d'identité cryptographique — AIB Blog</title>
+  <meta name="description" content="Anthropic lance Claude Managed Agents. Cette avancée majeure pour le déploiement d'agents IA en production soulève une question critique : comment identifier et vérifier ces agents ? AIB apporte la réponse.">
+  <meta property="og:title" content="Claude Managed Agents : pourquoi les agents en production ont besoin d'identité cryptographique">
+  <meta property="og:description" content="Anthropic lance Claude Managed Agents. Pourquoi l'identité cryptographique des agents devient incontournable.">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --text: #e0e0e0;
+      --green: #00ff88;
+      --green-dim: #00cc6a;
+      --card-bg: #12121a;
+      --border: #1a1a2e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      line-height: 1.8;
+      padding: 2rem;
+    }
+    .article-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+    .back-link {
+      color: var(--green);
+      text-decoration: none;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+    .back-link:hover { text-decoration: underline; }
+    h1 {
+      font-family: 'Space Mono', monospace;
+      color: var(--green);
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    .meta {
+      color: #888;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .tags { margin-bottom: 2rem; }
+    .tag {
+      display: inline-block;
+      background: rgba(0, 255, 136, 0.1);
+      color: var(--green);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-family: 'Space Mono', monospace;
+      margin-right: 0.5rem;
+    }
+    .content h2 {
+      font-family: 'Space Mono', monospace;
+      color: var(--green);
+      font-size: 1.4rem;
+      margin: 2rem 0 1rem;
+    }
+    .content h3 {
+      font-family: 'Space Mono', monospace;
+      color: var(--green);
+      font-size: 1.1rem;
+      margin: 1.5rem 0 0.8rem;
+    }
+    .content p { margin-bottom: 1rem; }
+    .content a { color: var(--green); }
+    .content code {
+      background: rgba(0, 255, 136, 0.1);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9em;
+    }
+    .content pre {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .content pre code {
+      background: none;
+      padding: 0;
+    }
+    .content ul, .content ol {
+      margin: 1rem 0 1rem 2rem;
+    }
+    .content li { margin-bottom: 0.5rem; }
+    .content blockquote {
+      border-left: 3px solid var(--green);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: #aaa;
+      font-style: italic;
+    }
+    .highlight-box {
+      background: rgba(0, 255, 136, 0.05);
+      border: 1px solid rgba(0, 255, 136, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .highlight-box strong { color: var(--green); }
+  </style>
+</head>
+<body>
+  <article class="article-container">
+    <a href="/blog.html" class="back-link">&larr; Retour au Blog</a>
+    <h1>Claude Managed Agents : pourquoi les agents en production ont besoin d'identite cryptographique</h1>
+    <p class="meta">9 avril 2026 &middot; AIB Team</p>
+    <div class="tags">
+      <span class="tag">managed-agents</span>
+      <span class="tag">anthropic</span>
+      <span class="tag">identite-agent</span>
+      <span class="tag">EU AI Act</span>
+      <span class="tag">MCP</span>
+    </div>
+    <div class="content">
+
+      <p>Anthropic vient de lancer <strong>Claude Managed Agents</strong> en beta publique. Ce service permet aux entreprises de deployer des agents IA autonomes sur l'infrastructure d'Anthropic, sans gerer le provisioning, la gestion d'etat ou la recuperation d'erreurs. Notion, Rakuten, Asana et Sentry font partie des premiers utilisateurs.</p>
+
+      <p>C'est une etape majeure pour l'ecosysteme agentique. Mais cette avancee souleve une question que personne ne pose encore assez fort : <strong>comment identifier, verifier et auditer ces agents une fois en production ?</strong></p>
+
+      <h2>Ce que Managed Agents resout</h2>
+
+      <p>Jusqu'ici, deployer un agent en production necessitait des mois de travail d'infrastructure : sandbox securise, gestion de contexte, orchestration d'outils, permissions, reprise sur erreur. Managed Agents encapsule tout cela dans une API.</p>
+
+      <p>Le service propose des sessions persistantes, du checkpointing, des permissions scopees et du tracing. Les agents peuvent executer du code dans un sandbox, appeler des outils via MCP, et meme (en preview) orchestrer d'autres agents.</p>
+
+      <p>Le pricing est transparent : tokens Claude standard + 0.08$/heure de runtime actif.</p>
+
+      <h2>Ce que Managed Agents ne resout pas</h2>
+
+      <p>Managed Agents est une <strong>plateforme d'execution</strong>. Elle repond au "comment faire tourner un agent". Mais elle ne repond pas aux questions suivantes :</p>
+
+      <ul>
+        <li><strong>Identite portable</strong> &mdash; Comment un agent prouve-t-il son identite aupres d'un autre agent, d'un service tiers, ou d'un humain, independamment de la plateforme qui l'heberge ?</li>
+        <li><strong>Interoperabilite des credentials</strong> &mdash; Comment un agent Claude communique-t-il de maniere verifiable avec un agent GPT, Gemini, ou un agent custom via des protocoles differents (MCP, A2A, AG-UI) ?</li>
+        <li><strong>Audit cryptographique</strong> &mdash; Comment prouver a posteriori qu'une action a ete realisee par un agent specifique, avec des capacites specifiques, a un moment precis ?</li>
+        <li><strong>Conformite reglementaire</strong> &mdash; Comment satisfaire les exigences de l'EU AI Act (Articles 9, 12, 13, 14) en matiere de tracabilite, transparence et supervision humaine des systemes d'IA a haut risque ?</li>
+      </ul>
+
+      <div class="highlight-box">
+        <strong>Le parallele historique :</strong> quand les conteneurs Docker ont democratise le deploiement d'applications, personne ne s'est demande "qui est ce conteneur ?" pendant les deux premieres annees. Puis sont arrivees les failles de supply chain, et soudain l'identite, la signature et la verification sont devenues critiques. Les agents IA suivent exactement la meme trajectoire &mdash; en accelere.
+      </div>
+
+      <h2>La couche manquante : l'identite cryptographique des agents</h2>
+
+      <p>C'est exactement le probleme qu'adresse le protocole <strong>AIB (Agent Identity Bridge)</strong>. AIB n'est pas une plateforme d'execution concurrente de Managed Agents &mdash; c'est la <strong>couche d'identite</strong> qui se branche dessus.</p>
+
+      <p>Concretement, AIB fournit :</p>
+
+      <ul>
+        <li><strong>Des passeports cryptographiques</strong> pour chaque agent (cles Ed25519, capacites declarees, protocoles supportes)</li>
+        <li><strong>Des receipts signes</strong> pour chaque operation &mdash; preuves cryptographiques immuables et verifiables</li>
+        <li><strong>La traduction de credentials</strong> entre MCP, A2A, ANP et AG-UI &mdash; pour que les agents communiquent entre plateformes</li>
+        <li><strong>Des policy rules</strong> (rate limits, separation of duties, capability gates) integrables comme guardrails</li>
+        <li><strong>La conformite EU AI Act by design</strong> &mdash; tracabilite, transparence et supervision integrees au protocole</li>
+      </ul>
+
+      <h2>Comment AIB s'integre avec Managed Agents</h2>
+
+      <p>Managed Agents supporte MCP pour l'orchestration d'outils. AIB expose un <strong>MCP Server</strong> qui permet a tout agent manage d'obtenir et verifier des identites cryptographiques directement depuis son flux d'execution.</p>
+
+      <p>Un agent Claude heberge sur Managed Agents peut ainsi :</p>
+
+      <ol>
+        <li>S'authentifier avec un passeport AIB avant d'interagir avec des services tiers</li>
+        <li>Generer des receipts signes pour chaque action critique</li>
+        <li>Verifier l'identite d'un agent distant avant de lui faire confiance</li>
+        <li>Appliquer des policies de gouvernance definies par l'organisation</li>
+      </ol>
+
+      <p>L'integration est naturelle : pas de refonte, pas de migration. AIB s'ajoute comme un outil MCP supplementaire dans la configuration de l'agent.</p>
+
+      <h2>Pourquoi c'est urgent</h2>
+
+      <p>Le lancement de Managed Agents va accelerer massivement le nombre d'agents en production. Anthropic n'est pas seul &mdash; Salesforce avec AgentForce, Microsoft avec Copilot Studio, Google avec Gemini Cloud poussent dans la meme direction.</p>
+
+      <p>Chaque plateforme construit son propre silo d'identite. Les "scoped permissions" de Managed Agents ne fonctionnent que dans l'ecosysteme Claude. Les credentials AgentForce ne sont pas reconnus par Copilot Studio.</p>
+
+      <p><strong>Il manque une couche d'identite ouverte, portable et verifiable.</strong> C'est exactement le role d'un protocole comme AIB &mdash; neutre vis-a-vis des plateformes, interoperable par design, et auditable cryptographiquement.</p>
+
+      <h2>Ce que cela signifie pour les entreprises</h2>
+
+      <p>Si vous deployer des agents en production &mdash; que ce soit sur Managed Agents, sur votre propre infrastructure, ou en multi-cloud &mdash; posez-vous ces questions :</p>
+
+      <ul>
+        <li>Pouvez-vous prouver quel agent a fait quoi, et quand ?</li>
+        <li>Vos agents peuvent-ils s'identifier aupres de partenaires externes ?</li>
+        <li>Etes-vous conforme aux exigences de tracabilite de l'EU AI Act ?</li>
+        <li>Votre identite agent est-elle portable, ou prisonniere d'un vendor ?</li>
+      </ul>
+
+      <p>Si la reponse a l'une de ces questions est "non" ou "je ne sais pas", il est temps d'explorer une couche d'identite cryptographique pour vos agents.</p>
+
+      <div class="highlight-box">
+        <strong>AIB est en open beta.</strong> Le protocole est ouvert, le SDK Python est disponible sur PyPI (<code>pip install agent-identity-bridge</code>), et l'integration MCP permet un branchement immediat avec Managed Agents et toute plateforme compatible. <a href="https://aib-tech.fr" style="color: var(--green);">En savoir plus &rarr;</a>
+      </div>
+
+    </div>
+  </article>
+</body>
+</html>
