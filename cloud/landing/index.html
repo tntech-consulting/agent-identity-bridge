@@ -179,6 +179,7 @@ footer a:hover{color:var(--cyan)!important}
 
 /* ===== FEATURES ===== */
 .features-section{padding:80px 40px;max-width:var(--mw);margin:0 auto;position:relative;z-index:1}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
 .feature-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch}
 .feature-row+.feature-row{margin-top:32px}
 .feature-card{background:var(--bg-card);border-radius:var(--rl);padding:36px;border:1px solid var(--bd);backdrop-filter:blur(12px);display:flex;flex-direction:column;justify-content:center}
@@ -337,7 +338,7 @@ footer a:hover{color:var(--cyan)!important}
 
 .hero-dashboard{grid-template-columns:1fr;min-height:auto}
 .dash-sidebar,.dash-activity{display:none}
-.ai-grid,.feature-row,.data-grid,.bento-grid,.stats-grid{grid-template-columns:1fr}
+.ai-grid,.feature-row,.data-grid,.bento-grid,.stats-grid,.features-grid{grid-template-columns:1fr}
 .hero{padding:120px 20px 60px}.nav{padding:14px 20px}
 .features-section,.ai-section,.data-section,.bento-section,.stats-section,.cta-section,.logos-section,.terminal-section,.faq-section{padding-left:20px;padding-right:20px}
 .logos-row{gap:20px}.tags-cloud{padding:16px}
@@ -541,51 +542,31 @@ footer a:hover{color:var(--cyan)!important}
 
 <!-- FEATURES -->
 <section class="features-section" id="features">
-<h2 class="section-title reveal">Concu pour les <em>equipes IA modernes</em><br>qui veulent le controle</h2>
-<p class="section-subtitle reveal reveal-delay-1">AIB reunit identite cryptographique, verification et gouvernance pour que vous n'ayez plus a jongler entre les outils.</p>
+<h2 class="section-title reveal">Tout ce dont vos agents<br>ont besoin, <em>en un seul endroit</em></h2>
 
-<div class="feature-row reveal">
-<div class="feature-card"><h3>Identite Cryptographique en 1 API Call</h3><p>Chaque agent recoit un passeport unique signe Ed25519 avec ses capabilities, protocoles et tier. Un seul appel API, moins de 2 secondes.</p>
-<div class="feature-checks"><div class="feature-check"><span class="ci">&#x2713;</span> Signature Ed25519 automatique</div><div class="feature-check"><span class="ci">&#x2713;</span> Support MCP, A2A, ANP, AG-UI natif</div><div class="feature-check"><span class="ci">&#x2713;</span> Receipt cryptographique a chaque operation</div></div></div>
-<div class="feature-visual"><div class="feature-visual-inner">
-<div style="font-family:var(--mono);font-size:.75rem;line-height:1.7">
-<div style="color:var(--fg-dim);margin-bottom:8px">// Reponse passport-create</div>
-<div><span style="color:var(--purple)">{</span></div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"passport_id"</span>: <span style="color:var(--green)">"urn:aib:agent:you:my-bot"</span>,</div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"protocols"</span>: [<span style="color:var(--green)">"mcp"</span>, <span style="color:var(--green)">"a2a"</span>],</div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"capabilities"</span>: [<span style="color:var(--green)">"chat"</span>, <span style="color:var(--green)">"search"</span>],</div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"tier"</span>: <span style="color:var(--green)">"permanent"</span>,</div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"signature"</span>: <span style="color:var(--fg-dim)">"ed25519:..."</span>,</div>
-<div style="padding-left:16px"><span style="color:var(--cyan)">"receipt_id"</span>: <span style="color:var(--fg-dim)">"uuid-..."</span></div>
-<div><span style="color:var(--purple)">}</span></div>
-</div>
-</div></div>
+<div class="features-grid reveal">
+
+<div style="background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--rl);padding:32px;backdrop-filter:blur(12px)">
+<div style="width:44px;height:44px;border-radius:12px;background:var(--cyan-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;border:1px solid rgba(0,212,255,.15)">&#x1F6E1;</div>
+<h3 style="font-size:1.15rem;font-weight:800;margin-bottom:8px">Passeport en 1 appel</h3>
+<p style="color:var(--fg-muted);font-size:.88rem;line-height:1.6;margin-bottom:14px">Un seul <span style="font-family:var(--mono);color:var(--cyan);font-size:.82rem">POST /passport-create</span> et votre agent recoit son identite Ed25519 signee en moins de 2 secondes.</p>
+<div style="font-size:.8rem;color:var(--fg-dim)">MCP + A2A natif &bull; Traduction ANP, AG-UI</div>
 </div>
 
-<div class="feature-row reveal">
-<div class="feature-visual"><div class="feature-visual-inner"><div class="cw">
-<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><span class="ai-sparkle" style="font-size:1.1rem">&#x2726;</span><span style="font-weight:800;color:var(--cyan)">AIB Bot</span></div>
-<div class="cb bot">Vous avez 12 agents actifs. 2 passeports expirent dans 7 jours. Voulez-vous les renouveler ?</div>
-<div class="cb user">Oui, renouvelle-les<div class="uav"></div></div>
-<div class="cb bot" style="margin-top:4px">&#x2714; 2 passeports renouveles. Nouveaux receipts generes.</div>
-<div class="ci-box"><span>Demandez-moi n'importe quoi...</span><div class="si">&#x25B6;</div></div>
-</div></div></div>
-<div class="feature-card"><h3>Gerez votre Flotte par le Chat</h3><p>L'assistant IA d'AIB connait vos agents. Il peut creer, renouveler et auditer vos passeports directement depuis la conversation.</p>
-<div class="feature-checks"><div class="feature-check"><span class="ci">&#x2713;</span> Creation de passeport guidee par questions</div><div class="feature-check"><span class="ci">&#x2713;</span> Alertes d'expiration et renouvellement</div><div class="feature-check"><span class="ci">&#x2713;</span> Vos donnees, vos agents &mdash; contexte personnel</div></div></div>
+<div style="background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--rl);padding:32px;backdrop-filter:blur(12px)">
+<div style="width:44px;height:44px;border-radius:12px;background:rgba(139,92,246,.08);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;border:1px solid rgba(139,92,246,.15)">&#x1F4CB;</div>
+<h3 style="font-size:1.15rem;font-weight:800;margin-bottom:8px">Policies de gouvernance</h3>
+<p style="color:var(--fg-muted);font-size:.88rem;line-height:1.6;margin-bottom:14px">9 types de regles (rate_limit, capability, tier_restrict...) evaluees automatiquement a chaque operation. Severite block, warn ou log.</p>
+<div style="font-size:.8rem;color:var(--fg-dim)">Cumulables &bull; Par agent ou par org</div>
 </div>
 
-<div class="feature-row reveal">
-<div class="feature-card"><h3>Gouvernance + Conformite Integree</h3><p>Definissez des policies de securite, recevez des webhooks, et auditez chaque action avec un trail cryptographique immutable.</p>
-<div class="feature-checks"><div class="feature-check"><span class="ci">&#x2713;</span> 9 types de policies (rate_limit, capability, tier...)</div><div class="feature-check"><span class="ci">&#x2713;</span> Webhooks HMAC sur chaque evenement</div><div class="feature-check"><span class="ci">&#x2713;</span> Audit trail signe Ed25519 &mdash; immutable</div></div></div>
-<div class="feature-visual"><div class="feature-visual-inner">
-<div style="display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.82rem"><span style="color:var(--green);font-weight:700">&#x2714;</span><span>Art. 9 &mdash; Gestion des risques</span><span style="margin-left:auto;color:var(--green);font-family:var(--mono);font-size:.75rem">conforme</span></div>
-<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.82rem"><span style="color:var(--green);font-weight:700">&#x2714;</span><span>Art. 12 &mdash; Conservation des logs</span><span style="margin-left:auto;color:var(--green);font-family:var(--mono);font-size:.75rem">conforme</span></div>
-<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.82rem"><span style="color:var(--green);font-weight:700">&#x2714;</span><span>Art. 13 &mdash; Transparence</span><span style="margin-left:auto;color:var(--green);font-family:var(--mono);font-size:.75rem">conforme</span></div>
-<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.82rem"><span style="color:var(--green);font-weight:700">&#x2714;</span><span>Art. 14 &mdash; Controle humain</span><span style="margin-left:auto;color:var(--green);font-family:var(--mono);font-size:.75rem">conforme</span></div>
-<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(255,189,46,.06);border:1px solid rgba(255,189,46,.15);border-radius:10px;font-size:.82rem"><span style="color:#ffbd2e;font-weight:700">&#x25CB;</span><span>Art. 17 &mdash; Systeme qualite</span><span style="margin-left:auto;color:#ffbd2e;font-family:var(--mono);font-size:.75rem">en cours</span></div>
+<div style="background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--rl);padding:32px;backdrop-filter:blur(12px)">
+<div style="width:44px;height:44px;border-radius:12px;background:rgba(34,197,94,.08);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;border:1px solid rgba(34,197,94,.15)">&#x2714;</div>
+<h3 style="font-size:1.15rem;font-weight:800;margin-bottom:8px">Audit trail immutable</h3>
+<p style="color:var(--fg-muted);font-size:.88rem;line-height:1.6;margin-bottom:14px">Chaque action genere un receipt signe Ed25519. Chaine SHA-256 infalsifiable. Export PDF conforme EU AI Act (Art. 12, 13, 17).</p>
+<div style="font-size:.8rem;color:var(--fg-dim)">Export JSON, CSV, PDF &bull; Plan Pro+</div>
 </div>
-</div></div>
+
 </div>
 </section>
 
