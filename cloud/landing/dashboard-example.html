@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIB Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--purple:#8b5cf6;--green:#22c55e;--red:#ef4444;--yellow:#ffbd2e;--bd:rgba(255,255,255,.06);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--sans);background:var(--bg);color:var(--fg);line-height:1.6;min-height:100vh;display:flex}a{text-decoration:none;color:inherit}
+.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--bd);padding:20px 0;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;overflow-y:auto;z-index:10}
+.sidebar-logo{display:flex;align-items:center;gap:10px;padding:0 20px 24px;border-bottom:1px solid var(--bd);margin-bottom:12px}
+.sidebar-logo .mark{width:32px;height:32px;border-radius:8px;background:none;display:flex;align-items:center;justify-content:center}
+.sidebar-logo span{font-weight:700;font-size:15px}
+.org-box{padding:0 16px;margin-bottom:16px}.org-name{font-size:.78rem;font-weight:600;color:var(--fg2);display:flex;align-items:center;gap:6px;padding:8px 12px;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid var(--bd)}.org-name .plan{margin-left:auto;font-size:.65rem;color:var(--cyan);background:var(--cyan-dim);padding:2px 8px;border-radius:4px;font-weight:700}
+.ng{padding:0 12px;margin-bottom:8px}.ng-label{font-size:.65rem;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:1.5px;padding:8px 12px}
+.nl{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.85rem;font-weight:500;color:var(--fg2);cursor:pointer;transition:.15s;border:none;background:none;width:100%;text-align:left;font-family:var(--sans)}
+.nl:hover{background:rgba(255,255,255,.04);color:var(--fg)}.nl.active{background:rgba(0,212,255,.08);color:var(--cyan);font-weight:600}
+.nl svg{width:18px;height:18px;flex-shrink:0}.nl .badge{margin-left:auto;font-size:.65rem;font-weight:700;background:var(--cyan);color:var(--bg);padding:1px 7px;border-radius:10px}
+.sb{margin-top:auto;padding:16px 20px;border-top:1px solid var(--bd)}.uinfo{display:flex;align-items:center;gap:10px}
+.uav{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;color:#fff}
+.main{flex:1;margin-left:240px;padding:28px 32px;min-height:100vh}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.topbar h1{font-size:1.5rem;font-weight:800}.topbar-a{display:flex;gap:10px}
+.btn{padding:8px 18px;border-radius:8px;font-size:.82rem;font-weight:600;border:1px solid var(--bd);background:transparent;color:var(--fg2);cursor:pointer;font-family:var(--sans);transition:.2s;display:flex;align-items:center;gap:6px}
+.btn:hover{border-color:var(--fg3);color:var(--fg)}.btn.p{background:var(--cyan);color:var(--bg);border-color:var(--cyan)}.btn.p:hover{box-shadow:0 0 20px var(--cyan-glow)}
+.btn.s{border-color:var(--green);color:var(--green)}.btn.d{border-color:var(--red);color:var(--red)}
+.pp{display:none}.pp.active{display:block}
+.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.mc{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:20px}.mc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.mc-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1rem}.mc-lbl{font-size:.78rem;color:var(--fg3)}.mc-val{font-size:1.8rem;font-weight:800;font-family:var(--mono);margin-bottom:4px}.mc-sub{font-size:.72rem;font-weight:600;color:var(--green)}.mc-sub.w{color:var(--yellow)}
+.card{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:20px}
+.ch{padding:18px 20px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}.ct{font-size:.95rem;font-weight:700}.ca{font-size:.75rem;color:var(--cyan);cursor:pointer;font-weight:600}
+.tbl{width:100%;border-collapse:collapse}.tbl th{text-align:left;padding:10px 20px;font-size:.7rem;font-weight:600;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid var(--bd)}
+.tbl td{padding:13px 20px;font-size:.82rem;border-bottom:1px solid var(--bd);vertical-align:middle}.tbl tr:last-child td{border-bottom:none}.tbl tr:hover td{background:rgba(255,255,255,.02)}
+.ac{display:flex;align-items:center;gap:10px}.ai{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.an{font-weight:600}.aurn{font-size:.68rem;color:var(--fg3);font-family:var(--mono)}
+.pb{font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:5px;font-family:var(--mono)}.pb.mcp{background:rgba(0,212,255,.08);color:var(--cyan);border:1px solid rgba(0,212,255,.15)}.pb.a2a{background:rgba(139,92,246,.08);color:var(--purple);border:1px solid rgba(139,92,246,.15)}
+.sd{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px}.sd.ok{background:var(--green);box-shadow:0 0 6px var(--green)}.sd.w{background:var(--yellow);box-shadow:0 0 6px var(--yellow)}.sd.r{background:var(--red)}
+.fi{display:flex;gap:12px;padding:12px 20px;transition:.15s}.fi:hover{background:rgba(255,255,255,.02)}.fi-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;border:1px solid var(--bd)}.fi-text{flex:1}.fi-t{font-size:.82rem;font-weight:600;margin-bottom:1px}.fi-d{font-size:.72rem;color:var(--fg3)}.fi-time{font-size:.68rem;color:var(--fg3);font-family:var(--mono);align-self:center}
+.cgrid{display:grid;grid-template-columns:1fr 380px;gap:20px;margin-bottom:28px}
+.prow{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pc{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px}
+.pt{font-size:.68rem;font-weight:700;color:var(--fg3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-family:var(--mono)}.pn{font-size:.9rem;font-weight:700;margin-bottom:4px}.pd{font-size:.75rem;color:var(--fg3);line-height:1.5;margin-bottom:10px}
+.ps{display:flex;align-items:center;gap:6px;font-size:.72rem;font-weight:600}.ps.ok{color:var(--green)}.ps.w{color:var(--yellow)}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:100;align-items:center;justify-content:center}.overlay.open{display:flex}
+.wiz{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;width:min(580px,90vw);max-height:85vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.wiz-h{padding:24px 28px 0;display:flex;justify-content:space-between;align-items:flex-start}.wiz-h h2{font-size:1.2rem;font-weight:800}
+.wiz-x{background:none;border:none;color:var(--fg3);font-size:1.2rem;cursor:pointer;padding:4px}.wiz-x:hover{color:var(--fg)}
+.wiz-steps{display:flex;gap:8px;padding:16px 28px 0}.ws{flex:1;height:4px;border-radius:2px;background:var(--bd)}.ws.done{background:var(--cyan)}.ws.cur{background:var(--cyan);opacity:.5;animation:puls 1.5s infinite}
+@keyframes puls{0%,100%{opacity:.5}50%{opacity:1}}
+.wiz-body{padding:24px 28px}.wiz-foot{padding:0 28px 24px;display:flex;justify-content:space-between;align-items:center}
+.wl{font-size:.85rem;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px}.wh{font-size:.75rem;color:var(--fg3);margin-bottom:14px;line-height:1.5}
+.wi{width:100%;padding:12px 16px;border:1px solid var(--bd);border-radius:10px;background:rgba(255,255,255,.03);color:var(--fg);font-family:var(--sans);font-size:.9rem;outline:none;margin-bottom:18px}.wi:focus{border-color:var(--cyan)}.wi::placeholder{color:var(--fg3)}
+.wopts{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}.wo{padding:10px 16px;border:1px solid var(--bd);border-radius:10px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.2s;background:rgba(255,255,255,.02)}.wo:hover{border-color:var(--fg3)}.wo.sel{border-color:var(--cyan);background:var(--cyan-dim);color:var(--cyan)}
+.wres{padding:16px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.15);border-radius:12px;font-family:var(--mono);font-size:.78rem;line-height:1.8;margin-bottom:18px;color:var(--fg2)}.wres .k{color:var(--cyan)}.wres .v{color:var(--green)}
+.wtip{font-size:.72rem;color:var(--fg3);max-width:60%;line-height:1.5}
+.emod{background:var(--bg2);border:1px solid var(--bd);border-radius:20px;width:min(500px,90vw);box-shadow:0 30px 80px rgba(0,0,0,.5);padding:28px}
+.eo{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid var(--bd);border-radius:12px;margin-bottom:10px;cursor:pointer;transition:.2s}.eo:hover{border-color:var(--cyan);background:var(--cyan-dim)}
+.eo-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.eo-lbl{font-weight:700;font-size:.9rem;margin-bottom:2px}.eo-desc{font-size:.75rem;color:var(--fg3)}
+.eo-badge{margin-left:auto;font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:6px;flex-shrink:0}
+.eo-badge.pro{background:rgba(0,212,255,.1);color:var(--cyan);border:1px solid rgba(0,212,255,.2)}.eo-badge.free{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+
+.pol-tip{position:relative}.pol-tip:hover .tip-box{opacity:1;visibility:visible;transform:translateY(0)}
+.tip-box{position:absolute;bottom:calc(100% + 8px);left:0;right:0;background:rgba(15,16,41,.97);border:1px solid rgba(0,212,255,.2);border-radius:10px;padding:12px 14px;font-size:.75rem;color:var(--fg2);line-height:1.6;opacity:0;visibility:hidden;transform:translateY(6px);transition:all .2s;z-index:10;pointer-events:none;box-shadow:0 12px 32px rgba(0,0,0,.4);font-weight:400;text-align:left}
+.tip-box strong{color:var(--cyan);font-weight:700;display:block;margin-bottom:4px;font-size:.78rem}
+.tip-box .tip-ex{margin-top:6px;padding-top:6px;border-top:1px solid var(--bd);font-family:var(--mono);font-size:.7rem;color:var(--fg3)}
+@media(max-width:1100px){.mrow{grid-template-columns:repeat(2,1fr)}.cgrid{grid-template-columns:1fr}.prow{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:20px 16px}}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+<div class="sidebar-logo"><div class="mark"><img src="data:image/png;base64,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" alt="AIB" style="width:32px;height:32px;border-radius:6px"></div><span>AIB</span></div>
+<div class="org-box"><div class="org-name">Acme AI Corp<span class="plan">PRO</span></div></div>
+<div class="ng"><div class="ng-label">Principal</div>
+<button class="nl active" onclick="go('dash',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> Dashboard</button>
+<button class="nl" onclick="go('pass',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Passeports <span class="badge">5</span></button>
+<button class="nl" onclick="go('pol',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Policies <span class="badge">3</span></button>
+<button class="nl" onclick="go('aud',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg> Audit Trail</button>
+</div>
+<div class="ng"><div class="ng-label">Configuration</div>
+<button class="nl" onclick="go('tr',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Translate</button>
+<button class="nl" onclick="go('wh',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg> Webhooks</button>
+<button class="nl" onclick="go('ak',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7h3a5 5 0 010 10h-3m-6 0H6a5 5 0 010-10h3M8 12h8"/></svg> API Keys</button>
+</div>
+<div class="sb"><button class="nl" onclick="if(confirm('Deconnexion ?'))alert('Deconnecte.')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg> Deconnexion</button><div style="margin-top:12px" class="uinfo"><div class="uav">JD</div><div><div style="font-size:.82rem;font-weight:600">Julien Dupont</div><div style="font-size:.7rem;color:var(--fg3)">julien@acme-ai.com</div></div></div></div>
+</aside>
+<main class="main">
+<!-- DASHBOARD -->
+<div class="pp active" id="p-dash">
+<div class="topbar"><h1>Dashboard</h1><div class="topbar-a"><button class="btn" onclick="openE()">&#x1F4CA; Exporter</button><button class="btn p" onclick="openW()">+ Nouveau Passeport</button></div></div>
+<div class="mrow">
+<div class="mc"><div class="mc-top"><div class="mc-icon" style="background:var(--cyan-dim);color:var(--cyan)">&#x1F6E1;</div><div class="mc-lbl">Passeports actifs</div></div><div class="mc-val">5</div><div class="mc-sub">3 MCP + 2 A2A</div></div>
+<div class="mc"><div class="mc-top"><div class="mc-icon" style="background:rgba(34,197,94,.08);color:var(--green)">&#x2714;</div><div class="mc-lbl">Receipts ce mois</div></div><div class="mc-val">127</div><div class="mc-sub">&#x25B2; 23% vs mars</div></div>
+<div class="mc"><div class="mc-top"><div class="mc-icon" style="background:rgba(139,92,246,.08);color:var(--purple)">&#x1F50D;</div><div class="mc-lbl">Traductions</div></div><div class="mc-val">34</div><div class="mc-sub">A2A &#x2194; MCP</div></div>
+<div class="mc"><div class="mc-top"><div class="mc-icon" style="background:rgba(255,189,46,.08);color:var(--yellow)">&#x26A0;</div><div class="mc-lbl">Alertes</div></div><div class="mc-val">1</div><div class="mc-sub w">1 passeport expire bientot</div></div>
+</div>
+<div class="cgrid">
+<div class="card"><div class="ch"><div class="ct">Mes Passeports</div><div class="ca" onclick="go('pass',document.querySelectorAll('.nl')[1])">Voir tout &#x2192;</div></div>
+<table class="tbl"><thead><tr><th>Agent</th><th>Protocole</th><th>Tier</th><th>Statut</th></tr></thead><tbody>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(0,212,255,.1);color:var(--cyan)">SB</div><div><div class="an">Support Bot</div><div class="aurn">urn:aib:agent:acme:support-bot</div></div></div></td><td><span class="pb mcp">MCP</span></td><td style="font-size:.78rem;color:var(--fg2)">permanent</td><td><span class="sd ok"></span>Actif</td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(139,92,246,.1);color:var(--purple)">CC</div><div><div class="an">CRM Connector</div><div class="aurn">urn:aib:agent:acme:crm-conn</div></div></div></td><td><span class="pb a2a">A2A</span></td><td style="font-size:.78rem;color:var(--fg2)">permanent</td><td><span class="sd ok"></span>Actif</td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(255,189,46,.1);color:var(--yellow)">DA</div><div><div class="an">Data Analyst</div><div class="aurn">urn:aib:agent:acme:data-analyst</div></div></div></td><td><span class="pb mcp">MCP</span></td><td style="font-size:.78rem;color:var(--fg2)">session</td><td><span class="sd w"></span><span style="color:var(--yellow)">Expire 5j</span></td></tr>
+</tbody></table></div>
+<div class="card"><div class="ch"><div class="ct">Activite Recente</div><div class="ca" onclick="go('aud',document.querySelectorAll('.nl')[3])">Audit trail &#x2192;</div></div>
+<div class="fi"><div class="fi-icon" style="background:rgba(34,197,94,.08);color:var(--green)">&#x2714;</div><div class="fi-text"><div class="fi-t">Verification reussie</div><div class="fi-d">Support Bot &mdash; receipt Ed25519</div></div><div class="fi-time">3 min</div></div>
+<div class="fi"><div class="fi-icon" style="background:rgba(59,130,246,.08);color:var(--blue)">&#x21C4;</div><div class="fi-text"><div class="fi-t">Traduction A2A &#x2192; MCP</div><div class="fi-d">CRM Connector &mdash; 0.8ms</div></div><div class="fi-time">18 min</div></div>
+<div class="fi"><div class="fi-icon" style="background:rgba(139,92,246,.08);color:var(--purple)">&#x1F6E1;</div><div class="fi-text"><div class="fi-t">Policy evaluee</div><div class="fi-d">rate_limit: 12/60 &mdash; PASS</div></div><div class="fi-time">42 min</div></div>
+<div class="fi"><div class="fi-icon" style="background:rgba(0,212,255,.08);color:var(--cyan)">+</div><div class="fi-text"><div class="fi-t">Passeport cree</div><div class="fi-d">Report Generator &mdash; A2A</div></div><div class="fi-time">2h</div></div>
+<div class="fi"><div class="fi-icon" style="background:rgba(239,68,68,.08);color:var(--red)">&#x2715;</div><div class="fi-text"><div class="fi-t">Passeport revoque</div><div class="fi-d">Old Scraper v1 &mdash; deprecated</div></div><div class="fi-time">2 sem</div></div>
+</div></div></div>
+<!-- PASSPORTS -->
+<div class="pp" id="p-pass">
+<div class="topbar"><h1>Passeports</h1><div class="topbar-a"><button class="btn" onclick="openE()">&#x1F4CA; Exporter</button><button class="btn p" onclick="openW()">+ Nouveau Passeport</button></div></div>
+<div class="card"><div class="ch"><div class="ct">Tous les passeports (5)</div></div>
+<table class="tbl"><thead><tr><th>Agent</th><th>Passport ID</th><th>Protocole</th><th>Capabilities</th><th>Tier</th><th>Statut</th><th>Actions</th></tr></thead><tbody>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(0,212,255,.1);color:var(--cyan)">SB</div><div class="an">Support Bot</div></div></td><td class="aurn">urn:aib:agent:acme:support-bot</td><td><span class="pb mcp">MCP</span></td><td style="font-size:.75rem">chat, knowledge_base</td><td style="font-size:.78rem">permanent</td><td><span class="sd ok"></span>Actif</td><td><button class="btn" style="padding:4px 10px;font-size:.72rem">Renouveler</button></td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(139,92,246,.1);color:var(--purple)">CC</div><div class="an">CRM Connector</div></div></td><td class="aurn">urn:aib:agent:acme:crm-conn</td><td><span class="pb a2a">A2A</span></td><td style="font-size:.75rem">crm_sync, data_export</td><td style="font-size:.78rem">permanent</td><td><span class="sd ok"></span>Actif</td><td><button class="btn" style="padding:4px 10px;font-size:.72rem">Renouveler</button></td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(255,189,46,.1);color:var(--yellow)">DA</div><div class="an">Data Analyst</div></div></td><td class="aurn">urn:aib:agent:acme:data-analyst</td><td><span class="pb mcp">MCP</span></td><td style="font-size:.75rem">sql_query, report</td><td style="font-size:.78rem">session</td><td><span class="sd w"></span><span style="color:var(--yellow)">Expire 5j</span></td><td><button class="btn s" style="padding:4px 10px;font-size:.72rem">Renouveler</button></td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(34,197,94,.1);color:var(--green)">RG</div><div class="an">Report Generator</div></div></td><td class="aurn">urn:aib:agent:acme:report-gen</td><td><span class="pb a2a">A2A</span></td><td style="font-size:.75rem">report_generate</td><td style="font-size:.78rem">permanent</td><td><span class="sd ok"></span>Actif</td><td><button class="btn" style="padding:4px 10px;font-size:.72rem">Renouveler</button></td></tr>
+<tr><td><div class="ac"><div class="ai" style="background:rgba(239,68,68,.1);color:var(--red)">OS</div><div class="an">Old Scraper v1</div></div></td><td class="aurn">urn:aib:agent:acme:scraper-v1</td><td><span class="pb mcp">MCP</span></td><td style="font-size:.75rem">scrape</td><td style="font-size:.78rem">permanent</td><td><span class="sd r"></span><span style="color:var(--fg3)">Revoque</span></td><td><button class="btn d" style="padding:4px 10px;font-size:.72rem">Supprimer</button></td></tr>
+</tbody></table></div></div>
+<!-- POLICIES -->
+<div class="pp" id="p-pol">
+<div class="topbar"><h1>Policies</h1><div class="topbar-a"><button class="btn p" onclick="openPol()">+ Ajouter une policy</button></div></div>
+<div class="prow">
+<div class="pc"><div class="pt">rate_limit</div><div class="pn">60 requetes / heure</div><div class="pd">Limite les operations par agent et par heure pour eviter les abus.</div><div class="ps ok">&#x2714; Aucune violation</div></div>
+<div class="pc"><div class="pt">capability_required</div><div class="pn">chat + search requis</div><div class="pd">Les agents doivent declarer ces capabilities pour acceder aux endpoints proteges.</div><div class="ps ok">&#x2714; 4/5 agents conformes</div></div>
+<div class="pc"><div class="pt">tier_restrict</div><div class="pn">Permanent uniquement</div><div class="pd">Seuls les passeports permanent peuvent effectuer des operations critiques.</div><div class="ps w">&#x26A0; 1 agent en session tier</div></div>
+</div></div>
+<!-- AUDIT -->
+<div class="pp" id="p-aud">
+<div class="topbar"><h1>Audit Trail</h1><div class="topbar-a"><button class="btn" onclick="openE()">&#x1F4CB; Exporter pour audit</button></div></div>
+<div class="card"><div class="ch"><div class="ct">Operations signees (127 ce mois)</div><div style="font-size:.72rem;color:var(--fg3)">Chaque ligne = receipt Ed25519 immutable</div></div>
+<table class="tbl"><thead><tr><th>Action</th><th>Agent</th><th>Details</th><th>Receipt Hash</th><th>Date</th></tr></thead><tbody>
+<tr><td style="font-weight:600">&#x2714; verify</td><td>Support Bot</td><td style="font-size:.75rem;color:var(--fg3)">Passport verification OK</td><td class="aurn">a3f2...8c01</td><td style="font-size:.75rem;color:var(--fg3)">08/04 19:42</td></tr>
+<tr><td style="font-weight:600">&#x21C4; translate</td><td>CRM Connector</td><td style="font-size:.75rem;color:var(--fg3)">A2A &#x2192; MCP (0.8ms)</td><td class="aurn">b7e1...4d92</td><td style="font-size:.75rem;color:var(--fg3)">08/04 19:24</td></tr>
+<tr><td style="font-weight:600">&#x1F6E1; policy_eval</td><td>Support Bot</td><td style="font-size:.75rem;color:var(--fg3)">rate_limit: 12/60 PASS</td><td class="aurn">c9d3...1f7a</td><td style="font-size:.75rem;color:var(--fg3)">08/04 19:00</td></tr>
+<tr><td style="font-weight:600;color:var(--cyan)">+ create</td><td>Report Generator</td><td style="font-size:.75rem;color:var(--fg3)">A2A permanent passport</td><td class="aurn">d1a5...9e83</td><td style="font-size:.75rem;color:var(--fg3)">08/04 17:15</td></tr>
+<tr><td style="font-weight:600;color:var(--red)">&#x2715; revoke</td><td>Old Scraper v1</td><td style="font-size:.75rem;color:var(--fg3)">Reason: deprecated</td><td class="aurn">e4b2...7c61</td><td style="font-size:.75rem;color:var(--fg3)">25/03 10:30</td></tr>
+</tbody></table></div>
+<div style="margin-top:16px;padding:16px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.12);border-radius:12px;font-size:.82rem;color:var(--fg2)"><strong style="color:var(--cyan)">&#x1F4CB; Conformite EU AI Act</strong> &mdash; Chaque receipt est signe Ed25519 et forme une chaine SHA-256 infalsifiable. Exportez ce registre en PDF ou JSON pour vos audits (Articles 12, 13, 17). <span style="color:var(--cyan);cursor:pointer;font-weight:600" onclick="openE()">Exporter &#x2192;</span></div>
+</div>
+<!-- TRANSLATE / WEBHOOKS / API KEYS -->
+<div class="pp" id="p-tr"><div class="topbar"><h1>Translate</h1></div><div class="card" style="padding:40px;text-align:center"><p style="color:var(--fg3)">Traduisez les credentials entre MCP, A2A et AG-UI. Chaque traduction genere un receipt signe.</p><button class="btn p" style="margin:20px auto">&#x21C4; Nouvelle traduction</button></div></div>
+<div class="pp" id="p-wh"><div class="topbar"><h1>Webhooks</h1></div><div class="card" style="padding:40px;text-align:center"><p style="color:var(--fg3)">Recevez des notifications en temps reel quand vos agents effectuent des operations. Chaque appel est signe HMAC.</p><button class="btn p" style="margin:20px auto">+ Nouveau webhook</button></div></div>
+<div class="pp" id="p-ak"><div class="topbar"><h1>API Keys</h1></div><div class="card" style="padding:40px;text-align:center"><p style="color:var(--fg3)">Gerez vos cles API pour integrer AIB. Les cles sont hashees SHA-256 cote serveur.</p><button class="btn p" style="margin:20px auto">+ Generer une cle</button></div></div>
+
+
+<!-- POLICY WIZARD -->
+<div class="overlay" id="pol-ov" onclick="if(event.target===this)closePol()"><div class="wiz" style="width:min(620px,92vw)">
+<div class="wiz-h"><h2>&#x1F6E1; Ajouter une policy</h2><button class="wiz-x" onclick="closePol()">&#x2715;</button></div>
+<div class="wiz-steps"><div class="ws" id="ps1"></div><div class="ws" id="ps2"></div><div class="ws" id="ps3"></div></div>
+<div class="wiz-body" id="pol-body"></div>
+<div class="wiz-foot" id="pol-foot"></div>
+</div></div>
+
+<!-- POST-CREATION SUCCESS -->
+<div class="overlay" id="post-ov" onclick="if(event.target===this)closePost()"><div class="emod" style="width:min(540px,90vw)">
+<div style="text-align:center;padding-bottom:20px">
+<div style="width:64px;height:64px;border-radius:50%;background:rgba(34,197,94,.1);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 16px">&#x2714;</div>
+<h2 style="font-size:1.2rem;font-weight:800;margin-bottom:6px">Passeport cree avec succes !</h2>
+<p style="font-size:.82rem;color:var(--fg3)" id="post-name"></p>
+</div>
+<div style="padding:14px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.12);border-radius:12px;font-family:var(--mono);font-size:.75rem;line-height:1.8;color:var(--fg2);margin-bottom:16px" id="post-json"></div>
+<div style="padding:16px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:12px;font-size:.82rem;margin-bottom:16px">
+<div style="font-weight:700;margin-bottom:10px;color:var(--fg)">&#x1F449; Et apres ?</div>
+<div style="color:var(--fg3);line-height:1.8">
+<span style="color:var(--cyan)">&#x2192;</span> Votre passeport est visible dans l'onglet <strong style="color:var(--fg);cursor:pointer" onclick="closePost();go('pass',document.querySelectorAll('.nl')[1])">Passeports</strong><br>
+<span style="color:var(--purple)">&#x2192;</span> Attachez-lui des <strong style="color:var(--fg);cursor:pointer" onclick="closePost();go('pol',document.querySelectorAll('.nl')[2])">Policies</strong> (rate_limit, capability_required...) pour controler ses acces<br>
+<span style="color:var(--blue)">&#x2192;</span> Configurez un <strong style="color:var(--fg);cursor:pointer" onclick="closePost();go('wh',document.querySelectorAll('.nl')[5])">Webhook</strong> pour etre notifie a chaque operation<br>
+<span style="color:var(--green)">&#x2192;</span> Chaque action generera un <strong style="color:var(--fg)">receipt signe</strong> dans votre Audit Trail
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<label style="display:flex;align-items:center;gap:8px;font-size:.75rem;color:var(--fg3);cursor:pointer"><input type="checkbox" id="post-dismiss" style="accent-color:var(--cyan)"> Ne plus afficher ce message</label>
+<button class="btn p" onclick="closePost()">Compris !</button>
+</div>
+</div></div>
+</main>
+<!-- WIZARD -->
+<div class="overlay" id="wiz-ov" onclick="if(event.target===this)closeW()"><div class="wiz">
+<div class="wiz-h"><h2>&#x1F6E1; Creer un passeport agent</h2><button class="wiz-x" onclick="closeW()">&#x2715;</button></div>
+<div class="wiz-steps"><div class="ws" id="s1"></div><div class="ws" id="s2"></div><div class="ws" id="s3"></div><div class="ws" id="s4"></div></div>
+<div class="wiz-body" id="wb"></div><div class="wiz-foot" id="wf"></div>
+</div></div>
+<!-- EXPORT -->
+<div class="overlay" id="exp-ov" onclick="if(event.target===this)closeE()"><div class="emod">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px"><h2 style="font-size:1.1rem;font-weight:800">&#x1F4CA; Exporter les donnees</h2><button style="background:none;border:none;color:var(--fg3);font-size:1.2rem;cursor:pointer" onclick="closeE()">&#x2715;</button></div>
+<div class="eo" onclick="doExp('json')"><div class="eo-icon" style="background:rgba(0,212,255,.08);color:var(--cyan)">{ }</div><div><div class="eo-lbl">Export JSON</div><div class="eo-desc">Receipts + passeports bruts pour CI/CD</div></div><div class="eo-badge free">Tous plans</div></div>
+<div class="eo" onclick="doExp('csv')"><div class="eo-icon" style="background:rgba(34,197,94,.08);color:var(--green)">&#x1F4C4;</div><div><div class="eo-lbl">Export CSV</div><div class="eo-desc">Tableur avec tous les receipts du mois</div></div><div class="eo-badge free">Tous plans</div></div>
+<div class="eo" onclick="doExp('pdf')" style="border-color:rgba(0,212,255,.2)"><div class="eo-icon" style="background:rgba(139,92,246,.08);color:var(--purple)">&#x1F4CB;</div><div><div class="eo-lbl">Rapport EU AI Act (PDF)</div><div class="eo-desc">Registre conforme Art. 12, 13, 17 &mdash; pret pour CNIL / BPI</div></div><div class="eo-badge pro">Pro+</div></div>
+<div class="eo" onclick="doExp('vc')"><div class="eo-icon" style="background:rgba(59,130,246,.08);color:var(--blue)">&#x1F510;</div><div><div class="eo-lbl">Verifiable Credentials (W3C)</div><div class="eo-desc">Export W3C VC pour verification independante</div></div><div class="eo-badge pro">Pro+</div></div>
+</div></div>
+<script>
+function go(id,btn){document.querySelectorAll('.pp').forEach(function(p){p.classList.remove('active')});document.getElementById('p-'+id).classList.add('active');document.querySelectorAll('.nl').forEach(function(l){l.classList.remove('active')});if(btn)btn.classList.add('active');window.scrollTo(0,0)}
+function openE(){document.getElementById('exp-ov').classList.add('open')}
+function closeE(){document.getElementById('exp-ov').classList.remove('open')}
+function doExp(t){var m={json:'Export JSON : 127 receipts + 5 passeports.',csv:'Export CSV : fichier pret.',pdf:'Rapport EU AI Act PDF genere (Art. 12, 13, 17).',vc:'Verifiable Credentials W3C exportes.'};alert(m[t]);closeE()}
+var W={name:'',proto:[],caps:'',tier:'permanent'},step=1;
+function openW(){document.getElementById('wiz-ov').classList.add('open');step=1;W={name:'',proto:[],caps:'',tier:'permanent'};rW()}
+function closeW(){document.getElementById('wiz-ov').classList.remove('open')}
+function rW(){
+var b=document.getElementById('wb'),f=document.getElementById('wf');
+for(var i=1;i<=4;i++){var s=document.getElementById('s'+i);s.className='ws';if(i<step)s.classList.add('done');if(i===step)s.classList.add('cur')}
+if(step===1){
+b.innerHTML='<div class="wl">&#x1F916; Comment s\'appelle votre agent ?</div><div class="wh">Donnez un nom clair et descriptif. Il sera visible dans votre dashboard et dans le passport URN.<br><br>Exemples : <span style="font-family:var(--mono);color:var(--cyan)">support-bot</span>, <span style="font-family:var(--mono);color:var(--cyan)">crm-connector</span>, <span style="font-family:var(--mono);color:var(--cyan)">data-analyst</span></div><input class="wi" id="wn" placeholder="Ex: support-bot" value="'+W.name+'"><div class="wh" style="margin-top:-8px">&#x1F4A1; L\'identifiant unique sera : <span style="font-family:var(--mono);color:var(--cyan)">urn:aib:agent:acme:</span><span style="font-family:var(--mono);color:var(--green)" id="urn-preview">'+(W.name||'votre-nom')+'</span></div>';
+f.innerHTML='<div class="wtip">Etape 1/4 &mdash; Identite</div><button class="btn p" onclick="nS()">Continuer &#x2192;</button>';
+setTimeout(function(){var inp=document.getElementById('wn');if(inp){inp.focus();inp.addEventListener('input',function(){document.getElementById('urn-preview').textContent=inp.value.trim().toLowerCase().replace(/\\s+/g,'-')||'votre-nom'})}},100);
+}else if(step===2){
+var h='<div class="wl">&#x1F310; Quels protocoles utilise votre agent ?</div><div class="wh">Selectionnez un ou plusieurs. Vous pourrez toujours traduire entre eux plus tard via l\'onglet Translate.</div><div class="wopts">';
+['MCP','A2A'].forEach(function(p){h+='<div class="wo'+(W.proto.indexOf(p)>=0?' sel':'')+'" onclick="tP(\''+p+'\',this)"><strong>'+p+'</strong></div>'});
+h+='</div><div class="wh" style="padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px"><strong style="color:var(--cyan)">MCP</strong> (Model Context Protocol) : votre agent expose des outils que d\'autres systemes appellent. Ideal pour assistants et chatbots.<br><br><strong style="color:var(--purple)">A2A</strong> (Agent-to-Agent) : votre agent communique directement avec d\'autres agents. Ideal pour pipelines multi-agents.</div>';
+b.innerHTML=h;
+f.innerHTML='<div class="wtip">Etape 2/4 &mdash; Protocoles</div><div style="display:flex;gap:8px"><button class="btn" onclick="pS()">&#x2190; Retour</button><button class="btn p" onclick="nS()">Continuer &#x2192;</button></div>';
+}else if(step===3){
+b.innerHTML='<div class="wl">&#x1F3AF; Quelles sont les capabilities ?</div><div class="wh">Les capabilities decrivent ce que votre agent <strong>sait faire</strong>. Elles sont <strong>declaratives</strong> : votre agent les annonce, et les <strong>policies</strong> controlent ensuite ce qu\'il a le droit de faire. Cliquez pour ajouter, ou tapez les votres.</div><div class="wopts" id="cap-suggestions"><div class="wo cap-sug" onclick="addCap(\'chat\',this)">chat</div><div class="wo cap-sug" onclick="addCap(\'search\',this)">search</div><div class="wo cap-sug" onclick="addCap(\'report_generate\',this)">report_generate</div><div class="wo cap-sug" onclick="addCap(\'data_export\',this)">data_export</div><div class="wo cap-sug" onclick="addCap(\'booking\',this)">booking</div><div class="wo cap-sug" onclick="addCap(\'knowledge_base\',this)">knowledge_base</div><div class="wo cap-sug" onclick="addCap(\'sql_query\',this)">sql_query</div><div class="wo cap-sug" onclick="addCap(\'email_outreach\',this)">email_outreach</div></div><input class="wi" id="wc" placeholder="Ou tapez vos propres capabilities, separees par des virgules" value="'+W.caps+'" style="margin-top:8px"><div class="wh" style="margin-top:-10px;font-size:.7rem;color:var(--fg3)">&#x1F513; Vous etes libre de definir vos propres capabilities &mdash; il n\'y a pas de liste imposee. Les suggestions ci-dessus couvrent les cas courants.</div><div class="wl" style="margin-top:12px">&#x1F512; Duree de vie du passeport</div><div class="wh"><strong style="color:var(--green)">Permanent</strong> : valide jusqu\'a revocation manuelle. Pour les agents en production.<br><strong style="color:var(--yellow)">Session</strong> : expire apres une periode definie. Pour les agents temporaires ou de test.<br><strong style="color:var(--purple)">Ephemeral</strong> : usage unique, detruit apres la premiere utilisation. Pour les taches ponctuelles ou appels one-shot.</div><div class="wopts"><div class="wo'+(W.tier==='permanent'?' sel':'')+'" onclick="sT(\'permanent\',this)">&#x267E; Permanent</div><div class="wo'+(W.tier==='session'?' sel':'')+'" onclick="sT(\'session\',this)">&#x23F3; Session</div><div class="wo'+(W.tier==='ephemeral'?' sel':'')+'" onclick="sT(\'ephemeral\',this)">&#x26A1; Ephemeral</div></div>';
+f.innerHTML='<div class="wtip">Etape 3/4 &mdash; Capabilities</div><div style="display:flex;gap:8px"><button class="btn" onclick="pS()">&#x2190; Retour</button><button class="btn p" onclick="nS()">Verifier &#x2192;</button></div>';
+}else{
+var u='urn:aib:agent:acme:'+(W.name||'mon-agent');
+b.innerHTML='<div class="wl">&#x2714; Verification avant creation</div><div class="wh">La creation genere une paire de cles Ed25519 et signe le passeport. Un receipt cryptographique est emis comme preuve immutable.</div><div class="wres"><span class="k">"passport_id"</span>: <span class="v">"'+u+'"</span><br><span class="k">"protocols"</span>: <span class="v">['+W.proto.map(function(p){return'"'+p.toLowerCase()+'"'}).join(', ')+']</span><br><span class="k">"capabilities"</span>: <span class="v">['+(W.caps||'').split(',').map(function(c){return'"'+c.trim()+'"'}).join(', ')+']</span><br><span class="k">"tier"</span>: <span class="v">"'+W.tier+'"</span><br><span class="k">"signature"</span>: <span style="color:var(--fg3)">"ed25519:... (genere automatiquement)"</span><br><span class="k">"receipt"</span>: <span style="color:var(--fg3)">"SHA-256 hash chain (preuve immutable)"</span></div><div style="padding:12px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.78rem;color:var(--green);margin-bottom:12px">&#x2714; Cle Ed25519 generee cote serveur &mdash; rotation automatique disponible</div><div style="padding:12px;background:rgba(0,212,255,.04);border:1px solid rgba(0,212,255,.12);border-radius:10px;font-size:.78rem;color:var(--fg2);margin-bottom:12px">&#x1F4CB; Ce passeport sera inclus dans vos exports Audit EU AI Act (plan Pro+)</div><div style="padding:14px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;font-size:.8rem"><div style="font-weight:700;margin-bottom:8px;color:var(--fg)">&#x1F449; Et apres la creation ?</div><div style="color:var(--fg3);line-height:1.7"><span style="color:var(--cyan)">&#x2192;</span> Votre passeport apparaitra dans l\'onglet <strong style="color:var(--fg)">Passeports</strong><br><span style="color:var(--purple)">&#x2192;</span> Pensez a lui attacher des <strong style="color:var(--fg)">Policies</strong> (rate_limit, capability_required...) pour controler ses acces<br><span style="color:var(--blue)">&#x2192;</span> Configurez un <strong style="color:var(--fg)">Webhook</strong> pour etre notifie a chaque operation de cet agent<br><span style="color:var(--green)">&#x2192;</span> Chaque action generera un <strong style="color:var(--fg)">receipt signe</strong> dans votre Audit Trail</div></div>';
+f.innerHTML='<div class="wtip">Un receipt signe sera emis comme preuve.</div><div style="display:flex;gap:8px"><button class="btn" onclick="pS()">&#x2190; Retour</button><button class="btn p" onclick="cP()">&#x1F6E1; Creer le passeport</button></div>';
+}}
+function nS(){if(step===1){var n=document.getElementById('wn');if(n)W.name=n.value.trim().toLowerCase().replace(/\s+/g,'-');if(!W.name){alert('Donnez un nom a votre agent');return}}if(step===2&&W.proto.length===0){alert('Selectionnez au moins un protocole');return}if(step===3){var c=document.getElementById('wc');if(c)W.caps=c.value.trim();if(!W.caps){alert('Ajoutez au moins une capability');return}}step++;rW()}
+function pS(){step--;rW()}
+function tP(p,el){var i=W.proto.indexOf(p);if(i>=0){W.proto.splice(i,1);el.classList.remove('sel')}else{W.proto.push(p);el.classList.add('sel')}}
+function sT(t,el){W.tier=t;el.parentElement.querySelectorAll('.wo').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel')}
+function cP(){closeW();showPostCreate()}
+
+function addCap(c,el){
+var inp=document.getElementById('wc');
+if(!inp)return;
+var current=inp.value.split(',').map(function(s){return s.trim()}).filter(Boolean);
+var idx=current.indexOf(c);
+if(idx>=0){current.splice(idx,1);el.classList.remove('sel')}
+else{current.push(c);el.classList.add('sel')}
+inp.value=current.join(', ');
+W.caps=inp.value;
+}
+var skipPost=false;
+function showPostCreate(){
+if(skipPost){alert('Passeport "'+W.name+'" cree ! Receipt Ed25519 signe.');return}
+var ov=document.getElementById('post-ov');
+document.getElementById('post-name').textContent='urn:aib:agent:acme:'+W.name+' | '+W.proto.join(', ')+' | '+W.tier;
+document.getElementById('post-json').innerHTML='<span style="color:var(--cyan)">"passport_id"</span>: <span style="color:var(--green)">"urn:aib:agent:acme:'+W.name+'"</span><br><span style="color:var(--cyan)">"protocols"</span>: <span style="color:var(--green)">['+W.proto.map(function(p){return'"'+p.toLowerCase()+'"'}).join(', ')+']</span><br><span style="color:var(--cyan)">"capabilities"</span>: <span style="color:var(--green)">['+W.caps.split(',').map(function(c){return'"'+c.trim()+'"'}).join(', ')+']</span><br><span style="color:var(--cyan)">"tier"</span>: <span style="color:var(--green)">"'+W.tier+'"</span><br><span style="color:var(--cyan)">"signature"</span>: <span style="color:var(--fg3)">"ed25519:a7f3...9c01"</span><br><span style="color:var(--cyan)">"receipt"</span>: <span style="color:var(--fg3)">"sha256:d4e2...8b73"</span>';
+ov.classList.add('open');
+}
+function closePost(){
+var cb=document.getElementById('post-dismiss');
+if(cb&&cb.checked)skipPost=true;
+document.getElementById('post-ov').classList.remove('open');
+}
+
+/* === POLICY WIZARD === */
+var POL_TYPES=[
+{id:'rate_limit',name:'Rate Limit',icon:'&#x23F1;',
+desc:'Limite le nombre d\'operations par heure pour un agent ou l\'organisation entiere.',
+tip:'<strong>Rate Limit</strong>Empeche un agent de faire trop d\'appels API. Utile pour eviter les boucles infinies ou les abus. Chaque appel au-dela de la limite sera refuse (block), signale (warn) ou trace (log).<div class="tip-ex">Ex: max_per_hour: 60</div>',
+config_fields:[{key:'max_per_hour',label:'Max operations par heure',type:'number',placeholder:'60',hint:'Ex: 60 = maximum 60 appels API par heure'}]},
+
+{id:'capability_required',name:'Capability Required',icon:'&#x1F3AF;',
+desc:'Exige qu\'un agent declare certaines capabilities pour effectuer des operations.',
+tip:'<strong>Capability Required</strong>Verifie que l\'agent a bien declare les bonnes capabilities dans son passeport. S\'il manque une capability requise, l\'operation est refusee. C\'est comme un badge d\'acces : pas de badge, pas d\'entree.<div class="tip-ex">Ex: required: ["chat", "search"]</div>',
+config_fields:[{key:'required',label:'Capabilities requises (separees par virgules)',type:'text',placeholder:'chat, search',hint:'L\'agent sera bloque s\'il ne declare pas ces capabilities'}]},
+
+{id:'tier_restrict',name:'Tier Restrict',icon:'&#x1F512;',
+desc:'Restreint certaines operations aux passeports d\'un tier minimum.',
+tip:'<strong>Tier Restrict</strong>Seuls les agents avec un niveau de confiance suffisant peuvent agir. Un agent "ephemeral" (usage unique) ne pourra pas faire les memes choses qu\'un agent "permanent" (production). Ideal pour proteger les operations critiques.<div class="tip-ex">Ex: min_tier: permanent</div>',
+config_fields:[{key:'min_tier',label:'Tier minimum',type:'select',options:['permanent','session','ephemeral'],hint:'Seuls les agents avec ce tier ou superieur pourront agir'}]},
+
+{id:'deliverable_gate',name:'Deliverable Gate',icon:'&#x2705;',
+desc:'Bloque une action tant qu\'un prerequis n\'est pas valide.',
+tip:'<strong>Deliverable Gate</strong>Comme un workflow : l\'agent ne peut pas deployer tant que les tests ne sont pas passes. Vous definissez une action a proteger et les capabilities prealables requises. Ideal pour les pipelines CI/CD.<div class="tip-ex">Ex: action "deploy" requiert "tests_passed"</div>',
+config_fields:[{key:'action',label:'Action a proteger',type:'text',placeholder:'create',hint:'L\'action qui sera bloquee sans la capability'},{key:'required_capabilities',label:'Capabilities prealables',type:'text',placeholder:'tests_passed',hint:'L\'agent doit avoir ces capabilities pour debloquer l\'action'}]},
+
+{id:'domain_block',name:'Domain Block',icon:'&#x1F6AB;',
+desc:'Bloque les agents provenant de domaines non autorises.',
+tip:'<strong>Domain Block</strong>Refuse automatiquement tout agent dont l\'identite provient d\'un domaine que vous ne faites pas confiance. C\'est une liste noire : si le domaine est dans la liste, l\'agent est refuse.<div class="tip-ex">Ex: blocked_domains: ["untrusted.com"]</div>',
+config_fields:[{key:'blocked_domains',label:'Domaines bloques (separes par virgules)',type:'text',placeholder:'untrusted.com, spam.io',hint:'Tous les agents de ces domaines seront refuses'}]},
+
+{id:'separation_of_duties',name:'Separation of Duties',icon:'&#x1F465;',
+desc:'Empeche un agent de cumuler des roles conflictuels.',
+tip:'<strong>Separation of Duties</strong>Un meme agent ne doit pas pouvoir a la fois approuver et auditer, ou a la fois creer et supprimer. C\'est un principe de securite classique : celui qui fait ne doit pas etre celui qui verifie.<div class="tip-ex">Ex: conflicting: ["approve", "audit"]</div>',
+config_fields:[{key:'conflicting',label:'Capabilities conflictuelles (separees par virgules)',type:'text',placeholder:'approve, audit',hint:'Un agent ne peut pas avoir ces deux capabilities simultanement'}]},
+
+{id:'attestation_required',name:'Attestation Required',icon:'&#x1F58A;',
+desc:'Exige une signature pour les actions sensibles.',
+tip:'<strong>Attestation Required</strong>Pour les operations a fort impact (creation, revocation), une attestation cryptographique supplementaire est exigee. C\'est comme une double signature : l\'agent doit prouver son identite de maniere renforcee.<div class="tip-ex">Ex: actions: ["create", "revoke"]</div>',
+config_fields:[{key:'actions',label:'Actions necessitant attestation',type:'text',placeholder:'create, revoke',hint:'Ces actions genereront une attestation signee obligatoire'}]},
+
+{id:'time_restrict',name:'Time Restrict',icon:'&#x1F553;',
+desc:'Limite les operations a certaines plages horaires.',
+tip:'<strong>Time Restrict</strong>Vos agents ne pourront operer que pendant les heures definies. En dehors de ces plages, toute operation sera refusee. Utile pour les agents qui ne doivent tourner que pendant les heures de bureau.<div class="tip-ex">Ex: 8h - 20h uniquement</div>',
+config_fields:[{key:'allowed_hours_start',label:'Heure de debut',type:'number',placeholder:'8',hint:'Heure de debut (format 24h)'},{key:'allowed_hours_end',label:'Heure de fin',type:'number',placeholder:'20',hint:'Heure de fin (format 24h)'}]}
+];
+
+var P={type:null,severity:'block',scope:'org',passport_id:'',desc:'',config:{}},pStep=1,createdPols=[];
+
+function openPol(){document.getElementById('pol-ov').classList.add('open');pStep=1;createdPols=[];P={type:null,severity:'block',scope:'org',passport_id:'',desc:'',config:{}};rP()}
+function closePol(){document.getElementById('pol-ov').classList.remove('open')}
+
+function rP(){
+var b=document.getElementById('pol-body'),f=document.getElementById('pol-foot');
+for(var i=1;i<=3;i++){var s=document.getElementById('ps'+i);s.className='ws';if(i<pStep)s.classList.add('done');if(i===pStep)s.classList.add('cur')}
+
+if(pStep===1){
+var h='<div class="wl">&#x1F4CB; Quel type de policy ?</div><div class="wh">Choisissez la regle de gouvernance a appliquer. Chaque type controle un aspect different du comportement de vos agents.</div>';
+h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">';
+POL_TYPES.forEach(function(t){
+h+='<div class="wo pol-tip" style="display:flex;align-items:flex-start;gap:10px;padding:12px;text-align:left'+(P.type===t.id?';border-color:var(--cyan);background:var(--cyan-dim);color:var(--cyan)':'')+'" onclick="selPolType(\''+t.id+'\',this)"><span style="font-size:1.2rem;flex-shrink:0">'+t.icon+'</span><div><div style="font-weight:700;font-size:.82rem">'+t.name+'</div><div style="font-size:.7rem;color:var(--fg3);margin-top:2px;font-weight:400">'+t.desc.substring(0,60)+'...</div></div><div class="tip-box">'+t.tip+'</div></div>';
+});
+h+='</div>';
+h+='<div style="margin-top:14px;padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;font-size:.78rem;color:var(--fg3)">&#x1F4A1; <strong style="color:var(--fg)">Vous pouvez appliquer plusieurs policies.</strong> Elles seront toutes evaluees a chaque operation. Par exemple : un rate_limit + un capability_required + un tier_restrict en meme temps.</div>';
+b.innerHTML=h;
+f.innerHTML='<div class="wtip">Etape 1/3 &mdash; Type de policy</div><button class="btn p" onclick="nP()">Continuer &#x2192;</button>';
+
+}else if(pStep===2){
+var t=POL_TYPES.find(function(x){return x.id===P.type});
+var h='<div class="wl">'+t.icon+' Configurer : '+t.name+'</div><div class="wh" style="margin-bottom:18px">'+t.desc+'</div>';
+
+t.config_fields.forEach(function(cf){
+h+='<div class="wl" style="font-size:.82rem">'+cf.label+'</div>';
+if(cf.type==='select'){
+h+='<div class="wopts">';
+cf.options.forEach(function(o){h+='<div class="wo'+(P.config[cf.key]===o?' sel':'')+'" onclick="setPolCfg(\''+cf.key+'\',\''+o+'\',this)">'+o+'</div>'});
+h+='</div>';
+}else{
+h+='<input class="wi pol-cfg" data-key="'+cf.key+'" placeholder="'+cf.placeholder+'" value="'+(P.config[cf.key]||'')+'">';
+}
+if(cf.hint)h+='<div class="wh" style="margin-top:-10px;font-size:.7rem">&#x1F4A1; '+cf.hint+'</div>';
+});
+
+h+='<div class="wl" style="margin-top:12px">&#x26A0; Severite</div><div class="wh">Que se passe-t-il quand la policy est violee ?</div>';
+h+='<div class="wopts"><div class="wo'+(P.severity==='block'?' sel':'')+'" onclick="setPolSev(\'block\',this)" style="border-color:rgba(239,68,68,.3)"><span style="color:var(--red)">&#x1F6D1;</span> Block &mdash; operation refusee</div>';
+h+='<div class="wo'+(P.severity==='warn'?' sel':'')+'" onclick="setPolSev(\'warn\',this)" style="border-color:rgba(255,189,46,.3)"><span style="color:var(--yellow)">&#x26A0;</span> Warn &mdash; alerte sans blocage</div>';
+h+='<div class="wo'+(P.severity==='log'?' sel':'')+'" onclick="setPolSev(\'log\',this)"><span style="color:var(--fg3)">&#x1F4DD;</span> Log &mdash; trace silencieuse</div></div>';
+
+h+='<div class="wl" style="margin-top:12px">&#x1F3AF; Portee</div><div class="wh">Appliquer a toute l\'organisation ou a un agent specifique ?</div>';
+h+='<div class="wopts"><div class="wo'+(P.scope==='org'?' sel':'')+'" onclick="setPolScope(\'org\',this)">&#x1F3E2; Toute l\'organisation</div>';
+h+='<div class="wo'+(P.scope==='passport'?' sel':'')+'" onclick="setPolScope(\'passport\',this)">&#x1F916; Un agent specifique</div></div>';
+if(P.scope==='passport'){h+='<input class="wi" id="pol-pid" placeholder="urn:aib:agent:acme:mon-agent" value="'+P.passport_id+'" style="margin-top:8px">';}
+
+h+='<div class="wl" style="margin-top:12px">&#x1F4DD; Description (optionnel)</div>';
+h+='<input class="wi" id="pol-desc" placeholder="Ex: Limiter les appels API a 60/h" value="'+P.desc+'">';
+
+b.innerHTML=h;
+f.innerHTML='<div class="wtip">Etape 2/3 &mdash; Configuration</div><div style="display:flex;gap:8px"><button class="btn" onclick="pStep--;rP()">&#x2190; Retour</button><button class="btn p" onclick="nP()">Verifier &#x2192;</button></div>';
+
+}else if(pStep===3){
+var t=POL_TYPES.find(function(x){return x.id===P.type});
+var cfgStr=Object.entries(P.config).map(function(e){return'<span class="k">"'+e[0]+'"</span>: <span class="v">'+(Array.isArray(e[1])?JSON.stringify(e[1]):'"'+e[1]+'"')+'</span>'}).join('<br>');
+
+b.innerHTML='<div class="wl">&#x2714; Verification avant creation</div><div class="wh">Verifiez la configuration de votre policy. Elle sera evaluee a chaque operation de vos agents.</div>'+
+'<div class="wres"><span class="k">"rule_type"</span>: <span class="v">"'+P.type+'"</span><br><span class="k">"severity"</span>: <span class="v">"'+P.severity+'"</span><br><span class="k">"scope"</span>: <span class="v">"'+(P.scope==='org'?'organisation entiere':'passport: '+P.passport_id)+'"</span><br>'+cfgStr+'</div>'+
+'<div style="padding:12px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.78rem;color:var(--green);margin-bottom:12px">&#x2714; La policy sera evaluee automatiquement a chaque operation</div>'+
+'<div style="padding:12px;background:rgba(255,189,46,.06);border:1px solid rgba(255,189,46,.15);border-radius:10px;font-size:.78rem;color:var(--yellow)">&#x26A0; Severite <strong>'+P.severity+'</strong> : '+(P.severity==='block'?'les agents non conformes seront bloques':P.severity==='warn'?'une alerte sera generee sans bloquer l\'agent':'l\'evenement sera trace silencieusement')+'</div>';
+
+f.innerHTML='<div class="wtip">Un receipt sera emis pour chaque evaluation.</div><div style="display:flex;gap:8px"><button class="btn" onclick="pStep--;rP()">&#x2190; Retour</button><button class="btn p" onclick="createPol()">&#x1F6E1; Creer la policy</button></div>';
+
+}else if(pStep===4){
+// Success + recap of all created policies
+for(var i=1;i<=3;i++){document.getElementById('ps'+i).className='ws done'}
+var sevColors={block:'var(--red)',warn:'var(--yellow)',log:'var(--fg3)'};
+var sevIcons={block:'&#x1F6D1;',warn:'&#x26A0;',log:'&#x1F4DD;'};
+var recapHtml='';
+createdPols.forEach(function(pol,idx){
+var t=POL_TYPES.find(function(x){return x.id===pol.type});
+var cfgSummary=Object.entries(pol.config).map(function(e){return e[0]+': '+(Array.isArray(e[1])?e[1].join(', '):e[1])}).join(' | ');
+recapHtml+='<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;background:rgba(255,255,255,.02)"><span style="font-size:1.1rem">'+t.icon+'</span><div style="flex:1"><div style="font-weight:700;font-size:.85rem">'+t.name+'</div><div style="font-size:.72rem;color:var(--fg3);font-family:var(--mono)">'+cfgSummary+'</div></div><div style="display:flex;align-items:center;gap:4px;font-size:.72rem;font-weight:700;color:'+sevColors[pol.severity]+'">'+sevIcons[pol.severity]+' '+pol.severity+'</div><div style="font-size:.7rem;color:var(--fg3)">'+(pol.scope==='org'?'&#x1F3E2; Org':'&#x1F916; '+pol.passport_id)+'</div></div>';
+});
+
+var title=createdPols.length===1?'Policy creee !':createdPols.length+' policies creees !';
+
+b.innerHTML='<div style="text-align:center;padding:10px 0"><div style="width:56px;height:56px;border-radius:50%;background:rgba(34,197,94,.1);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin:0 auto 14px">&#x2714;</div><h3 style="font-size:1.1rem;margin-bottom:16px">'+title+'</h3></div>'+
+'<div style="margin-bottom:16px">'+recapHtml+'</div>'+
+'<div style="padding:12px;background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.15);border-radius:10px;font-size:.78rem;color:var(--green);margin-bottom:12px">&#x2714; '+(createdPols.length===1?'Cette policy est':'Ces '+createdPols.length+' policies sont')+' actives et seront evaluees a chaque operation de vos agents.</div>'+
+'<div style="padding:12px;background:rgba(255,255,255,.02);border:1px solid var(--bd);border-radius:10px;font-size:.78rem;color:var(--fg3)">&#x1F4A1; Vous pouvez en ajouter d\'autres a tout moment. Toutes les policies sont evaluees ensemble &mdash; elles se cumulent, elles ne se remplacent pas.</div>';
+
+f.innerHTML='<button class="btn" onclick="closePol()">Terminer</button><button class="btn p" onclick="resetPol()">+ Ajouter une autre policy</button>';
+}
+}
+
+
+function resetPol(){pStep=1;P={type:null,severity:'block',scope:'org',passport_id:'',desc:'',config:{}};rP()}
+function selPolType(id,el){P.type=id;P.config={};document.querySelectorAll('#pol-body .wo').forEach(function(o){o.style.borderColor='';o.style.background='';o.style.color=''});el.style.borderColor='var(--cyan)';el.style.background='var(--cyan-dim)';el.style.color='var(--cyan)'}
+function setPolCfg(k,v,el){P.config[k]=v;el.parentElement.querySelectorAll('.wo').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel')}
+function setPolSev(s,el){P.severity=s;var p=el.parentElement;p.querySelectorAll('.wo').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel')}
+function setPolScope(s,el){P.scope=s;el.parentElement.querySelectorAll('.wo').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');rP()}
+
+function nP(){
+if(pStep===1&&!P.type){alert('Selectionnez un type de policy');return}
+if(pStep===2){
+document.querySelectorAll('.pol-cfg').forEach(function(inp){
+var k=inp.getAttribute('data-key');var v=inp.value.trim();
+if(v.indexOf(',')>=0)P.config[k]=v.split(',').map(function(s){return s.trim()});
+else P.config[k]=v;
+});
+var pid=document.getElementById('pol-pid');if(pid)P.passport_id=pid.value.trim();
+var desc=document.getElementById('pol-desc');if(desc)P.desc=desc.value.trim();
+if(Object.keys(P.config).length===0||Object.values(P.config).some(function(v){return !v||v===''})){alert('Remplissez tous les champs de configuration');return}
+}
+pStep++;rP();
+}
+
+function createPol(){
+createdPols.push({type:P.type,severity:P.severity,scope:P.scope,passport_id:P.passport_id,config:Object.assign({},P.config)});
+pStep=4;rP();
+}
+
+</script>
+</body>
+</html>
