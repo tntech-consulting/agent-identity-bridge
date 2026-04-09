@@ -6,111 +6,301 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loading... — AIB Blog</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a1a;--bg2:#0f1029;--fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;--cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--blue:#3b82f6;--bd:rgba(255,255,255,.06);--glass:rgba(15,16,41,.6);--sans:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
-body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:16px;line-height:1.75}
+:root{
+  --bg:#0a0a1a;--bg2:#0f1029;--bg3:#141432;
+  --fg:#f0f2ff;--fg2:#a0a5c8;--fg3:#5e6388;
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,.06);--cyan-glow:rgba(0,212,255,.15);--cyan-border:rgba(0,212,255,.12);
+  --blue:#3b82f6;
+  --bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.1);
+  --sans:'Plus Jakarta Sans',system-ui,sans-serif;
+  --mono:'JetBrains Mono',monospace
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.85}
 a{color:var(--cyan);text-decoration:none;transition:.2s}a:hover{color:#fff}
-.w{max-width:800px;margin:0 auto;padding:0 28px}
-nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.82);backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bd)}
-nav .w{max-width:1120px;display:flex;justify-content:space-between;align-items:center}
-.logo{display:flex;align-items:center;gap:10px}.logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,.3))}.logo-text{font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.back-link{font-family:var(--mono);font-size:13px;color:var(--cyan);display:inline-block;margin:40px 0 24px}
-.back-link:hover{color:#fff}
-.article-header{margin-bottom:32px}
-.article-header h1{font-size:32px;font-weight:800;line-height:1.3;margin-bottom:12px;letter-spacing:-1px}
-.meta{font-family:var(--mono);font-size:12px;color:var(--fg3);margin-bottom:16px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.tag-list{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px}
-.tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid var(--cyan-glow);padding:3px 10px;border-radius:4px;letter-spacing:.5px}
-.article-body{font-size:16px;line-height:1.85;color:var(--fg2)}
-.article-body h2{font-family:var(--sans);font-weight:700;font-size:22px;color:var(--fg);margin:36px 0 16px;letter-spacing:-.5px}
-.article-body h3{font-family:var(--sans);font-weight:600;font-size:18px;color:var(--fg);margin:28px 0 12px}
-.article-body p{margin-bottom:16px}
-.article-body a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
-.article-body code{font-family:var(--mono);font-size:14px;background:rgba(0,212,255,.06);padding:2px 7px;border-radius:4px;color:var(--cyan)}
-.article-body pre{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:20px;overflow-x:auto;margin:20px 0;font-size:13px;line-height:1.6}
-.article-body pre code{background:none;padding:0;color:var(--fg2)}
-.article-body ul,.article-body ol{margin:12px 0 16px 24px}
-.article-body li{margin-bottom:8px}
-.article-body blockquote{border-left:3px solid var(--cyan);padding-left:16px;margin:20px 0;color:var(--fg3);font-style:italic}
+
+/* Progress bar */
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--blue));z-index:200;transition:width .1s linear;box-shadow:0 0 12px var(--cyan-glow)}
+
+/* Nav */
+nav{padding:12px 0;position:sticky;top:0;z-index:100;background:rgba(10,10,26,.85);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);border-bottom:1px solid var(--bd)}
+nav .nw{max-width:1100px;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-img{width:36px;height:36px;border-radius:8px;object-fit:contain;filter:drop-shadow(0 0 10px rgba(139,92,246,.3))}
+.logo-text{font-weight:700;font-size:17px;background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-back{font-family:var(--mono);font-size:13px;color:var(--fg2)}
+.nav-back:hover{color:var(--cyan)}
+
+/* Hero */
+.hero{max-width:900px;margin:0 auto;padding:4rem 28px 3rem;position:relative}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse at center,var(--cyan-glow) 0%,transparent 70%);pointer-events:none;z-index:0}
+.hero-cat{font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:var(--cyan);margin-bottom:1.2rem;position:relative;z-index:1}
+.hero h1{font-weight:800;color:var(--fg);font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.2;margin-bottom:1.4rem;position:relative;z-index:1;letter-spacing:-.5px;max-width:680px}
+.hero-meta{display:flex;align-items:center;gap:1.4rem;flex-wrap:wrap;font-size:.88rem;color:var(--fg3);position:relative;z-index:1}
+.hero-meta .author{display:flex;align-items:center;gap:.5rem}
+.author-av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--bg)}
+.hero-meta .sep{color:var(--bd2)}
+.tag-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem;position:relative;z-index:1}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;color:var(--cyan);background:var(--cyan-dim);border:1px solid var(--cyan-border);padding:3px 10px;border-radius:100px;letter-spacing:.3px}
+
+/* Layout */
+.article-layout{max-width:1100px;margin:0 auto;padding:0 28px;display:grid;grid-template-columns:1fr 200px;gap:3.5rem}
+
+/* TOC */
+.toc{position:sticky;top:5rem;align-self:start;padding-top:.5rem}
+.toc-title{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--fg3);margin-bottom:1rem}
+.toc a{display:block;font-size:.8rem;color:var(--fg3);text-decoration:none;padding:.3rem 0 .3rem 1rem;border-left:2px solid var(--bd);transition:all .2s;line-height:1.4}
+.toc a:hover{color:var(--fg2);border-left-color:var(--bd2)}
+.toc a.active{color:var(--cyan);border-left-color:var(--cyan)}
+
+/* Article body */
+.article-body{max-width:680px;font-size:17px;line-height:1.85;color:var(--fg2)}
+.article-body h2{font-family:var(--sans);font-weight:700;font-size:1.4rem;color:var(--fg);margin:2.8rem 0 1rem;letter-spacing:-.3px;scroll-margin-top:5rem;padding-top:.5rem}
+.article-body h2::before{content:'';display:block;width:28px;height:3px;background:linear-gradient(90deg,var(--cyan),transparent);margin-bottom:.7rem;border-radius:2px}
+.article-body h3{font-family:var(--sans);font-weight:600;font-size:1.1rem;color:var(--fg);margin:2rem 0 .8rem;scroll-margin-top:5rem}
+.article-body p{margin-bottom:1.3rem}
+.article-body a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(0,212,255,.3)}
+.article-body a:hover{text-decoration-color:var(--cyan);color:var(--cyan)}
 .article-body strong{color:var(--fg);font-weight:600}
+.article-body code{font-family:var(--mono);font-size:.88em;background:var(--bg3);padding:.15em .45em;border-radius:4px;border:1px solid var(--bd);color:var(--cyan)}
+.article-body pre{background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:1.2rem 1.5rem;overflow-x:auto;margin:1.5rem 0}
+.article-body pre code{background:none;border:none;padding:0;font-size:.85rem;color:var(--fg2);line-height:1.6}
+.article-body ul,.article-body ol{margin:1rem 0 1.5rem;padding-left:0;list-style:none}
+.article-body ul li,.article-body ol li{position:relative;padding-left:1.5rem;margin-bottom:.7rem}
+.article-body ul li::before{content:'';position:absolute;left:0;top:.7em;width:6px;height:6px;border-radius:50%;background:var(--cyan);opacity:.5}
+.article-body ol{counter-reset:ol-c}
+.article-body ol li{counter-increment:ol-c}
+.article-body ol li::before{content:counter(ol-c);position:absolute;left:0;font-family:var(--mono);font-size:.8rem;color:var(--cyan);font-weight:700}
+.article-body blockquote{position:relative;margin:2rem 0;padding:1.5rem 1.8rem;background:var(--bg2);border-radius:10px;border:1px solid var(--bd);border-left:3px solid var(--cyan);font-style:italic;color:var(--fg2)}
+.article-body blockquote::before{content:'\201C';position:absolute;top:-.1rem;left:.8rem;font-size:2.8rem;color:var(--cyan);opacity:.2;font-style:normal;line-height:1}
+.article-body blockquote strong{color:var(--cyan);font-style:normal}
+
+/* CTA box — for articles ending with pip install or similar */
+.cta-box{margin:2.5rem 0;padding:1.8rem;background:linear-gradient(135deg,rgba(0,212,255,.06),rgba(59,130,246,.04));border:1px solid var(--cyan-border);border-radius:12px;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-50%;right:-20%;width:200px;height:200px;background:radial-gradient(circle,var(--cyan-glow) 0%,transparent 70%);pointer-events:none}
+.cta-box strong{color:var(--cyan)}
+
+/* Share */
+.share-section{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.share-label{font-family:var(--mono);font-size:11px;color:var(--fg3);text-transform:uppercase;letter-spacing:.1em}
+.share-buttons{display:flex;gap:.5rem}
+.share-btn{display:flex;align-items:center;gap:.3rem;padding:.45rem .9rem;background:var(--bg3);border:1px solid var(--bd);border-radius:8px;color:var(--fg3);text-decoration:none;font-size:.8rem;font-family:var(--mono);transition:all .2s;cursor:pointer}
+.share-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* Loading/Error */
 .loading{text-align:center;padding:100px 0;color:var(--fg3);font-size:16px}
 .error-state{text-align:center;padding:100px 0}
 .error-state h2{color:var(--fg);font-size:24px;margin-bottom:12px}
 .error-state p{color:var(--fg3)}
-footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;background:rgba(10,10,26,.5);margin-top:80px}footer p{font-size:11px;color:var(--fg3)}footer a{color:var(--fg2)}footer a:hover{color:var(--cyan)!important}
-@media(max-width:768px){.article-header h1{font-size:24px}.logo-text{display:none}}
+
+/* Footer */
+footer{border-top:1px solid var(--bd);padding:24px 0;text-align:center;background:rgba(10,10,26,.5);margin-top:80px}
+footer p{font-size:11px;color:var(--fg3)}footer a{color:var(--fg2)}footer a:hover{color:var(--cyan)!important}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero-cat{animation:fadeUp .4s ease both}
+.hero h1{animation:fadeUp .4s ease .08s both}
+.hero-meta{animation:fadeUp .4s ease .16s both}
+.tag-list{animation:fadeUp .4s ease .24s both}
+.article-body{animation:fadeUp .5s ease .32s both}
+
+/* Responsive */
+@media(max-width:860px){
+  .article-layout{grid-template-columns:1fr;gap:0}
+  .toc{display:none}
+  .hero{padding:3rem 20px 2rem}
+  .article-layout{padding:0 20px}
+  body{font-size:16px}
+  .hero h1{font-size:1.5rem}
+}
 </style>
 </head>
 <body>
-<nav><div class="w" style="max-width:1120px">
-<a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">Agent Identity Bridge</span></a>
-<a href="/blog" style="font-family:var(--mono);font-size:13px;color:var(--fg2)">← Blog</a>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav><div class="nw">
+  <a href="/" class="logo"><img src="/aib-logo.png" alt="AIB" class="logo-img"><span class="logo-text">Agent Identity Bridge</span></a>
+  <a href="/blog" class="nav-back">&larr; Blog</a>
 </div></nav>
 
-<div class="w">
-<a href="/blog" class="back-link">← Back to all articles</a>
-<div id="article-container">
-<div class="loading">Loading article...</div>
-</div>
-</div>
+<header class="hero" id="heroSection" style="display:none">
+  <div class="hero-cat" id="heroCat"></div>
+  <h1 id="heroTitle"></h1>
+  <div class="hero-meta">
+    <span class="author"><span class="author-av">AT</span><span id="heroAuthor">AIB Team</span></span>
+    <span class="sep">|</span>
+    <span id="heroDate"></span>
+    <span class="sep">|</span>
+    <span id="heroReadTime"></span>
+  </div>
+  <div class="tag-list" id="heroTags"></div>
+</header>
 
-<footer><div class="w" style="max-width:1120px"><p>&copy; 2026 TNTECH CONSULTING SAS — Paris — <a href="/">AIB</a> · <a href="/cgv">Terms</a> · Apache 2.0</p></div></footer>
+<div id="loadingState"><div class="loading">Loading article...</div></div>
+
+<main class="article-layout" id="articleLayout" style="display:none">
+  <article>
+    <div class="article-body" id="articleBody"></div>
+    <div class="share-section">
+      <span class="share-label">Share</span>
+      <div class="share-buttons">
+        <a class="share-btn" id="shareLinkedin" href="#" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="share-btn" id="shareTwitter" href="#" target="_blank" rel="noopener">X / Twitter</a>
+        <button class="share-btn" onclick="navigator.clipboard.writeText(window.location.href).then(function(){this.textContent='Copied!'}.bind(this))">Copy link</button>
+      </div>
+    </div>
+  </article>
+  <aside class="toc" id="tocAside">
+    <div class="toc-title">Contents</div>
+    <div id="tocLinks"></div>
+  </aside>
+</main>
+
+<footer><div class="nw" style="max-width:1100px"><p>&copy; 2026 TNTECH CONSULTING SAS &mdash; Paris &mdash; <a href="/">AIB</a> &middot; <a href="/cgv">Terms</a> &middot; Apache 2.0</p></div></footer>
 
 <script>
-var slug=window.location.pathname.replace('/blog/','').replace(/\/$/,'').replace('.html','');
-var lang=localStorage.getItem('aib-lang')||'en';
+var slug = window.location.pathname.replace('/blog/','').replace(/\/$/,'').replace('.html','');
+var params = new URLSearchParams(window.location.search);
+if (params.get('slug')) slug = params.get('slug');
+var lang = localStorage.getItem('aib-lang') || 'en';
 
-function mdToHtml(md){
-  return md
-    .replace(/^### (.+)$/gm,'<h3>$1</h3>')
-    .replace(/^## (.+)$/gm,'<h2>$1</h2>')
-    .replace(/^# (.+)$/gm,'<h2>$1</h2>')
-    .replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/```(\w+)?\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')
-    .replace(/^> (.+)$/gm,'<blockquote>$1</blockquote>')
-    .replace(/^[-*] (.+)$/gm,'<li>$1</li>')
-    .replace(/\n\n/g,'</p><p>');
+function mdToHtml(md) {
+  var html = md
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, function(m, t) {
+      var id = t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+      return '<h2 id="'+id+'">'+t+'</h2>';
+    })
+    .replace(/^# (.+)$/gm, '<h2>$1</h2>')
+    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/^> \*\*(.+?)\*\*(.*)$/gm, '<blockquote><strong>$1</strong>$2</blockquote>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/(<blockquote>[\s\S]*?<\/blockquote>)\n<blockquote>/g, '$1 ')
+    .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+    .replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+  // Wrap consecutive <li> in <ul>
+  html = html.replace(/((?:<li>.*?<\/li>\s*)+)/g, function(m) {
+    return '<ul>' + m + '</ul>';
+  });
+  // Paragraphs
+  html = html.split('\n\n').map(function(block) {
+    block = block.trim();
+    if (!block) return '';
+    if (/^<(h[23]|ul|ol|pre|blockquote|div)/.test(block)) return block;
+    if (block.indexOf('<li>') !== -1 && block.indexOf('<ul>') === -1) return '<ul>' + block + '</ul>';
+    return '<p>' + block + '</p>';
+  }).join('\n');
+  return html;
 }
 
-if(slug){
-  fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api?slug='+encodeURIComponent(slug)+'&lang='+lang)
-    .then(function(r){return r.json()})
-    .then(function(p){
-      if(p.error){
-        document.getElementById('article-container').innerHTML='<div class="error-state"><h2>Article not found</h2><p>This article may have been moved or removed.</p><p style="margin-top:16px"><a href="/blog">← Back to Blog</a></p></div>';
+function estimateReadTime(text) {
+  var words = text.split(/\s+/).length;
+  return Math.max(1, Math.ceil(words / 220));
+}
+
+function buildToc() {
+  var headings = document.querySelectorAll('.article-body h2[id]');
+  var tocEl = document.getElementById('tocLinks');
+  if (!headings.length) { document.getElementById('tocAside').style.display = 'none'; return; }
+  var html = '';
+  headings.forEach(function(h) {
+    html += '<a href="#' + h.id + '">' + h.textContent + '</a>';
+  });
+  tocEl.innerHTML = html;
+  // Active state on scroll
+  var links = tocEl.querySelectorAll('a');
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        links.forEach(function(l) { l.classList.remove('active'); });
+        var a = tocEl.querySelector('a[href="#' + e.target.id + '"]');
+        if (a) a.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-80px 0px -70% 0px' });
+  headings.forEach(function(h) { observer.observe(h); });
+}
+
+if (slug) {
+  fetch('https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/blog-api?slug=' + encodeURIComponent(slug) + '&lang=' + lang)
+    .then(function(r) { return r.json(); })
+    .then(function(p) {
+      if (p.error) {
+        document.getElementById('loadingState').innerHTML = '<div class="error-state"><h2>Article not found</h2><p>This article may have been moved or removed.</p><p style="margin-top:16px"><a href="/blog">&larr; Back to Blog</a></p></div>';
         return;
       }
-      document.title=p.title+' — AIB Blog';
-      var date=p.published_at?new Date(p.published_at).toLocaleDateString(lang==='fr'?'fr':'en',{year:'numeric',month:'long',day:'numeric'}):'';
-      var tagsHtml=(p.tags||[]).map(function(t){return '<span class="tag">'+t+'</span>'}).join('');
-      var contentHtml=p.content||'';
-      if(contentHtml.indexOf('<')===-1) contentHtml='<p>'+mdToHtml(contentHtml)+'</p>';
+      // Title
+      document.title = p.title + ' — AIB Blog';
+      document.getElementById('heroTitle').textContent = p.title;
 
-      document.getElementById('article-container').innerHTML=
-        '<div class="article-header">'+
-          '<h1>'+p.title+'</h1>'+
-          '<div class="meta">'+
-            '<span>'+date+'</span>'+
-            (p.author?'<span>by '+p.author+'</span>':'')+
-            (p.read_time_min?'<span>'+p.read_time_min+' min read</span>':'')+
-            (p.views?'<span>'+p.views+' views</span>':'')+
-          '</div>'+
-          '<div class="tag-list">'+tagsHtml+'</div>'+
-        '</div>'+
-        '<div class="article-body">'+contentHtml+'</div>';
+      // Category
+      document.getElementById('heroCat').textContent = (p.category || 'article').replace(/-/g, ' ');
+
+      // Date
+      var date = p.published_at ? new Date(p.published_at).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-US', { year:'numeric', month:'long', day:'numeric' }) : '';
+      document.getElementById('heroDate').textContent = date;
+
+      // Author
+      if (p.author) document.getElementById('heroAuthor').textContent = p.author;
+
+      // Read time
+      var mins = p.read_time_min || estimateReadTime(p.content || '');
+      document.getElementById('heroReadTime').textContent = mins + ' min ' + (lang === 'fr' ? 'de lecture' : 'read');
+
+      // Tags
+      var tagsHtml = (p.tags || []).map(function(t) { return '<span class="tag">' + t + '</span>'; }).join('');
+      document.getElementById('heroTags').innerHTML = tagsHtml;
+
+      // Content
+      var contentHtml = p.content || '';
+      if (contentHtml.indexOf('<h2') === -1 && contentHtml.indexOf('<p') === -1) {
+        contentHtml = mdToHtml(contentHtml);
+      }
+      document.getElementById('articleBody').innerHTML = contentHtml;
+
+      // Share links
+      var url = encodeURIComponent(window.location.href);
+      var text = encodeURIComponent(p.title);
+      document.getElementById('shareLinkedin').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
+      document.getElementById('shareTwitter').href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + text;
+
+      // Show content
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('heroSection').style.display = 'block';
+      document.getElementById('articleLayout').style.display = 'grid';
+
+      // Build TOC
+      buildToc();
+
+      // OG meta
+      var metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('property', 'og:title');
+      metaDesc.content = p.title;
+      document.head.appendChild(metaDesc);
     })
-    .catch(function(){
-      document.getElementById('article-container').innerHTML='<div class="error-state"><h2>Error loading article</h2><p><a href="/blog">← Back to Blog</a></p></div>';
+    .catch(function() {
+      document.getElementById('loadingState').innerHTML = '<div class="error-state"><h2>Error loading article</h2><p><a href="/blog">&larr; Back to Blog</a></p></div>';
     });
-}else{
-  window.location.href='/blog';
+} else {
+  window.location.href = '/blog';
 }
+
+// Progress bar
+window.addEventListener('scroll', function() {
+  var h = document.documentElement;
+  var pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+});
 </script>
 </body>
 </html>
