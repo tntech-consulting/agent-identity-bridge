@@ -21,7 +21,7 @@ import urllib.error
 from typing import Any, Optional
 
 
-DEFAULT_BASE_URL = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1"
+DEFAULT_BASE_URL = "https://aib-tech.fr/api"
 
 
 class AIBCloudError(Exception):
