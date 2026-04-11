@@ -94,6 +94,10 @@ AIB is a **standard, not a product**. It bridges protocols, it doesn't compete w
 
 See [aib-tech.fr/why](https://aib-tech.fr/why) for full positioning.
 
+## Architecture
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the full module map, infrastructure diagram, and extension reference.
+
 ## Testing
 
 ```bash
