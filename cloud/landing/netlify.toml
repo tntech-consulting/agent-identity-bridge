@@ -114,4 +114,13 @@
   status = 200
   force = true
 
-# deploy trigger: 2026-04-05T15:40
+# API proxy - clean URLs for Edge Functions
+[[redirects]]
+  from = "/api/*"
+  to = "https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/:splat"
+  status = 200
+  force = true
+  [redirects.headers]
+    X-Proxied-By = "aib-tech.fr"
+
+# deploy trigger: 2026-04-11T16:00
