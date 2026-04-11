@@ -3,11 +3,9 @@
 **One identity. Every protocol. Full audit trail.**
 
 [![Tests](https://img.shields.io/github/actions/workflow/status/tntech-consulting/agent-identity-bridge/ci.yml?label=tests)](https://github.com/tntech-consulting/agent-identity-bridge/actions)
+[![PyPI](https://img.shields.io/pypi/v/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
 [![Python](https://img.shields.io/pypi/pyversions/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
 [![License](https://img.shields.io/pypi/l/agent-identity-bridge)](LICENSE)
-[![PyPI](https://img.shields.io/pypi/v/agent-identity-bridge)](https://pypi.org/project/agent-identity-bridge/)
-[![Edge Functions](https://img.shields.io/badge/edge%20functions-35%20deployed-green)]()
-[![Version](https://img.shields.io/pypi/v/agent-identity-bridge?label=version)](https://pypi.org/project/agent-identity-bridge/)
 
 AIB is an open-source protocol that gives AI agents a **single portable identity** across MCP (Anthropic) and A2A (Google) — with Ed25519 cryptographic signing, W3C DID and Verifiable Credentials support (in development), and EU AI Act compliance built in.
 
@@ -68,32 +66,22 @@ from aib.integrations import get_openai_agents_tools # OpenAI Agents SDK
 - **Portable identity**: One passport, valid on MCP and A2A
 - **Credential translation**: Cross-protocol format conversion (MCP ↔ A2A)
 - **Ed25519 signing**: Cryptographic signatures on passports and receipts
-- **W3C DID support**: DID resolution in development
-- **W3C Verifiable Credentials**: VC issuance in development
-- **EU AI Act compliance**: Structured fields (intent, risk_level, human_oversight, etc.) in every signed receipt — covers Art. 12, 13, 14, 16
+- **W3C DID support**: DID resolution (did:key offline, did:web via API)
+- **W3C Verifiable Credentials**: VC issuance (in development)
+- **EU AI Act compliance**: Structured fields (intent, risk_level, human_oversight) in every signed receipt — covers Art. 12, 13, 14, 16
 - **Policy engine**: capability_required, deliverable_gate, attestation_required, domain_block, protocol_restrict, rate_limit
-- **Ed25519 audit trail**: Signed receipts with SHA-256 hash chaining, AES-256 encrypted keys
+- **Signed audit trail**: Ed25519-signed receipts with SHA-256 hash chaining
 - **OIDC federation**: Bring your own IdP (Google, Microsoft Entra, Okta, Auth0)
 - **Webhooks**: HMAC-SHA256 signed payloads
-- **ISO/IEC 42001:2023 alignment**: Designed in alignment with the AI Management System standard
 - **Framework integrations**: LangChain, CrewAI, OpenAI Agents SDK
 
 ## AIB Cloud — Managed SaaS
 
-35 Edge Functions, 13 API endpoints, 40+ tables with RLS.
+> AIB Cloud is currently in **open beta** — free access to all features. Sign up at [aib-tech.fr/dashboard](https://aib-tech.fr/dashboard).
 
-| Feature | Community | Pro (990€/mo) | Enterprise |
-|---------|:-:|:-:|:-:|
-| Passports | 10 | 500 | Unlimited |
-| Transactions/mo | 1,000 | 100,000 | Custom |
-| Policy rules | 3 | 50 | Custom |
-| OIDC federation | — | ✓ | ✓ |
-| Webhooks | 1 | 20 | Custom |
-| Intent inference | — | ✓ | ✓ |
-| VCs | — | ✓ | ✓ |
+15 API endpoints, 40+ tables with RLS, 15 autonomous agents.
 
-**Dashboard**: [aib-tech.fr/dashboard](https://aib-tech.fr/dashboard)
-**EU AI Act Compliance Kit**: [aib-tech.fr/compliance](https://aib-tech.fr/compliance)
+**Dashboard**: [aib-tech.fr/dashboard](https://aib-tech.fr/dashboard) · **API**: `https://aib-tech.fr/api/` · **Status**: [aib-tech.fr/status](https://aib-tech.fr/status)
 
 ## How AIB relates to existing solutions
 
@@ -105,6 +93,15 @@ AIB is a **standard, not a product**. It bridges protocols, it doesn't compete w
 - **SailPoint** discovers and governs agents. AIB gives them portable identities across protocols.
 
 See [aib-tech.fr/why](https://aib-tech.fr/why) for full positioning.
+
+## Testing
+
+```bash
+pip install -e ".[dev]"
+pytest tests/ -v
+```
+
+The test suite covers passport CRUD, credential translation, audit trail, policy engine, and DID resolution.
 
 ## Contributing
 
