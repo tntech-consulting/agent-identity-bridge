@@ -93,13 +93,15 @@ agent = Agent(role="Identity Manager", tools=tools)
 
 ```bash
 # Create passport via hosted API
-curl -X POST https://vempwtzknixfnvysmiwo.supabase.co/functions/v1/passport-create \
+curl -X POST https://aib-tech.fr/api/passport-create \
   -H "x-api-key: aib_sk_live_..." \
   -d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'
 
 # Resolve DID
 curl https://aib-tech.fr/agents/booking/did.json
 ```
+
+> The Cloud API is available during the open beta. Sign up at [aib-tech.fr/dashboard](https://aib-tech.fr/dashboard).
 
 ## Links
 
