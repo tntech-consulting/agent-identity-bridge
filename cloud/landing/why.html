@@ -328,7 +328,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="tag">WHY AIB</div>
 <h1 data-lang="en" class="show">A standard, <em>not a product.</em></h1>
 <h1 data-lang="fr">Un standard, <em>pas un produit.</em></h1>
-<p data-lang="en" class="show">AIB is the protocol-neutral identity bridge that every AI agent ecosystem needs but no single vendor can build. Open-source, W3C DID native, EU AI Act compliant by design. Built in Paris, independent from protocol vendors.</p>
+<p data-lang="en" class="show">AIB gives every AI agent its own cryptographic identity — Ed25519-signed, capability-scoped, individually revocable, with a signed audit trail. Open-source, W3C DID native, EU AI Act compliant by design. Built in Paris, protocol-independent.</p>
 <p data-lang="fr">AIB est le pont d'identité neutre dont chaque écosystème d'agents IA a besoin, mais qu'aucun éditeur seul ne peut construire. Open-source, W3C DID natif, conforme EU AI Act by design. Construit à Paris, indépendant des éditeurs de protocoles.</p>
 </div></div>
 
@@ -346,7 +346,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="pillar-icon" style="background:var(--cyan-dim);color:var(--cyan)">⬡</div>
 <h3 data-lang="en" class="show">Protocol Neutral</h3>
 <h3 data-lang="fr">Neutralité protocolaire</h3>
-<p data-lang="en" class="show">AIB doesn't belong to Anthropic, Google, or any protocol vendor. It bridges MCP, A2A, ANP, and AG-UI equally. No lock-in, no vendor preference. Your agent works everywhere with one identity.</p>
+<p data-lang="en" class="show">AIB doesn't belong to Anthropic, Google, or any protocol vendor. Your agent carries the same cryptographic passport whether it operates in MCP or A2A environments. One identity, valid everywhere. No lock-in.</p>
 <p data-lang="fr">AIB n'appartient ni à Anthropic, ni à Google, ni à aucun éditeur de protocole. Il connecte MCP, A2A, ANP et AG-UI de manière égale. Pas de vendor lock-in. Votre agent fonctionne partout avec une seule identité.</p>
 <span class="ptag">JWT is to web frameworks what AIB is to agent protocols.</span>
 </div>
@@ -380,8 +380,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="tag" data-lang="fr">FONCTIONNEMENT</div>
 <h2 data-lang="en" class="show">Every agent request goes through <em>one pipeline</em></h2>
 <h2 data-lang="fr">Chaque requête agent passe par <em>un seul pipeline</em></h2>
-<p data-lang="en" class="show">Auth · Policy · Translate · Receipt — in under 10ms. Like a gateway, but for agent identity.</p>
-<p data-lang="fr">Auth · Policy · Translate · Reçu — en moins de 10ms. Comme un gateway, mais pour l'identité agent.</p>
+<p data-lang="en" class="show">Auth · Policy · Verify · Receipt — in under 10ms. Like a gateway, but for agent identity.</p>
+<p data-lang="fr">Auth · Policy · Verify · Reçu — en moins de 10ms. Comme un gateway, mais pour l.identité agent.</p>
 </div>
 
 <style>
@@ -449,10 +449,10 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
   <div class="pip-stage">
     <div class="pip-card" style="--pip-color:#00C5FF;--pip-bg:rgba(0,197,255,.08)">
       <div class="pip-icon">🔄</div>
-      <div class="pip-name">TRANSLATE</div>
-      <p class="pip-desc" data-lang="en">MCP → A2A → ANP → AG-UI. One identity, every protocol.</p>
-      <p class="pip-desc" data-lang="fr">MCP → A2A → ANP → AG-UI. Une identité, tous les protocoles.</p>
-      <span class="pip-badge">✓ 6 paths</span>
+      <div class="pip-name">VERIFY</div>
+      <p class="pip-desc" data-lang="en">Verify passport signature, capabilities, and expiration. Reject revoked agents.</p>
+      <p class="pip-desc" data-lang="fr">Vérifier signature, capacités et expiration du passeport. Rejeter les agents révoqués.</p>
+      <span class="pip-badge">✓</span>
     </div>
   </div>
 
@@ -492,8 +492,8 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="g2">
 
 <div class="sc reveal">
-<h4><span class="si" style="color:var(--green)">✓</span> <span data-lang="en" class="show">Protocol bridge</span><span data-lang="fr">Pont inter-protocoles</span></h4>
-<p data-lang="en" class="show">A portable identity layer between MCP, A2A, ANP, AG-UI. Translates credentials between formats. Like a passport that works in every country.</p>
+<h4><span class="si" style="color:var(--green)">✓</span> <span data-lang="en" class="show">Portable identity</span><span data-lang="fr">Identité portable</span></h4>
+<p data-lang="en" class="show">A cryptographic passport that works in both MCP and A2A environments. Each agent gets a unique, verifiable identity with declared capabilities. Like a passport that works in every country.</p>
 <p data-lang="fr">Une couche d'identité portable entre MCP, A2A, ANP, AG-UI. Traduit les credentials entre formats. Comme un passeport valide dans tous les pays.</p>
 </div>
 <div class="sc reveal">
@@ -540,11 +540,11 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <th data-lang="en" class="show">Capability</th><th data-lang="fr">Capacité</th>
 <th class="ac">AIB</th><th>SailPoint AIS</th><th>Oasis Security</th><th>Okta / Auth0</th>
 </tr>
-<tr><td>Cross-protocol (MCP + A2A + ANP + AG-UI)</td><td class="ac"><span class="ck">✓ Native</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
-<tr><td data-lang="en" class="show">Credential translation (&lt;1ms)</td><td data-lang="fr">Traduction de credentials (&lt;1ms)</td><td class="ac"><span class="ck">✓ 6 paths</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>Portable identity (MCP + A2A compatible)</td><td class="ac"><span class="ck">✓</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
+<tr><td data-lang="en" class="show">Basic format conversion (tools ↔ skills)</td><td data-lang="fr">Conversion de format basique (tools ↔ skills)</td><td class="ac"><span class="ck">✓</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
 <tr><td>W3C DID (did:web + did:key)</td><td class="ac"><span class="ck">✓ v1.1</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
 <tr><td>Verifiable Credentials (W3C VC)</td><td class="ac"><span class="ck">✓ Ed25519</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td><td><span class="cx">—</span></td></tr>
-<tr><td>EU AI Act Article 12</td><td class="ac"><span class="ck">✓ Native</span></td><td><span class="cp">△ Partial</span></td><td><span class="cp">△ Planned</span></td><td><span class="cx">—</span></td></tr>
+<tr><td>EU AI Act Article 12</td><td class="ac"><span class="ck">✓</span></td><td><span class="cp">△ Partial</span></td><td><span class="cp">△ Planned</span></td><td><span class="cx">—</span></td></tr>
 <tr><td>Intent inference (LLM)</td><td class="ac"><span class="ck">✓ API</span></td><td><span class="cx">—</span></td><td><span class="cp">△ Announced</span></td><td><span class="cx">—</span></td></tr>
 <tr><td data-lang="en" class="show">Agent discovery (AWS, Azure, Salesforce)</td><td data-lang="fr">Découverte d'agents (AWS, Azure, Salesforce)</td><td><span class="cx">—</span></td><td class="ac"><span class="ck">✓ Connectors</span></td><td><span class="ck">✓ Scanning</span></td><td><span class="cp">△ Partial</span></td></tr>
 <tr><td>Enterprise IAM (SSO, provisioning)</td><td><span class="cx">— (OIDC federation)</span></td><td class="ac"><span class="ck">✓ Full</span></td><td><span class="cx">—</span></td><td><span class="ck">✓ Full</span></td></tr>
@@ -636,7 +636,7 @@ footer{border-top:1px solid var(--bd);background:rgba(10,10,26,.5)}footer a:hove
 <div class="pillar reveal">
 <div class="pillar-icon" style="background:var(--amber-dim);color:var(--amber)">🛡</div>
 <h3>SailPoint AIS</h3>
-<p data-lang="en" class="show">SailPoint discovers and governs your agents. AIB gives them a portable identity across protocols. Different layers: governance (SailPoint) vs portability (AIB).</p>
+<p data-lang="en" class="show">SailPoint discovers and governs your agents. AIB gives each agent a cryptographic passport with signed audit trail. Different layers: governance (SailPoint) vs identity and compliance (AIB).</p>
 <p data-lang="fr">SailPoint découvre et gouverne vos agents. AIB leur donne une identité portable entre protocoles. Deux couches différentes : gouvernance (SailPoint) vs portabilité (AIB).</p>
 <span class="ptag" data-lang="en" class="show">Governance + Portability = Complete stack</span>
 <span class="ptag" data-lang="fr">Gouvernance + Portabilité = Stack complète</span>
