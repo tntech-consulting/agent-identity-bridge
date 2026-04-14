@@ -1,5 +1,14 @@
 # Architecture
 
+AIB is an identity protocol. Its core job is to give every AI agent a cryptographic passport that is portable, verifiable, revocable, and auditable — regardless of which agentic protocol (MCP, A2A) the agent operates in.
+
+## Design principles
+
+- **Identity is the primitive**: Everything flows from the passport — policies, audit trails, revocation, compliance
+- **Protocol-agnostic**: The same passport works within MCP environments and A2A environments. AIB does not attempt full bidirectional protocol translation — MCP and A2A are complementary layers with different architectures. AIB provides basic format conversion for interoperability scenarios.
+- **Offline-capable**: Core operations (passport creation, verification, policy evaluation, DID resolution) work without network access
+- **Audit-first**: Every operation produces a signed, hash-chained receipt before it completes
+
 ## SDK modules
 
 ### Core (imported by default)
