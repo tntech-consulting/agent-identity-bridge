@@ -15,18 +15,18 @@ python quickstart.py
 
 This runs 8 steps locally (no API key needed):
 
-1. **Create** an Agent Passport (MCP + A2A)
-2. **Verify** the passport token
-3. **Translate** A2A Agent Card → MCP Server Card
-4. **Translate** MCP → A2A (round-trip)
+1. **Create** an Agent Passport (Ed25519-signed, multi-protocol)
+2. **Verify** the passport token cryptographically
+3. **Translate** A2A Agent Card → MCP Server Card (basic format conversion)
+4. **Translate** MCP → A2A (reverse)
 5. **Generate** a W3C DID Document (did:web)
 6. **Resolve** did:key offline (no network)
-7. **Enforce** policies (capability check)
+7. **Enforce** policies (capability check + rate limit)
 8. **Revoke** passport and verify rejection
 
 ## Quick examples
 
-### Create a passport
+### Create and verify a passport
 
 ```python
 from aib import PassportService
@@ -43,20 +43,26 @@ passport, token = svc.create_passport(
     },
 )
 print(passport.passport_id)  # urn:aib:agent:myorg:booking-bot
+
+# Verify — works regardless of protocol context
+valid, _, reason = svc.verify_passport(token)
+
+# Revoke — instant, targeted, does not affect other agents
+svc.revoke_passport(passport.passport_id)
 ```
 
-### Translate credentials
+### Enforce policies before execution
 
 ```python
-from aib import CredentialTranslator
+from aib import PolicyEngine
 
-translator = CredentialTranslator()
-mcp_card = translator.a2a_to_mcp({
-    "name": "My Agent",
-    "skills": [{"id": "booking", "name": "Booking"}],
-    "url": "https://example.com",
-})
-# skills → tools, A2A format → MCP format
+engine = PolicyEngine()
+engine.add_rule("capability_required", {"required": ["booking"]})
+engine.add_rule("rate_limit", {"max_per_minute": 100})
+
+result = engine.evaluate(passport)
+if not result.allowed:
+    print(f"Blocked: {result.reason}")
 ```
 
 ### Resolve DID
@@ -67,6 +73,21 @@ from aib import public_key_to_did_key, did_key_to_did_document
 did = public_key_to_did_key("314eff...your-key-hex...")
 doc = did_key_to_did_document(did)
 # W3C DID v1.1 Document, no network needed
+```
+
+### Translate credentials (basic format conversion)
+
+```python
+from aib import CredentialTranslator
+
+translator = CredentialTranslator()
+mcp_card = translator.a2a_to_mcp({
+    "name": "My Agent",
+    "skills": [{"id": "booking", "name": "Booking"}],
+    "url": "https://example.com",
+})
+# skills → tools — useful for metadata interoperability
+# Note: this is format conversion, not full protocol bridging
 ```
 
 ### Integrate with LangChain
@@ -96,6 +117,11 @@ agent = Agent(role="Identity Manager", tools=tools)
 curl -X POST https://aib-tech.fr/api/passport-create \
   -H "x-api-key: aib_sk_live_..." \
   -d '{"agent_slug":"booking","protocols":["mcp","a2a"]}'
+
+# Query audit trail
+curl https://aib-tech.fr/api/audit-trail \
+  -H "x-api-key: aib_sk_live_..." \
+  -G -d "passport_id=urn:aib:agent:myorg:booking"
 
 # Resolve DID
 curl https://aib-tech.fr/agents/booking/did.json
