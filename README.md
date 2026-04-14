@@ -26,7 +26,9 @@ AIB gives each agent a **portable cryptographic passport**:
 - **Identity**: Ed25519-signed passport with unique URN, declared capabilities, and protocol bindings
 - **Audit trail**: Every operation generates a signed, hash-chained receipt — non-repudiable by design
 - **Revocation**: Individual passport revocation without affecting other agents
-- **Policy engine**: Capability checks, deliverable gates, rate limits, domain restrictions — enforced before execution
+- **Policy engine**: Capability checks, rate limits, domain restrictions, time windows — enforced before execution
+- **Quality gates**: Deliverable contracts with verifiable criteria (test coverage thresholds, review requirements, acceptance criteria). Agents cannot mark tasks complete until contracts are met
+- **Spending limits**: Per-capability amount caps (e.g., max 50€ per refund) evaluated at the policy layer
 - **EU AI Act compliance**: Intent analysis, risk classification, and human oversight fields in every receipt (Art. 12, 13, 14, 16)
 - **DID support**: W3C DID resolution (did:key offline, did:web via API)
 - **OIDC federation**: Bring your own IdP (Google, Microsoft Entra, Okta, Auth0)
@@ -56,6 +58,7 @@ client = AIBCloud("aib_sk_live_...")
 passport = client.create_passport("my-bot", protocols=["mcp", "a2a"])
 client.create_policy("deliverable_gate", {"required_capabilities": ["tests_passed"]})
 trail = client.audit_trail(passport_id="urn:aib:agent:myorg:my-bot")
+client.create_policy("capability_limit", {"capability": "payment.refund", "max_amount": 50})
 client.revoke_passport("urn:aib:agent:myorg:my-bot", reason="suspicious_activity")
 ```
 
