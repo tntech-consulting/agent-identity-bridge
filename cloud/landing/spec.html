@@ -57,7 +57,7 @@
       operating across multiple communication protocols. It provides a single credential &mdash; the
       <dfn>Agent Passport</dfn> &mdash; that is valid across [[MCP]], [[A2A]], ANP (Agent Network Protocol),
       and AG-UI (Agent-User Interaction). This specification defines the passport format, credential
-      translation semantics, cryptographic audit trail, policy engine, OIDC federation, and webhook
+      format conversion utilities, cryptographic audit trail, policy engine, OIDC federation, and webhook
       notification system.
     </p>
   </section>
@@ -98,7 +98,7 @@
     </p>
     <p>
       AIB solves this by defining a single <a>Agent Passport</a> that encapsulates an agent's
-      identity, capabilities, and protocol bindings. Credentials can be translated between
+      identity, capabilities, and protocol bindings. Basic format conversion is available between
       formats in sub-millisecond time. Every action is recorded in a cryptographically signed
       audit trail using Ed25519 ([[RFC8032]]).
     </p>
@@ -223,38 +223,38 @@
 
   <!-- ════════════════════════════════════════════════════════ -->
   <section>
-    <h2>Credential Translation</h2>
+    <h2>Format Conversion (Interoperability)</h2>
     <p>
-      Conforming implementations MUST support bidirectional translation between all supported
-      protocol credential formats. Translation SHOULD complete in under 1 millisecond.
+      Conforming implementations MAY support basic format conversion between supported
+      protocol metadata formats. MCP and A2A are complementary protocols operating at different layers (tools vs agent coordination); full semantic translation is structurally incomplete. Format conversion covers metadata mapping (skills↔tools, Agent Card↔Server Card) but does not bridge execution models, streaming semantics, or authentication contexts.
     </p>
 
     <section>
-      <h3>Supported Translation Paths</h3>
+      <h3>Supported Conversion Paths</h3>
       <table class="data">
         <thead><tr><th>From</th><th>To</th><th>Status</th></tr></thead>
         <tbody>
-          <tr><td>A2A Agent Card</td><td>MCP Server Card</td><td>REQUIRED</td></tr>
-          <tr><td>MCP Server Card</td><td>A2A Agent Card</td><td>REQUIRED</td></tr>
-          <tr><td>A2A Agent Card</td><td>AG-UI Descriptor</td><td>REQUIRED</td></tr>
-          <tr><td>MCP Server Card</td><td>AG-UI Descriptor</td><td>REQUIRED</td></tr>
-          <tr><td>AG-UI Descriptor</td><td>A2A Agent Card</td><td>REQUIRED</td></tr>
-          <tr><td>AG-UI Descriptor</td><td>MCP Server Card</td><td>REQUIRED</td></tr>
+          <tr><td>A2A Agent Card</td><td>MCP Server Card</td><td>OPTIONAL</td></tr>
+          <tr><td>MCP Server Card</td><td>A2A Agent Card</td><td>OPTIONAL</td></tr>
+          <tr><td>A2A Agent Card</td><td>AG-UI Descriptor</td><td>OPTIONAL</td></tr>
+          <tr><td>MCP Server Card</td><td>AG-UI Descriptor</td><td>OPTIONAL</td></tr>
+          <tr><td>AG-UI Descriptor</td><td>A2A Agent Card</td><td>OPTIONAL</td></tr>
+          <tr><td>AG-UI Descriptor</td><td>MCP Server Card</td><td>OPTIONAL</td></tr>
         </tbody>
       </table>
     </section>
 
     <section>
-      <h3>Translation Semantics</h3>
+      <h3>Conversion Semantics</h3>
       <ul>
         <li><code>skills</code> (A2A) &rarr; <code>tools</code> (MCP): Each skill becomes a tool with an auto-generated <code>inputSchema</code>.</li>
         <li><code>tools</code> (MCP) &rarr; <code>skills</code> (A2A): Each tool becomes a skill with <code>id</code> = tool name.</li>
         <li><code>capabilities</code> (AG-UI) &rarr; <code>skills</code>/<code>tools</code>: Each capability string becomes a skill or tool.</li>
       </ul>
-      <p>Translated credentials MUST include the following metadata fields:</p>
+      <p>Converted metadata SHOULD include the following metadata fields:</p>
       <ul>
         <li><code>_aib_source</code>: The original format identifier.</li>
-        <li><code>_aib_translated_at</code>: ISO 8601 timestamp of translation.</li>
+        <li><code>_aib_converted_at</code>: ISO 8601 timestamp of conversion.</li>
       </ul>
     </section>
   </section>
@@ -398,7 +398,7 @@
           <tr><td><code>passport.created</code></td><td>Successful passport creation.</td></tr>
           <tr><td><code>passport.revoked</code></td><td>Successful passport revocation.</td></tr>
           <tr><td><code>policy.violation</code></td><td>A policy rule blocks an action.</td></tr>
-          <tr><td><code>translate.completed</code></td><td>Successful credential translation.</td></tr>
+          <tr><td><code>convert.completed</code></td><td>Successful format conversion.</td></tr>
         </tbody>
       </table>
     </section>
@@ -441,7 +441,7 @@
         <tr><td>AIB-201</td><td>404</td><td>Passport not found.</td></tr>
         <tr><td>AIB-301</td><td>409</td><td>Passport already exists (duplicate).</td></tr>
         <tr><td>AIB-302</td><td>409</td><td>Passport already revoked.</td></tr>
-        <tr><td>AIB-401</td><td>400</td><td>Unsupported translation path.</td></tr>
+        <tr><td>AIB-401</td><td>400</td><td>Unsupported conversion path.</td></tr>
         <tr><td>AIB-501</td><td>500</td><td>Internal server error.</td></tr>
         <tr><td>AIB-601</td><td>403</td><td>Policy violation (blocked).</td></tr>
         <tr><td>AIB-602</td><td>403</td><td>Separation of duties violation.</td></tr>
