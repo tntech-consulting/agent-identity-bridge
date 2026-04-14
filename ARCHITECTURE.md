@@ -16,7 +16,7 @@ AIB is an identity protocol. Its core job is to give every AI agent a cryptograp
 | Module | Description |
 |--------|-------------|
 | `passport` | Agent passport creation, verification, revocation. Ed25519-signed identity tokens. |
-| `translator` | Credential translation between MCP, A2A, ANP, and AG-UI formats. |
+| `translator` | Basic format conversion between MCP tools and A2A skills metadata. Does not bridge execution models or auth contexts. |
 | `policy_engine` | Policy evaluation: capability_required, deliverable_gate, rate_limit, domain_block. |
 | `crypto` | Ed25519 key generation, signing, verification. AES-256 key encryption. |
 | `cloud` | AIB Cloud API client (managed SaaS). |
@@ -115,7 +115,7 @@ pytest tests/ -v
 
 The test suite (`tests/test_core.py`, 25+ tests) covers:
 - Passport CRUD (create, verify, revoke, list)
-- Credential translation (A2A ↔ MCP round-trip)
+- Format conversion (A2A ↔ MCP metadata mapping)
 - Audit trail (logging, tracing, query filters)
 - Gateway (protocol detection, request adaptation)
 - Schema validation
