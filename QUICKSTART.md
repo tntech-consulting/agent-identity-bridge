@@ -109,8 +109,9 @@ cm.submit_evidence("deploy-v2", "tests", {"coverage_percent": 85})  # met
 cm.submit_evidence("deploy-v2", "review", {"reviewed": True})        # met
 
 # Check completion
-print(cm.get("deploy-v2").progress)  # {"total": 2, "met": 2, "remaining": 0, "percent": 100}
-print(cm.is_complete("deploy-v2"))   # True — agent can now mark done
+print(cm.get("deploy-v2")["progress"])  # {"total": 2, "met": 2, "remaining": 0, "percent": 100}
+print(cm.is_complete("deploy-v2"))      # True — agent can now mark done
+cm.mark_complete("deploy-v2")           # Seal the contract
 ```
 
 ### Spending limits
