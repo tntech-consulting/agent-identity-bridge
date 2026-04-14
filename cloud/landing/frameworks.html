@@ -229,7 +229,7 @@ tools = get_langchain_tools(secret_key=<span class="s">"your-key"</span>)
 agent = create_react_agent(llm, tools, prompt)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">6 tools: create, verify, revoke, list passports, translate credentials, check policy</span><span data-lang="fr">6 outils : créer, vérifier, révoquer, lister les passeports, traduire les credentials, vérifier les politiques</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">6 tools: create, verify, revoke, list passports, convert formats, check policy</span><span data-lang="fr">6 outils : créer, vérifier, révoquer, lister les passeports, convertir les formats, vérifier les politiques</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Compatible with ReAct, OpenAI Functions, and structured output agents</span><span data-lang="fr">Compatible avec les agents ReAct, OpenAI Functions et sortie structurée</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Zero framework lock-in — works with any LangChain agent type</span><span data-lang="fr">Zéro dépendance framework — fonctionne avec tous les types d'agents LangChain</span></div>
     </div>
@@ -324,7 +324,7 @@ graph.add_node(<span class="s">"identity"</span>, tools.passport_node)</div>
     <span class="fw-badge stars-blue">15K ★</span>
     <span class="fw-badge tag-a2a">A2A native</span>
   </div>
-  <div class="fw-desc" data-lang="en" style="display:block">Google Agent Development Kit — model-agnostic, deployment-agnostic, with native A2A protocol support. AIB translates credentials between A2A, MCP, and AG-UI, making cross-framework agent communication seamless.</div><div class="fw-desc" data-lang="fr">Google Agent Development Kit — agnostique du modèle et du déploiement, avec support natif du protocole A2A. AIB traduit les credentials entre A2A, MCP et AG-UI pour une communication cross-framework transparente.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">Google Agent Development Kit — model-agnostic, deployment-agnostic, with native A2A protocol support. AIB gives each ADK agent a cryptographic passport valid in both A2A and MCP contexts, with signed audit trail and policy enforcement.</div><div class="fw-desc" data-lang="fr">Google Agent Development Kit — agnostique du modèle et du déploiement, avec support natif du protocole A2A. AIB donne à chaque agent ADK un passeport cryptographique valide en contexte A2A et MCP, avec audit trail signé et application des policies.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Python</span></div>
@@ -338,7 +338,7 @@ agent = Agent(name=<span class="s">"identity-agent"</span>, tools=tools)
 agent.run()</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">A2A Agent Cards auto-translated to MCP Server Cards in under 1ms</span><span data-lang="fr">A2A Agent Cards traduites automatiquement en MCP Server Cards en moins d'1ms</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Same passport identity usable in both A2A and MCP environments</span><span data-lang="fr">Même identité de passeport utilisable en contexte A2A et MCP</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">AIB DID:web resolves Google ADK agent identities cross-org</span><span data-lang="fr">AIB DID:web résout les identités des agents Google ADK entre organisations</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">EU AI Act receipt generated for every A2A handoff</span><span data-lang="fr">Reçu EU AI Act généré pour chaque handoff A2A</span></div>
     </div>
@@ -366,7 +366,7 @@ af = AgentFramework()
 af.register_tools(tools)</div>
     </div>
     <div class="fw-info">
-      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">MCP + A2A dual-mode: AIB translates between both natively</span><span data-lang="fr">Mode dual MCP + A2A : AIB traduit entre les deux nativement</span></div>
+      <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">MCP + A2A compatible: one passport identity across both protocols</span><span data-lang="fr">Compatible MCP + A2A : une identité passeport pour les deux protocoles</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Integrates with Azure Entra ID via OIDC federation</span><span data-lang="fr">Intégration avec Azure Entra ID via fédération OIDC</span></div>
       <div class="fw-info-item"><div class="fw-info-dot"></div><span data-lang="en" style="display:revert">Compatible with Semantic Kernel plugin architecture</span><span data-lang="fr">Compatible avec l'architecture de plugins Semantic Kernel</span></div>
     </div>
@@ -380,7 +380,7 @@ af.register_tools(tools)</div>
     <span class="fw-name">OpenClaw</span>
     <span class="fw-badge stars-green">210K ★</span>
   </div>
-  <div class="fw-desc" data-lang="en" style="display:block">AgentSkills-compatible CLI skill. Pre-action guardrails, Ed25519 identity, EU AI Act governance, and cross-protocol translation — enforced automatically before every tool call. No code changes required.</div><div class="fw-desc" data-lang="fr">Skill CLI compatible AgentSkills. Guardrails pré-action, identité Ed25519, gouvernance EU AI Act et traduction cross-protocole — appliqués automatiquement avant chaque appel outil. Aucune modification de code requise.</div>
+  <div class="fw-desc" data-lang="en" style="display:block">AgentSkills-compatible CLI skill. Pre-action guardrails, Ed25519 identity, EU AI Act governance, and EU AI Act compliance — enforced automatically before every tool call. No code changes required.</div><div class="fw-desc" data-lang="fr">Skill CLI compatible AgentSkills. Guardrails pré-action, identité Ed25519, gouvernance EU AI Act et conformité EU AI Act — appliqués automatiquement avant chaque appel outil. Aucune modification de code requise.</div>
   <div class="fw-body">
     <div class="fw-code-wrap">
       <div class="fw-code-bar"><div class="fw-code-dot"></div><div class="fw-code-dot"></div><div class="fw-code-dot"></div><span class="fw-code-label">Shell</span></div>
@@ -416,7 +416,7 @@ af.register_tools(tools)</div>
     <div class="tool-item"><span class="tool-name">aib_verify_passport</span><span class="tool-args">&nbsp;(token)</span></div>
     <div class="tool-item"><span class="tool-name">aib_revoke_passport</span><span class="tool-args">&nbsp;(passport_id)</span></div>
     <div class="tool-item"><span class="tool-name">aib_list_passports</span><span class="tool-args">&nbsp;()</span></div>
-    <div class="tool-item"><span class="tool-name">aib_translate_credential</span><span class="tool-args">&nbsp;(source, from, to)</span></div>
+    <div class="tool-item"><span class="tool-name">aib_convert_format</span><span class="tool-args">&nbsp;(source, from, to)</span></div>
     <div class="tool-item"><span class="tool-name">aib_check_policy</span><span class="tool-args">&nbsp;(passport_id, capabilities, action)</span></div>
   </div>
 </div>
