@@ -75,6 +75,76 @@ doc = did_key_to_did_document(did)
 # W3C DID v1.1 Document, no network needed
 ```
 
+
+### Quality gates (deliverable contracts)
+
+```python
+from aib import ContractManager, Criterion
+
+cm = ContractManager()
+
+# Define what the agent must deliver before marking "done"
+contract = cm.create("deploy-v2", "urn:aib:agent:myorg:deployer", "Deploy v2 to production")
+
+cm.add_criterion("deploy-v2", Criterion(
+    criterion_id="tests",
+    description="Test coverage >= 80%",
+    check_type="threshold",
+    target_field="coverage_percent",
+    target_value=80,
+    operator=">=",
+))
+
+cm.add_criterion("deploy-v2", Criterion(
+    criterion_id="review",
+    description="Code reviewed by different agent",
+    check_type="boolean",
+    target_field="reviewed",
+    target_value=True,
+    operator="==",
+))
+
+# Agent submits evidence — auto-evaluated
+cm.submit_evidence("deploy-v2", "tests", {"coverage_percent": 85})  # met
+cm.submit_evidence("deploy-v2", "review", {"reviewed": True})        # met
+
+# Check completion
+print(cm.get("deploy-v2").progress)  # {"total": 2, "met": 2, "remaining": 0, "percent": 100}
+print(cm.is_complete("deploy-v2"))   # True — agent can now mark done
+```
+
+### Spending limits
+
+```python
+from aib import PolicyEngine, PolicyRule
+
+engine = PolicyEngine()
+
+# Agent cannot spend more than 50€ per transaction
+engine.add_rule(PolicyRule(
+    rule_id="refund-cap",
+    rule_type="capability_limit",
+    capability="payment.refund",
+    max_amount=50,
+    currency="EUR",
+    description="Max 50€ per refund",
+))
+
+# Evaluate before execution
+from aib import PolicyContext
+ctx = PolicyContext(
+    passport_id="urn:aib:agent:myorg:refund-bot",
+    capabilities=["payment.refund"],
+    tier="standard",
+    issuer="urn:aib:org:myorg",
+    action="refund",
+    amount=75,  # exceeds limit
+)
+result = engine.evaluate(ctx)
+print(result.allowed)  # False
+print(result.reason)   # "Amount 75 exceeds limit 50 for capability 'payment.refund'"
+```
+
 ### Translate credentials (basic format conversion)
 
 ```python
