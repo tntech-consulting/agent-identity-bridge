@@ -444,7 +444,7 @@ footer a:hover{color:var(--cyan)!important}
 <!-- HERO -->
 <section class="hero">
 <h1 class="reveal"><span data-lang="fr">Securisez vos agents IA<br>avec une <em>identite unifiee</em></span><span data-lang="en">Secure your AI agents<br>with a <em>unified identity</em></span></h1>
-<p class="reveal reveal-delay-1"><span data-lang="fr">AIB est le protocole ouvert qui permet d'authentifier, verifier et tracer vos agents IA autonomes &mdash; avec support natif de MCP et A2A, et traduction vers ANP et AG-UI.</span><span data-lang="en">AIB is the open protocol that authenticates, verifies and traces your autonomous AI agents &mdash; with native MCP and A2A support, and translation to ANP and AG-UI.</span></p>
+<p class="reveal reveal-delay-1"><span data-lang="fr">AIB est le protocole ouvert qui donne à chaque agent IA une identité cryptographique &mdash; signée Ed25519, révocable individuellement, avec audit trail signé. Compatible MCP et A2A.</span><span data-lang="en">AIB is the open protocol that gives every autonomous AI agent a cryptographic identity &mdash; Ed25519-signed, individually revocable, with a signed audit trail. Works in MCP and A2A environments.</span></p>
 <div class="hero-buttons reveal reveal-delay-2">
 <button class="btn-primary" onclick="location.href='dashboard.html'"><span data-lang="fr">Acceder au Dashboard</span><span data-lang="en">Go to Dashboard</span></button>
 <button class="btn-secondary" onclick="location.href='spec.html'"><span data-lang="fr">Lire la Specification</span><span data-lang="en">Read the Spec</span></button>
@@ -589,7 +589,7 @@ footer a:hover{color:var(--cyan)!important}
 <div style="width:44px;height:44px;border-radius:12px;background:var(--cyan-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;border:1px solid rgba(0,212,255,.15)">&#x1F6E1;</div>
 <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:8px"><span data-lang="fr">Passeport en 1 appel</span><span data-lang="en">Passport in 1 call</span></h3>
 <p style="color:var(--fg-muted);font-size:.88rem;line-height:1.6;margin-bottom:14px"><span data-lang="fr">Un seul <span style="font-family:var(--mono);color:var(--cyan);font-size:.82rem">POST /passport-create</span> et votre agent recoit son identite Ed25519 signee en moins de 2 secondes.</span><span data-lang="en">A single <span style="font-family:var(--mono);color:var(--cyan);font-size:.82rem">POST /passport-create</span> and your agent gets its Ed25519-signed identity in under 2 seconds.</span></p>
-<div style="font-size:.8rem;color:var(--fg-dim)"><span data-lang="fr">MCP + A2A natif &bull; Traduction ANP, AG-UI</span><span data-lang="en">MCP + A2A native &bull; ANP, AG-UI translation</span></div>
+<div style="font-size:.8rem;color:var(--fg-dim)"><span data-lang="fr">MCP + A2A compatible &bull; Ed25519 &bull; Audit trail sign&eacute;</span><span data-lang="en">MCP + A2A compatible &bull; Ed25519 &bull; Signed audit trail</span></div>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--bd);border-radius:var(--rl);padding:32px;backdrop-filter:blur(12px)">
@@ -684,7 +684,7 @@ footer a:hover{color:var(--cyan)!important}
 
 <div class="faq-item reveal reveal-delay-1">
 <button class="faq-question"><span data-lang="fr">Comment fonctionne la signature cryptographique ?</span><span data-lang="en">How does the cryptographic signing work?</span><span class="faq-icon">+</span></button>
-<div class="faq-answer"><div class="faq-answer-inner"><span data-lang="fr">Chaque passeport agent est signe avec Ed25519. Chaque operation (creation, verification, traduction) genere un receipt cryptographique immutable qui constitue une preuve verifiable. Les cles sont gerees cote serveur avec rotation automatique.</span><span data-lang="en">Each agent passport is signed with Ed25519. Every operation (create, verify, translate) generates an immutable cryptographic receipt as verifiable proof. Keys are managed server-side with automatic rotation.</span></div></div>
+<div class="faq-answer"><div class="faq-answer-inner"><span data-lang="fr">Chaque passeport agent est signe avec Ed25519. Chaque operation (creation, verification, revocation) genere un receipt cryptographique immutable qui constitue une preuve verifiable. Les cles sont gerees cote serveur avec rotation automatique.</span><span data-lang="en">Each agent passport is signed with Ed25519. Every operation (create, verify, revoke) generates an immutable cryptographic receipt as verifiable proof. Keys are managed server-side with automatic rotation.</span></div></div>
 </div>
 
 <div class="faq-item reveal">
