@@ -483,8 +483,22 @@ function renderI18n(){
 }
 
 async function load(){
-  try{const r=await fetch(API);const d=await r.json();render(d);}
-  catch(e){const t=T[lang];document.getElementById('s-dot').className='status-dot down';document.getElementById('s-title').textContent=t.unreachable;document.getElementById('s-sub').textContent=t.unreachableSub;}
+  const t=T[lang];
+  const delays=[500,1500,3000];
+  for(let i=0;i<=delays.length;i++){
+    try{
+      const r=await fetch(API,{cache:'no-store'});
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const d=await r.json();
+      render(d);
+      return;
+    }catch(e){
+      if(i<delays.length){await new Promise(res=>setTimeout(res,delays[i]));continue;}
+      document.getElementById('s-dot').className='status-dot down';
+      document.getElementById('s-title').textContent=t.unreachable;
+      document.getElementById('s-sub').textContent=t.unreachableSub;
+    }
+  }
 }
 
 function render(d){
