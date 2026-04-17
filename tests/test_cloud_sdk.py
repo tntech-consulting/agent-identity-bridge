@@ -13,7 +13,7 @@ class TestAIBCloudInit(unittest.TestCase):
         c = AIBCloud(api_key="aib_sk_live_test123")
         assert c.api_key == "aib_sk_live_test123"
         assert c.access_token == ""
-        assert "supabase.co" in c.base_url
+        assert "aib-tech.fr/api" in c.base_url
 
     def test_init_with_access_token(self):
         c = AIBCloud(access_token="eyJ...")
