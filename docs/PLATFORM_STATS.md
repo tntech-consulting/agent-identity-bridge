@@ -1,12 +1,12 @@
 # AIB Platform Stats
 
-> Auto-generated — 2026-04-12
+> Auto-generated — 2026-04-19
 
 | Metric | Value |
 |--------|-------|
 | Organizations | 4 |
 | Active Passports | 0 |
-| Receipts | 4027 |
+| Receipts | 4575 |
 | API Keys | 10 |
 | Waitlist | 0 |
 
